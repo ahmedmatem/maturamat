@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "823485818752",
+    "firebase_url": "https://maturamat.firebaseio.com",
+    "project_id": "maturamat",
+    "storage_bucket": "maturamat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:823485818752:android:3c56f189cb4b2f2b4ec365",
+        "android_client_info": {
+          "package_name": "com.ahmedmatem.android.matura"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "823485818752-ir2mh308mvrktqf3omv0el4b6pm9ev1n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKiEt5JxWhXmd3UD6t2FWt5nQijukoBsc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "823485818752-ir2mh308mvrktqf3omv0el4b6pm9ev1n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
