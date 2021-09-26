@@ -19,7 +19,7 @@ class TestListAdapter(private val clickListener: TestClickListener) :
 
     override fun onBindViewHolder(holder: TestViewHolder, position: Int) {
         val test = getItem(position)
-
+        holder.bind(test, clickListener)
     }
 
     class TestViewHolder private constructor(val binding: ListItemTestBinding) :
