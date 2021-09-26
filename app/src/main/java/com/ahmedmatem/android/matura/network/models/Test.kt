@@ -17,7 +17,7 @@ data class Test(
     @Json(name = "MillisUntilFinished") val millisUntilFinished: Long,
     @Json(name  = "State") val state: Int,
     @Json(name = "HasTimer") val hasTimer: Boolean) {
-    
+
     override fun toString(): String {
         return "Test{" +
                 "id='" + id + '\'' +
