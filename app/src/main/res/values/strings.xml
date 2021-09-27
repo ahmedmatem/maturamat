@@ -1,7 +1,14 @@
 <resources>
     <string name="app_name">Matura by Kotlin</string>
     <string name="title_activity_main">MainActivity</string>
-    <string name="title_home">Home</string>
+    <string name="title_home">Начало</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+
+    <string name="title_tests">Тестове</string>
+    <string name="title_account">Профил</string>
+    <string name="title_settings">Настройки</string>
+    
+    <string name="test_image_description">Emoticon description</string>
+    <string name="test_meta_description">Elapsed time</string>
 </resources>
