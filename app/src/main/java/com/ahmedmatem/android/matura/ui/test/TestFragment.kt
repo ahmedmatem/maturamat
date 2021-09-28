@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.ahmedmatem.android.matura.databinding.FragmentTestBinding
+import com.ahmedmatem.android.matura.ui.test.adapter.TestClickListener
+import com.ahmedmatem.android.matura.ui.test.adapter.TestListAdapter
 
 class TestFragment : Fragment() {
 
@@ -22,6 +24,13 @@ class TestFragment : Fragment() {
 
         val binding = FragmentTestBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
+
+        // Initiate recycler adapter
+        val adapter = TestListAdapter(TestClickListener {
+
+        })
+
+        binding.testList.adapter = adapter
 
         return binding.root
     }
