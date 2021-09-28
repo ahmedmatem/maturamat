@@ -10,9 +10,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.*
 
 object Retrofit {
-    // TODO: Add adapters for Java Date and custom adapter TestAdapter (included in project)
     private val moshi: Moshi = Moshi.Builder()
-//            .add(TestAdapter())
         .add(KotlinJsonAdapterFactory())
         .add(Date::class.java, Rfc3339DateJsonAdapter().nullSafe())
         .build()
