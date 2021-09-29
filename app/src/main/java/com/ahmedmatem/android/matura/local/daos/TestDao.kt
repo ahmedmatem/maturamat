@@ -10,10 +10,10 @@ interface TestDao {
     fun getAll(): LiveData<List<TestEntity>>
 
     @Query("SELECT * FROM test_table WHERE is_guest")
-    fun getAllForGuest(): LiveData<List<TestEntity>>
+    fun getAllByGuest(): LiveData<List<TestEntity>>
 
     @Query("SELECT * FROM test_table WHERE NOT is_guest")
-    fun getAllForUser(): LiveData<List<TestEntity>>
+    fun getAllByUser(): LiveData<List<TestEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(vararg tests: TestEntity)

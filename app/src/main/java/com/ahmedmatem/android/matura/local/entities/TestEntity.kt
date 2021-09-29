@@ -3,6 +3,7 @@ package com.ahmedmatem.android.matura.local.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.ahmedmatem.android.matura.network.models.Test
 import java.util.*
 
 @Entity(tableName = "test_table")
@@ -20,3 +21,25 @@ data class TestEntity(
     @ColumnInfo(name = "state") val state: Int,
     @ColumnInfo(name = "has_timer") val hasTimer: Boolean
 )
+
+fun TestEntity.toDomainModel() = Test(
+    id,
+    problemIds = "",
+    resultInPercent,
+    isSaved,
+    createdOn,
+    modifiedOn,
+    answersNumber,
+    correctAnswersNumber,
+    millisUntilFinished,
+    state,
+    hasTimer
+)
+
+fun List<TestEntity>.toDomainModel(): ArrayList<Test> {
+    val domainModelList = ArrayList<Test>()
+    forEach {
+        domainModelList.add(it.toDomainModel())
+    }
+    return domainModelList
+}

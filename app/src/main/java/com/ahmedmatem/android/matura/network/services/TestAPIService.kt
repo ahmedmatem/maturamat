@@ -6,7 +6,7 @@ import retrofit2.http.*
 
 interface TestApiService {
     @GET("api/test/allByGuest/{uuid}")
-    suspend fun getAllTestForGuest(@Path("uuid") uuid: String): List<Test>
+    suspend fun getAllTestByGuest(@Path("uuid") uuid: String): List<Test>
 
     @GET("api/test/allByUser")
     suspend fun getAllTestByUser(@Header("Authorization") authorization: String): List<Test>

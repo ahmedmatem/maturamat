@@ -1,8 +1,10 @@
 package com.ahmedmatem.android.matura.network.models
 
 import androidx.annotation.Keep
+import com.ahmedmatem.android.matura.local.entities.TestEntity
 import com.squareup.moshi.Json
 import java.util.*
+import kotlin.collections.ArrayList
 
 @Keep
 data class Test(
@@ -34,4 +36,26 @@ data class Test(
                 ", hasTimer=" + hasTimer +
                 '}';
     }
+}
+
+fun Test.toDatabaseModel(isGuest: Boolean) = TestEntity(
+    id,
+    isGuest = isGuest,
+    resultInPercent,
+    isSaved,
+    createdOn,
+    modifiedOn,
+    answersNumber,
+    correctAnswersNumber,
+    millisUntilFinished,
+    state,
+    hasTimer
+)
+
+fun List<Test>.toDatabaseModel(isGuest: Boolean): ArrayList<TestEntity> {
+    val databaseModelList = ArrayList<TestEntity>()
+    forEach {
+        databaseModelList.add(it.toDatabaseModel(isGuest))
+    }
+    return databaseModelList
 }
