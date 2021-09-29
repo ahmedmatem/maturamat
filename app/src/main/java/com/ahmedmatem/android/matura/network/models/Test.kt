@@ -12,11 +12,12 @@ data class Test(
     @Json(name = "IsSaved") val isSaved: Boolean,
     @Json(name = "CreatedOn") val createdOn: Date,
     @Json(name = "ModifiedOn") val modifiedOn: Date,
-    @Json(name = "AnswersNumber") val  answersNumber: String,
-    @Json(name  = "CorrectAnswersNumber") val correctAnswersNumber: String,
+    @Json(name = "AnswersNumber") val answersNumber: String,
+    @Json(name = "CorrectAnswersNumber") val correctAnswersNumber: String,
     @Json(name = "MillisUntilFinished") val millisUntilFinished: Long,
-    @Json(name  = "State") val state: Int,
-    @Json(name = "HasTimer") val hasTimer: Boolean) {
+    @Json(name = "State") val state: Int,
+    @Json(name = "HasTimer") val hasTimer: Boolean
+) {
 
     override fun toString(): String {
         return "Test{" +
