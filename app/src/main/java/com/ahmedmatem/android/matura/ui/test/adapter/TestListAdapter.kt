@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ahmedmatem.android.matura.databinding.ListItemTestBinding
+import com.ahmedmatem.android.matura.network.models.Test
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
