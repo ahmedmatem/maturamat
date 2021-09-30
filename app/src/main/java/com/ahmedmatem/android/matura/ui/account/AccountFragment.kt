@@ -29,10 +29,10 @@ class AccountFragment : Fragment() {
 
         _binding = FragmentAccountBinding.inflate(inflater, container, false)
 
-        val textView: TextView = binding.textDashboard
-        viewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
+//        val textView: TextView = binding.textDashboard
+//        viewModel.text.observe(viewLifecycleOwner, Observer {
+//            textView.text = it
+//        })
 
         return binding.root
     }

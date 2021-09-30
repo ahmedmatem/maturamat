@@ -14,4 +14,57 @@
         <item name="android:layout_marginEnd">@dimen/list_item_meta_image_margin</item>
         <item name="android:layout_marginTop">@dimen/list_item_meta_image_margin</item>
     </style>
+
+    <style name="TitleText" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="fontFamily">@font/roboto</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="EditTextLoginStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/xlarge_margin</item>
+        <item name="android:layout_marginTop">@dimen/xlarge_margin</item>
+        <item name="android:layout_marginEnd">@dimen/xlarge_margin</item>
+        <item name="android:background">@drawable/form_edit_text_bg</item>
+        <item name="android:ems">10</item>
+        <item name="android:drawablePadding">@dimen/small_padding</item>
+        <item name="android:minHeight">@dimen/form_element_min_height</item>
+        <item name="android:padding">@dimen/small_padding</item>
+        <item name="android:textColorHint">@color/hint_color</item>
+    </style>
+
+    <!-- BUTTON STYLES -->
+
+    <style name="BaseButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/form_button_bg</item>
+        <item name="android:minHeight">@dimen/form_element_min_height</item>
+    </style>
+
+    <style name="LeftButtonStyle" parent="BaseButtonStyle">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/form_button_left_bg</item>
+    </style>
+
+    <style name="RightButtonStyle" parent="BaseButtonStyle">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/form_button_right_bg</item>
+    </style>
+
+    <style name="TextLinkStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">@dimen/small_padding</item>
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="Widget.Theme.MaturaByKotlin.ActionBar.Fullscreen" parent="Widget.AppCompat.ActionBar">
+        <item name="android:background">@color/black_overlay</item>
+    </style>
+
+    <style name="Widget.Theme.MaturaByKotlin.ButtonBar.Fullscreen" parent="">
+        <item name="android:background">@color/black_overlay</item>
+        <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
+    </style>
 </resources>

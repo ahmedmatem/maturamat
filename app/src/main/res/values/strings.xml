@@ -8,7 +8,26 @@
     <string name="title_tests">Тестове</string>
     <string name="title_account">Профил</string>
     <string name="title_settings">Настройки</string>
-    
+
+    <!-- image descriptions -->
     <string name="test_image_description">Emoticon description</string>
     <string name="test_meta_description">Elapsed time</string>
+    <string name="sign_in_with_google_description">Влезте с профила си в Гугъл</string>
+    <string name="sign_in_with_facebook_description">Влезте с профила си в Фейсбук</string>
+
+    <!-- account fragment -->
+    <string name="account_off_image_description">Account off image</string>
+    <string name="account_welcome_title">Добре дошъл!</string>
+    <string name="account_welcome_subtitle">Влез в профила си за да продължиш</string>
+    <string name="password_reset_text">Забравена парола</string>
+    <string name="sign_up_text">Създай профил</string>
+    <string name="login_btn_text">Влез</string>
+    <string name="alternative_login_text">или влез с профила си от</string>
+
+    <!-- hints -->
+    <string name="hint_email">Имейл</string>
+    <string name="hint_password">Парола</string>
+    <string name="title_activity_auth">AuthActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

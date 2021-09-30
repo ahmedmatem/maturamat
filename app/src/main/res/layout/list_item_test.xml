@@ -64,7 +64,7 @@
             android:contentDescription="@string/test_meta_description"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_elapsed_time_black_24dp" />
+            app:srcCompat="@drawable/ic_elapsed_time_black_24" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -27,4 +27,8 @@
     <dimen name="list_item_image_size">40dp</dimen>
     <dimen name="list_item_meta_image_size">24dp</dimen>
     <dimen name="list_item_meta_image_margin">24dp</dimen>
+
+    <!-- form elements -->
+    <dimen name="form_element_corner_radius">16dp</dimen>
+    <dimen name="form_element_min_height">48dp</dimen>
 </resources>
