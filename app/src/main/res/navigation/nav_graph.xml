@@ -19,9 +19,9 @@
 
     <fragment
         android:id="@+id/navigation_account"
-        android:name="com.ahmedmatem.android.matura.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:name="com.ahmedmatem.android.matura.ui.account.AccountFragment"
+        android:label="@string/title_account"
+        tools:layout="@layout/fragment_account" />
 
     <fragment
         android:id="@+id/navigation_settings"
