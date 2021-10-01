@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.ahmedmatem.android.matura.databinding.FragmentLoginBinding
 
@@ -25,6 +26,13 @@ class LoginFragment : Fragment() {
         binding.lifecycleOwner = this
 
         binding.viewModel = loginViewModel
+
+        loginViewModel.username.observe(viewLifecycleOwner, Observer { username ->
+            loginViewModel.validateLoginButtonEnableState()
+        })
+        loginViewModel.password.observe(viewLifecycleOwner, Observer { password ->
+            loginViewModel.validateLoginButtonEnableState()
+        })
 
         return binding.root
     }
