@@ -13,10 +13,7 @@
         android:theme="@style/Theme.MaturaByKotlin">
         <activity
             android:name=".AuthActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:exported="true"
-            android:label="@string/title_activity_auth"
-            android:theme="@style/Theme.MaturaByKotlin.Fullscreen" />
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

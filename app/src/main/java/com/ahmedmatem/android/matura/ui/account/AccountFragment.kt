@@ -1,5 +1,6 @@
 package com.ahmedmatem.android.matura.ui.account
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.ahmedmatem.android.matura.AuthActivity
 import com.ahmedmatem.android.matura.databinding.FragmentAccountBinding
 
 class AccountFragment : Fragment() {
@@ -40,7 +42,9 @@ class AccountFragment : Fragment() {
         val registerBtn: Button = binding.button3
 
         loginBtn.setOnClickListener {
-            findNavController().navigate(AccountFragmentDirections.actionNavigationAccountToAuthNavigation())
+//            findNavController().navigate(AccountFragmentDirections.actionNavigationAccountToAuthNavigation())
+            val intent = Intent(requireContext(), AuthActivity::class.java)
+            startActivity(intent)
         }
 
         return binding.root

@@ -58,13 +58,4 @@
         <item name="android:padding">@dimen/small_padding</item>
         <item name="android:textColor">@color/colorAccent</item>
     </style>
-
-    <style name="Widget.Theme.MaturaByKotlin.ActionBar.Fullscreen" parent="Widget.AppCompat.ActionBar">
-        <item name="android:background">@color/black_overlay</item>
-    </style>
-
-    <style name="Widget.Theme.MaturaByKotlin.ButtonBar.Fullscreen" parent="">
-        <item name="android:background">@color/black_overlay</item>
-        <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
-    </style>
 </resources>
