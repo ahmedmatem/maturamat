@@ -2,7 +2,7 @@ package com.ahmedmatem.android.matura.network.services
 
 import com.ahmedmatem.android.matura.infrastructure.GRANT_TYPE
 import com.ahmedmatem.android.matura.network.Retrofit
-import com.ahmedmatem.android.matura.network.models.AuthToken
+import com.ahmedmatem.android.matura.network.models.Token
 import retrofit2.http.Field
 import retrofit2.http.GET
 
@@ -12,7 +12,7 @@ interface AuthApiService {
         @Field("username") username: String,
         @Field("password") password: String,
         @Field("grant_type") grantType: String = GRANT_TYPE
-    ): AuthToken?
+    ): Token?
 }
 
 object AuthApi {

@@ -4,9 +4,10 @@ import android.content.Context
 import androidx.room.*
 import com.ahmedmatem.android.matura.infrastructure.DB_NAME
 import com.ahmedmatem.android.matura.local.daos.TestDao
+import com.ahmedmatem.android.matura.local.entities.AuthTokenEntity
 import com.ahmedmatem.android.matura.local.entities.TestEntity
 
-@Database(entities = [TestEntity::class], version = 1)
+@Database(entities = [TestEntity::class, AuthTokenEntity::class], version = 1)
 @TypeConverters(Converters::class)
 abstract class MaturaDb : RoomDatabase() {
 
