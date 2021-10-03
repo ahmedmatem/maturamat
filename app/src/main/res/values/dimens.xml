@@ -29,6 +29,7 @@
     <dimen name="list_item_meta_image_margin">24dp</dimen>
 
     <!-- form elements -->
-    <dimen name="form_element_corner_radius">16dp</dimen>
-    <dimen name="form_element_min_height">48dp</dimen>
+    <dimen name="input_ui_radius">16dp</dimen>
+    <dimen name="input_ui_min_height">48dp</dimen>
+    <dimen name="button_stroke_width">1dp</dimen>
 </resources>
