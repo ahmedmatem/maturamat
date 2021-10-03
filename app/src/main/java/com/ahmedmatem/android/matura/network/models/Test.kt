@@ -1,24 +1,27 @@
 package com.ahmedmatem.android.matura.network.models
 
 import androidx.annotation.Keep
-import com.ahmedmatem.android.matura.local.entities.TestEntity
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
 import java.util.*
-import kotlin.collections.ArrayList
 
 @Keep
+@Entity(tableName = "test_table")
 data class Test(
-    @Json(name = "Id") val id: String,
-    @Json(name = "ProblemIds") val problemIds: String,
-    @Json(name = "ResultInPercent") val resultInPercent: String,
-    @Json(name = "IsSaved") val isSaved: Boolean,
-    @Json(name = "CreatedOn") val createdOn: Date,
-    @Json(name = "ModifiedOn") val modifiedOn: Date,
-    @Json(name = "AnswersNumber") val answersNumber: String,
-    @Json(name = "CorrectAnswersNumber") val correctAnswersNumber: String,
-    @Json(name = "MillisUntilFinished") val millisUntilFinished: Long,
+    @PrimaryKey @Json(name = "Id") val id: String,
+    @ColumnInfo(name = "problem_ids") @Json(name = "ProblemIds") val problemIds: String,
+    @ColumnInfo(name = "result_in_percent") @Json(name = "ResultInPercent") val resultInPercent: String,
+    @ColumnInfo(name = "is_saved") @Json(name = "IsSaved") val isSaved: Boolean,
+    @ColumnInfo(name = "created_on") @Json(name = "CreatedOn") val createdOn: Date,
+    @ColumnInfo(name = "modified_on") @Json(name = "ModifiedOn") val modifiedOn: Date,
+    @ColumnInfo(name = "answer_number") @Json(name = "AnswersNumber") val answersNumber: String,
+    @ColumnInfo(name = "correct_answer_number") @Json(name = "CorrectAnswersNumber") val correctAnswersNumber: String,
+    @ColumnInfo(name = "millis_until_finished") @Json(name = "MillisUntilFinished") val millisUntilFinished: Long,
     @Json(name = "State") val state: Int,
-    @Json(name = "HasTimer") val hasTimer: Boolean
+    @ColumnInfo(name = "has_timer") @Json(name = "HasTimer") val hasTimer: Boolean,
+    @ColumnInfo(name = "is_guest") @Transient val isGuest: Boolean = true
 ) {
 
     override fun toString(): String {
@@ -36,26 +39,4 @@ data class Test(
                 ", hasTimer=" + hasTimer +
                 '}';
     }
-}
-
-fun Test.toDatabaseModel(isGuest: Boolean) = TestEntity(
-    id,
-    isGuest = isGuest,
-    resultInPercent,
-    isSaved,
-    createdOn,
-    modifiedOn,
-    answersNumber,
-    correctAnswersNumber,
-    millisUntilFinished,
-    state,
-    hasTimer
-)
-
-fun List<Test>.toDatabaseModel(isGuest: Boolean): ArrayList<TestEntity> {
-    val databaseModelList = ArrayList<TestEntity>()
-    forEach {
-        databaseModelList.add(it.toDatabaseModel(isGuest))
-    }
-    return databaseModelList
 }
