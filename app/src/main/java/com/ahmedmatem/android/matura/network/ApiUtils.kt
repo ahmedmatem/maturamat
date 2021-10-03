@@ -9,12 +9,12 @@ suspend fun <T> safeApiCall(dispatcher: CoroutineDispatcher, apiCall: suspend ()
     return withContext(dispatcher) {
         try {
             Result.Success(apiCall.invoke())
-        } catch (throwable: Throwable) {
-            when (throwable) {
+        } catch (exc: Exception) {
+            when (exc) {
                 is IOException -> Result.NetworkError
                 is HttpException -> {
-                    val code = throwable.code()
-                    val errorResponse = convertErrorBody(throwable)
+                    val code = exc.code()
+                    val errorResponse = convertErrorBody(exc)
                     Result.GenericError(code, errorResponse)
                 }
                 else -> Result.GenericError()
@@ -24,9 +24,9 @@ suspend fun <T> safeApiCall(dispatcher: CoroutineDispatcher, apiCall: suspend ()
 
 }
 
-fun convertErrorBody(throwable: HttpException): ErrorResponse? {
+fun convertErrorBody(httpExc: HttpException): ErrorResponse? {
     return try {
-        throwable.response()?.errorBody()?.source()?.let {
+        httpExc.response()?.errorBody()?.source()?.let {
             val moshiAdapter = Retrofit.moshi.adapter(ErrorResponse::class.java)
             moshiAdapter.fromJson(it)
         }

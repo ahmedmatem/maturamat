@@ -7,7 +7,7 @@ import com.ahmedmatem.android.matura.network.services.AuthApiService
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 
-class TokenRepository(
+class AuthRepository(
     private val authService: AuthApiService,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {

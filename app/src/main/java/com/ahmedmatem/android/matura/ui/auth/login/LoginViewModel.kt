@@ -1,16 +1,19 @@
 package com.ahmedmatem.android.matura.ui.auth.login
 
 import android.content.Context
-import android.util.Log
-import android.widget.EditText
-import androidx.databinding.*
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.*
+import com.ahmedmatem.android.matura.network.Result
+import com.ahmedmatem.android.matura.network.Result.GenericError
+import com.ahmedmatem.android.matura.network.Result.Success
+import com.ahmedmatem.android.matura.network.models.Token
+import com.ahmedmatem.android.matura.network.services.AuthApi
+import com.ahmedmatem.android.matura.repository.AuthRepository
+import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 
 class LoginViewModel(context: Context) : ViewModel() {
+
+    private val authRepository = AuthRepository(AuthApi.retrofitService)
 
     val username = MutableLiveData<String>("")
     var password = MutableLiveData<String>("")
@@ -23,7 +26,26 @@ class LoginViewModel(context: Context) : ViewModel() {
     }
 
     fun tryLoginWithUsernameAndPassword() {
-        Log.d("Login", "tryLogin with username: ${username} and password: $password ")
+        viewModelScope.launch {
+            val response = authRepository.requestToken(username.value!!, password.value!!)
+            when (response) {
+                is Result.NetworkError -> showNetworkError()
+                is GenericError -> showGenericError(response)
+                is Success -> showSuccess(response.data)
+            }
+        }
+    }
+
+    private fun showNetworkError() {
+        TODO("Not yet implemented")
+    }
+
+    private fun showGenericError(response: GenericError) {
+        TODO("Not yet implemented")
+    }
+
+    private fun showSuccess(data: Token) {
+        TODO("Not yet implemented")
     }
 
     fun tryLoginWithGoogle() {
