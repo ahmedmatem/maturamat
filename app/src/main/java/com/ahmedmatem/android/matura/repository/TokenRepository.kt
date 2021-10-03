@@ -1,16 +1,20 @@
 package com.ahmedmatem.android.matura.repository
 
-import android.content.Context
-import com.ahmedmatem.android.matura.local.MaturaDb
-import com.ahmedmatem.android.matura.local.daos.TokenDao
-import com.ahmedmatem.android.matura.network.Retrofit
+import com.ahmedmatem.android.matura.network.Result
 import com.ahmedmatem.android.matura.network.models.Token
-import com.ahmedmatem.android.matura.network.services.AuthApi
+import com.ahmedmatem.android.matura.network.safeApiCall
+import com.ahmedmatem.android.matura.network.services.AuthApiService
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 
-class TokenRepository(val tokenDao: TokenDao) {
+class TokenRepository(
+    private val authService: AuthApiService,
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+) {
 
-    suspend fun requestToken(username: String, password: String) {
-        val token = AuthApi.retrofitService.getToken(username, password)
-        tokenDao.insert(token!!)
+    suspend fun requestToken(username: String, password: String): Result<Token> {
+        return safeApiCall(dispatcher) {
+            authService.getToken(username, password)
+        }
     }
 }

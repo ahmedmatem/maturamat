@@ -12,7 +12,7 @@ interface AuthApiService {
         @Field("username") username: String,
         @Field("password") password: String,
         @Field("grant_type") grantType: String = GRANT_TYPE
-    ): Token?
+    ): Token
 }
 
 object AuthApi {

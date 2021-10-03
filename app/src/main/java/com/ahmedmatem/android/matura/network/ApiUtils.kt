@@ -1,6 +1,5 @@
 package com.ahmedmatem.android.matura.network
 
-import com.squareup.moshi.Moshi
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import kotlinx.io.IOException
