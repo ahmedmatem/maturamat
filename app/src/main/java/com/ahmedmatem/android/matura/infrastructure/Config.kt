@@ -9,3 +9,9 @@ const val BASE_API_URL = "https://matypaapi.azurewebsites.net/"
  * Database configurations
  */
 const val DB_NAME = "matura_db"
+
+/**
+ * Network configurations
+ */
+
+const val GRANT_TYPE = "password"

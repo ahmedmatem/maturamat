@@ -11,4 +11,13 @@ data class AuthToken(
     val userName: String,
     @Json(name = ".issued") val issued: String,
     @Json(name = ".expires") val expires: String
-)
+) {
+    override fun toString(): String {
+        return "AuthToken(token='$token', " +
+                "type='$type', " +
+                "expireIn='$expireIn', " +
+                "userName='$userName', " +
+                "issued='$issued', " +
+                "expires='$expires')"
+    }
+}
