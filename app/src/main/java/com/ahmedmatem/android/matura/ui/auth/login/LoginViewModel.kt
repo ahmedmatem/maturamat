@@ -1,6 +1,7 @@
 package com.ahmedmatem.android.matura.ui.auth.login
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.*
 import com.ahmedmatem.android.matura.network.Result
 import com.ahmedmatem.android.matura.network.Result.GenericError
@@ -31,7 +32,9 @@ class LoginViewModel(context: Context) : ViewModel() {
             when (response) {
                 is Result.NetworkError -> showNetworkError()
                 is GenericError -> showGenericError(response)
-                is Success -> showSuccess(response.data)
+                is Success -> {
+
+                }
             }
         }
     }
@@ -41,10 +44,6 @@ class LoginViewModel(context: Context) : ViewModel() {
     }
 
     private fun showGenericError(response: GenericError) {
-        TODO("Not yet implemented")
-    }
-
-    private fun showSuccess(data: Token) {
         TODO("Not yet implemented")
     }
 

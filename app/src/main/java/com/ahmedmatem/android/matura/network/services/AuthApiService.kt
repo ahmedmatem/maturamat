@@ -4,10 +4,14 @@ import com.ahmedmatem.android.matura.infrastructure.GRANT_TYPE
 import com.ahmedmatem.android.matura.network.Retrofit
 import com.ahmedmatem.android.matura.network.models.Token
 import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
+import retrofit2.http.POST
 
 interface AuthApiService {
-    @GET("token")
+
+    @FormUrlEncoded
+    @POST("token")
     suspend fun getToken(
         @Field("username") username: String,
         @Field("password") password: String,
