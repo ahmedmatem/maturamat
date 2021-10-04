@@ -27,10 +27,11 @@ class LoginFragment : Fragment() {
 
         binding.viewModel = loginViewModel
 
-        loginViewModel.username.observe(viewLifecycleOwner, Observer { username ->
+        loginViewModel.username.observe(viewLifecycleOwner, Observer {
             loginViewModel.validateLoginButtonEnableState()
         })
-        loginViewModel.password.observe(viewLifecycleOwner, Observer { password ->
+
+        loginViewModel.password.observe(viewLifecycleOwner, Observer {
             loginViewModel.validateLoginButtonEnableState()
         })
 

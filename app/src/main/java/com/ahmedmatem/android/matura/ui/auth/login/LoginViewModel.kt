@@ -32,11 +32,13 @@ class LoginViewModel(context: Context) : ViewModel() {
             when (response) {
                 is Result.NetworkError -> showNetworkError()
                 is GenericError -> showGenericError(response)
-                is Success -> {
-
-                }
+                is Success -> showSuccess(response.data)
             }
         }
+    }
+
+    private fun showSuccess(data: Token) {
+        TODO("Not yet implemented")
     }
 
     private fun showNetworkError() {
