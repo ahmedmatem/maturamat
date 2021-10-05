@@ -4,35 +4,38 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.ahmedmatem.android.matura.base.BaseFragment
 import com.ahmedmatem.android.matura.databinding.FragmentLoginBinding
 
-class LoginFragment : Fragment() {
+class LoginFragment : BaseFragment() {
 
-    private lateinit var loginViewModel: LoginViewModel
+//    private lateinit var viewModel: LoginViewModel
+    override val viewModel: LoginViewModel
+        get() = ViewModelProvider(this, LoginViewModel.Factory(requireContext()))
+            .get(LoginViewModel::class.java)
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        loginViewModel =
-            ViewModelProvider(this, LoginViewModel.Factory(requireContext()))
-                .get(LoginViewModel::class.java)
+//        viewModel =
+//            ViewModelProvider(this, LoginViewModel.Factory(requireContext()))
+//                .get(LoginViewModel::class.java)
 
         val binding = FragmentLoginBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
 
-        binding.viewModel = loginViewModel
+        binding.viewModel = viewModel
 
-        loginViewModel.username.observe(viewLifecycleOwner, Observer {
-            loginViewModel.validateLoginButtonEnableState()
+        viewModel.username.observe(viewLifecycleOwner, Observer {
+            viewModel.validateLoginButtonEnableState()
         })
 
-        loginViewModel.password.observe(viewLifecycleOwner, Observer {
-            loginViewModel.validateLoginButtonEnableState()
+        viewModel.password.observe(viewLifecycleOwner, Observer {
+            viewModel.validateLoginButtonEnableState()
         })
 
         return binding.root

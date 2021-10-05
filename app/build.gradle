@@ -132,4 +132,13 @@ dependencies {
     implementation "androidx.room:room-runtime:$version_room"
     implementation "androidx.room:room-ktx:$version_room"
     kapt "androidx.room:room-compiler:$version_room"
+
+    // Koin - Dependency injection
+    // Koin main features for Android (Scope,ViewModel ...)
+    implementation "io.insert-koin:koin-android:$version_koin"  // Koin Java Compatibility
+    implementation "io.insert-koin:koin-android-compat:$version_koin"
+    // Koin for Jetpack WorkManager
+    implementation "io.insert-koin:koin-androidx-workmanager:$version_koin"
+    // Koin for Jetpack Compose
+    implementation "io.insert-koin:koin-androidx-compose:$version_koin"
 }

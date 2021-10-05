@@ -3,6 +3,7 @@ package com.ahmedmatem.android.matura.ui.auth.login
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.*
+import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.network.Result
 import com.ahmedmatem.android.matura.network.Result.GenericError
 import com.ahmedmatem.android.matura.network.Result.Success
@@ -12,7 +13,7 @@ import com.ahmedmatem.android.matura.repository.AuthRepository
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 
-class LoginViewModel(context: Context) : ViewModel() {
+class LoginViewModel(context: Context) : BaseViewModel() {
 
     private val authRepository = AuthRepository(AuthApi.retrofitService)
 
