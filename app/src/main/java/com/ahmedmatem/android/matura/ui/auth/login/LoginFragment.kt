@@ -11,19 +11,16 @@ import com.ahmedmatem.android.matura.databinding.FragmentLoginBinding
 
 class LoginFragment : BaseFragment() {
 
-//    private lateinit var viewModel: LoginViewModel
-    override val viewModel: LoginViewModel
-        get() = ViewModelProvider(this, LoginViewModel.Factory(requireContext()))
-            .get(LoginViewModel::class.java)
+    override lateinit var viewModel: LoginViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-//        viewModel =
-//            ViewModelProvider(this, LoginViewModel.Factory(requireContext()))
-//                .get(LoginViewModel::class.java)
+        viewModel =
+            ViewModelProvider(this, LoginViewModel.Factory(requireContext()))
+                .get(LoginViewModel::class.java)
 
         val binding = FragmentLoginBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
