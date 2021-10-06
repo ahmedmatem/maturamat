@@ -4,6 +4,8 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.*
 import com.ahmedmatem.android.matura.base.BaseViewModel
+import com.ahmedmatem.android.matura.base.NavigationCommand
+import com.ahmedmatem.android.matura.local.MaturaDb
 import com.ahmedmatem.android.matura.network.Result
 import com.ahmedmatem.android.matura.network.Result.GenericError
 import com.ahmedmatem.android.matura.network.Result.Success
@@ -15,7 +17,10 @@ import java.lang.IllegalArgumentException
 
 class LoginViewModel(context: Context) : BaseViewModel() {
 
-    private val authRepository = AuthRepository(AuthApi.retrofitService)
+    private val authRepository = AuthRepository(
+        MaturaDb.getInstance(context).tokenDao,
+        AuthApi.retrofitService
+    )
 
     val username = MutableLiveData<String>("")
     var password = MutableLiveData<String>("")
@@ -39,7 +44,11 @@ class LoginViewModel(context: Context) : BaseViewModel() {
     }
 
     private fun showSuccess(data: Token) {
-        TODO("Not yet implemented")
+        viewModelScope.launch {
+            authRepository.saveToken(data)
+            showLoading.value = false
+            navigationCommand.value = NavigationCommand.Back
+        }
     }
 
     private fun showNetworkError() {
