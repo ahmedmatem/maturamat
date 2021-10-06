@@ -1,4 +1,12 @@
-package com.ahmedmatem.android.matura.infrastructure.extensions
+package com.ahmedmatem.android.matura.infrastructure
+
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.view.View
+
+/**
+ * String EXTENSIONS
+ */
 
 const val NON_ALPHANUMERIC: String = "&()-[{}]:;',.?/*^%!|=+-_`#@"
 
@@ -49,4 +57,29 @@ fun String.hasLength(length: Int): Boolean {
     this?.let {
         return this.length == length
     }
+}
+
+/**
+ * View EXTENSIONS
+ */
+
+//animate changing the view visibility
+fun View.fadeIn() {
+    this.visibility = View.VISIBLE
+    this.alpha = 0f
+    this.animate().alpha(1f).setListener(object : AnimatorListenerAdapter() {
+        override fun onAnimationEnd(animation: Animator) {
+            this@fadeIn.alpha = 1f
+        }
+    })
+}
+
+//animate changing the view visibility
+fun View.fadeOut() {
+    this.animate().alpha(0f).setListener(object : AnimatorListenerAdapter() {
+        override fun onAnimationEnd(animation: Animator) {
+            this@fadeOut.alpha = 1f
+            this@fadeOut.visibility = View.GONE
+        }
+    })
 }

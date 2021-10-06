@@ -147,5 +147,16 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:ignore="TextContrastCheck" />
 
+        <ProgressBar
+            android:id="@+id/progreeBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fadeVisible="@{viewModel.showLoading.booleanValue()}"
+            app:layout_constraintBottom_toTopOf="@+id/loginBtn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/password" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

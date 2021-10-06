@@ -1,8 +1,8 @@
 package com.ahmedmatem.android.matura.ui.auth.login
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.*
+import androidx.navigation.Navigation
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.base.NavigationCommand
 import com.ahmedmatem.android.matura.local.MaturaDb
@@ -33,6 +33,8 @@ class LoginViewModel(context: Context) : BaseViewModel() {
     }
 
     fun tryLoginWithUsernameAndPassword() {
+        _isLoginButtonEnabled.value = false
+        showLoading.value = true
         viewModelScope.launch {
             val response = authRepository.requestToken(username.value!!, password.value!!)
             when (response) {
@@ -43,12 +45,11 @@ class LoginViewModel(context: Context) : BaseViewModel() {
         }
     }
 
-    private fun showSuccess(data: Token) {
-        viewModelScope.launch {
-            authRepository.saveToken(data)
-            showLoading.value = false
-            navigationCommand.value = NavigationCommand.Back
-        }
+    private suspend fun showSuccess(data: Token) {
+        authRepository.saveToken(data)
+        showLoading.value = false
+        _isLoginButtonEnabled.value = true
+        // TODO: navigat eback to account tab
     }
 
     private fun showNetworkError() {

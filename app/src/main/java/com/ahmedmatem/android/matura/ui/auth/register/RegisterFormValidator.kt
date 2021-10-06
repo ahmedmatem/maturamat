@@ -1,7 +1,6 @@
 package com.ahmedmatem.android.matura.ui.auth.register
 
-import com.ahmedmatem.android.matura.infrastructure.PasswordOptions
-import com.ahmedmatem.android.matura.infrastructure.extensions.*
+import com.ahmedmatem.android.matura.infrastructure.*
 import java.util.regex.Pattern
 
 class RegisterFormValidator(
