@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.lifecycle.*
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.local.MaturaDb
-import com.ahmedmatem.android.matura.local.preferences.AccountPrefs
+import com.ahmedmatem.android.matura.local.preferences.UserPrefs
 import com.ahmedmatem.android.matura.network.Result
 import com.ahmedmatem.android.matura.network.Result.GenericError
 import com.ahmedmatem.android.matura.network.Result.Success
@@ -16,10 +16,14 @@ import java.lang.IllegalArgumentException
 
 class LoginViewModel(val context: Context) : BaseViewModel() {
 
-    private val accountRepository = AccountRepository(
-        MaturaDb.getInstance(context).tokenDao,
-        AuthApi.retrofitService
-    )
+    private val _prefs: UserPrefs by lazy { UserPrefs(context) }
+
+    private val _accountRepository by lazy {
+        AccountRepository(
+            MaturaDb.getInstance(context).tokenDao,
+            AuthApi.retrofitService
+        )
+    }
 
     val username = MutableLiveData<String>("")
     var password = MutableLiveData<String>("")
@@ -38,7 +42,7 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
         _isLoginButtonEnabled.value = false
         showLoading.value = true
         viewModelScope.launch {
-            val response = accountRepository.requestToken(username.value!!, password.value!!)
+            val response = _accountRepository.requestToken(username.value!!, password.value!!)
             when (response) {
                 is Result.NetworkError -> onNetworkError()
                 is GenericError -> onGenericError(response)
@@ -49,9 +53,9 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
 
     private suspend fun onSuccess(data: Token) {
         // save token in database
-        accountRepository.saveToken(data)
-        // set user LoginState as "IN"
-        AccountPrefs(context).setUserLoginState(LoginState.IN)
+        _accountRepository.saveToken(data)
+        // set user preference
+        _prefs.setUser(data.userName)
         // hide loading
         showLoading.value = false
         // Set login attempt result SUCCESS.
@@ -68,11 +72,11 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
     }
 
     fun tryLoginWithGoogle() {
-
+        TODO("Not yet implemented")
     }
 
     fun tryLoginWithFacebook() {
-
+        TODO("Not yet implemented")
     }
 
     class Factory(private val context: Context) : ViewModelProvider.Factory {
