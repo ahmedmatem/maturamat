@@ -21,7 +21,7 @@ data class Test(
     @ColumnInfo(name = "millis_until_finished") @Json(name = "MillisUntilFinished") val millisUntilFinished: Long,
     @Json(name = "State") val state: Int,
     @ColumnInfo(name = "has_timer") @Json(name = "HasTimer") val hasTimer: Boolean,
-    @ColumnInfo(name = "is_guest") @Transient val isGuest: Boolean = true
+    @ColumnInfo(name = "username") @Transient val username: String? = null // default value required
 ) {
 
     override fun toString(): String {

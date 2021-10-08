@@ -6,14 +6,14 @@ import com.ahmedmatem.android.matura.network.models.Test
 
 @Dao
 interface TestDao {
-    @Query("SELECT * FROM test_table")
-    fun getAll(): LiveData<List<Test>>
+//    @Query("SELECT * FROM test_table")
+//    fun getAll(): LiveData<List<Test>>
 
-    @Query("SELECT * FROM test_table WHERE is_guest")
-    fun getAllByGuest(): LiveData<List<Test>>
+//    @Query("SELECT * FROM test_table WHERE is_guest")
+//    fun getAllByGuest(): LiveData<List<Test>>
 
-    @Query("SELECT * FROM test_table WHERE NOT is_guest")
-    fun getAllByUser(): LiveData<List<Test>>
+    @Query("SELECT * FROM test_table WHERE username = :username")
+    fun getAllBy(username: String): LiveData<List<Test>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(vararg tests: Test)

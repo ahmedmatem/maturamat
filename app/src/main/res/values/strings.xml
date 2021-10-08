@@ -3,6 +3,8 @@
     <string name="title_activity_main">Main Activity</string>
     <string name="title_activity_auth">Auth Activity</string>
 
+    <string name="authorization">bearer %s</string>
+
     <string name="title_home">Начало</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_tests">Тестове</string>
@@ -33,6 +35,6 @@
 
     <!-- preferences -->
     <string name="shared_pref_file_key">com.ahmedmatem.android.matura.preference_file_key</string>
-    <string name="login_state_key">login_state_key</string>
+    <string name="user_key">user_key</string>
 
 </resources>
