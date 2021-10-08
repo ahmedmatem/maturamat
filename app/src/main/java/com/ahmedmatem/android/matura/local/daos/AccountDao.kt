@@ -8,7 +8,7 @@ import androidx.room.Query
 import com.ahmedmatem.android.matura.network.models.Token
 
 @Dao
-interface AuthDao {
+interface AccountDao {
     @Query("SELECT * FROM token_table WHERE user_name = :userName")
     fun getToken(userName: String): LiveData<Token>
 

@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.*
 import com.ahmedmatem.android.matura.infrastructure.DB_NAME
 import com.ahmedmatem.android.matura.local.daos.TestDao
-import com.ahmedmatem.android.matura.local.daos.AuthDao
+import com.ahmedmatem.android.matura.local.daos.AccountDao
 import com.ahmedmatem.android.matura.network.models.Test
 import com.ahmedmatem.android.matura.network.models.Token
 
@@ -13,7 +13,7 @@ import com.ahmedmatem.android.matura.network.models.Token
 abstract class MaturaDb : RoomDatabase() {
 
     abstract val testDao: TestDao
-    abstract val tokenDao: AuthDao
+    abstract val tokenDao: AccountDao
 
     companion object {
         private var INSTANCE: MaturaDb? = null

@@ -4,18 +4,19 @@ import android.content.Context
 import androidx.lifecycle.*
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.local.MaturaDb
+import com.ahmedmatem.android.matura.local.preferences.AccountPrefs
 import com.ahmedmatem.android.matura.network.Result
 import com.ahmedmatem.android.matura.network.Result.GenericError
 import com.ahmedmatem.android.matura.network.Result.Success
 import com.ahmedmatem.android.matura.network.models.Token
 import com.ahmedmatem.android.matura.network.services.AuthApi
-import com.ahmedmatem.android.matura.repository.AuthRepository
+import com.ahmedmatem.android.matura.repository.AccountRepository
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 
-class LoginViewModel(context: Context) : BaseViewModel() {
+class LoginViewModel(val context: Context) : BaseViewModel() {
 
-    private val authRepository = AuthRepository(
+    private val accountRepository = AccountRepository(
         MaturaDb.getInstance(context).tokenDao,
         AuthApi.retrofitService
     )
@@ -26,8 +27,8 @@ class LoginViewModel(context: Context) : BaseViewModel() {
     private val _isLoginButtonEnabled = MutableLiveData<Boolean>()
     val isLoginButtonEnabled: LiveData<Boolean> get() = _isLoginButtonEnabled
 
-    private val _loginResult = MutableLiveData<LoginResult>()
-    val loginResult: LiveData<LoginResult> get() = _loginResult
+    private val _loginAttemptResult = MutableLiveData<LoginResult>()
+    val loginAttemptResult: LiveData<LoginResult> get() = _loginAttemptResult
 
     fun validateLoginButtonEnableState() {
         _isLoginButtonEnabled.value = username.value!!.isNotBlank() && password.value!!.isNotBlank()
@@ -37,7 +38,7 @@ class LoginViewModel(context: Context) : BaseViewModel() {
         _isLoginButtonEnabled.value = false
         showLoading.value = true
         viewModelScope.launch {
-            val response = authRepository.requestToken(username.value!!, password.value!!)
+            val response = accountRepository.requestToken(username.value!!, password.value!!)
             when (response) {
                 is Result.NetworkError -> onNetworkError()
                 is GenericError -> onGenericError(response)
@@ -47,10 +48,15 @@ class LoginViewModel(context: Context) : BaseViewModel() {
     }
 
     private suspend fun onSuccess(data: Token) {
-        authRepository.saveToken(data)
+        // save token in database
+        accountRepository.saveToken(data)
+        // set user LoginState as "IN"
+        AccountPrefs(context).setUserLoginState(LoginState.IN)
+        // hide loading
         showLoading.value = false
-        _isLoginButtonEnabled.value = true
-        _loginResult.value = LoginResult.SUCCESS
+        // Set login attempt result SUCCESS.
+        // It will trigger navigate back to account tab in MainActivity
+        _loginAttemptResult.value = LoginResult.SUCCESS
     }
 
     private fun onNetworkError() {

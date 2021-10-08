@@ -37,7 +37,7 @@ class LoginFragment : BaseFragment() {
             viewModel.validateLoginButtonEnableState()
         })
 
-        viewModel.loginResult.observe(viewLifecycleOwner, Observer { result ->
+        viewModel.loginAttemptResult.observe(viewLifecycleOwner, Observer { result ->
             when (result) {
                 SUCCESS -> {
                     activity?.apply {
@@ -45,8 +45,8 @@ class LoginFragment : BaseFragment() {
                         finish()
                     }
                 }
-                GENERIC_ERROR -> TODO("Implement GENERIC_ERROR login result case")
-                NETWORK_ERROR -> TODO("Implement NETWORK_ERROR login result case")
+                GENERIC_ERROR -> TODO("Not yet implemented")
+                NETWORK_ERROR -> TODO("Not yet implemented")
             }
         })
 
