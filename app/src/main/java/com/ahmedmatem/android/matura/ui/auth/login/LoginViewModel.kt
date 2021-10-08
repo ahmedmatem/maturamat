@@ -2,9 +2,7 @@ package com.ahmedmatem.android.matura.ui.auth.login
 
 import android.content.Context
 import androidx.lifecycle.*
-import androidx.navigation.Navigation
 import com.ahmedmatem.android.matura.base.BaseViewModel
-import com.ahmedmatem.android.matura.base.NavigationCommand
 import com.ahmedmatem.android.matura.local.MaturaDb
 import com.ahmedmatem.android.matura.network.Result
 import com.ahmedmatem.android.matura.network.Result.GenericError
@@ -28,6 +26,9 @@ class LoginViewModel(context: Context) : BaseViewModel() {
     private val _isLoginButtonEnabled = MutableLiveData<Boolean>()
     val isLoginButtonEnabled: LiveData<Boolean> get() = _isLoginButtonEnabled
 
+    private val _loginResult = MutableLiveData<LoginResult>()
+    val loginResult: LiveData<LoginResult> get() = _loginResult
+
     fun validateLoginButtonEnableState() {
         _isLoginButtonEnabled.value = username.value!!.isNotBlank() && password.value!!.isNotBlank()
     }
@@ -38,25 +39,25 @@ class LoginViewModel(context: Context) : BaseViewModel() {
         viewModelScope.launch {
             val response = authRepository.requestToken(username.value!!, password.value!!)
             when (response) {
-                is Result.NetworkError -> showNetworkError()
-                is GenericError -> showGenericError(response)
-                is Success -> showSuccess(response.data)
+                is Result.NetworkError -> onNetworkError()
+                is GenericError -> onGenericError(response)
+                is Success -> onSuccess(response.data)
             }
         }
     }
 
-    private suspend fun showSuccess(data: Token) {
+    private suspend fun onSuccess(data: Token) {
         authRepository.saveToken(data)
         showLoading.value = false
         _isLoginButtonEnabled.value = true
-        // TODO: navigat eback to account tab
+        _loginResult.value = LoginResult.SUCCESS
     }
 
-    private fun showNetworkError() {
+    private fun onNetworkError() {
         TODO("Not yet implemented")
     }
 
-    private fun showGenericError(response: GenericError) {
+    private fun onGenericError(response: GenericError) {
         TODO("Not yet implemented")
     }
 
