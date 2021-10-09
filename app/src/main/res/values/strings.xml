@@ -3,6 +3,8 @@
     <string name="title_activity_main">Main Activity</string>
     <string name="title_activity_auth">Auth Activity</string>
 
+    <string name="authorization">bearer %s</string>
+
     <string name="title_home">Начало</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_tests">Тестове</string>
