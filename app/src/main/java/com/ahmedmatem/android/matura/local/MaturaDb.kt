@@ -8,7 +8,7 @@ import com.ahmedmatem.android.matura.local.daos.AccountDao
 import com.ahmedmatem.android.matura.network.models.Test
 import com.ahmedmatem.android.matura.network.models.Token
 
-@Database(entities = [Test::class, Token::class], version = 1)
+@Database(entities = [Test::class, Token::class], version = 3)
 @TypeConverters(Converters::class)
 abstract class MaturaDb : RoomDatabase() {
 
@@ -27,6 +27,7 @@ abstract class MaturaDb : RoomDatabase() {
                         MaturaDb::class.java,
                         DB_NAME
                     )
+                        .fallbackToDestructiveMigration() // TODO: remove this line for versioning
                         .build()
                     INSTANCE = instance
                 }

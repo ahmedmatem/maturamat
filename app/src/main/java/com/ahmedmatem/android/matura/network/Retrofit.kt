@@ -13,7 +13,7 @@ import java.util.*
 object Retrofit {
     val moshi: Moshi = Moshi.Builder()
         .add(KotlinJsonAdapterFactory())
-        .add(Date::class.java, Rfc3339DateJsonAdapter().nullSafe())
+//        .add(Date::class.java, Rfc3339DateJsonAdapter().nullSafe())
         .build()
 
     val instance: Retrofit by lazy {
