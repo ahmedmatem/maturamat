@@ -6,7 +6,6 @@ import com.ahmedmatem.android.matura.R
 import com.ahmedmatem.android.matura.local.MaturaDb
 import com.ahmedmatem.android.matura.local.preferences.UserPrefs
 import com.ahmedmatem.android.matura.network.Result
-import com.ahmedmatem.android.matura.network.models.Test
 import com.ahmedmatem.android.matura.network.models.addUsername
 import com.ahmedmatem.android.matura.network.safeApiCall
 import com.ahmedmatem.android.matura.network.services.TestApi
@@ -34,13 +33,18 @@ class TestRepository(
                 }
                 when (response) {
                     is Result.Success -> {
-                        withContext(dispatcher) {
-                            val tests = response.data.addUsername(username).toTypedArray()
-                            database.testDao.insert(*tests) // upsert data
-                        }
+                        val tests = response.data.addUsername(username).toTypedArray()
+                        database.testDao.insert(*tests)
                     }
-                    is Result.GenericError -> TODO("Not implemented yet")
-                    is Result.NetworkError -> TODO("Not implemented yet")
+                    is Result.GenericError -> {
+                        Log.d(
+                            "DEBUG",
+                            "refreshTestList: Generis error (${response.errorResponse?.description})"
+                        )
+                    }
+                    is Result.NetworkError -> {
+                        Log.d("DEBUG", "refreshTestList: Network error")
+                    }
                 }
             }
         }

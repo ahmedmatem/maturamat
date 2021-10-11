@@ -1,14 +1,21 @@
 package com.ahmedmatem.android.matura.network.jsonadapter
 
+import android.util.Log
 import com.squareup.moshi.FromJson
 import com.squareup.moshi.ToJson
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
 class DateJsonAdapter {
     @FromJson
-    fun dateFromJson(date: String): Date {
-        return dateFormat.parse(date)
+    fun dateFromJson(date: String): Date? {
+        try {
+            return dateFormat.parse(date)
+        } catch (pe: ParseException) {
+            Log.d("DEBUG", "dateFromJson: Invalid date format: $date")
+        }
+        return null
     }
 
     @ToJson
