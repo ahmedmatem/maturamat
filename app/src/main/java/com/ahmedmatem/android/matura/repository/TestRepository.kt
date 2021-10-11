@@ -7,6 +7,7 @@ import com.ahmedmatem.android.matura.local.MaturaDb
 import com.ahmedmatem.android.matura.local.preferences.UserPrefs
 import com.ahmedmatem.android.matura.network.Result
 import com.ahmedmatem.android.matura.network.models.Test
+import com.ahmedmatem.android.matura.network.models.addUsername
 import com.ahmedmatem.android.matura.network.safeApiCall
 import com.ahmedmatem.android.matura.network.services.TestApi
 import kotlinx.coroutines.CoroutineDispatcher
@@ -34,7 +35,7 @@ class TestRepository(
                 when (response) {
                     is Result.Success -> {
                         withContext(dispatcher) {
-                            val tests = response.data.toTypedArray()
+                            val tests = response.data.addUsername(username).toTypedArray()
                             database.testDao.insert(*tests) // upsert data
                         }
                     }

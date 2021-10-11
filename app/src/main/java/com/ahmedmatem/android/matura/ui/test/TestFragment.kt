@@ -1,6 +1,7 @@
 package com.ahmedmatem.android.matura.ui.test
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,6 +27,8 @@ class TestFragment : BaseFragment() {
             this,
             TestViewModel.Factory(requireContext())
         ).get(TestViewModel::class.java)
+
+        Log.d("TAG", "testList = ${viewModel.testList.value?.size}")
 
         val binding = FragmentTestBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this

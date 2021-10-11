@@ -21,9 +21,8 @@ data class Test(
     @ColumnInfo(name = "millis_until_finished") @Json(name = "MillisUntilFinished") val millisUntilFinished: Long,
     @Json(name = "State") val state: Int,
     @ColumnInfo(name = "has_timer") @Json(name = "HasTimer") val hasTimer: Boolean,
-    @ColumnInfo(name = "username") @Transient val username: String? = null // default value required
+    @ColumnInfo(name = "username") @Transient var username: String? = null // default value required
 ) {
-
     override fun toString(): String {
         return "Test{" +
                 "id='" + id + '\'' +
@@ -39,4 +38,15 @@ data class Test(
                 ", hasTimer=" + hasTimer +
                 '}';
     }
+}
+
+fun Test.addUsername(username: String?) {
+    this.username = username
+}
+
+fun List<Test>.addUsername(username: String?): List<Test> {
+    forEach { test ->
+        test.username = username
+    }
+    return this
 }
