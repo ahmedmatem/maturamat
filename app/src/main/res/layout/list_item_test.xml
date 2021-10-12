@@ -39,7 +39,8 @@
             android:contentDescription="@string/test_image_description"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_face_6_black_24" />
+            app:emoIcon="@{Integer.parseInt(test.resultInPercent)}"
+            app:srcCompat="@drawable/ic_face_6_24" />
 
         <TextView
             android:id="@+id/test_title"
