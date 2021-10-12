@@ -5,6 +5,7 @@
 
     <data>
 
+        <import type="com.ahmedmatem.android.matura.infrastructure.ExtensionsKt" />
         <variable
             name="test"
             type="com.ahmedmatem.android.matura.network.models.Test" />
@@ -40,7 +41,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:emoIcon="@{Integer.parseInt(test.resultInPercent)}"
-            app:srcCompat="@drawable/ic_face_6_24" />
+            tools:src="@drawable/ic_face_4_24"/>
 
         <TextView
             android:id="@+id/test_title"
@@ -48,6 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/list_item_margin"
             tools:text="07/05/21 (11:25)"
+            android:text="@{test.title}"
             app:layout_constraintBottom_toTopOf="@+id/guideline1"
             app:layout_constraintStart_toEndOf="@+id/test_emoticon" />
 
@@ -57,6 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/list_item_margin"
             tools:text="16/20, 80% | незавършен"
+            android:text="@{test.subtitle}"
             app:layout_constraintBottom_toTopOf="@+id/guideline2"
             app:layout_constraintStart_toEndOf="@+id/test_emoticon" />
 

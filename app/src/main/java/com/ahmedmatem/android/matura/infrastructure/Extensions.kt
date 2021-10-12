@@ -2,7 +2,10 @@ package com.ahmedmatem.android.matura.infrastructure
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.util.Log
 import android.view.View
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * String EXTENSIONS
@@ -82,4 +85,18 @@ fun View.fadeOut() {
             this@fadeOut.visibility = View.GONE
         }
     })
+}
+
+/**
+ * Date EXTENSIONS
+ */
+
+fun Date.toUiFormat(format: String): String {
+    try {
+        val sdf = SimpleDateFormat(format)
+        return sdf.format(this)
+    } catch (ex: IllegalFormatException) {
+        Log.e("ERROR", "toUiFormat: Illegal format - $format", )
+    }
+    return "--"
 }
