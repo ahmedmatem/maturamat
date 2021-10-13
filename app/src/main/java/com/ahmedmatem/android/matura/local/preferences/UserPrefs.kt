@@ -14,8 +14,6 @@ class UserPrefs(val context: Context) {
         )
     }
 
-    // Hold the username of the logged in user.
-    // Null value means no user logged in (the app is used by guest).
     fun setUser(username: String?) {
         with(sharedPref.edit()) {
             putString(context.getString(R.string.user_key), username)
@@ -23,6 +21,11 @@ class UserPrefs(val context: Context) {
         }
     }
 
+    /**
+     * Use this method to detect if user has logged in its account or hasn't.
+     * Null value means that user is not logged in and app is used from guest
+     * otherwise user exists and it has logged in.
+     */
     fun getUser(): String? {
         return sharedPref.getString(context.getString(R.string.user_key), null)
     }
