@@ -3,6 +3,7 @@ package com.ahmedmatem.android.matura.local.preferences
 import android.content.Context
 import android.content.SharedPreferences
 import com.ahmedmatem.android.matura.R
+import java.util.*
 
 class UserPrefs(val context: Context) {
 
@@ -24,5 +25,26 @@ class UserPrefs(val context: Context) {
 
     fun getUser(): String? {
         return sharedPref.getString(context.getString(R.string.user_key), null)
+    }
+
+    /**
+     * Use this method to obtain UUID from user preferences for guests.
+     */
+    fun getUuid(): String {
+        val uuidKey = context.getString(R.string.uuid_key)
+        var uuid = sharedPref.getString(uuidKey, null)
+        return uuid ?: createUUID()
+    }
+
+    /**
+     * Use this method only once to create UUID for guest and save it in user preferences.
+     */
+    private fun createUUID(): String {
+        val uuid = UUID.randomUUID().toString()
+        with(sharedPref.edit()) {
+            putString(context.getString(R.string.uuid_key), uuid)
+            apply()
+        }
+        return uuid
     }
 }
