@@ -91,7 +91,7 @@ fun View.fadeOut() {
  * Date EXTENSIONS
  */
 
-fun Date.toUiFormat(format: String): String {
+fun Date.toDisplayFormat(format: String): String {
     try {
         val sdf = SimpleDateFormat(format)
         return sdf.format(this)

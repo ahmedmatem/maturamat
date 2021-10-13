@@ -5,7 +5,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
-import com.ahmedmatem.android.matura.infrastructure.toUiFormat
+import com.ahmedmatem.android.matura.infrastructure.toDisplayFormat
 import com.squareup.moshi.Json
 import java.util.*
 
@@ -49,14 +49,14 @@ data class Test(
 ) {
     @Ignore
     @Transient
-    val title = createdOn.toUiFormat(UiDateFormat)
+    val title = createdOn.toDisplayFormat(DisplayFormat)
 
     @Ignore
     @Transient
     val subtitle = "$correctAnswersNumber/$answersNumber, $resultInPercent%"
 
     companion object {
-        const val UiDateFormat: String = "dd/MM/yyyy, HH:mm"
+        const val DisplayFormat: String = "dd/MM/yyyy, HH:mm"
     }
 }
 

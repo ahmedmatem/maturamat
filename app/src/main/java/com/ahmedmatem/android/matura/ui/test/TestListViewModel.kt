@@ -5,11 +5,10 @@ import androidx.lifecycle.*
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.local.MaturaDb
 import com.ahmedmatem.android.matura.repository.TestRepository
-import com.ahmedmatem.android.matura.ui.auth.login.LoginViewModel
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 
-class TestViewModel(val context: Context) : BaseViewModel() {
+class TestListViewModel(val context: Context) : BaseViewModel() {
 
     private val testRepository = TestRepository(context, MaturaDb.getInstance(context))
 
@@ -30,8 +29,8 @@ class TestViewModel(val context: Context) : BaseViewModel() {
 
     class Factory(private val context: Context) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(TestViewModel::class.java)) {
-                return TestViewModel(context) as T
+            if (modelClass.isAssignableFrom(TestListViewModel::class.java)) {
+                return TestListViewModel(context) as T
             }
             throw IllegalArgumentException("Unable to construct a TestViewModel")
         }

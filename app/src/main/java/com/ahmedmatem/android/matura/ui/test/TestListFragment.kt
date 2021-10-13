@@ -5,19 +5,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.ahmedmatem.android.matura.base.BaseFragment
 import com.ahmedmatem.android.matura.databinding.FragmentTestBinding
 import com.ahmedmatem.android.matura.ui.test.adapter.TestClickListener
 import com.ahmedmatem.android.matura.ui.test.adapter.TestListAdapter
-import java.util.*
 
-class TestFragment : BaseFragment() {
+class TestListFragment : BaseFragment() {
 
-    override lateinit var viewModel: TestViewModel
+    override lateinit var viewModel: TestListViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,8 +23,8 @@ class TestFragment : BaseFragment() {
     ): View? {
         viewModel = ViewModelProvider(
             this,
-            TestViewModel.Factory(requireContext())
-        ).get(TestViewModel::class.java)
+            TestListViewModel.Factory(requireContext())
+        ).get(TestListViewModel::class.java)
 
         Log.d("TAG", "testList = ${viewModel.testList.value?.size}")
 

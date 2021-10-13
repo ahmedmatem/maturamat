@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/navigation_tests"
-        android:name="com.ahmedmatem.android.matura.ui.test.TestFragment"
+        android:name="com.ahmedmatem.android.matura.ui.test.TestListFragment"
         android:label="@string/title_tests"
         tools:layout="@layout/fragment_test" />
 
