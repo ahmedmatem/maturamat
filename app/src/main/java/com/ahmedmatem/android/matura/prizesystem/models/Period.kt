@@ -9,6 +9,7 @@ import java.util.*
 @Entity(tableName = "period_table")
 data class Period(
     @PrimaryKey val id: Long,
+    val prizeHolder: String,
     val start: Date,
     val end: Date,
     val duration: Int,

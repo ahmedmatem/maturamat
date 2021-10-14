@@ -9,11 +9,9 @@ import androidx.room.Relation
 @Keep
 @Entity(tableName = "prize_table")
 data class Prize(
-    @PrimaryKey val id: Long,
-    val holder: String, // user@name
+    @PrimaryKey val holder: String,
     val periodicallyDue: Int,
-    val earned: Int,
-    val periodId: String
+    val earned: Int
 )
 
 /**
@@ -21,10 +19,10 @@ data class Prize(
  */
 @Keep
 data class PrizeAndPeriod(
-    @Embedded val period: Period,
+    @Embedded val prize: Prize,
     @Relation(
-        parentColumn = "id",
-        entityColumn = "periodId"
+        parentColumn = "holder",
+        entityColumn = "prizeHolder"
     )
-    val prize: Prize
+    val period: Period
 )
