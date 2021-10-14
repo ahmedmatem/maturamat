@@ -5,15 +5,19 @@ import androidx.room.*
 import com.ahmedmatem.android.matura.infrastructure.DB_NAME
 import com.ahmedmatem.android.matura.local.daos.TestDao
 import com.ahmedmatem.android.matura.local.daos.AccountDao
+import com.ahmedmatem.android.matura.local.daos.PrizeDao
 import com.ahmedmatem.android.matura.network.models.Test
 import com.ahmedmatem.android.matura.network.models.Token
+import com.ahmedmatem.android.matura.prizesystem.models.Coin
+import com.ahmedmatem.android.matura.prizesystem.models.Period
 
-@Database(entities = [Test::class, Token::class], version = 3)
+@Database(entities = [Test::class, Token::class, Coin::class, Period::class], version = 4)
 @TypeConverters(Converters::class)
 abstract class MaturaDb : RoomDatabase() {
 
     abstract val testDao: TestDao
     abstract val tokenDao: AccountDao
+    abstract val prizeDao: PrizeDao
 
     companion object {
         private var INSTANCE: MaturaDb? = null
