@@ -16,8 +16,12 @@ class PrizeRepository(
     suspend fun getCoinsForUser(): Int {
         return withContext(dispatcher) {
             val coin = prizeDao.getCoinsForUser(username)
-            val totalCoin = coin.default + coin.earned
-            totalCoin
+            coin?.let {
+                coin.due + coin.earned
+            }
+            0
         }
     }
+
+
 }

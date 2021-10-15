@@ -39,7 +39,7 @@ class TestRepository(
                     is Result.GenericError -> {
                         Log.d(
                             "DEBUG",
-                            "refreshTestList: Generis error (${response.errorResponse?.description})"
+                            "refreshTestList: Generic error (${response.errorResponse?.description})"
                         )
                     }
                     is Result.NetworkError -> {

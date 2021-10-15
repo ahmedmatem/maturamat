@@ -18,5 +18,5 @@ interface PrizeDao {
     suspend fun getPrizeForUser(username: String): Prize?
 
     @Query("SELECT * FROM coin_table WHERE holder = :username")
-    suspend fun getCoinsForUser(username: String): Coin
+    suspend fun getCoinsForUser(username: String): Coin?
 }

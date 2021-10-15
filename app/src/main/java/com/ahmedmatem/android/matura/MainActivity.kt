@@ -7,7 +7,10 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
 import com.ahmedmatem.android.matura.databinding.ActivityMainBinding
+import com.ahmedmatem.android.matura.prizesystem.worker.SyncPrizeWorker
 
 class MainActivity : AppCompatActivity() {
 
@@ -15,6 +18,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val prizeSyncRequest = OneTimeWorkRequest.from(SyncPrizeWorker::class.java)
+        WorkManager.getInstance(applicationContext).enqueue(prizeSyncRequest)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

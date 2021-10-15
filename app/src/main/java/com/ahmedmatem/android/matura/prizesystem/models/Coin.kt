@@ -13,7 +13,7 @@ data class Coin(
     // username
     @PrimaryKey val holder: String,
     // coins given by default from app for specific period
-    val default: Int = PrizeConfig.DEFAULT_COINS_PER_WEEK,
+    val due: Int = PrizeConfig.DEFAULT_COINS_PER_WEEK,
     // coins earned by the user offered in different app activities
     val earned: Int = 0
 )
