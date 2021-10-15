@@ -12,8 +12,8 @@ import com.ahmedmatem.android.matura.prizesystem.PrizeConfig
 data class Coin(
     // username
     @PrimaryKey val holder: String,
-    // coins given by default from app for specific period
-    val due: Int = PrizeConfig.DEFAULT_COINS_PER_WEEK,
+    // coins given by default as a gift from app for specific period
+    val gift: Int = PrizeConfig.DEFAULT_COINS_PER_WEEK,
     // coins earned by the user offered in different app activities
     val earned: Int = 0
 )

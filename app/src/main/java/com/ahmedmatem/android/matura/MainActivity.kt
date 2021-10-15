@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         val prizeSyncRequest = OneTimeWorkRequest.from(SyncPrizeWorker::class.java)
-        WorkManager.getInstance(applicationContext).enqueue(prizeSyncRequest)
+        WorkManager.getInstance(this).enqueue(prizeSyncRequest)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

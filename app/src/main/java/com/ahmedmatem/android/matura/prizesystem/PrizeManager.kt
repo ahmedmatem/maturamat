@@ -11,7 +11,17 @@ class PrizeManager(
     private val prizeRepository by lazy { PrizeRepository(context, username) }
 
     suspend fun sync() {
-        val coins = prizeRepository.getCoinsForUser()
-        Log.d("DEBUG", "refreshUserPrize: coins $coins")
+        val prize = prizeRepository.getPrizeForUser()
+        if (prize != null) {
+            /**
+             * Prize has already been setup for the user
+             */
+            Log.d("DEBUG", "sync: Prize has already been setup for the user")
+        } else {
+            /**
+             * No prize has been setup yet
+             */
+            Log.d("DEBUG", "sync: No prize has been setup yet")
+        }
     }
 }

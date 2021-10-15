@@ -13,7 +13,6 @@ class SyncPrizeWorker(val context: Context, workerParams: WorkerParameters) :
     private val username by lazy { UserPrefs(context).getUser() }
 
     override suspend fun doWork(): Result {
-        Log.d("DEBUG", "doWork: start for user $username")
         username?.let {
             val prizeManager = PrizeManager(context, it)
             prizeManager.sync()

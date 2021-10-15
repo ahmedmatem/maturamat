@@ -11,7 +11,11 @@ import com.ahmedmatem.android.matura.network.models.Token
 import com.ahmedmatem.android.matura.prizesystem.models.Coin
 import com.ahmedmatem.android.matura.prizesystem.models.Period
 
-@Database(entities = [Test::class, Token::class, Coin::class, Period::class], version = 4)
+@Database(
+    entities = [Test::class, Token::class, Coin::class, Period::class],
+    version = 1
+
+)
 @TypeConverters(Converters::class)
 abstract class MaturaDb : RoomDatabase() {
 
