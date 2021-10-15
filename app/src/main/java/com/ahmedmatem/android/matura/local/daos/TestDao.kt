@@ -13,7 +13,7 @@ interface TestDao {
 //    fun getAllByGuest(): LiveData<List<Test>>
 
     @Query("SELECT * FROM test_table WHERE username = :username")
-    fun getAllBy(username: String): LiveData<List<Test>>
+    fun getAllBy(username: String?): LiveData<List<Test>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(vararg tests: Test)

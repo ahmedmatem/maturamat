@@ -26,8 +26,6 @@ class TestListFragment : BaseFragment() {
             TestListViewModel.Factory(requireContext())
         ).get(TestListViewModel::class.java)
 
-        Log.d("TAG", "testList = ${viewModel.testList.value?.size}")
-
         val binding = FragmentTestBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
 
@@ -38,7 +36,7 @@ class TestListFragment : BaseFragment() {
 
         binding.testList.adapter = adapter
 
-        viewModel.testList.observe(viewLifecycleOwner, Observer {
+        viewModel.testList?.observe(viewLifecycleOwner, Observer {
             it?.let {
                 adapter.submitList(it)
             }

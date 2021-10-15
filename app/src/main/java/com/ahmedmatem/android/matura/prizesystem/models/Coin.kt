@@ -17,16 +17,3 @@ data class Coin(
     // coins earned by the user offered in different app activities
     val earned: Int = 0
 )
-
-/**
- * Set one-to-one relationships between two tables
- */
-@Keep
-data class Prize(
-    @Embedded val coin: Coin,
-    @Relation(
-        parentColumn = "holder",
-        entityColumn = "coinHolder"
-    )
-    val period: Period
-)

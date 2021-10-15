@@ -19,8 +19,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val prizeSyncRequest = OneTimeWorkRequest.from(SyncPrizeWorker::class.java)
-        WorkManager.getInstance(this).enqueue(prizeSyncRequest)
+        val syncPrizeRequest = OneTimeWorkRequest.from(SyncPrizeWorker::class.java)
+        WorkManager.getInstance(this).enqueue(syncPrizeRequest)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

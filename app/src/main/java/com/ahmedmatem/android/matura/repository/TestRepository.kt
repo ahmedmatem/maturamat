@@ -21,7 +21,7 @@ class TestRepository(
     private val testApiService = TestApi.retrofitService
     private val username: String? by lazy { UserPrefs(context).getUser() }
 
-    val testList by lazy { database.testDao.getAllBy(username!!) }
+    val testList by lazy { database.testDao.getAllBy(username) }
 
     suspend fun refreshTestList() {
         withContext(dispatcher) {
