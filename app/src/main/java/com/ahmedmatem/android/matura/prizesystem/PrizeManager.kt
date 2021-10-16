@@ -1,7 +1,7 @@
 package com.ahmedmatem.android.matura.prizesystem
 
 import android.content.Context
-import com.ahmedmatem.android.matura.prizesystem.models.expired
+import com.ahmedmatem.android.matura.prizesystem.models.*
 import com.ahmedmatem.android.matura.repository.PrizeRepository
 
 class PrizeManager(
@@ -11,17 +11,13 @@ class PrizeManager(
     private val prizeRepository by lazy { PrizeRepository(context, username) }
 
     suspend fun sync() {
-        // get user prize from database
+        // get user prize from local database
         val prize = prizeRepository.getPrizeForUser()
         if (prize != null) {
             // Prize has already been setup for the user
-            TODO("Not implemented yet")
             if (prize.period.expired()) {
-                // todo: step 1. calculate the next period bounds
-
-                // todo: step 2. update prize locally with new period and new gift
-
-                // todo: step 3. sync new user prize in the network
+                resetPrize(prize)
+                syncPrize(prize)
             }
         } else {
             // No prize has been setup yet
@@ -35,5 +31,17 @@ class PrizeManager(
 
             // todo: onFailure - proceed through step 1 .. 3
         }
+    }
+
+    private suspend fun resetPrize(prize: Prize) {
+        // Calculate the new period bounds and reset gift
+        prize.period.reset()
+        prize.coin.resetGift()
+    }
+
+    private suspend fun syncPrize(prize: Prize){
+        // Update prize locally
+        prizeRepository.updatePrize(prize)
+        // todo: step 3. update prize in the network
     }
 }

@@ -1,9 +1,8 @@
 package com.ahmedmatem.android.matura.local.daos
 
-import androidx.room.Dao
-import androidx.room.Query
-import androidx.room.Transaction
+import androidx.room.*
 import com.ahmedmatem.android.matura.prizesystem.models.Coin
+import com.ahmedmatem.android.matura.prizesystem.models.Period
 import com.ahmedmatem.android.matura.prizesystem.models.Prize
 
 @Dao
@@ -19,4 +18,14 @@ interface PrizeDao {
 
     @Query("SELECT * FROM coin_table WHERE holder = :username")
     suspend fun getCoinForUser(username: String): Coin?
+
+    @Transaction
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertPrize(coin: Coin, period: Period)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertCoin(coin: Coin)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertPeriod(period: Period)
 }

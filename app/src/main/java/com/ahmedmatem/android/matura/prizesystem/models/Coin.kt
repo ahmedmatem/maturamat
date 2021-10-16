@@ -1,11 +1,10 @@
 package com.ahmedmatem.android.matura.prizesystem.models
 
 import androidx.annotation.Keep
-import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.Relation
 import com.ahmedmatem.android.matura.prizesystem.PrizeConfig
+import com.ahmedmatem.android.matura.prizesystem.exceptions.InsufficientCoinException
 
 @Keep
 @Entity(tableName = "coin_table")
@@ -13,7 +12,43 @@ data class Coin(
     // username
     @PrimaryKey val holder: String,
     // coins given by default as a gift from app for specific period
-    val gift: Int = PrizeConfig.DEFAULT_COINS_PER_WEEK,
+    var gift: Int = PrizeConfig.DEFAULT_GIFT_PER_WEEK,
     // coins earned by the user offered in different app activities
-    val earned: Int = 0
+    var earned: Int = 0
 )
+
+/**
+ * Extension functions
+ */
+
+fun Coin.resetGift() {
+    gift = PrizeConfig.DEFAULT_GIFT_PER_WEEK
+}
+
+/**
+ * Add 'count' coin as earned coin
+ */
+fun Coin.add(count: Int = 1) {
+    earned += count
+}
+
+/**
+ * Reduce count number of coin trying first to use gift coin and then earned.
+ * @throws InsufficientCoinException if no enough gift and earned coin to bet.
+ */
+fun Coin.bet(count: Int = 1) {
+    val allCoin = gift + earned
+    if (allCoin >= count) {
+        // first try to use coin from gift
+        gift -= count
+        // in case of no enough gift coin to bet
+        if (gift < 0) {
+            // reduce earned coin with rest of the count
+            earned += gift
+            // and set gift to zero
+            gift = 0
+        }
+    } else {
+        throw InsufficientCoinException()
+    }
+}

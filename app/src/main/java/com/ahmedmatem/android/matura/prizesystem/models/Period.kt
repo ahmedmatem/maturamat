@@ -4,7 +4,6 @@ import androidx.annotation.Keep
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.ahmedmatem.android.matura.prizesystem.PrizeConfig
-import java.time.Instant
 import java.util.*
 
 @Keep
@@ -31,15 +30,13 @@ enum class DurationMeasure(val duration: Int) {
 fun Period.expired() = Calendar.getInstance().time.after(end)
 
 /**
- * Use this extension function to reset expired period.
- * New period starts from today.
+ * Use this extension function to reset period bounds.
+ * New period starts from now and end after period duration days.
  */
-fun Period.reset(today: Date) {
-    if (expired()) {
-        start = today
-        // calculate end date
-        val cal = Calendar.getInstance()
-        cal.add(Calendar.DAY_OF_YEAR, duration)
-        end = cal.time
-    }
+fun Period.reset() {
+    start = Date() // starts now
+    // calculate end date
+    val cal = Calendar.getInstance()
+    cal.add(Calendar.DAY_OF_YEAR, duration)
+    end = cal.time
 }
