@@ -10,7 +10,9 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import com.ahmedmatem.android.matura.databinding.ActivityMainBinding
-import com.ahmedmatem.android.matura.prizesystem.worker.PrizeSetupOnLoginWorker
+import com.ahmedmatem.android.matura.local.preferences.UserPrefs
+import com.ahmedmatem.android.matura.prizesystem.worker.SetupPrizeOnAppStartWorker
+import com.ahmedmatem.android.matura.prizesystem.worker.SetupPrizeOnLoginWorker
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,8 +21,16 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val setupPrizeRequest = OneTimeWorkRequest.from(PrizeSetupOnLoginWorker::class.java)
-        WorkManager.getInstance(this).enqueue(setupPrizeRequest)
+        /**
+         * Only for free distribution in all app versions setup Prize onAppStart
+         */
+        if (BuildConfig.FLAVOR_distribution == "free" &&
+            UserPrefs(applicationContext).getUser() != null
+        ) {
+            val setupPrizeOnAppStartRequest =
+                OneTimeWorkRequest.from(SetupPrizeOnAppStartWorker::class.java)
+            WorkManager.getInstance(applicationContext).enqueue(setupPrizeOnAppStartRequest)
+        }
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

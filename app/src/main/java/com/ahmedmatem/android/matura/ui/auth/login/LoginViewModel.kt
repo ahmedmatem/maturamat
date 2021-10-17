@@ -51,14 +51,9 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
     }
 
     private suspend fun onSuccess(data: Token) {
-        // save token in database
         _accountRepository.saveToken(data)
-        // set user preference
         _prefs.setUser(data.userName)
-        // hide loading
         showLoading.value = false
-        // Set login attempt result SUCCESS.
-        // It will trigger navigate back to account tab in MainActivity
         _loginAttemptResult.value = LoginResult.SUCCESS
     }
 

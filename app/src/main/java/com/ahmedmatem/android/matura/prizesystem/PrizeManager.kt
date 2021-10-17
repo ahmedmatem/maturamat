@@ -11,6 +11,16 @@ class PrizeManager(
 ) {
     private val prizeRepository by lazy { PrizeRepository(context, username) }
 
+    suspend fun setupOnAppStart() {
+        val prize = prizeRepository.getPrize()
+        prize?.let {
+            if (it.period.expired()) {
+                resetPrize(it)
+                prizeRepository.update(it)
+            }
+        }
+    }
+
     suspend fun setupOnLogin() {
         // Try to get user prize from local database
         val prize = prizeRepository.getPrize()

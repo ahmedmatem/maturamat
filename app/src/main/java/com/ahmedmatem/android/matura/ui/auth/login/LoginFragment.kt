@@ -7,8 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
+import com.ahmedmatem.android.matura.BuildConfig
 import com.ahmedmatem.android.matura.base.BaseFragment
 import com.ahmedmatem.android.matura.databinding.FragmentLoginBinding
+import com.ahmedmatem.android.matura.prizesystem.worker.SetupPrizeOnLoginWorker
 import com.ahmedmatem.android.matura.ui.auth.login.LoginResult.*
 
 class LoginFragment : BaseFragment() {

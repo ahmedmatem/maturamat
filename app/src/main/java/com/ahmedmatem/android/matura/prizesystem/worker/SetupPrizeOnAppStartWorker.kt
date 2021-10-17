@@ -6,15 +6,15 @@ import androidx.work.WorkerParameters
 import com.ahmedmatem.android.matura.local.preferences.UserPrefs
 import com.ahmedmatem.android.matura.prizesystem.PrizeManager
 
-class PrizeSetupOnLoginWorker(val context: Context, workerParams: WorkerParameters) :
-    CoroutineWorker(context, workerParams) {
+class SetupPrizeOnAppStartWorker(val context: Context, params: WorkerParameters) :
+    CoroutineWorker(context, params) {
 
     private val username by lazy { UserPrefs(context).getUser() }
 
     override suspend fun doWork(): Result {
         username?.let {
             val prizeManager = PrizeManager(context, it)
-            prizeManager.setupOnLogin()
+            prizeManager.setupOnAppStart()
             return Result.success()
         }
         return Result.failure()

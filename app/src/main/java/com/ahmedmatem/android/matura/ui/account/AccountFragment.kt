@@ -1,27 +1,39 @@
 package com.ahmedmatem.android.matura.ui.account
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.TextView
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
 import com.ahmedmatem.android.matura.AuthActivity
+import com.ahmedmatem.android.matura.BuildConfig
+import com.ahmedmatem.android.matura.base.BaseFragment
 import com.ahmedmatem.android.matura.databinding.FragmentAccountBinding
+import com.ahmedmatem.android.matura.prizesystem.worker.SetupPrizeOnLoginWorker
 
-class AccountFragment : Fragment() {
+class AccountFragment : BaseFragment() {
 
-    private lateinit var viewModel: AccountViewModel
-    private var _binding: FragmentAccountBinding? = null
+    override lateinit var viewModel: AccountViewModel
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
+    private val loginResultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                /**
+                 * Only for free distribution in all app versions setup Prize after success login
+                 */
+                if (BuildConfig.FLAVOR_distribution == "free") {
+                    val setupPrizeOnLoginRequest =
+                        OneTimeWorkRequest.from(SetupPrizeOnLoginWorker::class.java)
+                    WorkManager.getInstance(requireContext()).enqueue(setupPrizeOnLoginRequest)
+                }
+            }
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,27 +43,17 @@ class AccountFragment : Fragment() {
         viewModel =
             ViewModelProvider(this).get(AccountViewModel::class.java)
 
-        _binding = FragmentAccountBinding.inflate(inflater, container, false)
-
-//        val textView: TextView = binding.textDashboard
-//        viewModel.text.observe(viewLifecycleOwner, Observer {
-//            textView.text = it
-//        })
+        val binding = FragmentAccountBinding.inflate(inflater, container, false)
+        binding.lifecycleOwner = this
 
         val loginBtn: Button = binding.button2
         val registerBtn: Button = binding.button3
 
         loginBtn.setOnClickListener {
-//            findNavController().navigate(AccountFragmentDirections.actionNavigationAccountToAuthNavigation())
             val intent = Intent(requireContext(), AuthActivity::class.java)
-            startActivity(intent)
+            loginResultLauncher.launch(intent)
         }
 
         return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }
