@@ -6,7 +6,7 @@ import androidx.work.WorkerParameters
 import com.ahmedmatem.android.matura.local.preferences.UserPrefs
 import com.ahmedmatem.android.matura.prizesystem.PrizeManager
 
-class SetupPrizeOnLoginWorker(val context: Context, workerParams: WorkerParameters) :
+class PrizeSetupOnLoginWorker(val context: Context, workerParams: WorkerParameters) :
     CoroutineWorker(context, workerParams) {
 
     private val username by lazy { UserPrefs(context).getUser() }

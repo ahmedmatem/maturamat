@@ -11,8 +11,8 @@ import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import com.ahmedmatem.android.matura.databinding.ActivityMainBinding
 import com.ahmedmatem.android.matura.local.preferences.UserPrefs
-import com.ahmedmatem.android.matura.prizesystem.worker.SetupPrizeOnAppStartWorker
-import com.ahmedmatem.android.matura.prizesystem.worker.SetupPrizeOnLoginWorker
+import com.ahmedmatem.android.matura.prizesystem.PrizeSetup
+import com.ahmedmatem.android.matura.prizesystem.worker.PrizeSetupOnAppStartWorker
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,15 +22,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         /**
-         * Only for free distribution in all app versions setup Prize onAppStart
+         * PRIZE SETUP - onAppStart
+         *
+         * Only for free distribution and logged in user in all app versions
+         * enqueue work request to setup prize.
          */
-        if (BuildConfig.FLAVOR_distribution == "free" &&
-            UserPrefs(applicationContext).getUser() != null
-        ) {
-            val setupPrizeOnAppStartRequest =
-                OneTimeWorkRequest.from(SetupPrizeOnAppStartWorker::class.java)
-            WorkManager.getInstance(applicationContext).enqueue(setupPrizeOnAppStartRequest)
-        }
+        PrizeSetup.onAppStart(applicationContext)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

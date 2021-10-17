@@ -15,7 +15,8 @@ import com.ahmedmatem.android.matura.AuthActivity
 import com.ahmedmatem.android.matura.BuildConfig
 import com.ahmedmatem.android.matura.base.BaseFragment
 import com.ahmedmatem.android.matura.databinding.FragmentAccountBinding
-import com.ahmedmatem.android.matura.prizesystem.worker.SetupPrizeOnLoginWorker
+import com.ahmedmatem.android.matura.prizesystem.PrizeSetup
+import com.ahmedmatem.android.matura.prizesystem.worker.PrizeSetupOnLoginWorker
 
 class AccountFragment : BaseFragment() {
 
@@ -25,13 +26,12 @@ class AccountFragment : BaseFragment() {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == Activity.RESULT_OK) {
                 /**
-                 * Only for free distribution in all app versions setup Prize after success login
+                 * PRIZE SETUP - onLogin
+                 *
+                 * Only for free distribution in all app versions after success login
+                 * enqueue work request to setup prize.
                  */
-                if (BuildConfig.FLAVOR_distribution == "free") {
-                    val setupPrizeOnLoginRequest =
-                        OneTimeWorkRequest.from(SetupPrizeOnLoginWorker::class.java)
-                    WorkManager.getInstance(requireContext()).enqueue(setupPrizeOnLoginRequest)
-                }
+                PrizeSetup.onLogin(requireContext())
             }
         }
 
