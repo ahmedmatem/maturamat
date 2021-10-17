@@ -42,8 +42,7 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
         _isLoginButtonEnabled.value = false
         showLoading.value = true
         viewModelScope.launch {
-            val response = _accountRepository.requestToken(username.value!!, password.value!!)
-            when (response) {
+            when (val response = _accountRepository.requestToken(username.value!!, password.value!!)) {
                 is Result.NetworkError -> onNetworkError()
                 is GenericError -> onGenericError(response)
                 is Success -> onSuccess(response.data)

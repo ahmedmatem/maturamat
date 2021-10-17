@@ -2,6 +2,9 @@ package com.ahmedmatem.android.matura.repository
 
 import android.content.Context
 import com.ahmedmatem.android.matura.local.MaturaDb
+import com.ahmedmatem.android.matura.network.Result
+import com.ahmedmatem.android.matura.network.safeApiCall
+import com.ahmedmatem.android.matura.network.services.PrizeApi
 import com.ahmedmatem.android.matura.prizesystem.models.Coin
 import com.ahmedmatem.android.matura.prizesystem.models.Period
 import com.ahmedmatem.android.matura.prizesystem.models.Prize
@@ -16,7 +19,7 @@ class PrizeRepository(
 ) {
     private val prizeDao by lazy { MaturaDb.getInstance(context).prizeDao }
 
-    suspend fun getCoinForUser(): Int {
+    suspend fun getCoin(): Int {
         return withContext(dispatcher) {
             val coin = prizeDao.getCoinForUser(username)
             coin?.let {
@@ -26,24 +29,40 @@ class PrizeRepository(
         }
     }
 
-    suspend fun getPrizeForUser(): Prize? {
+    suspend fun getPrize(): Prize? {
         return withContext(dispatcher) {
             prizeDao.getPrizeForUser(username)
         }
     }
 
-    suspend fun updatePrize(prize: Prize) {
+    suspend fun syncPrize(prize: Prize) {
+        withContext(dispatcher) {
+            val synced = updatePrizeRemote(prize) is Result.Success
+            update(prize, synced)
+        }
+    }
+
+    suspend fun update(prize: Prize, synced: Boolean = false) {
+        prize.coin.synced = synced
         upsertPrize(prize.coin, prize.period)
     }
 
-    suspend fun insertPrize(prize: Prize) {
-        upsertPrize(prize.coin, prize.period)
+    suspend fun getPrizeFromNetwork(): Result<Prize> {
+        return safeApiCall(dispatcher) {
+            PrizeApi.retrofitService.getUserPrize(username)
+        }
+    }
+
+    private suspend fun updatePrizeRemote(prize: Prize): Result<Unit> {
+        return withContext(dispatcher) {
+            safeApiCall(dispatcher) {
+                PrizeApi.retrofitService.updatePrize(prize)
+            }
+        }
     }
 
     private suspend fun upsertPrize(coin: Coin, period: Period) {
-        withContext(dispatcher) {
-            prizeDao.insertCoin(coin)
-            prizeDao.insertPeriod(period)
-        }
+        prizeDao.insertCoin(coin)
+        prizeDao.insertPeriod(period)
     }
 }

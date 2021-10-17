@@ -10,7 +10,7 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import com.ahmedmatem.android.matura.databinding.ActivityMainBinding
-import com.ahmedmatem.android.matura.prizesystem.worker.SyncPrizeWorker
+import com.ahmedmatem.android.matura.prizesystem.worker.PrizeSetupOnLoginWorker
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,8 +19,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val syncPrizeRequest = OneTimeWorkRequest.from(SyncPrizeWorker::class.java)
-        WorkManager.getInstance(this).enqueue(syncPrizeRequest)
+        val setupPrizeRequest = OneTimeWorkRequest.from(PrizeSetupOnLoginWorker::class.java)
+        WorkManager.getInstance(this).enqueue(setupPrizeRequest)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

@@ -96,7 +96,13 @@ fun Date.toDisplayFormat(format: String): String {
         val sdf = SimpleDateFormat(format)
         return sdf.format(this)
     } catch (ex: IllegalFormatException) {
-        Log.e("ERROR", "toUiFormat: Illegal format - $format", )
+        Log.e("ERROR", "toUiFormat: Illegal format - $format")
     }
     return "--"
+}
+
+fun Date.add(days: Int): Date {
+    val cal = Calendar.getInstance()
+    cal.add(Calendar.DAY_OF_YEAR, days)
+    return cal.time
 }

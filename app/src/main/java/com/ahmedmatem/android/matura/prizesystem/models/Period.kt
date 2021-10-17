@@ -3,6 +3,7 @@ package com.ahmedmatem.android.matura.prizesystem.models
 import androidx.annotation.Keep
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.ahmedmatem.android.matura.infrastructure.add
 import com.ahmedmatem.android.matura.prizesystem.PrizeConfig
 import java.util.*
 
@@ -10,8 +11,8 @@ import java.util.*
 @Entity(tableName = "period_table")
 data class Period(
     @PrimaryKey val coinHolder: String,
-    var start: Date,
-    var end: Date,
+    var start: Date = Date(),
+    var end: Date = Date().add(PrizeConfig.DEFAULT_PERIOD_DURATION_IN_DAYS),
     val duration: Int = PrizeConfig.DEFAULT_PERIOD_DURATION_IN_DAYS,
     val cyclic: Boolean = true,
     val measure: DurationMeasure = DurationMeasure.DAYS
@@ -35,7 +36,5 @@ fun Period.expired() = Calendar.getInstance().time.after(end)
 fun Period.reset() {
     start = Date() // starts now
     // calculate end date
-    val cal = Calendar.getInstance()
-    cal.add(Calendar.DAY_OF_YEAR, duration)
-    end = cal.time
+    end = start.add(duration)
 }

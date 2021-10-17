@@ -14,7 +14,9 @@ data class Coin(
     // coins given by default as a gift from app for specific period
     var gift: Int = PrizeConfig.DEFAULT_GIFT_PER_WEEK,
     // coins earned by the user offered in different app activities
-    var earned: Int = 0
+    var earned: Int = 0,
+    // indicator for synchronization status
+    var synced: Boolean = false
 )
 
 /**

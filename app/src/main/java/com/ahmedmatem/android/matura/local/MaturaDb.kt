@@ -3,8 +3,6 @@ package com.ahmedmatem.android.matura.local
 import android.content.Context
 import androidx.room.*
 import androidx.sqlite.db.SupportSQLiteDatabase
-import androidx.work.OneTimeWorkRequest
-import androidx.work.WorkManager
 import com.ahmedmatem.android.matura.infrastructure.DB_NAME
 import com.ahmedmatem.android.matura.local.daos.TestDao
 import com.ahmedmatem.android.matura.local.daos.AccountDao
@@ -13,12 +11,10 @@ import com.ahmedmatem.android.matura.network.models.Test
 import com.ahmedmatem.android.matura.network.models.Token
 import com.ahmedmatem.android.matura.prizesystem.models.Coin
 import com.ahmedmatem.android.matura.prizesystem.models.Period
-import com.ahmedmatem.android.matura.prizesystem.worker.SyncPrizeWorker
 
 @Database(
     entities = [Test::class, Token::class, Coin::class, Period::class],
-    version = 1
-
+    version = 2
 )
 @TypeConverters(Converters::class)
 abstract class MaturaDb : RoomDatabase() {

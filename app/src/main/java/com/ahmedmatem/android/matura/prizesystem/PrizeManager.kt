@@ -1,6 +1,7 @@
 package com.ahmedmatem.android.matura.prizesystem
 
 import android.content.Context
+import com.ahmedmatem.android.matura.network.Result
 import com.ahmedmatem.android.matura.prizesystem.models.*
 import com.ahmedmatem.android.matura.repository.PrizeRepository
 
@@ -10,38 +11,41 @@ class PrizeManager(
 ) {
     private val prizeRepository by lazy { PrizeRepository(context, username) }
 
-    suspend fun sync() {
-        // get user prize from local database
-        val prize = prizeRepository.getPrizeForUser()
+    suspend fun setupOnLogin() {
+        // Try to get user prize from local database
+        val prize = prizeRepository.getPrize()
         if (prize != null) {
-            // Prize has already been setup for the user
+            // Prize has already been setup on local machine
             if (prize.period.expired()) {
                 resetPrize(prize)
-                syncPrize(prize)
+                prizeRepository.update(prize)
             }
-        } else {
-            // No prize has been setup yet
-            // todo: try to get prize for the user from network
-
-            // todo: onSuccess - check prize period.
-
-            // todo: if period expired proceed through step 1 .. 3
-
-            // todo: else execute step 2
-
-            // todo: onFailure - proceed through step 1 .. 3
+        } else { // No prize has been setup on local machine yet
+            when (val result = prizeRepository.getPrizeFromNetwork()) {
+                is Result.Success -> {
+                    // Prize exists on Remote machine
+                    val remotePrize = result.data
+                    if (remotePrize.period.expired()) {
+                        remotePrize.period.reset()
+                        prizeRepository.syncPrize(remotePrize)
+                    } else {
+                        prizeRepository.update(remotePrize, true)
+                    }
+                }
+                else -> {
+                    // Prize doesn't exist either on remote machine
+                    val newPrize = Prize(Coin(username), Period(username))
+                    prizeRepository.syncPrize(newPrize)
+                }
+            }
         }
     }
 
+    /**
+     * Use this function to calculate Period new bounds and reset Gift
+     */
     private suspend fun resetPrize(prize: Prize) {
-        // Calculate the new period bounds and reset gift
         prize.period.reset()
         prize.coin.resetGift()
-    }
-
-    private suspend fun syncPrize(prize: Prize){
-        // Update prize locally
-        prizeRepository.updatePrize(prize)
-        // todo: step 3. update prize in the network
     }
 }
