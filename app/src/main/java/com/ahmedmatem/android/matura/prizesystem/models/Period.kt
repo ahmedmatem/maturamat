@@ -9,8 +9,7 @@ import java.util.*
 @Keep
 @Entity(tableName = "period_table")
 data class Period(
-    @PrimaryKey val id: Long,
-    val coinHolder: String,
+    @PrimaryKey val coinHolder: String,
     var start: Date,
     var end: Date,
     val duration: Int = PrizeConfig.DEFAULT_PERIOD_DURATION_IN_DAYS,
