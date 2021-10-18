@@ -46,6 +46,7 @@
     <style name="BaseButtonStyle" parent="Widget.AppCompat.Button">
         <item name="android:background">@drawable/button_base_bg</item>
         <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:padding">@dimen/small_padding</item>
     </style>
 
     <style name="GoogleButtonStyle" parent="FirebaseUI.Button.AccountChooser.GoogleButton">

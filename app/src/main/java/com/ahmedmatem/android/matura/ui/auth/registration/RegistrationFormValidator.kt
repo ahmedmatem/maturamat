@@ -1,9 +1,9 @@
-package com.ahmedmatem.android.matura.ui.auth.register
+package com.ahmedmatem.android.matura.ui.auth.registration
 
 import com.ahmedmatem.android.matura.infrastructure.*
 import java.util.regex.Pattern
 
-class RegisterFormValidator(
+class RegistrationFormValidator(
     private val username: String,
     private val password: String,
     private val confirmPassword: String
@@ -11,7 +11,9 @@ class RegisterFormValidator(
 
     private var errors = Error()
 
-    // use it after validate function
+    /**
+     * Use it after 'validate()' function
+     */
     fun isValid(): Boolean {
         return errors.value == 0
     }

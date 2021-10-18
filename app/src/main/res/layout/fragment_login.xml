@@ -92,13 +92,14 @@
             style="@style/BaseButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="8dp"
             android:enabled="@{viewModel.isLoginButtonEnabled().booleanValue()}"
             android:onClick="@{() -> viewModel.tryLoginWithUsernameAndPassword()}"
             android:text="@string/login_btn_text"
             app:layout_constraintEnd_toEndOf="@+id/facebookLoginBtn"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/googleButton"
-            app:layout_constraintTop_toBottomOf="@+id/passwordResetLink" />
+            app:layout_constraintTop_toBottomOf="@+id/progressBar" />
 
         <TextView
             android:id="@+id/textView3"
@@ -148,11 +149,11 @@
             tools:ignore="TextContrastCheck" />
 
         <ProgressBar
-            android:id="@+id/progreeBar"
+            android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:fadeVisible="@{viewModel.showLoading.booleanValue()}"
-            app:layout_constraintBottom_toTopOf="@+id/loginBtn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"

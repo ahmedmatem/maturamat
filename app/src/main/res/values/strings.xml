@@ -20,7 +20,7 @@
     <string name="sign_in_with_google_description">Влезте с профила си в Гугъл</string>
     <string name="sign_in_with_facebook_description">Влезте с профила си в Фейсбук</string>
 
-    <!-- account fragment -->
+    <!-- login fragment layout -->
     <string name="account_off_image_description">Account off image</string>
     <string name="account_welcome_title">Добре дошъл!</string>
     <string name="account_welcome_subtitle">Влез в профила си за да продължиш</string>
@@ -28,14 +28,23 @@
     <string name="sign_up_text">Създай профил</string>
     <string name="login_btn_text">Влез</string>
     <string name="alternative_login_text">или влез с профила си от</string>
+    <string name="or">или</string>
+
+    <!-- registration fragment layout -->
+    <string name="registration_title">Регистрация</string>
+    <string name="with_social_media">чрез социална медия</string>
+    <string name="registration_btn_text">Регистрация</string>
 
     <!-- hints -->
     <string name="hint_email">Имейл</string>
     <string name="hint_password">Парола</string>
+    <string name="hint_confirm_password">Потвърждение</string>
 
     <!-- preferences -->
     <string name="shared_pref_file_key">com.ahmedmatem.android.matura.preference_file_key</string>
     <string name="user_key">user_key</string>
     <string name="uuid_key">uuid_key</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
