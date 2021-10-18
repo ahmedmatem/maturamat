@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.ahmedmatem.android.matura.R
 import com.ahmedmatem.android.matura.base.BaseFragment
 import com.ahmedmatem.android.matura.base.BaseViewModel
+import com.ahmedmatem.android.matura.databinding.FragmentRegistrationBinding
 
 class RegistrationFragment : BaseFragment() {
     override lateinit var viewModel: RegistrationViewModel
@@ -18,5 +19,9 @@ class RegistrationFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         viewModel = ViewModelProvider(this).get(RegistrationViewModel::class.java)
+
+        val binding = FragmentRegistrationBinding.inflate(inflater, container, false)
+
+        return binding.root
     }
 }

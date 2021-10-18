@@ -11,6 +11,7 @@
     <string name="title_account">Профил</string>
     <string name="title_settings">Настройки</string>
     <string name="title_login">Вход</string>
+    <string name="title_registration">Регистрация</string>
     <string name="title_google">Гугъл</string>
     <string name="title_facebook">Фейсбук</string>
 
@@ -31,7 +32,7 @@
     <string name="or">или</string>
 
     <!-- registration fragment layout -->
-    <string name="registration_title">Регистрация</string>
+    <string name="registration_form">Регистрационна форма</string>
     <string name="with_social_media">чрез социална медия</string>
     <string name="registration_btn_text">Регистрация</string>
 

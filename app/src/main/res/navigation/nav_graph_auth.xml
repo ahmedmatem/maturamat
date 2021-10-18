@@ -10,4 +10,9 @@
         android:name="com.ahmedmatem.android.matura.ui.auth.login.LoginFragment"
         android:label="@string/title_login"
         tools:layout="@layout/fragment_login"/>
+    <fragment
+        android:id="@+id/registrationFragment"
+        android:name="com.ahmedmatem.android.matura.ui.auth.registration.RegistrationFragment"
+        android:label="@string/title_registration"
+        tools:layout="@layout/fragment_registration"/>
 </navigation>
