@@ -2,7 +2,9 @@ package com.ahmedmatem.android.matura.ui.auth.login
 
 import android.content.Context
 import androidx.lifecycle.*
+import androidx.navigation.Navigation
 import com.ahmedmatem.android.matura.base.BaseViewModel
+import com.ahmedmatem.android.matura.base.NavigationCommand
 import com.ahmedmatem.android.matura.local.MaturaDb
 import com.ahmedmatem.android.matura.local.preferences.UserPrefs
 import com.ahmedmatem.android.matura.network.Result
@@ -42,12 +44,18 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
         _isLoginButtonEnabled.value = false
         showLoading.value = true
         viewModelScope.launch {
-            when (val response = _accountRepository.requestToken(username.value!!, password.value!!)) {
+            when (val response =
+                _accountRepository.requestToken(username.value!!, password.value!!)) {
                 is Result.NetworkError -> onNetworkError()
                 is GenericError -> onGenericError(response)
                 is Success -> onSuccess(response.data)
             }
         }
+    }
+
+    fun navigateToRegistration() {
+        navigationCommand.value =
+            NavigationCommand.To(LoginFragmentDirections.actionLoginFragmentToRegistrationFragment())
     }
 
     private suspend fun onSuccess(data: Token) {
