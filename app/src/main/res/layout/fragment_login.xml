@@ -94,7 +94,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="64dp"
             android:enabled="@{viewModel.isLoginButtonEnabled().booleanValue()}"
-            android:onClick="@{() -> viewModel.tryLoginWithUsernameAndPassword()}"
+            android:onClick="@{() -> viewModel.loginWithLocalAccount()}"
             android:text="@string/login_btn_text"
             app:layout_constraintEnd_toEndOf="@+id/facebookLoginBtn"
             app:layout_constraintHorizontal_bias="0.0"
@@ -120,6 +120,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:contentDescription="@string/sign_in_with_google_description"
+            android:onClick="@{() -> viewModel.loginWithGoogle()}"
             android:text="@string/title_google"
             app:layout_constraintEnd_toStartOf="@+id/guideline2"
             app:layout_constraintTop_toBottomOf="@+id/textView3" />
@@ -132,7 +133,7 @@
             android:layout_marginStart="-4dp"
             android:layout_marginTop="16dp"
             android:contentDescription="@string/sign_in_with_facebook_description"
-            android:onClick="@{() -> viewModel.tryLoginWithFacebook()}"
+            android:onClick="@{() -> viewModel.loginWithFacebook()}"
             android:text="@string/title_facebook"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
             app:layout_constraintTop_toBottomOf="@+id/textView3" />

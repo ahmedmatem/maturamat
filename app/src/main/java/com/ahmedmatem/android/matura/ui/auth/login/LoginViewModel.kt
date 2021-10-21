@@ -1,6 +1,7 @@
 package com.ahmedmatem.android.matura.ui.auth.login
 
 import android.content.Context
+import android.content.Intent
 import androidx.lifecycle.*
 import androidx.navigation.Navigation
 import com.ahmedmatem.android.matura.base.BaseViewModel
@@ -33,6 +34,9 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
     private val _isLoginButtonEnabled = MutableLiveData<Boolean>()
     val isLoginButtonEnabled: LiveData<Boolean> get() = _isLoginButtonEnabled
 
+    private val _externalLogin = MutableLiveData<ExternalLoginProvider>()
+    val externalLogin: LiveData<ExternalLoginProvider> = _externalLogin
+
     private val _loginAttemptResult = MutableLiveData<LoginResult>()
     val loginAttemptResult: LiveData<LoginResult> get() = _loginAttemptResult
 
@@ -40,7 +44,7 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
         _isLoginButtonEnabled.value = username.value!!.isNotBlank() && password.value!!.isNotBlank()
     }
 
-    fun tryLoginWithUsernameAndPassword() {
+    fun loginWithLocalAccount() {
         _isLoginButtonEnabled.value = false
         showLoading.value = true
         viewModelScope.launch {
@@ -58,6 +62,14 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
             NavigationCommand.To(LoginFragmentDirections.actionLoginFragmentToRegistrationFragment())
     }
 
+    fun loginWithGoogle() {
+        _externalLogin.value = ExternalLoginProvider.Google
+    }
+
+    fun loginWithFacebook() {
+        TODO("Not yet implemented")
+    }
+
     private suspend fun onSuccess(data: Token) {
         _accountRepository.saveToken(data)
         _prefs.setUser(data.userName)
@@ -70,14 +82,6 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
     }
 
     private fun onGenericError(response: GenericError) {
-        TODO("Not yet implemented")
-    }
-
-    fun tryLoginWithGoogle() {
-        TODO("Not yet implemented")
-    }
-
-    fun tryLoginWithFacebook() {
         TODO("Not yet implemented")
     }
 

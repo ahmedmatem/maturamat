@@ -105,6 +105,8 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:28.4.1')
     // Declare the dependency for the Firebase Authentication library
     implementation 'com.google.firebase:firebase-auth-ktx'
+    // Dependency for the Google Play services library
+    implementation 'com.google.android.gms:play-services-auth:19.2.0'
 
     implementation 'com.firebaseui:firebase-ui-auth:7.2.0'
 
