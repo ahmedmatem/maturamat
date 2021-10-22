@@ -1,13 +1,11 @@
 package com.ahmedmatem.android.matura.ui.auth.login
 
 import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -31,6 +29,9 @@ class LoginFragment : BaseFragment() {
                 // Google Sign In was successful, authenticate with Firebase
                 val account = task.result
                 Log.d("DEBUG", "firebaseAuthWithGoogle:" + account.id)
+                Log.d("DEBUG", "display name:" + account.displayName)
+                Log.d("DEBUG", "email:" + account.email)
+                Log.d("DEBUG", "photo url:" + account.photoUrl)
             } catch (e: ApiException) {
                 // Google Sign In failed, update UI appropriately
                 Log.w("DEBUG", "Google sign in failed", e)
@@ -42,7 +43,6 @@ class LoginFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.web_client_id))
             .requestEmail()
             .build()
 

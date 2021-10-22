@@ -8,14 +8,14 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:823485818752:android:3c56f189cb4b2f2b4ec365",
+        "mobilesdk_app_id": "1:823485818752:android:482abcdca6f4ac174ec365",
         "android_client_info": {
           "package_name": "com.ahmedmatem.android.matura"
         }
       },
       "oauth_client": [
         {
-          "client_id": "823485818752-8lvvqle8qd9jbnl0aiaem2j7039h4al6.apps.googleusercontent.com",
+          "client_id": "823485818752-buevee6u58bup08p57m9ui3mfm7kho2t.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.ahmedmatem.android.matura",
@@ -41,17 +41,50 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:823485818752:android:0c7c519881abb4c54ec365",
+        "mobilesdk_app_id": "1:823485818752:android:e5f8dc53bf7977604ec365",
         "android_client_info": {
           "package_name": "com.ahmedmatem.android.matura.dzi12"
         }
       },
       "oauth_client": [
         {
-          "client_id": "823485818752-ifn1g9tf7vkp1mk6hcgv9r03epjq100k.apps.googleusercontent.com",
+          "client_id": "823485818752-9li5urk5ohr37tk36gt6oli54kppttmb.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.ahmedmatem.android.matura.dzi12",
+            "certificate_hash": "cb48f1c11681b52223d49a787b067ee32634183b"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKiEt5JxWhXmd3UD6t2FWt5nQijukoBsc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "823485818752-e1ot6mal6bpbj98q8db1c34m9lfaub9u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:823485818752:android:7e7b52301d8fec044ec365",
+        "android_client_info": {
+          "package_name": "com.ahmedmatem.android.matura.dzi12free"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "823485818752-rv6vungf6tl0egommafmrdr7e56hkbfs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ahmedmatem.android.matura.dzi12free",
             "certificate_hash": "cb48f1c11681b52223d49a787b067ee32634183b"
           }
         }

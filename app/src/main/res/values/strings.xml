@@ -4,7 +4,6 @@
     <string name="title_activity_auth">Auth Activity</string>
 
     <string name="authorization">bearer %s</string>
-    <string name="web_client_id">823485818752-ifn1g9tf7vkp1mk6hcgv9r03epjq100k.apps.googleusercontent.com</string>
 
     <string name="title_home">Начало</string>
     <string name="title_notifications">Notifications</string>
