@@ -14,9 +14,11 @@ import com.ahmedmatem.android.matura.base.BaseFragment
 import com.ahmedmatem.android.matura.databinding.FragmentLoginBinding
 import com.ahmedmatem.android.matura.ui.auth.login.LoginResult.*
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.Task
 
 class LoginFragment : BaseFragment() {
 
@@ -25,17 +27,7 @@ class LoginFragment : BaseFragment() {
     private val googleSignInResultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(it.data)
-            try {
-                // Google Sign In was successful, authenticate with Firebase
-                val account = task.result
-                Log.d("DEBUG", "firebaseAuthWithGoogle:" + account.id)
-                Log.d("DEBUG", "display name:" + account.displayName)
-                Log.d("DEBUG", "email:" + account.email)
-                Log.d("DEBUG", "photo url:" + account.photoUrl)
-            } catch (e: ApiException) {
-                // Google Sign In failed, update UI appropriately
-                Log.w("DEBUG", "Google sign in failed", e)
-            }
+            viewModel.handleGoogleAccount(task)
         }
 
     private lateinit var googleSignInClient: GoogleSignInClient
@@ -92,7 +84,7 @@ class LoginFragment : BaseFragment() {
                         googleSignInResultLauncher.launch(signInIntent)
                     }
                     ExternalLoginProvider.Facebook -> {
-                        TODO("Not implemented yet.")
+                        TODO("Facebook sign in not implemented yet.")
                     }
                 }
             }

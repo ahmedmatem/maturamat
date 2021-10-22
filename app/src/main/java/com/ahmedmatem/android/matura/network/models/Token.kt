@@ -15,13 +15,4 @@ data class Token(
     @ColumnInfo(name = "expire_in") @Json(name = "expires_in") val expireIn: String,
     @ColumnInfo(name = "issued") @Json(name = ".issued") val issued: String,
     @ColumnInfo(name = "expires") @Json(name = ".expires") val expires: String
-) {
-    override fun toString(): String {
-        return "AuthToken(token='$token', " +
-                "type='$type', " +
-                "expireIn='$expireIn', " +
-                "userName='$userName', " +
-                "issued='$issued', " +
-                "expires='$expires')"
-    }
-}
+)
