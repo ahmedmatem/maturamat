@@ -2,33 +2,25 @@ package com.ahmedmatem.android.matura.ui.auth.login
 
 import android.app.Activity
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.ahmedmatem.android.matura.R
+import androidx.navigation.fragment.findNavController
 import com.ahmedmatem.android.matura.base.BaseFragment
+import com.ahmedmatem.android.matura.base.NavigationCommand
 import com.ahmedmatem.android.matura.databinding.FragmentLoginBinding
 import com.ahmedmatem.android.matura.ui.auth.login.LoginResult.*
+import com.ahmedmatem.android.matura.ui.auth.login.external.ExternalLoginProvider
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.tasks.Task
 
 class LoginFragment : BaseFragment() {
 
     override lateinit var viewModel: LoginViewModel
-
-    private val googleSignInResultLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            val task = GoogleSignIn.getSignedInAccountFromIntent(it.data)
-            viewModel.handleGoogleAccount(task)
-        }
 
     private lateinit var googleSignInClient: GoogleSignInClient
 
@@ -73,20 +65,6 @@ class LoginFragment : BaseFragment() {
                 }
                 GENERIC_ERROR -> TODO("Not yet implemented")
                 NETWORK_ERROR -> TODO("Not yet implemented")
-            }
-        })
-
-        viewModel.externalLogin.observe(viewLifecycleOwner, Observer { provider ->
-            provider?.let {
-                when (it) {
-                    ExternalLoginProvider.Google -> {
-                        val signInIntent = googleSignInClient.signInIntent
-                        googleSignInResultLauncher.launch(signInIntent)
-                    }
-                    ExternalLoginProvider.Facebook -> {
-                        TODO("Facebook sign in not implemented yet.")
-                    }
-                }
             }
         })
 
