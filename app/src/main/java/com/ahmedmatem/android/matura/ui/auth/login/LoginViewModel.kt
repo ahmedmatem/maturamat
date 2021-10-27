@@ -1,7 +1,9 @@
 package com.ahmedmatem.android.matura.ui.auth.login
 
 import android.content.Context
+import android.net.Uri
 import android.util.Log
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.lifecycle.*
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.base.NavigationCommand
