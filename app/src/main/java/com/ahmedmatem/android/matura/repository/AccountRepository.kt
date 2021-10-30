@@ -26,4 +26,10 @@ class AccountRepository(
             authDao.insert(token)
         }
     }
+
+    suspend fun emailConfirmed(email: String): Result<Boolean> {
+        return safeApiCall(dispatcher){
+            authService.emailConfirmed(email)
+        }
+    }
 }

@@ -8,3 +8,14 @@ data class ErrorResponse(
     val error: String,
     @Json(name = "error_description") val description: String
 )
+
+fun ErrorResponse.bgDescription(): String? {
+    description?.let {
+        return errorTranslationMap[it]
+    }
+    return description
+}
+
+private val errorTranslationMap = mapOf<String, String>(
+    Pair("The user name or password is incorrect.", "Грешно потребителско име или парола.")
+)

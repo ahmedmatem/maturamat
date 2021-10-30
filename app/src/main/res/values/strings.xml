@@ -20,6 +20,8 @@
     <string name="test_meta_description">Elapsed time</string>
     <string name="sign_in_with_google_description">Влезте с профила си в Гугъл</string>
     <string name="sign_in_with_facebook_description">Влезте с профила си в Фейсбук</string>
+    <string name="disabled_profile_img">Анонимна снимка на профила</string>
+    <string name="wifi_off_description">Няма Интернет връзка</string>
 
     <!-- login fragment layout -->
     <string name="account_off_image_description">Account off image</string>
@@ -35,6 +37,9 @@
     <string name="registration_form">Регистрационна форма</string>
     <string name="with_social_media">чрез социална медия</string>
     <string name="registration_btn_text">Регистрация</string>
+
+    <!-- fragment account layout -->
+    <string name="loginBtn">Вход</string>
 
     <!-- hints -->
     <string name="hint_email">Имейл</string>

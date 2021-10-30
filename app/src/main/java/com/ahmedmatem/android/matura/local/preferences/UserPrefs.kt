@@ -22,9 +22,9 @@ class UserPrefs(val context: Context) {
     }
 
     /**
-     * Use this method to detect if user has logged in its account or hasn't.
-     * Null value means that user is not logged in and app is used from guest
-     * otherwise user exists and it has logged in.
+     * Use this function to detect if user has logged in its account or hasn't.
+     * Null value means that user is not logged in and app is used from guest,
+     * otherwise user has logged in.
      */
     fun getUser(): String? {
         return sharedPref.getString(context.getString(R.string.user_key), null)

@@ -1,24 +1,18 @@
 package com.ahmedmatem.android.matura.ui.auth.login
 
 import android.content.Context
-import android.net.Uri
-import android.util.Log
-import androidx.browser.customtabs.CustomTabsIntent
 import androidx.lifecycle.*
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.base.NavigationCommand
 import com.ahmedmatem.android.matura.local.MaturaDb
 import com.ahmedmatem.android.matura.local.preferences.UserPrefs
-import com.ahmedmatem.android.matura.network.Result
+import com.ahmedmatem.android.matura.network.Result.NetworkError
 import com.ahmedmatem.android.matura.network.Result.GenericError
 import com.ahmedmatem.android.matura.network.Result.Success
 import com.ahmedmatem.android.matura.network.models.Token
 import com.ahmedmatem.android.matura.network.services.AuthApi
+import com.ahmedmatem.android.matura.network.bgDescription
 import com.ahmedmatem.android.matura.repository.AccountRepository
-import com.ahmedmatem.android.matura.ui.auth.login.external.ExternalLoginProvider
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.tasks.Task
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 
@@ -36,25 +30,32 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
     val username = MutableLiveData<String>("")
     var password = MutableLiveData<String>("")
 
-    private val _isLoginButtonEnabled = MutableLiveData<Boolean>()
-    val isLoginButtonEnabled: LiveData<Boolean> get() = _isLoginButtonEnabled
+    private val _loginButtonEnabled = MutableLiveData<Boolean>()
+    val loginButtonEnabled: LiveData<Boolean> get() = _loginButtonEnabled
 
     private val _loginAttemptResult = MutableLiveData<LoginResult>()
     val loginAttemptResult: LiveData<LoginResult> get() = _loginAttemptResult
 
     fun validateLoginButtonEnableState() {
-        _isLoginButtonEnabled.value = username.value!!.isNotBlank() && password.value!!.isNotBlank()
+        _loginButtonEnabled.value = username.value!!.isNotBlank() && password.value!!.isNotBlank()
     }
 
+    /**
+     * This function request access token by user credentials in order to login.
+     * If token is received as request response still we need to check if email address
+     * is confirmed. If it is - login succeeded, otherwise not.
+     * If token is not received, possible reasons are lack of Internet connection (onNetworkError) or
+     * invalid user credentials(onGenericError - code 400, Bad Request).
+     */
     fun loginWithLocalAccount() {
-        _isLoginButtonEnabled.value = false
+        _loginButtonEnabled.value = false
         showLoading.value = true
         viewModelScope.launch {
-            when (val response =
+            when (val result =
                 _accountRepository.requestToken(username.value!!, password.value!!)) {
-                is Result.NetworkError -> onNetworkError()
-                is GenericError -> onGenericError(response)
-                is Success -> onSuccess(response.data)
+                is Success -> checkEmailConfirmation(result.data)
+                is NetworkError -> onNetworkError()
+                is GenericError -> onGenericError(result)
             }
         }
     }
@@ -65,27 +66,42 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
     }
 
     fun loginWithGoogle() {
-        navigationCommand.value =
-            NavigationCommand.To(LoginFragmentDirections.actionLoginFragmentToGoogleLoginFragment())
+        TODO("Google login not yet implemented")
+//        navigationCommand.value =
+//            NavigationCommand.To(LoginFragmentDirections.actionLoginFragmentToGoogleLoginFragment())
     }
 
     fun loginWithFacebook() {
-        TODO("Not yet implemented")
+        TODO("Facebook login not yet implemented")
     }
 
-    private suspend fun onSuccess(data: Token) {
-        _accountRepository.saveToken(data)
-        _prefs.setUser(data.userName)
-        showLoading.value = false
-        _loginAttemptResult.value = LoginResult.SUCCESS
+    private suspend fun checkEmailConfirmation(token: Token) {
+        when (val response = _accountRepository.emailConfirmed(token.userName)) {
+            is Success -> {
+                if (response.data) { // Email address is confirmed
+                    _accountRepository.saveToken(token)
+                    _prefs.setUser(token.userName)
+                    _loginAttemptResult.value = LoginResult.SUCCESS
+                } else { // Email address is not confirmed
+                    _loginAttemptResult.value = LoginResult.EMAIL_CONFIRMATION_REQUIRED
+                }
+            }
+            // onNetworkError
+            else -> showNoInternet.value = true
+        }
     }
 
     private fun onNetworkError() {
-        TODO("Not yet implemented")
+        // todo: check login onNetworkError implementation again
+        showNoInternet.value = true
+        showLoading.value = false
+        showToast.value = "Моля проверете връзката си с Интернет или опитайте отново по-късно."
     }
 
     private fun onGenericError(response: GenericError) {
-        TODO("Not yet implemented")
+        // todo: check login onGenericError implementation again
+        showSnackBar.value = response.errorResponse?.bgDescription()
+        showLoading.value = false
     }
 
     class Factory(private val context: Context) : ViewModelProvider.Factory {

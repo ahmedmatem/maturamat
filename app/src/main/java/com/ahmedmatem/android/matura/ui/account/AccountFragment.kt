@@ -46,8 +46,7 @@ class AccountFragment : BaseFragment() {
         val binding = FragmentAccountBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
 
-        val loginBtn: Button = binding.button2
-        val registerBtn: Button = binding.button3
+        val loginBtn: Button = binding.loginBtn
 
         loginBtn.setOnClickListener {
             val intent = Intent(requireContext(), AuthActivity::class.java)

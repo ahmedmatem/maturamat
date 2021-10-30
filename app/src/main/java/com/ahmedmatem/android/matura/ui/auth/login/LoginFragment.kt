@@ -5,15 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import com.ahmedmatem.android.matura.base.BaseFragment
-import com.ahmedmatem.android.matura.base.NavigationCommand
 import com.ahmedmatem.android.matura.databinding.FragmentLoginBinding
-import com.ahmedmatem.android.matura.ui.auth.login.LoginResult.*
-import com.ahmedmatem.android.matura.ui.auth.login.external.ExternalLoginProvider
+import com.ahmedmatem.android.matura.ui.auth.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -57,14 +53,15 @@ class LoginFragment : BaseFragment() {
 
         viewModel.loginAttemptResult.observe(viewLifecycleOwner, Observer { result ->
             when (result) {
-                SUCCESS -> {
+                LoginResult.SUCCESS -> {
                     activity?.apply {
                         setResult(Activity.RESULT_OK)
                         finish()
                     }
                 }
-                GENERIC_ERROR -> TODO("Not yet implemented")
-                NETWORK_ERROR -> TODO("Not yet implemented")
+                LoginResult.EMAIL_CONFIRMATION_REQUIRED -> {
+                    TODO("Email Confirmation Required process is not implemented yet.")
+                }
             }
         })
 

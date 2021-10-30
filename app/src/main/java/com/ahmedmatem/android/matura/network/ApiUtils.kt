@@ -24,7 +24,7 @@ suspend fun <T> safeApiCall(dispatcher: CoroutineDispatcher, apiCall: suspend ()
 
 }
 
-fun convertErrorBody(httpExc: HttpException): ErrorResponse? {
+private fun convertErrorBody(httpExc: HttpException): ErrorResponse? {
     return try {
         httpExc.response()?.errorBody()?.source()?.let {
             val moshiAdapter = Retrofit.moshi.adapter(ErrorResponse::class.java)

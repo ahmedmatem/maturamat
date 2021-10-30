@@ -29,6 +29,18 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.5" />
 
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:contentDescription="@string/wifi_off_description"
+            android:fadeVisible="@{viewModel.showNoInternet.booleanValue()}"
+            app:layout_constraintBottom_toTopOf="@+id/textView1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/wifi_off" />
+
         <TextView
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
@@ -93,7 +105,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="64dp"
-            android:enabled="@{viewModel.isLoginButtonEnabled().booleanValue()}"
+            android:enabled="@{viewModel.loginButtonEnabled.booleanValue()}"
             android:onClick="@{() -> viewModel.loginWithLocalAccount()}"
             android:text="@string/login_btn_text"
             app:layout_constraintEnd_toEndOf="@+id/facebookLoginBtn"
@@ -142,8 +154,8 @@
             android:id="@+id/signUpLink"
             style="@style/TextLinkStyle"
             android:layout_marginBottom="16dp"
-            android:text="@string/sign_up_text"
             android:onClick="@{() -> viewModel.navigateToRegistration()}"
+            android:text="@string/sign_up_text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
