@@ -78,30 +78,29 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
     private suspend fun checkEmailConfirmation(token: Token) {
         when (val response = _accountRepository.emailConfirmed(token.userName)) {
             is Success -> {
-                if (response.data) { // Email address is confirmed
+                if (response.data) {
+                    // Email address is confirmed.
                     _accountRepository.saveToken(token)
                     _prefs.setUser(token.userName)
                     _loginAttemptResult.value = LoginResult.SUCCESS
-                } else { // Email address is not confirmed
+                } else {
+                    // Email address is not confirmed
                     _loginAttemptResult.value = LoginResult.EMAIL_CONFIRMATION_REQUIRED
                 }
             }
-            // onNetworkError
-            else -> showNoInternet.value = true
+            else -> onNetworkError()
         }
     }
 
     private fun onNetworkError() {
-        // todo: check login onNetworkError implementation again
-        showNoInternet.value = true
         showLoading.value = false
-        showToast.value = "Моля проверете връзката си с Интернет или опитайте отново по-късно."
+        navigationCommand.value =
+            NavigationCommand.To(LoginFragmentDirections.actionLoginFragmentToNoConnectionFragment())
     }
 
     private fun onGenericError(response: GenericError) {
-        // todo: check login onGenericError implementation again
-        showSnackBar.value = response.errorResponse?.bgDescription()
         showLoading.value = false
+        showSnackBar.value = response.errorResponse?.bgDescription()
     }
 
     class Factory(private val context: Context) : ViewModelProvider.Factory {
