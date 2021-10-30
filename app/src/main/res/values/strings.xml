@@ -32,6 +32,7 @@
     <string name="login_btn_text">Влез</string>
     <string name="alternative_login_text">или влез с профила си от</string>
     <string name="or">или</string>
+    <string name="email_confirmation_in_progress_message">Проверка на имейл адреса.</string>
 
     <!-- registration fragment layout -->
     <string name="registration_form">Регистрационна форма</string>

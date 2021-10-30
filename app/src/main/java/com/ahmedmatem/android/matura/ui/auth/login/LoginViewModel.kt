@@ -2,6 +2,7 @@ package com.ahmedmatem.android.matura.ui.auth.login
 
 import android.content.Context
 import androidx.lifecycle.*
+import com.ahmedmatem.android.matura.R
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.base.NavigationCommand
 import com.ahmedmatem.android.matura.local.MaturaDb
@@ -53,7 +54,10 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
         viewModelScope.launch {
             when (val result =
                 _accountRepository.requestToken(username.value!!, password.value!!)) {
-                is Success -> checkEmailConfirmation(result.data)
+                is Success -> {
+                    showSnackBarInt.value = R.string.email_confirmation_in_progress_message
+                    checkEmailConfirmation(result.data)
+                }
                 is NetworkError -> onNetworkError()
                 is GenericError -> onGenericError(result)
             }
