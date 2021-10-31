@@ -2,14 +2,11 @@ package com.ahmedmatem.android.matura.ui.account.login
 
 import android.content.Context
 import androidx.lifecycle.*
-import com.ahmedmatem.android.matura.R
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.base.NavigationCommand
 import com.ahmedmatem.android.matura.local.MaturaDb
 import com.ahmedmatem.android.matura.local.preferences.UserPrefs
-import com.ahmedmatem.android.matura.network.Result.NetworkError
-import com.ahmedmatem.android.matura.network.Result.GenericError
-import com.ahmedmatem.android.matura.network.Result.Success
+import com.ahmedmatem.android.matura.network.Result
 import com.ahmedmatem.android.matura.network.models.Token
 import com.ahmedmatem.android.matura.network.services.AuthApi
 import com.ahmedmatem.android.matura.network.bgDescription
@@ -52,14 +49,27 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
         _loginButtonEnabled.value = false
         showLoading.value = true
         viewModelScope.launch {
-            when (val result =
+            when (val tokenResponse =
                 _accountRepository.requestToken(username.value!!, password.value!!)) {
-                is Success -> {
-                    showSnackBarInt.value = R.string.email_confirmation_in_progress_message
-                    checkEmailConfirmation(result.data)
+                is Result.Success -> {
+                    // Request Email confirmation check
+                    when (val emailResponse =
+                        _accountRepository.emailConfirmed(tokenResponse.data.userName)) {
+                        is Result.Success -> {
+                            if (emailResponse.data) {
+                                // User exists and email has confirmed
+                                onLoginSuccess(tokenResponse.data)
+                            } else {
+                                // User exists but email is not confirmed yet
+                                navigateToEmailConfirmation(tokenResponse.data.userName)
+                            }
+                        }
+                        is Result.GenericError -> onGenericError(emailResponse)
+                        is Result.NetworkError -> onNetworkError()
+                    }
                 }
-                is NetworkError -> onNetworkError()
-                is GenericError -> onGenericError(result)
+                is Result.NetworkError -> onNetworkError()
+                is Result.GenericError -> onGenericError(tokenResponse)
             }
         }
     }
@@ -79,21 +89,16 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
         TODO("Facebook login not yet implemented")
     }
 
-    private suspend fun checkEmailConfirmation(token: Token) {
-        when (val response = _accountRepository.emailConfirmed(token.userName)) {
-            is Success -> {
-                if (response.data) {
-                    // Email address is confirmed.
-                    _accountRepository.saveToken(token)
-                    _prefs.setUser(token.userName)
-                    _loginAttemptResult.value = LoginResult.SUCCESS
-                } else {
-                    // Email address is not confirmed
-                    _loginAttemptResult.value = LoginResult.EMAIL_CONFIRMATION_REQUIRED
-                }
-            }
-            else -> onNetworkError()
-        }
+    private suspend fun onLoginSuccess(token: Token) {
+        _accountRepository.saveToken(token)
+        _prefs.setUser(token.userName)
+        _loginAttemptResult.value = LoginResult.SUCCESS
+    }
+
+    private fun navigateToEmailConfirmation(email: String) {
+        navigationCommand.value = NavigationCommand.To(
+            LoginFragmentDirections.actionLoginFragmentToEmailConfirmationFragment(email)
+        )
     }
 
     private fun onNetworkError() {
@@ -102,7 +107,7 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
             NavigationCommand.To(LoginFragmentDirections.actionLoginFragmentToNoConnectionFragment())
     }
 
-    private fun onGenericError(response: GenericError) {
+    private fun onGenericError(response: Result.GenericError) {
         showLoading.value = false
         showSnackBar.value = response.errorResponse?.bgDescription()
     }
