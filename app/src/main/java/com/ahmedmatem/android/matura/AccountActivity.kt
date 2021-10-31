@@ -13,13 +13,13 @@ class AccountActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_account)
 
-        val navController = findNavController(R.id.nav_host_fragment_activity_auth)
+        val navController = findNavController(R.id.nav_host_fragment_activity_account)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        return findNavController(R.id.nav_host_fragment_activity_auth).navigateUp() ||
+        return findNavController(R.id.nav_host_fragment_activity_account).navigateUp() ||
                 super.onSupportNavigateUp()
     }
 }
