@@ -38,18 +38,22 @@
         android:id="@+id/googleLoginFragment"
         android:name="com.ahmedmatem.android.matura.ui.account.login.external.GoogleLoginFragment"
         android:label=""
-        tools:layout="@layout/fragment_external_login"/>
+        tools:layout="@layout/fragment_external_login" />
 
     <fragment
         android:id="@+id/noConnectionFragment"
         android:name="com.ahmedmatem.android.matura.ui.general.NoConnectionFragment"
         android:label=""
-        tools:layout="@layout/fragment_no_connection"/>
+        tools:layout="@layout/fragment_no_connection" />
 
     <fragment
         android:id="@+id/emailConfirmationFragment"
         android:name="com.ahmedmatem.android.matura.ui.account.EmailConfirmationFragment"
         android:label="@string/email_confirmation_title"
-        tools:layout="@layout/fragment_email_confirmation"/>
+        tools:layout="@layout/fragment_email_confirmation">
+        <argument
+            android:name="email"
+            app:argType="string" />
+    </fragment>
 
 </navigation>
