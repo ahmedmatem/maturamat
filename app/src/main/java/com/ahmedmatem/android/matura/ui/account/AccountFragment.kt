@@ -9,14 +9,10 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
-import androidx.work.OneTimeWorkRequest
-import androidx.work.WorkManager
-import com.ahmedmatem.android.matura.AuthActivity
-import com.ahmedmatem.android.matura.BuildConfig
+import com.ahmedmatem.android.matura.AccountActivity
 import com.ahmedmatem.android.matura.base.BaseFragment
 import com.ahmedmatem.android.matura.databinding.FragmentAccountBinding
 import com.ahmedmatem.android.matura.prizesystem.PrizeSetup
-import com.ahmedmatem.android.matura.prizesystem.worker.PrizeSetupOnLoginWorker
 
 class AccountFragment : BaseFragment() {
 
@@ -49,7 +45,7 @@ class AccountFragment : BaseFragment() {
         val loginBtn: Button = binding.loginBtn
 
         loginBtn.setOnClickListener {
-            val intent = Intent(requireContext(), AuthActivity::class.java)
+            val intent = Intent(requireContext(), AccountActivity::class.java)
             loginResultLauncher.launch(intent)
         }
 
