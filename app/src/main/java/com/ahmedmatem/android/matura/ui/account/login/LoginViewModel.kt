@@ -8,7 +8,7 @@ import com.ahmedmatem.android.matura.local.MaturaDb
 import com.ahmedmatem.android.matura.local.preferences.UserPrefs
 import com.ahmedmatem.android.matura.network.Result
 import com.ahmedmatem.android.matura.network.models.Token
-import com.ahmedmatem.android.matura.network.services.AuthApi
+import com.ahmedmatem.android.matura.network.services.AccountApi
 import com.ahmedmatem.android.matura.network.bgDescription
 import com.ahmedmatem.android.matura.repository.AccountRepository
 import kotlinx.coroutines.launch
@@ -21,7 +21,7 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
     private val _accountRepository by lazy {
         AccountRepository(
             MaturaDb.getInstance(context).tokenDao,
-            AuthApi.retrofitService
+            AccountApi.retrofitService
         )
     }
 

@@ -4,32 +4,32 @@ import com.ahmedmatem.android.matura.local.daos.AccountDao
 import com.ahmedmatem.android.matura.network.Result
 import com.ahmedmatem.android.matura.network.models.Token
 import com.ahmedmatem.android.matura.network.safeApiCall
-import com.ahmedmatem.android.matura.network.services.AuthApiService
+import com.ahmedmatem.android.matura.network.services.AccountApiService
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class AccountRepository(
-    private val authDao: AccountDao,
-    private val authService: AuthApiService,
+    private val accountDao: AccountDao,
+    private val accountService: AccountApiService,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
 
     suspend fun requestToken(username: String, password: String): Result<Token> {
         return safeApiCall(dispatcher) {
-            authService.getToken(username, password)
+            accountService.getToken(username, password)
         }
     }
 
     suspend fun saveToken(token: Token) {
         withContext(dispatcher) {
-            authDao.insert(token)
+            accountDao.insert(token)
         }
     }
 
     suspend fun emailConfirmed(email: String): Result<Boolean> {
         return safeApiCall(dispatcher){
-            authService.emailConfirmed(email)
+            accountService.emailConfirmed(email)
         }
     }
 }

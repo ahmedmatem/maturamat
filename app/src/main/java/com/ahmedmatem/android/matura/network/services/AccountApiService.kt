@@ -1,12 +1,11 @@
 package com.ahmedmatem.android.matura.network.services
 
 import com.ahmedmatem.android.matura.infrastructure.GRANT_TYPE
-import com.ahmedmatem.android.matura.network.Result
 import com.ahmedmatem.android.matura.network.Retrofit
 import com.ahmedmatem.android.matura.network.models.Token
 import retrofit2.http.*
 
-interface AuthApiService {
+interface AccountApiService {
 
     @FormUrlEncoded
     @POST("token")
@@ -29,8 +28,8 @@ interface AuthApiService {
     )
 }
 
-object AuthApi {
-    val retrofitService: AuthApiService by lazy {
-        Retrofit.instance.create(AuthApiService::class.java)
+object AccountApi {
+    val retrofitService: AccountApiService by lazy {
+        Retrofit.instance.create(AccountApiService::class.java)
     }
 }
