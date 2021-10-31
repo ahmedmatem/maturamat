@@ -29,10 +29,12 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
     var password = MutableLiveData<String>("")
 
     private val _loginButtonEnabled = MutableLiveData<Boolean>()
-    val loginButtonEnabled: LiveData<Boolean> get() = _loginButtonEnabled
+    val loginButtonEnabled: LiveData<Boolean>
+        get() = _loginButtonEnabled
 
-    private val _loginAttemptResult = MutableLiveData<LoginResult>()
-    val loginAttemptResult: LiveData<LoginResult> get() = _loginAttemptResult
+    private val _loginAttemptResult = MutableLiveData<Boolean>()
+    val loginAttemptResult: LiveData<Boolean>
+        get() = _loginAttemptResult
 
     fun validateLoginButtonEnableState() {
         _loginButtonEnabled.value = username.value!!.isNotBlank() && password.value!!.isNotBlank()
@@ -92,7 +94,7 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
     private suspend fun onLoginSuccess(token: Token) {
         _accountRepository.saveToken(token)
         _prefs.setUser(token.userName)
-        _loginAttemptResult.value = LoginResult.SUCCESS
+        _loginAttemptResult.value = true
     }
 
     private fun navigateToEmailConfirmation(email: String) {

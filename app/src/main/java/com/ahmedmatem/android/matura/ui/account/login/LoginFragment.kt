@@ -50,16 +50,11 @@ class LoginFragment : BaseFragment() {
             viewModel.validateLoginButtonEnableState()
         })
 
-        viewModel.loginAttemptResult.observe(viewLifecycleOwner, Observer { result ->
-            when (result) {
-                LoginResult.SUCCESS -> {
-                    activity?.apply {
-                        setResult(Activity.RESULT_OK)
-                        finish()
-                    }
-                }
-                LoginResult.EMAIL_CONFIRMATION_REQUIRED -> {
-                    TODO("Email Confirmation Required process is not implemented yet.")
+        viewModel.loginAttemptResult.observe(viewLifecycleOwner, Observer { success ->
+            if (success) {
+                activity?.apply {
+                    setResult(Activity.RESULT_OK)
+                    finish()
                 }
             }
         })
