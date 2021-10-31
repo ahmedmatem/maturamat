@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_loginFragment_to_noConnectionFragment"
             app:destination="@id/noConnectionFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_emailConfirmationFragment"
+            app:destination="@id/emailConfirmationFragment" />
     </fragment>
 
     <fragment
@@ -42,5 +45,11 @@
         android:name="com.ahmedmatem.android.matura.ui.general.NoConnectionFragment"
         android:label=""
         tools:layout="@layout/fragment_no_connection"/>
+
+    <fragment
+        android:id="@+id/emailConfirmationFragment"
+        android:name="com.ahmedmatem.android.matura.ui.account.EmailConfirmationFragment"
+        android:label="@string/email_confirmation_title"
+        tools:layout="@layout/fragment_email_confirmation"/>
 
 </navigation>
