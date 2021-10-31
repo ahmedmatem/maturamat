@@ -23,6 +23,7 @@
     <string name="sign_in_with_facebook_description">Влезте с профила си в Фейсбук</string>
     <string name="disabled_profile_img">Анонимна снимка на профила</string>
     <string name="wifi_off_description">Няма Интернет връзка</string>
+    <string name="email_alert_description">Непотвърден имейл адрес</string>
 
     <!-- login fragment layout -->
     <string name="account_off_image_description">Account off image</string>
@@ -56,5 +57,14 @@
     <!-- fragment_no_connection layout -->
     <string name="no_connection_message">Не беше открита връзка с Интернет. Моля проверете настройките на телефона си към Интернет и опитайте отново.</string>
     <string name="oops">Опа!</string>
+
+    <!-- fragment_email_confirmation layout -->
+    <string name="email_confirmation_required">Изисква се потвърждение на имейл адрес</string>
+    <string name="email_confirmation_alert">
+        За да влезете в профила си е необходимо да потвърдите валидноста на посочения имейл адрес.
+        За целта посетете електронната си поща на посочения адрес и потърсете писмо от МатураМат,
+        пратено Ви след вашата регистрация. В него ще откриете инстрункции с линк за потвърждение.
+        Възможно е линкът да е с изтекъл срок. В такъв случай изискайте нов.
+    </string>
 
 </resources>

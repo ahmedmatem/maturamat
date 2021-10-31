@@ -73,12 +73,19 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
                 is Result.NetworkError -> onNetworkError()
                 is Result.GenericError -> onGenericError(tokenResponse)
             }
+            showLoading.value = false
         }
     }
 
     fun navigateToRegistration() {
         navigationCommand.value =
             NavigationCommand.To(LoginFragmentDirections.actionLoginFragmentToRegistrationFragment())
+    }
+
+    private fun navigateToEmailConfirmation(email: String) {
+        navigationCommand.value = NavigationCommand.To(
+            LoginFragmentDirections.actionLoginFragmentToEmailConfirmationFragment(email)
+        )
     }
 
     fun loginWithGoogle() {
@@ -97,20 +104,12 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
         _loginAttemptResult.value = true
     }
 
-    private fun navigateToEmailConfirmation(email: String) {
-        navigationCommand.value = NavigationCommand.To(
-            LoginFragmentDirections.actionLoginFragmentToEmailConfirmationFragment(email)
-        )
-    }
-
     private fun onNetworkError() {
-        showLoading.value = false
         navigationCommand.value =
             NavigationCommand.To(LoginFragmentDirections.actionLoginFragmentToNoConnectionFragment())
     }
 
     private fun onGenericError(response: Result.GenericError) {
-        showLoading.value = false
         showSnackBar.value = response.errorResponse?.bgDescription()
     }
 
