@@ -68,16 +68,13 @@
     </style>
 
     <!-- TextView styles -->
-    <style name="TextView" parent="AppTheme">
+    <style name="TextView">
         <item name="android:textSize">@dimen/text_size</item>
         <item name="android:textStyle">normal</item>
-        <item name="color">@android:color/secondary_text_light</item>
     </style>
 
     <style name="TextView.Title" parent="TextView">
         <item name="android:textSize">@dimen/title_size</item>
         <item name="android:textStyle">bold</item>
-        <item name="color">@android:color/primary_text_light</item>
-
     </style>
 </resources>

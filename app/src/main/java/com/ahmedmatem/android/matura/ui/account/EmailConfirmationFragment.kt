@@ -30,6 +30,12 @@ class EmailConfirmationFragment : BaseFragment() {
 
         binding.viewModel = viewModel
 
+        viewModel.navigateToEmailClient.observe(viewLifecycleOwner) { intent ->
+            intent?.let {
+                startActivity(intent)
+            }
+        }
+
         return binding.root
     }
 }

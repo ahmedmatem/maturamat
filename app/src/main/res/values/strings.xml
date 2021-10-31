@@ -24,6 +24,7 @@
     <string name="disabled_profile_img">Анонимна снимка на профила</string>
     <string name="wifi_off_description">Няма Интернет връзка</string>
     <string name="email_alert_description">Непотвърден имейл адрес</string>
+    <string name="check_email_description">Бутон към пощата</string>
 
     <!-- login fragment layout -->
     <string name="account_off_image_description">Account off image</string>
@@ -61,10 +62,12 @@
     <!-- fragment_email_confirmation layout -->
     <string name="email_confirmation_required">Изисква се потвърждение на имейл адрес</string>
     <string name="email_confirmation_alert">
-        За да влезете в профила си е необходимо да потвърдите валидноста на посочения имейл адрес.
-        За целта посетете електронната си поща на посочения адрес и потърсете писмо от МатураМат,
-        пратено Ви след вашата регистрация. В него ще откриете инстрункции с линк за потвърждение.
-        Възможно е линкът да е с изтекъл срок. В такъв случай изискайте нов.
+        За да влезете в профила си е необходимо да потвърдите валидността на посочения имейл адрес.
+        За целта посетете електронната си поща на посочения адрес и проверете в папка Входящи или Спам
+        за имейл от МатураМат, изпратено Ви след вашата регистрация. В него ще откриете инстрункции с
+        линк за потвърждение. Възможно е линкът да е с изтекъл срок. В такъв случай заявете нов.
     </string>
+    <string name="check_email_text">Проверете пощата си</string>
+    <string name="new_confirmation_link_text">Заявете нов линк за потвърждение</string>
 
 </resources>
