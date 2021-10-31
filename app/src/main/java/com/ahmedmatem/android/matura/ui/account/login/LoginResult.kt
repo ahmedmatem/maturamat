@@ -1,4 +1,4 @@
-package com.ahmedmatem.android.matura.ui.auth.login
+package com.ahmedmatem.android.matura.ui.account.login
 
 enum class LoginResult {
     SUCCESS,

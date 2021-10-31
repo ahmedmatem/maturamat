@@ -1,4 +1,4 @@
-package com.ahmedmatem.android.matura.ui.auth.login
+package com.ahmedmatem.android.matura.ui.account.login
 
 import android.app.Activity
 import android.os.Bundle
@@ -9,7 +9,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.ahmedmatem.android.matura.base.BaseFragment
 import com.ahmedmatem.android.matura.databinding.FragmentLoginBinding
-import com.ahmedmatem.android.matura.ui.auth.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions

@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.ahmedmatem.android.matura.ui.auth.registration.RegistrationViewModel" />
+            type="com.ahmedmatem.android.matura.ui.account.registration.RegistrationViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.ahmedmatem.android.matura.ui.auth.login.LoginFragment"
+        android:name="com.ahmedmatem.android.matura.ui.account.login.LoginFragment"
         android:label="@string/title_login"
         tools:layout="@layout/fragment_login">
         <action
@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/registrationFragment"
-        android:name="com.ahmedmatem.android.matura.ui.auth.registration.RegistrationFragment"
+        android:name="com.ahmedmatem.android.matura.ui.account.registration.RegistrationFragment"
         android:label="@string/title_registration"
         tools:layout="@layout/fragment_registration">
         <action
@@ -33,7 +33,7 @@
 
     <fragment
         android:id="@+id/googleLoginFragment"
-        android:name="com.ahmedmatem.android.matura.ui.auth.login.external.GoogleLoginFragment"
+        android:name="com.ahmedmatem.android.matura.ui.account.login.external.GoogleLoginFragment"
         android:label=""
         tools:layout="@layout/fragment_external_login"/>
 

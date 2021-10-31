@@ -1,14 +1,11 @@
-package com.ahmedmatem.android.matura.ui.auth.registration
+package com.ahmedmatem.android.matura.ui.account.registration
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import com.ahmedmatem.android.matura.R
 import com.ahmedmatem.android.matura.base.BaseFragment
-import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.databinding.FragmentRegistrationBinding
 
 class RegistrationFragment : BaseFragment() {

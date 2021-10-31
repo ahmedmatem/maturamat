@@ -1,4 +1,4 @@
-package com.ahmedmatem.android.matura.ui.auth.registration
+package com.ahmedmatem.android.matura.ui.account.registration
 
 import com.ahmedmatem.android.matura.infrastructure.*
 import java.util.regex.Pattern
