@@ -20,7 +20,7 @@ import com.ahmedmatem.android.matura.prizesystem.models.Period
 abstract class MaturaDb : RoomDatabase() {
 
     abstract val testDao: TestDao
-    abstract val tokenDao: AccountDao
+    abstract val accountDao: AccountDao
     abstract val prizeDao: PrizeDao
 
     companion object {

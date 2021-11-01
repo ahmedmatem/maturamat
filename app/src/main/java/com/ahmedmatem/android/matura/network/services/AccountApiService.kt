@@ -18,6 +18,9 @@ interface AccountApiService {
     @GET("api/account/emailConfirmation")
     suspend fun emailConfirmed(@Query("email") email: String): Boolean
 
+    @GET("api/account/sendActivationEmail")
+    suspend fun sendEmailConfirmationLink(@Query("email") email: String)
+
     @FormUrlEncoded
     @POST("api/account/register")
     suspend fun register(

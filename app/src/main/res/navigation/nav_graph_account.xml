@@ -54,6 +54,9 @@
         <argument
             android:name="email"
             app:argType="string" />
+        <action
+            android:id="@+id/action_emailConfirmationFragment_to_noConnectionFragment"
+            app:destination="@id/noConnectionFragment" />
     </fragment>
 
 </navigation>

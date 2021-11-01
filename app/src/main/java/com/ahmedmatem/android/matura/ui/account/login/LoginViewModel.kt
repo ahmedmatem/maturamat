@@ -20,7 +20,7 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
 
     private val _accountRepository by lazy {
         AccountRepository(
-            MaturaDb.getInstance(context).tokenDao,
+            MaturaDb.getInstance(context).accountDao,
             AccountApi.retrofitService
         )
     }

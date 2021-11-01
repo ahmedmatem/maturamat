@@ -28,8 +28,14 @@ class AccountRepository(
     }
 
     suspend fun emailConfirmed(email: String): Result<Boolean> {
-        return safeApiCall(dispatcher){
+        return safeApiCall(dispatcher) {
             accountService.emailConfirmed(email)
+        }
+    }
+
+    suspend fun sendEmailConfirmationLink(email: String): Result<Unit> {
+        return safeApiCall(dispatcher){
+            accountService.sendEmailConfirmationLink(email)
         }
     }
 }

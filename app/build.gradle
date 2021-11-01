@@ -105,9 +105,13 @@ dependencies {
     implementation "androidx.core:core-ktx:$version_core"
 
     // Import the Firebase BoM
-    implementation platform('com.google.firebase:firebase-bom:28.4.1')
-    // Declare the dependency for the Firebase Authentication library
+    implementation platform('com.google.firebase:firebase-bom:29.0.0')
+    // Declare the dependency for the Firebase libraries
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-auth-ktx'
+    implementation 'com.google.firebase:firebase-messaging'
+
     // Dependency for the Google Play services library
     implementation 'com.google.android.gms:play-services-auth:19.2.0'
 

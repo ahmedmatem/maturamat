@@ -1,71 +1,42 @@
 {
   "project_info": {
-    "project_number": "823485818752",
-    "firebase_url": "https://maturamat.firebaseio.com",
-    "project_id": "maturamat",
-    "storage_bucket": "maturamat.appspot.com"
+    "project_number": "137470652016",
+    "firebase_url": "https://matura-nvo7.firebaseio.com",
+    "project_id": "matura-nvo7",
+    "storage_bucket": "matura-nvo7.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:823485818752:android:482abcdca6f4ac174ec365",
-        "android_client_info": {
-          "package_name": "com.ahmedmatem.android.matura"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "823485818752-buevee6u58bup08p57m9ui3mfm7kho2t.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.ahmedmatem.android.matura",
-            "certificate_hash": "cb48f1c11681b52223d49a787b067ee32634183b"
-          }
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDKiEt5JxWhXmd3UD6t2FWt5nQijukoBsc"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "823485818752-e1ot6mal6bpbj98q8db1c34m9lfaub9u.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:823485818752:android:e5f8dc53bf7977604ec365",
+        "mobilesdk_app_id": "1:137470652016:android:63344a85403e0ac131ceb5",
         "android_client_info": {
           "package_name": "com.ahmedmatem.android.matura.dzi12"
         }
       },
       "oauth_client": [
         {
-          "client_id": "823485818752-9li5urk5ohr37tk36gt6oli54kppttmb.apps.googleusercontent.com",
+          "client_id": "137470652016-b6t8vvbc3mnb815tdbbunds3sfcqvdru.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.ahmedmatem.android.matura.dzi12",
-            "certificate_hash": "cb48f1c11681b52223d49a787b067ee32634183b"
+            "certificate_hash": "be9ede2e385b28bcf5457d76207726ae147c84c1"
           }
+        },
+        {
+          "client_id": "137470652016-sbd7bdi6bt1dg19kmlj9jm8m4bhp6b1s.apps.googleusercontent.com",
+          "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDKiEt5JxWhXmd3UD6t2FWt5nQijukoBsc"
+          "current_key": "AIzaSyAex0WFybkShqk6MTZkzkhnEl-sz9CXOyw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "823485818752-e1ot6mal6bpbj98q8db1c34m9lfaub9u.apps.googleusercontent.com",
+              "client_id": "137470652016-sbd7bdi6bt1dg19kmlj9jm8m4bhp6b1s.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
@@ -74,31 +45,35 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:823485818752:android:7e7b52301d8fec044ec365",
+        "mobilesdk_app_id": "1:137470652016:android:49a277095a57d76b31ceb5",
         "android_client_info": {
-          "package_name": "com.ahmedmatem.android.matura.dzi12free"
+          "package_name": "com.ahmedmatem.android.matura.nvo7"
         }
       },
       "oauth_client": [
         {
-          "client_id": "823485818752-rv6vungf6tl0egommafmrdr7e56hkbfs.apps.googleusercontent.com",
+          "client_id": "137470652016-lvuuatr2edfvvnh76koe10ajue93q324.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.ahmedmatem.android.matura.dzi12free",
-            "certificate_hash": "cb48f1c11681b52223d49a787b067ee32634183b"
+            "package_name": "com.ahmedmatem.android.matura.nvo7",
+            "certificate_hash": "be9ede2e385b28bcf5457d76207726ae147c84c1"
           }
+        },
+        {
+          "client_id": "137470652016-sbd7bdi6bt1dg19kmlj9jm8m4bhp6b1s.apps.googleusercontent.com",
+          "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDKiEt5JxWhXmd3UD6t2FWt5nQijukoBsc"
+          "current_key": "AIzaSyAex0WFybkShqk6MTZkzkhnEl-sz9CXOyw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "823485818752-e1ot6mal6bpbj98q8db1c34m9lfaub9u.apps.googleusercontent.com",
+              "client_id": "137470652016-sbd7bdi6bt1dg19kmlj9jm8m4bhp6b1s.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

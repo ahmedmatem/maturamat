@@ -21,9 +21,10 @@ class EmailConfirmationFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProvider(this, EmailConfirmationViewModel.Factory(args)).get(
-            EmailConfirmationViewModel::class.java
-        )
+        viewModel =
+            ViewModelProvider(this, EmailConfirmationViewModel.Factory(requireContext(), args)).get(
+                EmailConfirmationViewModel::class.java
+            )
 
         val binding = FragmentEmailConfirmationBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this

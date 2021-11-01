@@ -26,7 +26,7 @@ class TestRepository(
     suspend fun refreshTestList() {
         withContext(dispatcher) {
             username?.let {
-                val token = database.tokenDao.getToken(it)
+                val token = database.accountDao.getToken(it)
                 val authorization = context.getString(R.string.authorization, token)
                 val response = safeApiCall(dispatcher) {
                     testApiService.getAllTestByUser(authorization)
