@@ -9,7 +9,12 @@ import com.ahmedmatem.android.matura.local.MaturaDb
 import com.ahmedmatem.android.matura.network.Result
 import com.ahmedmatem.android.matura.network.services.AccountApi
 import com.ahmedmatem.android.matura.repository.AccountRepository
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.FirebaseMessagingService
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.lang.IllegalArgumentException
 
 class EmailConfirmationViewModel(
@@ -46,8 +51,16 @@ class EmailConfirmationViewModel(
         }
     }
 
-    private fun onSuccess() {
+    private suspend fun onSuccess() {
         _emailConfirmationLinkSent.value = true
+        // Each time email confirmation link has been sent,
+        // update FCM registration token for user on the server.
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val token = task.result
+                _accountRepository.sendFcmRegistrationToServer(email, token)
+            }
+        })
     }
 
     private fun onNetworkError() {

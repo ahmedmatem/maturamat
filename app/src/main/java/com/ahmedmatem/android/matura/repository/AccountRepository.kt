@@ -5,6 +5,7 @@ import com.ahmedmatem.android.matura.network.Result
 import com.ahmedmatem.android.matura.network.models.Token
 import com.ahmedmatem.android.matura.network.safeApiCall
 import com.ahmedmatem.android.matura.network.services.AccountApiService
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -27,15 +28,19 @@ class AccountRepository(
         }
     }
 
-    suspend fun emailConfirmed(email: String): Result<Boolean> {
+    suspend fun hasEmailConfirmed(email: String): Result<Boolean> {
         return safeApiCall(dispatcher) {
-            accountService.emailConfirmed(email)
+            accountService.hasEmailConfirmed(email)
         }
     }
 
     suspend fun sendEmailConfirmationLink(email: String): Result<Unit> {
-        return safeApiCall(dispatcher){
+        return safeApiCall(dispatcher) {
             accountService.sendEmailConfirmationLink(email)
         }
+    }
+
+    fun sendFcmRegistrationToServer(email: String, token: String) {
+        accountService.sendFcmRegistrationToServer(email, token)
     }
 }

@@ -56,7 +56,7 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
                 is Result.Success -> {
                     // Request Email confirmation check
                     when (val emailResponse =
-                        _accountRepository.emailConfirmed(tokenResponse.data.userName)) {
+                        _accountRepository.hasEmailConfirmed(tokenResponse.data.userName)) {
                         is Result.Success -> {
                             if (emailResponse.data) {
                                 // User exists and email has confirmed

@@ -16,7 +16,7 @@ interface AccountApiService {
     ): Token
 
     @GET("api/account/emailConfirmation")
-    suspend fun emailConfirmed(@Query("email") email: String): Boolean
+    suspend fun hasEmailConfirmed(@Query("email") email: String): Boolean
 
     @GET("api/account/sendActivationEmail")
     suspend fun sendEmailConfirmationLink(@Query("email") email: String)
@@ -28,6 +28,13 @@ interface AccountApiService {
         @Field("password") password: String,
         @Field("confirmPassword") passwordConfirm: String,
         @Field("fcmRegistrationToken") fcmRegToken: String
+    )
+
+    @FormUrlEncoded
+    @POST("api/account/updateFCMRegistrationToken")
+    fun sendFcmRegistrationToServer(
+        @Field("email") email: String,
+        @Field("token") token: String
     )
 }
 
