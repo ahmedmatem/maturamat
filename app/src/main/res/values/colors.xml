@@ -11,6 +11,7 @@
 
     <!-- general -->
     <color name="hint_color">#546E7A</color>
+    <color name="alert_color">#D81B60</color>
 
     <!-- red color palette -->
     <color name="red_50">#FFEBEE</color>

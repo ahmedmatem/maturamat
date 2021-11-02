@@ -80,6 +80,6 @@
 
     <style name="TextView.AlertText">
         <item name="android:textSize">@dimen/alert_text_size</item>
-        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textColor">@color/alert_color</item>
     </style>
 </resources>

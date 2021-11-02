@@ -7,8 +7,11 @@ import kotlinx.coroutines.launch
 
 class RegistrationViewModel : BaseViewModel() {
     val username = MutableLiveData("")
+    val usernameValidationMessage = MutableLiveData("")
     val password = MutableLiveData("")
+    val passwordValidationMessage = MutableLiveData("")
     val passwordConfirm = MutableLiveData("")
+    val passwordConfirmValidationMessage = MutableLiveData("")
 
     init {
         // todo: request FCM registration token

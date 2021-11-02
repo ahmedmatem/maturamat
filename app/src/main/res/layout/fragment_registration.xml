@@ -91,16 +91,18 @@
             android:drawableStart="@drawable/ic_account_black_24"
             android:hint="@string/hint_email"
             android:inputType="textEmailAddress"
+            android:text="@={viewModel.username}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView1" />
 
         <TextView
-            android:id="@+id/emilValidationMessage"
+            android:id="@+id/usernameValidationMessage"
             style="@style/TextView.AlertText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:text="@{viewModel.usernameValidationMessage}"
             app:layout_constraintStart_toStartOf="@+id/regUserName"
             app:layout_constraintTop_toBottomOf="@+id/regUserName"
             tools:text="Email validation message" />
@@ -113,6 +115,7 @@
             android:drawableStart="@drawable/ic_lock_outline_black_24"
             android:hint="@string/hint_password"
             android:inputType="textPassword"
+            android:text="@={viewModel.password}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/regUserName" />
@@ -123,18 +126,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:text="@{viewModel.passwordValidationMessage}"
             app:layout_constraintStart_toStartOf="@+id/regPassword"
             app:layout_constraintTop_toBottomOf="@+id/regPassword"
             tools:text="Password validation message" />
 
         <EditText
-            android:id="@+id/regConfirmPassword"
+            android:id="@+id/regPasswordConfirm"
             style="@style/EditTextLoginStyle"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:autofillHints="password"
             android:drawableStart="@drawable/ic_lock_outline_black_24"
             android:hint="@string/hint_confirm_password"
+            android:text="@={viewModel.passwordConfirm}"
             android:inputType="textPassword"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -146,32 +151,33 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            app:layout_constraintStart_toStartOf="@+id/regConfirmPassword"
-            app:layout_constraintTop_toBottomOf="@+id/regConfirmPassword"
+            android:text="@{viewModel.passwordConfirmValidationMessage}"
+            app:layout_constraintStart_toStartOf="@+id/regPasswordConfirm"
+            app:layout_constraintTop_toBottomOf="@+id/regPasswordConfirm"
             tools:text="Password confirm validation message" />
-
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fadeVisible="@{viewModel.showLoading.booleanValue()}"
-            app:layout_constraintBottom_toTopOf="@+id/registrationBtn"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/regConfirmPassword" />
 
         <Button
             android:id="@+id/registrationBtn"
             style="@style/BaseButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="64dp"
+            android:layout_marginTop="24dp"
             android:text="@string/registration_btn_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/regConfirmPassword" />
+            app:layout_constraintTop_toBottomOf="@+id/regPasswordConfirm" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:fadeVisible="@{viewModel.showLoading.booleanValue()}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/regPasswordConfirm" />
 
         <TextView
             android:id="@+id/registrationFailText"
