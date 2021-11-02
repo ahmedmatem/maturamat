@@ -40,6 +40,13 @@ class AccountRepository(
         }
     }
 
+    suspend fun register(email: String, password: String, passwordConfirm: String, token: String):
+            Result<Unit> {
+        return safeApiCall(dispatcher) {
+            accountService.register(email, password,passwordConfirm, token)
+        }
+    }
+
     fun sendFcmRegistrationToServer(email: String, token: String) {
         accountService.sendFcmRegistrationToServer(email, token)
     }

@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.09" />
+            app:layout_constraintGuide_percent="0.05" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline2"
@@ -77,7 +77,7 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:text="@string/or"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -95,10 +95,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView1" />
 
+        <TextView
+            android:id="@+id/emilValidationMessage"
+            style="@style/TextView.AlertText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toStartOf="@+id/regUserName"
+            app:layout_constraintTop_toBottomOf="@+id/regUserName"
+            tools:text="Email validation message" />
+
         <EditText
             android:id="@+id/regPassword"
             style="@style/EditTextLoginStyle"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="24dp"
             android:autofillHints="password"
             android:drawableStart="@drawable/ic_lock_outline_black_24"
             android:hint="@string/hint_password"
@@ -107,10 +117,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/regUserName" />
 
+        <TextView
+            android:id="@+id/passwordValidationMessage"
+            style="@style/TextView.AlertText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toStartOf="@+id/regPassword"
+            app:layout_constraintTop_toBottomOf="@+id/regPassword"
+            tools:text="Password validation message" />
+
         <EditText
             android:id="@+id/regConfirmPassword"
             style="@style/EditTextLoginStyle"
-            android:layout_marginTop="8dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
             android:autofillHints="password"
             android:drawableStart="@drawable/ic_lock_outline_black_24"
             android:hint="@string/hint_confirm_password"
@@ -119,12 +140,22 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/regPassword" />
 
+        <TextView
+            android:id="@+id/passwordConfirmValidationMessage"
+            style="@style/TextView.AlertText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toStartOf="@+id/regConfirmPassword"
+            app:layout_constraintTop_toBottomOf="@+id/regConfirmPassword"
+            tools:text="Password confirm validation message" />
+
         <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:fadeVisible="@{viewModel.showLoading.booleanValue()}"
+            app:layout_constraintBottom_toTopOf="@+id/registrationBtn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -141,6 +172,20 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/regConfirmPassword" />
+
+        <TextView
+            android:id="@+id/registrationFailText"
+            style="@style/TextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/registrationBtn"
+            tools:text="Registration fail text goes here" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

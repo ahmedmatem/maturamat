@@ -18,7 +18,7 @@ class RegistrationFormValidator(
         return errors.value == 0
     }
 
-    fun validate() {
+    fun validateInput() {
         errors.value = 0 // initialize no error value
         validateEmail()
         validatePassword()

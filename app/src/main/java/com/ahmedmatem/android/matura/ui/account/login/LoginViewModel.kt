@@ -26,7 +26,7 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
     }
 
     val username = MutableLiveData<String>("")
-    var password = MutableLiveData<String>("")
+    val password = MutableLiveData<String>("")
 
     private val _loginButtonEnabled = MutableLiveData<Boolean>()
     val loginButtonEnabled: LiveData<Boolean>

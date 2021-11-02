@@ -73,8 +73,13 @@
         <item name="android:textStyle">normal</item>
     </style>
 
-    <style name="TextView.Title" parent="TextView">
+    <style name="TextView.Title">
         <item name="android:textSize">@dimen/title_size</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextView.AlertText">
+        <item name="android:textSize">@dimen/alert_text_size</item>
+        <item name="android:textColor">@color/colorAccent</item>
     </style>
 </resources>
