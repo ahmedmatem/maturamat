@@ -3,22 +3,23 @@ package com.ahmedmatem.android.matura.ui.account.registration
 import com.ahmedmatem.android.matura.infrastructure.*
 import java.util.regex.Pattern
 
-class RegistrationFormValidator(
+class RegistrationInputValidator(
     private val username: String,
     private val password: String,
-    private val confirmPassword: String
+    private val passwordConfirm: String
 ) {
+
+    init {
+        validateInput()
+    }
 
     private var errors = Error()
 
-    /**
-     * Use it after 'validate()' function
-     */
     fun isValid(): Boolean {
         return errors.value == 0
     }
 
-    fun validateInput() {
+    private fun validateInput() {
         errors.value = 0 // initialize no error value
         validateEmail()
         validatePassword()
@@ -63,7 +64,7 @@ class RegistrationFormValidator(
     }
 
     private fun validateConfirmPassword() {
-        confirmPassword?.let {
+        passwordConfirm?.let {
             if (it.isBlank()) {
                 errors.add(Error.PASSWORD_CONFIRM_REQUIRED)
             } else {

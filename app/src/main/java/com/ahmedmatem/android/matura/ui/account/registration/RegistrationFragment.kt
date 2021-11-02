@@ -18,6 +18,9 @@ class RegistrationFragment : BaseFragment() {
         viewModel = ViewModelProvider(this).get(RegistrationViewModel::class.java)
 
         val binding = FragmentRegistrationBinding.inflate(inflater, container, false)
+        binding.lifecycleOwner = this
+
+        binding.viewModel = viewModel
 
         return binding.root
     }

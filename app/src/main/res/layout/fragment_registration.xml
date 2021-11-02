@@ -102,7 +102,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="@{viewModel.usernameValidationMessage}"
+            android:text="@{viewModel.usernameValidationMessage.toString()}"
+            android:fadeVisible="@{viewModel.showUsernameValidationMessage}"
             app:layout_constraintStart_toStartOf="@+id/regUserName"
             app:layout_constraintTop_toBottomOf="@+id/regUserName"
             tools:text="Email validation message" />
@@ -110,7 +111,7 @@
         <EditText
             android:id="@+id/regPassword"
             style="@style/EditTextLoginStyle"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="8dp"
             android:autofillHints="password"
             android:drawableStart="@drawable/ic_lock_outline_black_24"
             android:hint="@string/hint_password"
@@ -118,7 +119,7 @@
             android:text="@={viewModel.password}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/regUserName" />
+            app:layout_constraintTop_toBottomOf="@+id/usernameValidationMessage" />
 
         <TextView
             android:id="@+id/passwordValidationMessage"
@@ -126,7 +127,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="@{viewModel.passwordValidationMessage}"
+            android:text="@{viewModel.passwordValidationMessage.toString()}"
+            android:fadeVisible="@{viewModel.showPasswordValidationMessage}"
             app:layout_constraintStart_toStartOf="@+id/regPassword"
             app:layout_constraintTop_toBottomOf="@+id/regPassword"
             tools:text="Password validation message" />
@@ -135,15 +137,15 @@
             android:id="@+id/regPasswordConfirm"
             style="@style/EditTextLoginStyle"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="8dp"
             android:autofillHints="password"
             android:drawableStart="@drawable/ic_lock_outline_black_24"
             android:hint="@string/hint_confirm_password"
-            android:text="@={viewModel.passwordConfirm}"
             android:inputType="textPassword"
+            android:text="@={viewModel.passwordConfirm}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/regPassword" />
+            app:layout_constraintTop_toBottomOf="@+id/passwordValidationMessage" />
 
         <TextView
             android:id="@+id/passwordConfirmValidationMessage"
@@ -151,7 +153,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="@{viewModel.passwordConfirmValidationMessage}"
+            android:text="@{viewModel.passwordConfirmValidationMessage.toString()}"
+            android:fadeVisible="@{viewModel.showPasswordConfirmValidationMessage}"
             app:layout_constraintStart_toStartOf="@+id/regPasswordConfirm"
             app:layout_constraintTop_toBottomOf="@+id/regPasswordConfirm"
             tools:text="Password confirm validation message" />
@@ -163,6 +166,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="@string/registration_btn_text"
+            android:onClick="@{() -> viewModel.register()}"
+            android:fadeVisible="@{viewModel.showRegisterButton.booleanValue()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
