@@ -7,6 +7,7 @@ import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.base.NavigationCommand
 import com.ahmedmatem.android.matura.infrastructure.PasswordOptions
 import com.ahmedmatem.android.matura.local.MaturaDb
+import com.ahmedmatem.android.matura.local.preferences.UserPrefs
 import com.ahmedmatem.android.matura.network.Result
 import com.ahmedmatem.android.matura.network.services.AccountApi
 import com.ahmedmatem.android.matura.repository.AccountRepository
@@ -49,18 +50,7 @@ class RegistrationViewModel(private val context: Context) : BaseViewModel() {
     private val _showRegisterButton = MutableLiveData(true)
     val showRegisterButton: LiveData<Boolean> = _showRegisterButton
 
-    private var _token: String? = null
     private val _fcmRegistrationTokenReceived = MutableLiveData(false)
-
-    init {
-        // Request Firebase Cloud Messaging registration token
-        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-            val m = task.exception?.message
-            if (task.isSuccessful) {
-                _token = task.result
-            }
-        })
-    }
 
     fun register() {
         if (isInputValid()) {
@@ -72,7 +62,7 @@ class RegistrationViewModel(private val context: Context) : BaseViewModel() {
                     username.value!!,
                     password.value!!,
                     passwordConfirm.value!!,
-                    _token!!
+                    UserPrefs(context).getFcmToken()
                 )) {
                     is Result.Success -> onSuccess()
                     is Result.GenericError -> onGenericError(response)

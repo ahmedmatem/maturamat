@@ -64,7 +64,7 @@ class UserPrefs(val context: Context) {
     /**
      * Getter for FCM registration token
      */
-    fun getFcmToken(token: String): String? {
+    fun getFcmToken(): String? {
         return sharedPref.getString(context.getString(R.string.fcm_token_key), null)
     }
 }
