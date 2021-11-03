@@ -21,5 +21,5 @@ object PasswordOptions {
     const val REQUIRE_LOWERCASE = true
     const val REQUIRE_UPPERCASE = false
     const val REQUIRE_NON_ALPHANUMERIC = false
-    const val REQUIRED_LENGTH: Int = 8
+    const val REQUIRED_LENGTH: Int = 6
 }

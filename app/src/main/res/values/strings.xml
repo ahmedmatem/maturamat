@@ -72,4 +72,10 @@
     <string name="check_email_text">Проверете пощата си</string>
     <string name="new_confirmation_link_text">Заявете нов линк за потвърждение</string>
 
+    <!-- Registration form validation messages -->
+    <string name="email_required_message">Изисква се имейл адрес</string>
+    <string name="email_invalid">Невалиден имейл адрес.</string>
+    <string name="password_requirements_message">Паролата трябва да е дълга поне %1$d символа и да съдържа малка буква</string>
+    <string name="password_confirm_required_message">Изисква се потвърждение на паролата</string>
+    <string name="password_no_match_message">Паролите не съвпадат</string>
 </resources>

@@ -2,8 +2,10 @@ package com.ahmedmatem.android.matura.ui.account.registration
 
 import android.content.Context
 import androidx.lifecycle.*
+import com.ahmedmatem.android.matura.R
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.base.NavigationCommand
+import com.ahmedmatem.android.matura.infrastructure.PasswordOptions
 import com.ahmedmatem.android.matura.local.MaturaDb
 import com.ahmedmatem.android.matura.network.Result
 import com.ahmedmatem.android.matura.network.services.AccountApi
@@ -66,22 +68,64 @@ class RegistrationViewModel(private val context: Context) : BaseViewModel() {
                 }
             }
         } else {
-            invalidateUi()
+            val errors = inputValidator.errors
+            invalidateUi(errors)
         }
     }
 
-    private fun invalidateUi() {
-        invalidateUsernameUi()
-        invalidatePasswordui()
-        invalidatePasswordConfirmUi()
+    private fun invalidateUi(errors: Error) {
+        invalidateUsernameUi(errors)
+        invalidatePasswordUi(errors)
+        invalidatePasswordConfirmUi(errors)
     }
 
-    private fun invalidateUsernameUi() {
+    private fun invalidateUsernameUi(errors: Error) {
+        var showMessage = false
+        if (errors.has(Error.EMAIL_REQUIRED)) {
+            _usernameValidationMessage.value = context.getString(R.string.email_required_message)
+            showMessage = true
+        } else if (errors.has(Error.EMAIL_INVALID_FORMAT)) {
+            _usernameValidationMessage.value = context.getString(R.string.email_invalid)
+            showMessage = true
+        }
+        _showUsernameValidationMessage.value = showMessage
+    }
 
+    private fun invalidatePasswordUi(errors: Error) {
+        if (errors.has(Error.PASSWORD_REQUIRED) ||
+            errors.has(Error.PASSWORD_LOWERCASE_REQUIRED) ||
+            errors.has(Error.PASSWORD_NON_ALPHANUMERIC_REQUIRED) ||
+            errors.has(Error.PASSWORD_REQUIRED_LENGTH) ||
+            errors.has(Error.PASSWORD_UPPERCASE_REQUIRED)
+        ) {
+            _passwordValidationMessage.value = context.getString(
+                R.string.password_requirements_message,
+                PasswordOptions.REQUIRED_LENGTH
+            )
+            _showPasswordValidationMessage.value = true
+        }
+    }
+
+    private fun invalidatePasswordConfirmUi(errors: Error) {
+        var showMessage = false
+        if (errors.has(Error.PASSWORD_CONFIRM_REQUIRED)) {
+            _passwordConfirmValidationMessage.value =
+                context.getString(R.string.password_confirm_required_message)
+            showMessage = true
+        } else if (errors.has(Error.PASSWORDS_NO_MATCH)) {
+            _passwordConfirmValidationMessage.value =
+                context.getString(R.string.password_no_match_message)
+            showMessage = true
+        }
+        _showPasswordConfirmValidationMessage.value = showMessage
     }
 
     private fun isInputValid(): Boolean {
-        return inputValidator.isValid()
+        return inputValidator.isValid(
+            username.value!!,
+            password.value!!,
+            passwordConfirm.value!!
+        )
     }
 
     private fun onSuccess() {
