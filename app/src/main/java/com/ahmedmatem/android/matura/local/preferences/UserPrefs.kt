@@ -50,4 +50,21 @@ class UserPrefs(val context: Context) {
         }
         return uuid
     }
+
+    /**
+     * Setter for FCM registration token
+     */
+    fun setFcmToken(token: String?) {
+        with(sharedPref.edit()) {
+            putString(context.getString(R.string.fcm_token_key), token)
+            apply()
+        }
+    }
+
+    /**
+     * Getter for FCM registration token
+     */
+    fun getFcmToken(token: String): String? {
+        return sharedPref.getString(context.getString(R.string.fcm_token_key), null)
+    }
 }

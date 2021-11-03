@@ -10,6 +10,8 @@ import com.ahmedmatem.android.matura.local.MaturaDb
 import com.ahmedmatem.android.matura.network.Result
 import com.ahmedmatem.android.matura.network.services.AccountApi
 import com.ahmedmatem.android.matura.repository.AccountRepository
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 
@@ -47,12 +49,22 @@ class RegistrationViewModel(private val context: Context) : BaseViewModel() {
     private val _showRegisterButton = MutableLiveData(true)
     val showRegisterButton: LiveData<Boolean> = _showRegisterButton
 
+    private var _token: String? = null
+    private val _fcmRegistrationTokenReceived = MutableLiveData(false)
+
     init {
-        // todo: request FCM registration token
+        // Request Firebase Cloud Messaging registration token
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            val m = task.exception?.message
+            if (task.isSuccessful) {
+                _token = task.result
+            }
+        })
     }
 
     fun register() {
         if (isInputValid()) {
+            hideValidationMessages()
             _showRegisterButton.value = false
             showLoading.value = true
             viewModelScope.launch {
@@ -60,7 +72,7 @@ class RegistrationViewModel(private val context: Context) : BaseViewModel() {
                     username.value!!,
                     password.value!!,
                     passwordConfirm.value!!,
-                    ""// todo: get FCM token
+                    _token!!
                 )) {
                     is Result.Success -> onSuccess()
                     is Result.GenericError -> onGenericError(response)
@@ -126,6 +138,12 @@ class RegistrationViewModel(private val context: Context) : BaseViewModel() {
             password.value!!,
             passwordConfirm.value!!
         )
+    }
+
+    private fun hideValidationMessages() {
+        _showUsernameValidationMessage.value = false
+        _showPasswordValidationMessage.value = true
+        _showPasswordConfirmValidationMessage.value = true
     }
 
     private fun onSuccess() {

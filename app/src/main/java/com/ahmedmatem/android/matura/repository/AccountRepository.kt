@@ -9,6 +9,7 @@ import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import retrofit2.Callback
 
 class AccountRepository(
     private val accountDao: AccountDao,
@@ -43,7 +44,7 @@ class AccountRepository(
     suspend fun register(email: String, password: String, passwordConfirm: String, token: String):
             Result<Unit> {
         return safeApiCall(dispatcher) {
-            accountService.register(email, password,passwordConfirm, token)
+            accountService.register(email, password, passwordConfirm, token)
         }
     }
 

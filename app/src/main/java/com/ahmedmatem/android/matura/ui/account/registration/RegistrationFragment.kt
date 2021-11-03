@@ -15,7 +15,9 @@ class RegistrationFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProvider(this).get(RegistrationViewModel::class.java)
+        viewModel = ViewModelProvider(this, RegistrationViewModel.Factory(requireContext())).get(
+            RegistrationViewModel::class.java
+        )
 
         val binding = FragmentRegistrationBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
