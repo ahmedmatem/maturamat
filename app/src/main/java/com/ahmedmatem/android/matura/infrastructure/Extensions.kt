@@ -54,11 +54,11 @@ fun String.hasNonAlphaNumeric(nonAlphaNumerics: String = NON_ALPHANUMERIC): Bool
 }
 
 /**
- * Check if string has specific length
+ * Check if string has length equal or greater than given len param
  */
-fun String.hasLength(length: Int): Boolean {
+fun String.hasLengthEqualOrGreaterThan(len: Int): Boolean {
     this?.let {
-        return this.length == length
+        return length >= len
     }
 }
 

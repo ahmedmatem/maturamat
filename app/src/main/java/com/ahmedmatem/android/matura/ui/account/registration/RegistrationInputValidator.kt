@@ -27,10 +27,10 @@ class RegistrationInputValidator {
 
     private fun validateEmail() {
         username?.let {
-            if (it.isBlank()) {
+            if (it.isEmpty()) {
                 errors.add(Error.EMAIL_REQUIRED)
             } else {
-                if (EMAIL_REGEX_PATTERN.matcher(username).matches()) {
+                if (!EMAIL_REGEX_PATTERN.matcher(username).matches()) {
                     errors.add(Error.EMAIL_INVALID_FORMAT)
                 }
             }
@@ -39,7 +39,7 @@ class RegistrationInputValidator {
 
     private fun validatePassword() {
         password?.let {
-            if (it.isBlank()) {
+            if (it.isEmpty()) {
                 errors.add(Error.PASSWORD_REQUIRED)
             } else {
                 // validate option by option
@@ -55,7 +55,7 @@ class RegistrationInputValidator {
                 if (PasswordOptions.REQUIRE_NON_ALPHANUMERIC && !it.hasNonAlphaNumeric()) {
                     errors.add(Error.PASSWORD_NON_ALPHANUMERIC_REQUIRED)
                 }
-                if (!it.hasLength(PasswordOptions.REQUIRED_LENGTH)) {
+                if (!it.hasLengthEqualOrGreaterThan(PasswordOptions.REQUIRED_LENGTH)) {
                     errors.add(Error.PASSWORD_REQUIRED_LENGTH)
                 }
             }

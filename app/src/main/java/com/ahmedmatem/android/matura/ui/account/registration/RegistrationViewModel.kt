@@ -8,12 +8,15 @@ import com.ahmedmatem.android.matura.base.NavigationCommand
 import com.ahmedmatem.android.matura.infrastructure.PasswordOptions
 import com.ahmedmatem.android.matura.local.MaturaDb
 import com.ahmedmatem.android.matura.local.preferences.UserPrefs
+import com.ahmedmatem.android.matura.network.HttpStatus
 import com.ahmedmatem.android.matura.network.Result
+import com.ahmedmatem.android.matura.network.bgDescription
 import com.ahmedmatem.android.matura.network.services.AccountApi
 import com.ahmedmatem.android.matura.repository.AccountRepository
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.launch
+import okhttp3.internal.http2.Http2
 import java.lang.IllegalArgumentException
 
 class RegistrationViewModel(private val context: Context) : BaseViewModel() {
@@ -41,14 +44,20 @@ class RegistrationViewModel(private val context: Context) : BaseViewModel() {
     // PasswordConfirm input
     val passwordConfirm = MutableLiveData("")
     private val _passwordConfirmValidationMessage = MutableLiveData("")
-    val passwordConfirmValidationMessage: LiveData<String> = _passwordConfirmValidationMessage
+    val passwordConfirmValidationMessage: LiveData<String>
+        get() = _passwordConfirmValidationMessage
     private val _showPasswordConfirmValidationMessage = MutableLiveData(false)
-    val showPasswordConfirmValidationMessage: LiveData<Boolean> =
-        _showPasswordConfirmValidationMessage
+    val showPasswordConfirmValidationMessage: LiveData<Boolean>
+        get() = _showPasswordConfirmValidationMessage
 
     // button Register
     private val _showRegisterButton = MutableLiveData(true)
     val showRegisterButton: LiveData<Boolean> = _showRegisterButton
+
+    private val _failMessage = MutableLiveData("")
+    val failMessage: LiveData<String> = _failMessage
+    private val _showFailMessage = MutableLiveData(false)
+    val showFailMessage: LiveData<Boolean> = _showFailMessage
 
     private val _fcmRegistrationTokenReceived = MutableLiveData(false)
 
@@ -58,16 +67,21 @@ class RegistrationViewModel(private val context: Context) : BaseViewModel() {
             _showRegisterButton.value = false
             showLoading.value = true
             viewModelScope.launch {
-                when (val response = _accountRepository.register(
-                    username.value!!,
-                    password.value!!,
-                    passwordConfirm.value!!,
-                    UserPrefs(context).getFcmToken()
-                )) {
-                    is Result.Success -> onSuccess()
-                    is Result.GenericError -> onGenericError(response)
-                    is Result.NetworkError -> onNetworkError()
+                val token = UserPrefs(context).getFcmToken()
+                token?.let {
+                    when (val response = _accountRepository.register(
+                        username.value!!,
+                        password.value!!,
+                        passwordConfirm.value!!,
+                        token
+                    )) {
+                        is Result.Success -> onSuccess()
+                        is Result.GenericError -> onGenericError(response)
+                        is Result.NetworkError -> onNetworkError()
+                    }
                 }
+                showLoading.value = false
+                _showRegisterButton.value = true
             }
         } else {
             val errors = inputValidator.errors
@@ -132,21 +146,30 @@ class RegistrationViewModel(private val context: Context) : BaseViewModel() {
 
     private fun hideValidationMessages() {
         _showUsernameValidationMessage.value = false
-        _showPasswordValidationMessage.value = true
-        _showPasswordConfirmValidationMessage.value = true
+        _showPasswordValidationMessage.value = false
+        _showPasswordConfirmValidationMessage.value = false
+        _showFailMessage.value = false
     }
 
     private fun onSuccess() {
-        TODO("onSuccess for register is not implemented yet.")
+        navigationCommand.value = NavigationCommand.To(
+            RegistrationFragmentDirections.actionRegistrationFragmentToEmailConfirmationFragment(
+                username.value!!
+            )
+        )
     }
 
     private fun onGenericError(error: Result.GenericError) {
-        TODO("onGenericError for register is not implemented yet.")
+        if (error.code == HttpStatus.BadRequest.code) {
+            _failMessage.value = context.getString(R.string.email_taken_alert, username.value)
+            _showFailMessage.value = true
+        }
     }
 
     private fun onNetworkError() {
-        navigationCommand.value = NavigationCommand
-            .To(RegistrationFragmentDirections.actionRegistrationFragmentToNoConnectionFragment())
+        navigationCommand.value = NavigationCommand.To(
+            RegistrationFragmentDirections.actionRegistrationFragmentToNoConnectionFragment()
+        )
     }
 
     class Factory(val context: Context) : ViewModelProvider.Factory {
