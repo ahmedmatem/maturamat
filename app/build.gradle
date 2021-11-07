@@ -8,6 +8,9 @@ plugins {
     id 'com.google.gms.google-services'
 }
 
+def keysProperties = new Properties()
+keysProperties.load(new FileInputStream(rootProject.file("keys.properties")))
+
 android {
     compileSdkVersion 30
 
@@ -28,6 +31,8 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         vectorDrawables.useSupportLibrary true
+
+        buildConfigField "String", "BASE_API_URL", keysProperties["baseApiUrl"]
     }
 
     buildTypes {

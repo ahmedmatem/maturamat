@@ -1,9 +1,11 @@
 package com.ahmedmatem.android.matura.infrastructure
 
+import com.ahmedmatem.android.matura.BuildConfig
+
 /**
  * API configurations
  */
-const val BASE_API_URL = "https://matypaapi.azurewebsites.net/"
+const val BASE_API_URL = BuildConfig.BASE_API_URL
 
 /**
  * Database configurations
