@@ -82,4 +82,11 @@
     <string name="password_no_match_message">Паролите не съвпадат</string>
     <string name="email_taken_alert">%1$s е вече зает.</string>
 
+    <!-- fragment_password_reset layout -->
+    <string name="reset_password_text">Въведете имейл адрес с който сте регистриран. На същия ще бъде изпратено писмо с инструкции и линк за възстановяване на забравена парола.</string>
+
+    <!-- general button texts -->
+    <string name="send_btn">Изпрати</string>
+    <string name="ok_btn">OK</string>
+
 </resources>
