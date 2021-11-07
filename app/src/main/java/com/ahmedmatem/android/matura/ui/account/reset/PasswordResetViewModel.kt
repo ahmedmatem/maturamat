@@ -23,20 +23,28 @@ class PasswordResetViewModel(private val context: Context) : BaseViewModel() {
         )
     }
 
+    private val _showSendButton = MutableLiveData(true)
+    val showSendButton: LiveData<Boolean> = _showSendButton
+
     private val _showInvalidEmailMessage = MutableLiveData(false)
     val showInvalidEmailMessage: LiveData<Boolean> = _showInvalidEmailMessage
-
     private val _failMessage: MutableLiveData<String> = MutableLiveData()
     val failMessage: LiveData<String> = _failMessage
+
+    private val _successMessage = MutableLiveData("")
+    val successMessage: LiveData<String> = _successMessage
+    private val _showSuccessMessage = MutableLiveData(false)
+    val showSuccessMessage: LiveData<Boolean> = _showSuccessMessage
 
     fun sendPasswordResetEmail(email: String) {
         val inputValidator = RegistrationInputValidator()
         if (inputValidator.isEmailValid(email)) {
             _showInvalidEmailMessage.value = false
+            _showSendButton.value = false
             showLoading.value = true
             viewModelScope.launch {
                 when (val response = _accountRepository.forgotPassword(email)) {
-                    is Result.Success -> onSuccess()
+                    is Result.Success -> onSuccess(email)
                     is Result.GenericError -> onGenericError(response.code!!, email)
                     is Result.NetworkError -> onNetworkError()
                 }
@@ -48,11 +56,13 @@ class PasswordResetViewModel(private val context: Context) : BaseViewModel() {
         }
     }
 
-    private fun onSuccess() {
-
+    private fun onSuccess(email: String) {
+        _successMessage.value = context.getString(R.string.forgot_password_success_message, email)
+        _showSuccessMessage.value = true
     }
 
     private fun onGenericError(responseCode: Int, email: String) {
+        _showSendButton.value = true
         when (responseCode) {
             HttpStatus.NotFound.code -> {
                 _failMessage.value = context.getString(R.string.email_not_found, email)
@@ -67,6 +77,7 @@ class PasswordResetViewModel(private val context: Context) : BaseViewModel() {
     }
 
     private fun onNetworkError() {
+        _showSendButton.value = true
         navigationCommand.value = NavigationCommand.To(
             PasswordResetFragmentDirections.actionPasswordResetFragmentToNoConnectionFragment()
         )
@@ -91,6 +102,5 @@ class PasswordResetViewModel(private val context: Context) : BaseViewModel() {
             }
             throw IllegalArgumentException("Unable to create PasswordResetViewModel.")
         }
-
     }
 }

@@ -89,5 +89,6 @@
     <string name="send_btn">Изпрати</string>
     <string name="ok_btn">OK</string>
     <string name="email_not_found">%1$s не е намерен. Проверете за грешка и опитайте пак.</string>
+    <string name="forgot_password_success_message">На %1$s е изпратен имейл с линк и процедура за възстановяване на забравена парола. Посетете пощата си за да промените паролата си.</string>
 
 </resources>
