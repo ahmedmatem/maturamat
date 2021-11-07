@@ -17,11 +17,19 @@ class PasswordResetFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProvider(this).get(PasswordResetViewModel::class.java)
+        viewModel =
+            ViewModelProvider(this, PasswordResetViewModel.Factory(requireContext())).get(
+                PasswordResetViewModel::class.java
+            )
 
         val binding = FragmentPasswordResetBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+
+        binding.sendPasswordResetButton.setOnClickListener(View.OnClickListener {
+            val email = binding.email.text.toString()
+            viewModel.sendPasswordResetEmail(email)
+        })
 
         return binding.root
     }

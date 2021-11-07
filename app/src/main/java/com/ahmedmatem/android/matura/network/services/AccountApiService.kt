@@ -37,6 +37,10 @@ interface AccountApiService {
         @Field("email") email: String,
         @Field("token") token: String
     )
+
+    @FormUrlEncoded
+    @POST("api/account/forgotPassword")
+    suspend fun forgotPassword(@Field("email") email: String)
 }
 
 object AccountApi {

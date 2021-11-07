@@ -48,6 +48,12 @@ class AccountRepository(
         }
     }
 
+    suspend fun forgotPassword(email: String): Result<Unit> {
+        return safeApiCall(dispatcher) {
+            accountService.forgotPassword(email)
+        }
+    }
+
     fun sendFcmRegistrationToServer(email: String, token: String) {
         accountService.sendFcmRegistrationToServer(email, token)
     }

@@ -4,9 +4,9 @@ import com.ahmedmatem.android.matura.infrastructure.*
 import java.util.regex.Pattern
 
 class RegistrationInputValidator {
-    private lateinit var username: String
-    private lateinit var password: String
-    private lateinit var passwordConfirm: String
+    private var username: String? = null
+    private var password: String? = null
+    private var passwordConfirm: String? = null
 
     var errors = Error()
 
@@ -15,7 +15,12 @@ class RegistrationInputValidator {
         return errors.value == 0
     }
 
-    private fun validateInput(un: String, p: String, pc: String) {
+    fun isEmailValid(email: String): Boolean {
+        validateInput(email, null, null)
+        return errors.value == 0
+    }
+
+    private fun validateInput(un: String?, p: String?, pc: String?) {
         username = un
         password = p
         passwordConfirm = pc
