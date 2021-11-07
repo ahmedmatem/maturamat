@@ -82,6 +82,7 @@
             style="@style/TextLinkStyle"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="32dp"
+            android:onClick="@{()->viewModel.navigateToPasswordReset()}"
             android:text="@string/password_reset_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/password"

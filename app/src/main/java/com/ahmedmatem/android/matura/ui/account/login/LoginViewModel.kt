@@ -78,24 +78,26 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
     }
 
     fun navigateToRegistration() {
-        navigationCommand.value =
-            NavigationCommand.To(LoginFragmentDirections.actionLoginFragmentToRegistrationFragment())
-    }
-
-    private fun navigateToEmailConfirmation(email: String) {
         navigationCommand.value = NavigationCommand.To(
-            LoginFragmentDirections.actionLoginFragmentToEmailConfirmationFragment(email)
+            LoginFragmentDirections.actionLoginFragmentToRegistrationFragment()
         )
     }
 
     fun loginWithGoogle() {
         TODO("Google login not yet implemented")
-//        navigationCommand.value =
-//            NavigationCommand.To(LoginFragmentDirections.actionLoginFragmentToGoogleLoginFragment())
+//        navigationCommand.value = NavigationCommand.To(
+//            LoginFragmentDirections.actionLoginFragmentToGoogleLoginFragment()
+//        )
     }
 
     fun loginWithFacebook() {
         TODO("Facebook login not yet implemented")
+    }
+
+    fun navigateToPasswordReset() {
+        navigationCommand.value = NavigationCommand.To(
+            LoginFragmentDirections.actionLoginFragmentToPasswordResetFragment()
+        )
     }
 
     private suspend fun onLoginSuccess(token: Token) {
@@ -111,6 +113,12 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
 
     private fun onGenericError(response: Result.GenericError) {
         showSnackBar.value = response.errorResponse?.bgDescription()
+    }
+
+    private fun navigateToEmailConfirmation(email: String) {
+        navigationCommand.value = NavigationCommand.To(
+            LoginFragmentDirections.actionLoginFragmentToEmailConfirmationFragment(email)
+        )
     }
 
     class Factory(private val context: Context) : ViewModelProvider.Factory {

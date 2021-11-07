@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_loginFragment_to_emailConfirmationFragment"
             app:destination="@id/emailConfirmationFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_passwordResetFragment"
+            app:destination="@id/passwordResetFragment" />
     </fragment>
 
     <fragment
@@ -61,5 +64,10 @@
             android:id="@+id/action_emailConfirmationFragment_to_noConnectionFragment"
             app:destination="@id/noConnectionFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/passwordResetFragment"
+        android:name="com.ahmedmatem.android.matura.ui.account.reset.PasswordResetFragment"
+        android:label="@string/password_reset_title"
+        tools:layout="@layout/fragment_password_reset"/>
 
 </navigation>
