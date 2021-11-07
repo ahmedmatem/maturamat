@@ -88,5 +88,6 @@
     <!-- general button texts -->
     <string name="send_btn">Изпрати</string>
     <string name="ok_btn">OK</string>
+    <string name="email_not_found">%1$s не е намерен. Проверете за грешка и опитайте пак.</string>
 
 </resources>
