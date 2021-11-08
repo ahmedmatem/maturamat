@@ -22,6 +22,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".AccountActivity"
+            android:screenOrientation="portrait"
             android:exported="true" />
         <activity
             android:name=".MainActivity"
