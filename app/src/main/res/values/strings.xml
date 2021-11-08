@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Matura by Kotlin</string>
+    <string name="app_name">Матура Мат</string>
     <string name="title_activity_main">Main Activity</string>
     <string name="title_activity_auth">Auth Activity</string>
 
@@ -90,5 +90,12 @@
     <string name="ok_btn">OK</string>
     <string name="email_not_found">%1$s не е намерен. Проверете за грешка и опитайте пак.</string>
     <string name="forgot_password_success_message">На %1$s е изпратен имейл с линк и процедура за възстановяване на забравена парола. Посетете пощата си за да промените паролата си.</string>
+
+    <!-- confirm_email_notification -->
+    <string name="confirm_email_notification_content_title">Потвърждение на имейл</string>
+    <string name="confirm_email_notification__content_text">Имейл адресът е потвърден успешно.</string>
+    <string name="confirm_email_notification_channel_id">confirm_email_notification_channel_id</string>
+    <string name="confirm_email_notification_channel_name">Email_Confirmation_Channel</string>
+    <string name="confirm_email_notification_channel_description">Email confirmation succeeded</string>
 
 </resources>

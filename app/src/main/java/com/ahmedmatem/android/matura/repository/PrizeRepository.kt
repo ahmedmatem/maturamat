@@ -3,7 +3,7 @@ package com.ahmedmatem.android.matura.repository
 import android.content.Context
 import com.ahmedmatem.android.matura.local.MaturaDb
 import com.ahmedmatem.android.matura.network.Result
-import com.ahmedmatem.android.matura.network.safeApiCall
+import com.ahmedmatem.android.matura.utils.safeApiCall
 import com.ahmedmatem.android.matura.network.services.PrizeApi
 import com.ahmedmatem.android.matura.prizesystem.models.Coin
 import com.ahmedmatem.android.matura.prizesystem.models.Period

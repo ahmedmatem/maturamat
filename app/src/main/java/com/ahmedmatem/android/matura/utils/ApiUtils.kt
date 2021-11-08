@@ -1,7 +1,10 @@
-package com.ahmedmatem.android.matura.network
+package com.ahmedmatem.android.matura.utils
 
+import com.ahmedmatem.android.matura.network.ErrorResponse
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import com.ahmedmatem.android.matura.network.Result
+import com.ahmedmatem.android.matura.network.Retrofit
 import kotlinx.io.IOException
 import retrofit2.HttpException
 

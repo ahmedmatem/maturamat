@@ -2,14 +2,14 @@ package com.ahmedmatem.android.matura.repository
 
 import com.ahmedmatem.android.matura.local.daos.AccountDao
 import com.ahmedmatem.android.matura.network.Result
+import com.ahmedmatem.android.matura.network.Retrofit
 import com.ahmedmatem.android.matura.network.models.Token
-import com.ahmedmatem.android.matura.network.safeApiCall
+import com.ahmedmatem.android.matura.utils.safeApiCall
 import com.ahmedmatem.android.matura.network.services.AccountApiService
-import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import retrofit2.Callback
+import retrofit2.Call
 
 class AccountRepository(
     private val accountDao: AccountDao,
@@ -54,7 +54,9 @@ class AccountRepository(
         }
     }
 
-    fun sendFcmRegistrationToServer(email: String, token: String) {
-        accountService.sendFcmRegistrationToServer(email, token)
+    suspend fun sendFcmRegistrationToServer(email: String, token: String): Result<Unit> {
+        return safeApiCall(dispatcher) {
+            accountService.sendFcmRegistrationToServer(email, token)
+        }
     }
 }

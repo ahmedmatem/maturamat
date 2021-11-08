@@ -106,7 +106,7 @@
             android:layout_height="@dimen/iv_btn_size"
             android:layout_marginTop="8dp"
             android:contentDescription="@string/new_email_confirmation_link_description"
-            android:fadeVisible="@{!viewModel.emailConfirmationLinkSent}"
+            android:fadeVisible="@{!viewModel.emailConfirmationLinkSent.booleanValue()}"
             android:onClick="@{() -> viewModel.sendEmailConfirmationLink()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

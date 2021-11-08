@@ -33,7 +33,7 @@ interface AccountApiService {
 
     @FormUrlEncoded
     @POST("api/account/updateFCMRegistrationToken")
-    fun sendFcmRegistrationToServer(
+    suspend fun sendFcmRegistrationToServer(
         @Field("email") email: String,
         @Field("token") token: String
     )

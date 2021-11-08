@@ -7,7 +7,7 @@ import com.ahmedmatem.android.matura.local.MaturaDb
 import com.ahmedmatem.android.matura.local.preferences.UserPrefs
 import com.ahmedmatem.android.matura.network.Result
 import com.ahmedmatem.android.matura.network.models.addUsername
-import com.ahmedmatem.android.matura.network.safeApiCall
+import com.ahmedmatem.android.matura.utils.safeApiCall
 import com.ahmedmatem.android.matura.network.services.TestApi
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

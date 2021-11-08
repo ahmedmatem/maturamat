@@ -51,16 +51,21 @@ class EmailConfirmationViewModel(
         }
     }
 
-    private suspend fun onSuccess() {
+    /**
+     * On success request FCM Registration token and update it on the Server.
+     * Token is used for Email Confirm notification send from Firebase Messaging Cloud.
+     */
+    private fun onSuccess() {
         _emailConfirmationLinkSent.value = true
-        // Each time email confirmation link has been sent,
-        // update FCM registration token for user on the server.
-        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-            if (task.isSuccessful) {
-                val token = task.result
-                _accountRepository.sendFcmRegistrationToServer(email, token)
-            }
-        })
+        FirebaseMessaging.getInstance().token
+            .addOnCompleteListener(OnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val token = task.result
+                    viewModelScope.launch {
+                        _accountRepository.sendFcmRegistrationToServer(email, token)
+                    }
+                }
+            })
     }
 
     private fun onNetworkError() {
