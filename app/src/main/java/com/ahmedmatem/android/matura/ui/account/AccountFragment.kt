@@ -35,7 +35,7 @@ class AccountFragment : BaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         viewModel =
             ViewModelProvider(this).get(AccountViewModel::class.java)
 

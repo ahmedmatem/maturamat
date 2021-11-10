@@ -63,6 +63,10 @@
         <action
             android:id="@+id/action_emailConfirmationFragment_to_noConnectionFragment"
             app:destination="@id/noConnectionFragment" />
+        <argument
+            android:name="Source"
+            app:argType="com.ahmedmatem.android.matura.ui.account.EmailConfirmationSource"
+            android:defaultValue="Login" />
     </fragment>
 
     <fragment

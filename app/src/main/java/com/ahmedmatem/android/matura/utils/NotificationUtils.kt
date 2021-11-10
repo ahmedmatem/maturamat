@@ -20,7 +20,9 @@ fun NotificationManager.sendNotification(
     contentText: String
 ) {
     // Intent to open an activity that correspondents to the notification
-    val contentIntent = Intent(applicationContext, AccountActivity::class.java)
+    val contentIntent = Intent(applicationContext, AccountActivity::class.java).apply {
+        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+    }
     val contentPendingIntent: PendingIntent = PendingIntent.getActivity(
         applicationContext,
         NOTIFICATION_ID,
