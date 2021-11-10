@@ -13,6 +13,7 @@ import com.ahmedmatem.android.matura.network.Result
 import com.ahmedmatem.android.matura.network.bgDescription
 import com.ahmedmatem.android.matura.network.services.AccountApi
 import com.ahmedmatem.android.matura.repository.AccountRepository
+import com.ahmedmatem.android.matura.ui.account.EmailConfirmationSource
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.launch
@@ -154,7 +155,8 @@ class RegistrationViewModel(private val context: Context) : BaseViewModel() {
     private fun onSuccess() {
         navigationCommand.value = NavigationCommand.To(
             RegistrationFragmentDirections.actionRegistrationFragmentToEmailConfirmationFragment(
-                username.value!!
+                username.value!!,
+                EmailConfirmationSource.Registration
             )
         )
     }

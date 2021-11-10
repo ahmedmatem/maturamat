@@ -11,6 +11,7 @@ import com.ahmedmatem.android.matura.network.models.Token
 import com.ahmedmatem.android.matura.network.services.AccountApi
 import com.ahmedmatem.android.matura.network.bgDescription
 import com.ahmedmatem.android.matura.repository.AccountRepository
+import com.ahmedmatem.android.matura.ui.account.EmailConfirmationSource
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 
@@ -60,7 +61,7 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
                         is Result.Success -> {
                             if (emailResponse.data) {
                                 // User exists and email has confirmed
-                                onLoginSuccess(tokenResponse.data)
+                                onSuccess(tokenResponse.data)
                             } else {
                                 // User exists but email is not confirmed yet
                                 navigateToEmailConfirmation(tokenResponse.data.userName)
@@ -100,7 +101,7 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
         )
     }
 
-    private suspend fun onLoginSuccess(token: Token) {
+    private suspend fun onSuccess(token: Token) {
         _accountRepository.saveToken(token)
         _prefs.setUser(token.userName)
         _loginAttemptResult.value = true
@@ -117,7 +118,10 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
 
     private fun navigateToEmailConfirmation(email: String) {
         navigationCommand.value = NavigationCommand.To(
-            LoginFragmentDirections.actionLoginFragmentToEmailConfirmationFragment(email)
+            LoginFragmentDirections.actionLoginFragmentToEmailConfirmationFragment(
+                email,
+                EmailConfirmationSource.Login
+            )
         )
     }
 
