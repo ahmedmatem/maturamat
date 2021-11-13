@@ -13,6 +13,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
         tools:context=".ui.account.AccountFragment">
 
         <androidx.constraintlayout.widget.Guideline
@@ -20,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.15" />
+            app:layout_constraintGuide_percent="0.05" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline2"
@@ -29,28 +31,24 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.5" />
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.95" />
+
         <TextView
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/account_welcome_title"
+            android:text="@string/title_login"
             android:textAppearance="@style/TitleText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline1"
-            tools:text="Добре дошли!" />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/account_welcome_subtitle"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView1"
-            tools:text="Влезте в профила си за да продължите" />
+            tools:text="Вход" />
 
         <EditText
             android:id="@+id/userName"
@@ -62,7 +60,7 @@
             android:text="@={viewModel.username}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+            app:layout_constraintTop_toBottomOf="@+id/textView1" />
 
         <EditText
             android:id="@+id/password"
@@ -77,90 +75,88 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/userName" />
 
-        <TextView
-            android:id="@+id/passwordResetLink"
-            style="@style/TextLinkStyle"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="32dp"
-            android:onClick="@{()->viewModel.navigateToPasswordReset()}"
-            android:text="@string/password_reset_text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/password"
-            tools:ignore="TextContrastCheck" />
-
         <Button
             android:id="@+id/loginBtn"
             style="@style/BaseButtonStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="64dp"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginTop="16dp"
             android:enabled="@{viewModel.loginButtonEnabled.booleanValue()}"
             android:onClick="@{() -> viewModel.loginWithLocalAccount()}"
             android:text="@string/login_btn_text"
-            app:layout_constraintEnd_toEndOf="@+id/facebookLoginBtn"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/googleLoginButton"
-            app:layout_constraintTop_toBottomOf="@+id/password" />
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/alternative_login_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/password" />
+
+        <TextView
+            android:id="@+id/passwordResetLink"
+            style="@style/TextLinkStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:onClick="@{()->viewModel.navigateToPasswordReset()}"
+            android:text="@string/password_reset_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/loginBtn" />
-
-        <Button
-            android:id="@+id/googleLoginButton"
-            style="@style/GoogleButtonStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:contentDescription="@string/sign_in_with_google_description"
-            android:onClick="@{() -> viewModel.loginWithGoogle()}"
-            android:text="@string/title_google"
-            app:layout_constraintEnd_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-        <Button
-            android:id="@+id/facebookLoginBtn"
-            style="@style/FacebookButtonStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="-4dp"
-            android:layout_marginTop="16dp"
-            android:contentDescription="@string/sign_in_with_facebook_description"
-            android:onClick="@{() -> viewModel.loginWithFacebook()}"
-            android:text="@string/title_facebook"
-            app:layout_constraintStart_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
         <TextView
             android:id="@+id/signUpLink"
             style="@style/TextLinkStyle"
-            android:layout_marginBottom="16dp"
-            android:onClick="@{() -> viewModel.navigateToRegistration()}"
-            android:text="@string/sign_up_text"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="TextContrastCheck" />
-
-        <ProgressBar
-            android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:fadeVisible="@{viewModel.showLoading.booleanValue()}"
+            android:onClick="@{() -> viewModel.navigateToRegistration()}"
+            android:padding="@dimen/small_padding"
+            android:text="@string/sign_up_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/passwordResetLink" />
+
+        <TextView
+            android:id="@+id/textView13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="@string/external_login_text"
+            app:layout_constraintBottom_toTopOf="@+id/googleLoginButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/password" />
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageButton
+            android:id="@+id/googleLoginButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/form_button_bg"
+            android:contentDescription="@string/sign_in_with_google_description"
+            android:onClick="@{() -> viewModel.loginWithGoogle()}"
+            app:layout_constraintBottom_toBottomOf="@+id/facebookLoginBtn"
+            app:layout_constraintEnd_toStartOf="@+id/guideline2"
+            app:srcCompat="@drawable/fui_ic_googleg_color_24dp" />
+
+        <ImageButton
+            android:id="@+id/facebookLoginBtn"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/form_button_bg"
+            android:contentDescription="@string/sign_in_with_facebook_description"
+            android:onClick="@{() -> viewModel.loginWithFacebook()}"
+            app:layout_constraintBottom_toTopOf="@+id/guideline4"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:srcCompat="@drawable/fui_ic_facebook_white_22dp" />
+
+        <!--        <ProgressBar-->
+        <!--            android:id="@+id/progressBar"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:fadeVisible="@{viewModel.showLoading.booleanValue()}"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintHorizontal_bias="0.501"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            tools:layout_editor_absoluteY="517dp" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -29,23 +29,20 @@
     <string name="new_email_confirmation_link_description">Бутон за заявка на нов линк за потвърждение на имейл</string>
     <string name="check_description">Успешна операция</string>
 
-    <!-- login fragment layout -->
+    <!-- fragment_login layout -->
     <string name="account_off_image_description">Account off image</string>
-    <string name="account_welcome_title">Добре дошъл!</string>
-    <string name="account_welcome_subtitle">Влез в профила си за да продължиш</string>
     <string name="password_reset_text">Забравена парола</string>
     <string name="sign_up_text">Създай профил</string>
     <string name="login_btn_text">Влез</string>
-    <string name="alternative_login_text">или влез с профила си от</string>
-    <string name="or">или</string>
+    <string name="external_login_text">Влез с профила си от</string>
     <string name="email_confirmation_in_progress_message">Проверка на имейл адреса.</string>
 
-    <!-- registration fragment layout -->
+    <!-- fragment_registration layout -->
     <string name="registration_form">Регистрационна форма</string>
     <string name="with_social_media">чрез социална медия</string>
     <string name="registration_btn_text">Регистрация</string>
 
-    <!-- fragment account layout -->
+    <!-- fragment_account layout -->
     <string name="loginBtn">Вход</string>
 
     <!-- hints -->

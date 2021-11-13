@@ -16,6 +16,8 @@ class AccountActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_activity_account)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
+
+        supportActionBar?.hide()
     }
 
     override fun onSupportNavigateUp(): Boolean {

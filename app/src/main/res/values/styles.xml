@@ -40,7 +40,6 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:padding">@dimen/small_padding</item>
-        <item name="android:textColor">@color/colorAccent</item>
     </style>
 
     <style name="BaseButtonStyle" parent="Widget.AppCompat.Button">
