@@ -34,8 +34,8 @@
     <dimen name="button_stroke_width">1dp</dimen>
 
     <!-- Text dimens -->
-    <dimen name="text_size">14sp</dimen>
-    <dimen name="title_size">16sp</dimen>
+    <dimen name="text_size_14">14sp</dimen>
+    <dimen name="title_size_16">16sp</dimen>
     <dimen name="text_size_12">12sp</dimen>
 
     <!-- image view -->

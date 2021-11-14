@@ -68,12 +68,12 @@
 
     <!-- TextView styles -->
     <style name="TextView">
-        <item name="android:textSize">@dimen/text_size</item>
+        <item name="android:textSize">@dimen/text_size_14</item>
         <item name="android:textStyle">normal</item>
     </style>
 
     <style name="TextView.Title">
-        <item name="android:textSize">@dimen/title_size</item>
+        <item name="android:textSize">@dimen/title_size_16</item>
         <item name="android:textStyle">bold</item>
     </style>
 

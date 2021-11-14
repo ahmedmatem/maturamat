@@ -154,7 +154,7 @@
             android:fadeVisible="@{viewModel.showFailMessage.booleanValue()}"
             android:text="@{viewModel.failMessage.toString()}"
             android:textAlignment="center"
-            android:textSize="@dimen/text_size"
+            android:textSize="@dimen/text_size_14"
             app:drawableTopCompat="@drawable/ic_alert_circle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
