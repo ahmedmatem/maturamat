@@ -33,60 +33,20 @@
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:text="@string/registration_form"
             android:textAppearance="@style/TitleText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/with_social_media"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline1" />
-
-        <Button
-            android:id="@+id/regGoogleButton"
-            style="@style/GoogleButtonStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:contentDescription="@string/sign_in_with_google_description"
-            android:text="@string/title_google"
-            app:layout_constraintEnd_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-        <Button
-            android:id="@+id/regFacebookLoginBtn"
-            style="@style/FacebookButtonStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="-4dp"
-            android:contentDescription="@string/sign_in_with_facebook_description"
-            android:text="@string/title_facebook"
-            app:layout_constraintStart_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/external_login_text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/regGoogleButton" />
 
         <EditText
             android:id="@+id/regUserName"
-            style="@style/EditTextLoginStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/layout_margin"
+            android:layout_marginTop="@dimen/xlarge_margin"
+            android:layout_marginEnd="@dimen/layout_margin"
             android:autofillHints="emailAddress"
             android:drawableStart="@drawable/ic_account_24"
             android:hint="@string/hint_email"
@@ -98,11 +58,11 @@
 
         <TextView
             android:id="@+id/usernameValidationMessage"
-            style="@style/TextView.AlertText"
+            style="@style/InlineErrorMessageStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginStart="@dimen/layout_margin"
+            android:layout_marginEnd="@dimen/layout_margin"
             android:fadeVisible="@{viewModel.showUsernameValidationMessage}"
             android:text="@{viewModel.usernameValidationMessage.toString()}"
             app:layout_constraintEnd_toEndOf="@+id/regUserName"
@@ -112,8 +72,11 @@
 
         <EditText
             android:id="@+id/regPassword"
-            style="@style/EditTextLoginStyle"
-            android:layout_marginTop="8dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/layout_margin"
+            android:layout_marginTop="@dimen/layout_margin"
+            android:layout_marginEnd="@dimen/layout_margin"
             android:autofillHints="password"
             android:drawableStart="@drawable/ic_lock_outline_24"
             android:hint="@string/hint_password"
@@ -125,11 +88,11 @@
 
         <TextView
             android:id="@+id/passwordValidationMessage"
-            style="@style/TextView.AlertText"
+            style="@style/InlineErrorMessageStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginStart="@dimen/layout_margin"
+            android:layout_marginEnd="@dimen/layout_margin"
             android:fadeVisible="@{viewModel.showPasswordValidationMessage}"
             android:text="@{viewModel.passwordValidationMessage.toString()}"
             app:layout_constraintEnd_toEndOf="@+id/regPassword"
@@ -139,9 +102,11 @@
 
         <EditText
             android:id="@+id/regPasswordConfirm"
-            style="@style/EditTextLoginStyle"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="@dimen/layout_margin"
+            android:layout_marginTop="@dimen/layout_margin"
+            android:layout_marginEnd="@dimen/layout_margin"
             android:autofillHints="password"
             android:drawableStart="@drawable/ic_lock_outline_24"
             android:hint="@string/hint_confirm_password"
@@ -153,11 +118,11 @@
 
         <TextView
             android:id="@+id/passwordConfirmValidationMessage"
-            style="@style/TextView.AlertText"
+            style="@style/InlineErrorMessageStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginStart="@dimen/layout_margin"
+            android:layout_marginEnd="@dimen/layout_margin"
             android:fadeVisible="@{viewModel.showPasswordConfirmValidationMessage}"
             android:text="@{viewModel.passwordConfirmValidationMessage.toString()}"
             app:layout_constraintEnd_toEndOf="@+id/regPasswordConfirm"
@@ -167,10 +132,9 @@
 
         <Button
             android:id="@+id/registrationBtn"
-            style="@style/BaseButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="@dimen/large_margin"
             android:fadeVisible="@{viewModel.showRegisterButton.booleanValue()}"
             android:onClick="@{() -> viewModel.register()}"
             android:text="@string/registration_btn_text"
@@ -179,25 +143,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/regPasswordConfirm" />
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:fadeVisible="@{viewModel.showLoading.booleanValue()}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/regPasswordConfirm" />
-
         <TextView
             android:id="@+id/registrationFailText"
-            style="@style/TextView.AlertText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginStart="@dimen/layout_margin"
+            android:layout_marginTop="@dimen/layout_margin"
+            android:layout_marginEnd="@dimen/layout_margin"
             android:drawablePadding="@dimen/xsmall_padding"
             android:fadeVisible="@{viewModel.showFailMessage.booleanValue()}"
             android:text="@{viewModel.failMessage.toString()}"
@@ -208,6 +160,24 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/registrationBtn"
             tools:text="Registration fail text goes here" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/progress_bar_bg"
+            android:fadeVisible="@{viewModel.showLoading.booleanValue()}"
+            tools:visibility="gone">
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

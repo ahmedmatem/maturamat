@@ -31,12 +31,12 @@
         <item name="android:drawablePadding">@dimen/small_padding</item>
         <item name="android:minHeight">@dimen/form_ui_min_height</item>
         <item name="android:padding">@dimen/small_padding</item>
-        <item name="android:textColorHint">@color/hint_color</item>
+        <item name="android:textColorHint">@color/color_hint</item>
     </style>
 
     <!-- BUTTON & LINK STYLES -->
 
-    <style name="TextLinkStyle">
+    <style name="TextLinkStyleOld">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:padding">@dimen/small_padding</item>
@@ -78,8 +78,8 @@
     </style>
 
     <style name="TextView.AlertText">
-        <item name="android:textSize">@dimen/alert_text_size</item>
-        <item name="android:textColor">@color/alert_color</item>
+        <item name="android:textSize">@dimen/text_size_12</item>
+        <item name="android:textColor">@color/color_error</item>
     </style>
 
 
@@ -110,9 +110,14 @@
 
     <!-- App TextView style -->
 
-    <style name="AppTextLinkStyle" parent="Widget.AppCompat.TextView">
+    <style name="TextLinkStyle" parent="Widget.AppCompat.TextView">
         <item name="android:textColor">?attr/colorAccent</item>
         <item name="android:padding">@dimen/small_padding</item>
+    </style>
+
+    <style name="InlineErrorMessageStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">@dimen/text_size_12</item>
+        <item name="android:textColor">?attr/colorAccent</item>
     </style>
 
 </resources>

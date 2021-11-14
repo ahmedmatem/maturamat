@@ -36,7 +36,7 @@
     <!-- Text dimens -->
     <dimen name="text_size">14sp</dimen>
     <dimen name="title_size">16sp</dimen>
-    <dimen name="alert_text_size">12sp</dimen>
+    <dimen name="text_size_12">12sp</dimen>
 
     <!-- image view -->
     <dimen name="iv_btn_size">32dp</dimen>

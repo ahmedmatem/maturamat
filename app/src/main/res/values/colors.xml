@@ -13,8 +13,9 @@
     <color name="white">#FFFFFFFF</color>
 
     <!-- general -->
-    <color name="hint_color">#546E7A</color>
-    <color name="alert_color">#D81B60</color>
+    <color name="progress_bar_bg">#A000</color>
+    <color name="color_hint">#546E7A</color>
+    <color name="color_error">#D81B60</color>
 
     <!-- red color palette -->
     <color name="red_50">#FFEBEE</color>
