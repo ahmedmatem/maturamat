@@ -3,7 +3,7 @@
     android:shape="rectangle">
     <stroke
         android:width="@dimen/button_stroke_width"
-        android:color="@color/colorPrimary" />
-    <solid android:color="@color/white" />
-    <corners android:radius="@dimen/input_ui_radius" />
+        android:color="?attr/colorAccent" />
+    <solid android:color="?attr/backgroundColor" />
+    <corners android:radius="@dimen/form_ui_radius" />
 </shape>

@@ -52,9 +52,14 @@
 
         <EditText
             android:id="@+id/userName"
-            style="@style/EditTextLoginStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/layout_margin"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="@dimen/layout_margin"
             android:autofillHints="emailAddress"
-            android:drawableStart="@drawable/ic_account_black_24"
+            android:drawableStart="@drawable/ic_account_24"
+            android:drawablePadding="@dimen/small_padding"
             android:hint="@string/hint_email"
             android:inputType="textEmailAddress"
             android:text="@={viewModel.username}"
@@ -64,10 +69,14 @@
 
         <EditText
             android:id="@+id/password"
-            style="@style/EditTextLoginStyle"
-            android:layout_marginTop="8dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/layout_margin"
+            android:layout_marginTop="@dimen/layout_margin"
+            android:layout_marginEnd="@dimen/layout_margin"
             android:autofillHints="password"
-            android:drawableStart="@drawable/ic_lock_outline_black_24"
+            android:drawableStart="@drawable/ic_lock_outline_24"
+            android:drawablePadding="@dimen/small_padding"
             android:hint="@string/hint_password"
             android:inputType="textPassword"
             android:text="@={viewModel.password}"
@@ -77,9 +86,8 @@
 
         <Button
             android:id="@+id/loginBtn"
-            style="@style/BaseButtonStyle"
             android:layout_width="wrap_content"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:enabled="@{viewModel.loginButtonEnabled.booleanValue()}"
             android:onClick="@{() -> viewModel.loginWithLocalAccount()}"
@@ -91,10 +99,10 @@
 
         <TextView
             android:id="@+id/passwordResetLink"
-            style="@style/TextLinkStyle"
+            style="@style/AppTextLinkStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/layout_margin"
             android:onClick="@{()->viewModel.navigateToPasswordReset()}"
             android:text="@string/password_reset_text"
             app:layout_constraintEnd_toEndOf="parent"
@@ -103,7 +111,7 @@
 
         <TextView
             android:id="@+id/signUpLink"
-            style="@style/TextLinkStyle"
+            style="@style/AppTextLinkStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="@{() -> viewModel.navigateToRegistration()}"
@@ -126,10 +134,10 @@
 
         <ImageButton
             android:id="@+id/googleLoginButton"
+            style="@style/AppButtonStyle"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginEnd="8dp"
-            android:background="@drawable/form_button_bg"
             android:contentDescription="@string/sign_in_with_google_description"
             android:onClick="@{() -> viewModel.loginWithGoogle()}"
             app:layout_constraintBottom_toBottomOf="@+id/facebookLoginBtn"
@@ -138,15 +146,15 @@
 
         <ImageButton
             android:id="@+id/facebookLoginBtn"
+            style="@style/AppButtonStyle"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginStart="8dp"
-            android:background="@drawable/form_button_bg"
             android:contentDescription="@string/sign_in_with_facebook_description"
             android:onClick="@{() -> viewModel.loginWithFacebook()}"
             app:layout_constraintBottom_toTopOf="@+id/guideline4"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
-            app:srcCompat="@drawable/fui_ic_facebook_white_22dp" />
+            app:srcCompat="@drawable/ic_facebook_24" />
 
         <!--        <ProgressBar-->
         <!--            android:id="@+id/progressBar"-->

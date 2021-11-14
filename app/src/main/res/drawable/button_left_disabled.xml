@@ -6,6 +6,6 @@
         android:width="@dimen/button_stroke_width"
         android:color="@color/gray_300" />
     <corners
-        android:bottomLeftRadius="@dimen/input_ui_radius"
-        android:topLeftRadius="@dimen/input_ui_radius" />
+        android:bottomLeftRadius="@dimen/form_ui_radius"
+        android:topLeftRadius="@dimen/form_ui_radius" />
 </shape>

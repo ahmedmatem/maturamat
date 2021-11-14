@@ -5,14 +5,14 @@
         <shape android:shape="rectangle">
             <solid android:color="@color/white"/>
             <stroke android:width="2dp" android:color="@color/gray_300"/>
-            <corners android:radius="@dimen/input_ui_radius"/>
+            <corners android:radius="@dimen/form_ui_radius"/>
         </shape>
     </item>
 
     <item android:state_enabled="true">
         <shape android:shape="rectangle">
             <solid android:color="@color/gray_100"/>
-            <corners android:radius="@dimen/input_ui_radius"/>
+            <corners android:radius="@dimen/form_ui_radius"/>
         </shape>
     </item>
 </selector>

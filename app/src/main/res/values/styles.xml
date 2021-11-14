@@ -29,7 +29,7 @@
         <item name="android:background">@drawable/form_edit_text_bg</item>
         <item name="android:ems">10</item>
         <item name="android:drawablePadding">@dimen/small_padding</item>
-        <item name="android:minHeight">@dimen/input_ui_min_height</item>
+        <item name="android:minHeight">@dimen/form_ui_min_height</item>
         <item name="android:padding">@dimen/small_padding</item>
         <item name="android:textColorHint">@color/hint_color</item>
     </style>
@@ -50,7 +50,7 @@
 
     <style name="GoogleButtonStyle" parent="FirebaseUI.Button.AccountChooser.GoogleButton">
         <item name="android:background">@drawable/button_left_bg</item>
-        <item name="android:minHeight">@dimen/input_ui_min_height</item>
+        <item name="android:minHeight">@dimen/form_ui_min_height</item>
         <item name="android:padding">@dimen/small_padding</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:drawablePadding">@dimen/small_padding</item>
@@ -59,7 +59,7 @@
 
     <style name="FacebookButtonStyle" parent="FirebaseUI.Button.AccountChooser.FacebookButton">
         <item name="android:background">@drawable/button_right_bg</item>
-        <item name="android:minHeight">@dimen/input_ui_min_height</item>
+        <item name="android:minHeight">@dimen/form_ui_min_height</item>
         <item name="android:padding">@dimen/small_padding</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:drawablePadding">@dimen/small_padding</item>
@@ -81,4 +81,38 @@
         <item name="android:textSize">@dimen/alert_text_size</item>
         <item name="android:textColor">@color/alert_color</item>
     </style>
+
+
+    <!-- App EditText style -->
+
+    <style name="AppEditTextStyle" parent="Widget.AppCompat.EditText">
+        <item name="android:background">@drawable/edit_text_background</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <item name="android:minHeight">@dimen/form_ui_min_height</item>
+        <item name="android:padding">@dimen/small_padding</item>
+    </style>
+
+    <style name="AppEditTextNightStyle" parent="AppEditTextStyle">
+        <item name="android:background">@drawable/edit_text_background_night</item>
+    </style>
+
+    <!-- App Button style -->
+
+    <style name="AppButtonStyle" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/button_base_bg</item>
+<!--        <item name="android:textColor">?attr/colorAccent</item>-->
+        <item name="android:padding">@dimen/small_padding</item>
+    </style>
+
+    <style name="AppButtonNightStyle" parent="AppButtonStyle">
+        <item name="android:background">@drawable/button_base_bg_night</item>
+    </style>
+
+    <!-- App TextView style -->
+
+    <style name="AppTextLinkStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">?attr/colorAccent</item>
+        <item name="android:padding">@dimen/small_padding</item>
+    </style>
+
 </resources>

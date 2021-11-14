@@ -6,6 +6,6 @@
         android:color="@color/colorPrimary" />
     <solid android:color="@color/white" />
     <corners
-        android:topRightRadius="@dimen/input_ui_radius"
-        android:bottomRightRadius="@dimen/input_ui_radius" />
+        android:topRightRadius="@dimen/form_ui_radius"
+        android:bottomRightRadius="@dimen/form_ui_radius" />
 </shape>

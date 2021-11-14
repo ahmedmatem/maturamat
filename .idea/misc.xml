@@ -5,7 +5,9 @@
       <map>
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/button_base.xml" value="0.262037037037037" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/button_base_bg.xml" value="0.262037037037037" />
+        <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/button_base_bg_night.xml" value="0.2755208333333333" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/button_base_disabled.xml" value="0.262037037037037" />
+        <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/button_base_night_bg.xml" value="0.2755208333333333" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/button_left.xml" value="0.262037037037037" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/button_left_bg.xml" value="0.262037037037037" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/button_left_disabled.xml" value="0.262037037037037" />
@@ -13,6 +15,8 @@
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/button_right_bg.xml" value="0.262037037037037" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/button_right_disabled.xml" value="0.262037037037037" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/button_states.xml" value="0.2713541666666667" />
+        <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/edit_text_background.xml" value="0.24351851851851852" />
+        <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/edit_text_background_night.xml" value="0.24351851851851852" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/facebook_btn_bg.xml" value="0.262037037037037" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/facebook_btn_disabled.xml" value="0.262037037037037" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/facebook_btn_enabled.xml" value="0.262037037037037" />
@@ -22,6 +26,7 @@
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/form_edit_text_bg.xml" value="0.2713541666666667" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/google_btn_disabled.xml" value="0.2713541666666667" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/google_btn_enabled.xml" value="0.2713541666666667" />
+        <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/ic_account_black_24.xml" value="0.23981481481481481" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/ic_baseline_local_fire_department_24.xml" value="0.24814814814814815" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/ic_email_check.xml" value="0.2537037037037037" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/ic_face_2_24.xml" value="0.24814814814814815" />
@@ -30,7 +35,9 @@
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/ic_face_5_24.xml" value="0.2490740740740741" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/ic_face_6_24.xml" value="0.2490740740740741" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/ic_face_6_black_24.xml" value="0.24814814814814815" />
+        <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/ic_facebook_logo_24.xml" value="0.2755208333333333" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/ic_google_logo_24.xml" value="0.2518518518518518" />
+        <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/ic_lock_outline_black_24.xml" value="0.2755208333333333" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/ic_mail_forward.xml" value="0.25925925925925924" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/ic_mail_send.xml" value="0.25925925925925924" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/layout/activity_account.xml" value="0.259375" />
