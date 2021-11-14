@@ -39,7 +39,7 @@ class EmailConfirmationViewModel(
         _navigateToEmailClient.value = intent
     }
 
-    fun sendEmailConfirmationLink() {
+    fun requestEmailConfirmationLink() {
         showLoading.value = true
         viewModelScope.launch {
             when (val result = _accountRepository.sendEmailConfirmationLink(email)) {

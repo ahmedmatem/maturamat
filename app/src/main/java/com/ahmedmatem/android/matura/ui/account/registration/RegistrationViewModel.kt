@@ -10,14 +10,9 @@ import com.ahmedmatem.android.matura.local.MaturaDb
 import com.ahmedmatem.android.matura.local.preferences.UserPrefs
 import com.ahmedmatem.android.matura.network.HttpStatus
 import com.ahmedmatem.android.matura.network.Result
-import com.ahmedmatem.android.matura.network.bgDescription
 import com.ahmedmatem.android.matura.network.services.AccountApi
 import com.ahmedmatem.android.matura.repository.AccountRepository
-import com.ahmedmatem.android.matura.ui.account.EmailConfirmationSource
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.launch
-import okhttp3.internal.http2.Http2
 import java.lang.IllegalArgumentException
 
 class RegistrationViewModel(private val context: Context) : BaseViewModel() {
@@ -155,8 +150,7 @@ class RegistrationViewModel(private val context: Context) : BaseViewModel() {
     private fun onSuccess() {
         navigationCommand.value = NavigationCommand.To(
             RegistrationFragmentDirections.actionRegistrationFragmentToEmailConfirmationFragment(
-                username.value!!,
-                EmailConfirmationSource.Registration
+                username.value!!
             )
         )
     }

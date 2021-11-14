@@ -61,15 +61,14 @@
     <string name="oops">Опа!</string>
 
     <!-- fragment_email_confirmation layout -->
-    <string name="email_confirmation_required">Изисква се потвърждение на имейл адрес</string>
-    <string name="email_confirmation_alert">
-        За да влезете в профила си е необходимо да потвърдите валидността на посочения имейл адрес.
-        За целта посетете електронната си поща на посочения адрес и проверете в папка Входящи или Спам
-        за имейл от МатураМат, изпратено Ви след вашата регистрация. В него ще откриете инстрункции с
-        линк за потвърждение. Възможно е линкът да е с изтекъл срок. В такъв случай заявете нов.
+    <string name="confirm_email_title">Профилът изисква активиране</string>
+    <string name="confirm_email_message">
+        Последна стъпка при създаването на профил е активирането му чрез кликване върху линк изпратен от
+        системата на посочения от Вас имейл адрес.\n Моля проверете електронната си поща.\n Ако не сте получили
+        имейл с линк за активиране от нас или е невалиден, изискайте нов.
     </string>
-    <string name="check_email_text">Проверете пощата си</string>
-    <string name="new_confirmation_link_text">Заявете нов линк за потвърждение</string>
+    <string name="open_email_client_text">Към електронната поща</string>
+    <string name="new_confirmation_link_text">Нов линк за активиране на профила</string>
 
     <!-- Registration form validation messages/alerts -->
     <string name="email_required_message">Изисква се имейл адрес</string>

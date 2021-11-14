@@ -63,10 +63,11 @@
         <action
             android:id="@+id/action_emailConfirmationFragment_to_noConnectionFragment"
             app:destination="@id/noConnectionFragment" />
-        <argument
-            android:name="Source"
-            app:argType="com.ahmedmatem.android.matura.ui.account.EmailConfirmationSource"
-            android:defaultValue="Login" />
+        <action
+            android:id="@+id/action_emailConfirmationFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment

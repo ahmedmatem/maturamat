@@ -11,7 +11,6 @@ import com.ahmedmatem.android.matura.network.models.Token
 import com.ahmedmatem.android.matura.network.services.AccountApi
 import com.ahmedmatem.android.matura.network.bgDescription
 import com.ahmedmatem.android.matura.repository.AccountRepository
-import com.ahmedmatem.android.matura.ui.account.EmailConfirmationSource
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 
@@ -118,10 +117,7 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
 
     private fun navigateToEmailConfirmation(email: String) {
         navigationCommand.value = NavigationCommand.To(
-            LoginFragmentDirections.actionLoginFragmentToEmailConfirmationFragment(
-                email,
-                EmailConfirmationSource.Login
-            )
+            LoginFragmentDirections.actionLoginFragmentToEmailConfirmationFragment(email)
         )
     }
 
