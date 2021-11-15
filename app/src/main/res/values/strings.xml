@@ -89,8 +89,8 @@
     <string name="forgot_password_success_message">На %1$s е изпратен имейл с линк и процедура за възстановяване на забравена парола. Посетете пощата си за да промените паролата си.</string>
 
     <!-- confirm_email_notification -->
-    <string name="confirm_email_notification_content_title">Потвърждение на имейл</string>
-    <string name="confirm_email_notification__content_text">Имейл адресът е потвърден успешно.</string>
+    <string name="confirm_email_notification_content_title">Активиране на профил</string>
+    <string name="confirm_email_notification__content_text">Профилът Ви е активиран успешно.</string>
     <string name="confirm_email_notification_channel_id">confirm_email_notification_channel_id</string>
     <string name="confirm_email_notification_channel_name">Email_Confirmation_Channel</string>
     <string name="confirm_email_notification_channel_description">Email confirmation succeeded</string>

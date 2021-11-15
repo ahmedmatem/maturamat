@@ -48,23 +48,23 @@
         <item name="android:padding">@dimen/small_padding</item>
     </style>
 
-    <style name="GoogleButtonStyle" parent="FirebaseUI.Button.AccountChooser.GoogleButton">
-        <item name="android:background">@drawable/button_left_bg</item>
-        <item name="android:minHeight">@dimen/form_ui_min_height</item>
-        <item name="android:padding">@dimen/small_padding</item>
-        <item name="android:textAllCaps">false</item>
-        <item name="android:drawablePadding">@dimen/small_padding</item>
-        <item name="android:textColor">@color/colorPrimary</item>
-    </style>
+<!--    <style name="GoogleButtonStyle" parent="FirebaseUI.Button.AccountChooser.GoogleButton">-->
+<!--        <item name="android:background">@drawable/button_left_bg</item>-->
+<!--        <item name="android:minHeight">@dimen/form_ui_min_height</item>-->
+<!--        <item name="android:padding">@dimen/small_padding</item>-->
+<!--        <item name="android:textAllCaps">false</item>-->
+<!--        <item name="android:drawablePadding">@dimen/small_padding</item>-->
+<!--        <item name="android:textColor">@color/colorPrimary</item>-->
+<!--    </style>-->
 
-    <style name="FacebookButtonStyle" parent="FirebaseUI.Button.AccountChooser.FacebookButton">
-        <item name="android:background">@drawable/button_right_bg</item>
-        <item name="android:minHeight">@dimen/form_ui_min_height</item>
-        <item name="android:padding">@dimen/small_padding</item>
-        <item name="android:textAllCaps">false</item>
-        <item name="android:drawablePadding">@dimen/small_padding</item>
-        <item name="android:textColor">@color/colorPrimary</item>
-    </style>
+<!--    <style name="FacebookButtonStyle" parent="FirebaseUI.Button.AccountChooser.FacebookButton">-->
+<!--        <item name="android:background">@drawable/button_right_bg</item>-->
+<!--        <item name="android:minHeight">@dimen/form_ui_min_height</item>-->
+<!--        <item name="android:padding">@dimen/small_padding</item>-->
+<!--        <item name="android:textAllCaps">false</item>-->
+<!--        <item name="android:drawablePadding">@dimen/small_padding</item>-->
+<!--        <item name="android:textColor">@color/colorPrimary</item>-->
+<!--    </style>-->
 
     <!-- TextView styles -->
     <style name="TextView">
@@ -72,15 +72,15 @@
         <item name="android:textStyle">normal</item>
     </style>
 
-    <style name="TextView.Title">
-        <item name="android:textSize">@dimen/title_size_16</item>
-        <item name="android:textStyle">bold</item>
-    </style>
+<!--    <style name="TextView.Title">-->
+<!--        <item name="android:textSize">@dimen/title_size_16</item>-->
+<!--        <item name="android:textStyle">bold</item>-->
+<!--    </style>-->
 
-    <style name="TextView.AlertText">
-        <item name="android:textSize">@dimen/text_size_12</item>
-        <item name="android:textColor">@color/color_error</item>
-    </style>
+<!--    <style name="TextView.AlertText">-->
+<!--        <item name="android:textSize">@dimen/text_size_12</item>-->
+<!--        <item name="android:textColor">@color/color_error</item>-->
+<!--    </style>-->
 
 
     <!-- App EditText style -->
