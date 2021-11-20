@@ -14,9 +14,6 @@
             android:id="@+id/action_loginFragment_to_registrationFragment"
             app:destination="@id/registrationFragment" />
         <action
-            android:id="@+id/action_loginFragment_to_googleLoginFragment"
-            app:destination="@id/googleLoginFragment" />
-        <action
             android:id="@+id/action_loginFragment_to_noConnectionFragment"
             app:destination="@id/noConnectionFragment" />
         <action
@@ -39,12 +36,6 @@
             android:id="@+id/action_registrationFragment_to_emailConfirmationFragment"
             app:destination="@id/emailConfirmationFragment" />
     </fragment>
-
-    <fragment
-        android:id="@+id/googleLoginFragment"
-        android:name="com.ahmedmatem.android.matura.ui.account.login.external.GoogleLoginFragment"
-        android:label=""
-        tools:layout="@layout/fragment_external_login" />
 
     <fragment
         android:id="@+id/noConnectionFragment"

@@ -11,6 +11,7 @@ import com.ahmedmatem.android.matura.network.models.Token
 import com.ahmedmatem.android.matura.network.services.AccountApi
 import com.ahmedmatem.android.matura.network.bgDescription
 import com.ahmedmatem.android.matura.repository.AccountRepository
+import com.ahmedmatem.android.matura.ui.account.login.external.ExternalLoginProvider
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 
@@ -35,6 +36,9 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
     private val _loginAttemptResult = MutableLiveData<Boolean>()
     val loginAttemptResult: LiveData<Boolean>
         get() = _loginAttemptResult
+
+    private val _externalLoginFlow = MutableLiveData<ExternalLoginProvider>()
+    val externalLoginFlow: LiveData<ExternalLoginProvider> = _externalLoginFlow
 
     fun validateLoginButtonEnableState() {
         _loginButtonEnabled.value = username.value!!.isNotBlank() && password.value!!.isNotBlank()
@@ -84,10 +88,7 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
     }
 
     fun loginWithGoogle() {
-        TODO("Google login not yet implemented")
-//        navigationCommand.value = NavigationCommand.To(
-//            LoginFragmentDirections.actionLoginFragmentToGoogleLoginFragment()
-//        )
+        _externalLoginFlow.value = ExternalLoginProvider.Google
     }
 
     fun loginWithFacebook() {

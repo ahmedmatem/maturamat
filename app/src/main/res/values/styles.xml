@@ -72,10 +72,10 @@
         <item name="android:textStyle">normal</item>
     </style>
 
-<!--    <style name="TextView.Title">-->
-<!--        <item name="android:textSize">@dimen/title_size_16</item>-->
-<!--        <item name="android:textStyle">bold</item>-->
-<!--    </style>-->
+    <style name="TextView.Title">
+        <item name="android:textSize">@dimen/title_size_16</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 
 <!--    <style name="TextView.AlertText">-->
 <!--        <item name="android:textSize">@dimen/text_size_12</item>-->

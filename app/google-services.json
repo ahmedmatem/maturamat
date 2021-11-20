@@ -8,23 +8,19 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:137470652016:android:63344a85403e0ac131ceb5",
+        "mobilesdk_app_id": "1:137470652016:android:57a7bb93c692bb8731ceb5",
         "android_client_info": {
           "package_name": "com.ahmedmatem.android.matura.dzi12"
         }
       },
       "oauth_client": [
         {
-          "client_id": "137470652016-b6t8vvbc3mnb815tdbbunds3sfcqvdru.apps.googleusercontent.com",
+          "client_id": "137470652016-msl4kqeppqhgvu7lad2anemlrm2c2t1d.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.ahmedmatem.android.matura.dzi12",
-            "certificate_hash": "be9ede2e385b28bcf5457d76207726ae147c84c1"
+            "certificate_hash": "cb48f1c11681b52223d49a787b067ee32634183b"
           }
-        },
-        {
-          "client_id": "137470652016-sbd7bdi6bt1dg19kmlj9jm8m4bhp6b1s.apps.googleusercontent.com",
-          "client_type": 3
         }
       ],
       "api_key": [
@@ -34,34 +30,25 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "137470652016-sbd7bdi6bt1dg19kmlj9jm8m4bhp6b1s.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:137470652016:android:49a277095a57d76b31ceb5",
+        "mobilesdk_app_id": "1:137470652016:android:2c4143b0a34d88a031ceb5",
         "android_client_info": {
-          "package_name": "com.ahmedmatem.android.matura.nvo7"
+          "package_name": "com.ahmedmatem.android.matura.nvo4"
         }
       },
       "oauth_client": [
         {
-          "client_id": "137470652016-lvuuatr2edfvvnh76koe10ajue93q324.apps.googleusercontent.com",
+          "client_id": "137470652016-chfie39onhb6462cik00dfkf94v63hja.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.ahmedmatem.android.matura.nvo7",
-            "certificate_hash": "be9ede2e385b28bcf5457d76207726ae147c84c1"
+            "package_name": "com.ahmedmatem.android.matura.nvo4",
+            "certificate_hash": "cb48f1c11681b52223d49a787b067ee32634183b"
           }
-        },
-        {
-          "client_id": "137470652016-sbd7bdi6bt1dg19kmlj9jm8m4bhp6b1s.apps.googleusercontent.com",
-          "client_type": 3
         }
       ],
       "api_key": [
@@ -71,12 +58,7 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "137470652016-sbd7bdi6bt1dg19kmlj9jm8m4bhp6b1s.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

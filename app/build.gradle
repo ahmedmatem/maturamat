@@ -33,6 +33,7 @@ android {
         vectorDrawables.useSupportLibrary true
 
         buildConfigField "String", "BASE_API_URL", keysProperties["baseApiUrl"]
+        buildConfigField "String", "WEB_CLIENT_ID", keysProperties["webClientId"]
     }
 
     buildTypes {
