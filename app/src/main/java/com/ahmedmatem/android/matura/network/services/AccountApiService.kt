@@ -1,5 +1,6 @@
 package com.ahmedmatem.android.matura.network.services
 
+import com.ahmedmatem.android.matura.BuildConfig
 import com.ahmedmatem.android.matura.infrastructure.GRANT_TYPE
 import com.ahmedmatem.android.matura.network.Retrofit
 import com.ahmedmatem.android.matura.network.models.Token
@@ -21,6 +22,14 @@ interface AccountApiService {
 
     @GET("api/account/sendActivationEmail")
     suspend fun sendEmailConfirmationLink(@Query("email") email: String)
+
+    @FormUrlEncoded
+    @POST("api/account/tokenSignIn")
+    suspend fun tokenSignIn(
+        @Field("IdToken") idToken: String,
+        @Field("LoginProvider") loginProvider: String,
+        @Field("SecretKey") secretKey: String = BuildConfig.EXTERNAL_LOGIN_SECRET_KEY
+    ): String?
 
     @FormUrlEncoded
     @POST("api/account/register")

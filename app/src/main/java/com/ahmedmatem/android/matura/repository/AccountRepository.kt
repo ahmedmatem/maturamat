@@ -41,6 +41,12 @@ class AccountRepository(
         }
     }
 
+    suspend fun tokenSignIn(idToken: String, provider: String): Result<String?> {
+        return safeApiCall(dispatcher) {
+            accountService.tokenSignIn(idToken, provider)
+        }
+    }
+
     suspend fun register(email: String, password: String, passwordConfirm: String, token: String):
             Result<Unit> {
         return safeApiCall(dispatcher) {

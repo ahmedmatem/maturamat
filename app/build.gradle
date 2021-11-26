@@ -34,6 +34,7 @@ android {
 
         buildConfigField "String", "BASE_API_URL", keysProperties["baseApiUrl"]
         buildConfigField "String", "WEB_CLIENT_ID", keysProperties["webClientId"]
+        buildConfigField "String", "EXTERNAL_LOGIN_SECRET_KEY", keysProperties["externalLoginSecretKey"]
     }
 
     buildTypes {

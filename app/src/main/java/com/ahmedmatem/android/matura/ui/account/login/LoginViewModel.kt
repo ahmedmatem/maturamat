@@ -2,6 +2,7 @@ package com.ahmedmatem.android.matura.ui.account.login
 
 import android.content.Context
 import androidx.lifecycle.*
+import com.ahmedmatem.android.matura.BuildConfig
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.base.NavigationCommand
 import com.ahmedmatem.android.matura.local.MaturaDb
@@ -25,6 +26,8 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
             AccountApi.retrofitService
         )
     }
+
+    private lateinit var idToken: String
 
     val username = MutableLiveData<String>("")
     val password = MutableLiveData<String>("")
@@ -51,12 +54,15 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
      * If token is not received, possible reasons are lack of Internet connection (onNetworkError) or
      * invalid user credentials(onGenericError - code 400, Bad Request).
      */
-    fun loginWithLocalAccount() {
+    fun loginWithLocalAccount(_username: String? = null, _password: String? = null) {
         _loginButtonEnabled.value = false
         showLoading.value = true
         viewModelScope.launch {
             when (val tokenResponse =
-                _accountRepository.requestToken(username.value!!, password.value!!)) {
+                _accountRepository.requestToken(
+                    _username ?: username.value!!,
+                    _password ?: password.value!!
+                )) {
                 is Result.Success -> {
                     // Request Email confirmation check
                     when (val emailResponse =
@@ -99,6 +105,38 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
         navigationCommand.value = NavigationCommand.To(
             LoginFragmentDirections.actionLoginFragmentToPasswordResetFragment()
         )
+    }
+
+    /**
+     * Use this function to send idToken to the Server.
+     * After idToken verified successfully on the server by external login Provider,
+     * user will be able to request access token by its local account.
+     */
+    fun tokenSignIn(idToken: String, provider: String) {
+        // save idToken for next usage in case of second tokenSignIn request
+        this.idToken = idToken
+
+        viewModelScope.launch {
+            when (val result = _accountRepository.tokenSignIn(idToken, provider)) {
+                is Result.Success -> onTokenSignInSuccess(result.data)
+                is Result.GenericError -> {}
+                is Result.NetworkError -> {}
+            }
+        }
+    }
+
+    /**
+     * OnSuccess user email will be returned from the server. Use this email and
+     * External secret key to request access token by login with local account credentials.
+     * If email is null - new local account has just been created and new tokenSignIn
+     * request is required in order to record user as external in the database.
+     */
+    private fun onTokenSignInSuccess(email: String?) {
+        if (email != null) {
+            loginWithLocalAccount(email, BuildConfig.EXTERNAL_LOGIN_SECRET_KEY)
+        } else {
+            tokenSignIn(idToken, ExternalLoginProvider.Google.name)
+        }
     }
 
     private suspend fun onSuccess(token: Token) {

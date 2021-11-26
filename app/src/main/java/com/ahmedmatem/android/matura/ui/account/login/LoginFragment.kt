@@ -1,7 +1,6 @@
 package com.ahmedmatem.android.matura.ui.account.login
 
 import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,7 +10,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.ahmedmatem.android.matura.BuildConfig
-import com.ahmedmatem.android.matura.R
 import com.ahmedmatem.android.matura.base.BaseFragment
 import com.ahmedmatem.android.matura.databinding.FragmentLoginBinding
 import com.ahmedmatem.android.matura.ui.account.login.external.ExternalLoginProvider
@@ -33,7 +31,8 @@ class LoginFragment : BaseFragment() {
             try {
                 val account: GoogleSignInAccount = task.getResult(ApiException::class.java)
                 val idToken = account.idToken
-                Log.d("DEBUG", "Token is: $idToken")
+                // Send idToken to the Server
+                viewModel.tokenSignIn(idToken, ExternalLoginProvider.Google.name)
             } catch (exc: ApiException) {
                 Log.w("WARN", "handleSignInResult:error", exc)
             }
