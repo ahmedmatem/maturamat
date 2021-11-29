@@ -1,8 +1,8 @@
 package com.ahmedmatem.android.matura.ui.account.login
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.*
-import com.ahmedmatem.android.matura.BuildConfig
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.base.NavigationCommand
 import com.ahmedmatem.android.matura.local.MaturaDb
@@ -13,12 +13,13 @@ import com.ahmedmatem.android.matura.network.services.AccountApi
 import com.ahmedmatem.android.matura.network.bgDescription
 import com.ahmedmatem.android.matura.repository.AccountRepository
 import com.ahmedmatem.android.matura.ui.account.login.external.ExternalLoginProvider
+import com.ahmedmatem.android.matura.ui.account.login.external.ExternalLoginData
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 
 class LoginViewModel(val context: Context) : BaseViewModel() {
 
-    private val _prefs: UserPrefs by lazy { UserPrefs(context) }
+    private val _userPrefs: UserPrefs by lazy { UserPrefs(context) }
 
     private val _accountRepository by lazy {
         AccountRepository(
@@ -54,15 +55,12 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
      * If token is not received, possible reasons are lack of Internet connection (onNetworkError) or
      * invalid user credentials(onGenericError - code 400, Bad Request).
      */
-    fun loginWithLocalAccount(_username: String? = null, _password: String? = null) {
+    fun loginWithLocalAccount() {
         _loginButtonEnabled.value = false
         showLoading.value = true
         viewModelScope.launch {
             when (val tokenResponse =
-                _accountRepository.requestToken(
-                    _username ?: username.value!!,
-                    _password ?: password.value!!
-                )) {
+                _accountRepository.requestToken(username.value!!, password.value!!)) {
                 is Result.Success -> {
                     // Request Email confirmation check
                     when (val emailResponse =
@@ -131,18 +129,25 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
      * If email is null - new local account has just been created and new tokenSignIn
      * request is required in order to record user as external in the database.
      */
-    private fun onTokenSignInSuccess(email: String?) {
-        if (email != null) {
-            loginWithLocalAccount(email, BuildConfig.EXTERNAL_LOGIN_SECRET_KEY)
-        } else {
-            tokenSignIn(idToken, ExternalLoginProvider.Google.name)
-        }
+    private fun onTokenSignInSuccess(data: ExternalLoginData) {
+//        if (data.passwordRequired) {
+//            showToast.value = "Password required"
+//        } else {
+//            if (data.email != null) {
+//                loginWithLocalAccount()
+//            } else {
+//                // A local account for user has just been created. Repeat tokenSignIn request.
+//                tokenSignIn(idToken, ExternalLoginProvider.Google.name)
+//            }
+//        }
     }
 
     private suspend fun onSuccess(token: Token) {
         _accountRepository.saveToken(token)
-        _prefs.setUser(token.userName)
+        _userPrefs.setUser(token.userName, password.value)
         _loginAttemptResult.value = true
+        val user = _userPrefs.getUser()
+        Log.d("DEBUG", "onSuccess: User name ${user?.username}, password - ${user?.password}")
     }
 
     private fun onNetworkError() {

@@ -9,7 +9,7 @@ import com.ahmedmatem.android.matura.prizesystem.PrizeManager
 class PrizeSetupOnLoginWorker(val context: Context, workerParams: WorkerParameters) :
     CoroutineWorker(context, workerParams) {
 
-    private val username by lazy { UserPrefs(context).getUser() }
+    private val username by lazy { UserPrefs(context).getUser()?.username }
 
     override suspend fun doWork(): Result {
         username?.let {

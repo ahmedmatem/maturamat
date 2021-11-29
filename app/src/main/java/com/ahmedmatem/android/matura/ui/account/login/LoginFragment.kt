@@ -33,6 +33,7 @@ class LoginFragment : BaseFragment() {
                 val idToken = account.idToken
                 // Send idToken to the Server
                 viewModel.tokenSignIn(idToken, ExternalLoginProvider.Google.name)
+                Log.w("DEBUG", "idToken $idToken")
             } catch (exc: ApiException) {
                 Log.w("WARN", "handleSignInResult:error", exc)
             }

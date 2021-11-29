@@ -2,14 +2,13 @@ package com.ahmedmatem.android.matura.repository
 
 import com.ahmedmatem.android.matura.local.daos.AccountDao
 import com.ahmedmatem.android.matura.network.Result
-import com.ahmedmatem.android.matura.network.Retrofit
 import com.ahmedmatem.android.matura.network.models.Token
 import com.ahmedmatem.android.matura.utils.safeApiCall
 import com.ahmedmatem.android.matura.network.services.AccountApiService
+import com.ahmedmatem.android.matura.ui.account.login.external.ExternalLoginData
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import retrofit2.Call
 
 class AccountRepository(
     private val accountDao: AccountDao,
@@ -41,7 +40,7 @@ class AccountRepository(
         }
     }
 
-    suspend fun tokenSignIn(idToken: String, provider: String): Result<String?> {
+    suspend fun tokenSignIn(idToken: String, provider: String): Result<ExternalLoginData> {
         return safeApiCall(dispatcher) {
             accountService.tokenSignIn(idToken, provider)
         }

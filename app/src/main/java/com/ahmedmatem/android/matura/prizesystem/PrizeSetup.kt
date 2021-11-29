@@ -15,7 +15,7 @@ object PrizeSetup {
 
     fun onLogin(context: Context) {
         if (IS_FREE_DISTRIBUTION) {
-            username = UserPrefs(context).getUser()
+            username = UserPrefs(context).getUser()?.username
             username?.let {
                 val request = OneTimeWorkRequest.from(PrizeSetupOnLoginWorker::class.java)
                 WorkManager.getInstance(context).enqueue(request)
@@ -25,7 +25,7 @@ object PrizeSetup {
 
     fun onAppStart(context: Context) {
         if (IS_FREE_DISTRIBUTION) {
-            username = UserPrefs(context).getUser()
+            username = UserPrefs(context).getUser()?.username
             username?.let {
                 val request = OneTimeWorkRequest.from(PrizeSetupOnAppStartWorker::class.java)
                 WorkManager.getInstance(context).enqueue(request)
@@ -35,7 +35,7 @@ object PrizeSetup {
 
     fun onPrizeChanged(context: Context) {
         if (IS_FREE_DISTRIBUTION) {
-            username = UserPrefs(context).getUser()
+            username = UserPrefs(context).getUser()?.username
             username?.let {
                 TODO("Not implemented yet")
             }

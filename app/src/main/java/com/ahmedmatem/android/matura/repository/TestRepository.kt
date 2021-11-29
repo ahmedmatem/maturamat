@@ -19,7 +19,7 @@ class TestRepository(
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
     private val testApiService = TestApi.retrofitService
-    private val username: String? by lazy { UserPrefs(context).getUser() }
+    private val username: String? by lazy { UserPrefs(context).getUser()?.username }
 
     val testList by lazy { database.testDao.getAllBy(username) }
 

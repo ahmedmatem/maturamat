@@ -7,6 +7,8 @@ import java.util.*
 
 class UserPrefs(val context: Context) {
 
+    data class User(var username: String, var password: String?)
+
     private val sharedPref: SharedPreferences by lazy {
         context.getSharedPreferences(
             context.getString(R.string.shared_pref_file_key),
@@ -14,11 +16,9 @@ class UserPrefs(val context: Context) {
         )
     }
 
-    fun setUser(username: String?) {
-        with(sharedPref.edit()) {
-            putString(context.getString(R.string.user_key), username)
-            apply()
-        }
+    fun setUser(username: String, password: String?) {
+        setUsername(username)
+        setPassword(password)
     }
 
     /**
@@ -26,8 +26,33 @@ class UserPrefs(val context: Context) {
      * Null value means that user is not logged in and app is used from guest,
      * otherwise user has logged in.
      */
-    fun getUser(): String? {
+    fun getUser(): User? {
+        getUsername()?.let {
+            return User(it, getPassword())
+        }
+        return null
+    }
+
+    private fun setUsername(username: String?) {
+        with(sharedPref.edit()) {
+            putString(context.getString(R.string.user_key), username)
+            apply()
+        }
+    }
+
+    private fun setPassword(password: String?) {
+        with(sharedPref.edit()) {
+            putString(context.getString(R.string.password_key), password)
+            apply()
+        }
+    }
+
+    private fun getUsername(): String? {
         return sharedPref.getString(context.getString(R.string.user_key), null)
+    }
+
+    private fun getPassword(): String? {
+        return sharedPref.getString(context.getString(R.string.password_key), null)
     }
 
     /**

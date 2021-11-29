@@ -4,7 +4,7 @@ import com.ahmedmatem.android.matura.BuildConfig
 import com.ahmedmatem.android.matura.infrastructure.GRANT_TYPE
 import com.ahmedmatem.android.matura.network.Retrofit
 import com.ahmedmatem.android.matura.network.models.Token
-import retrofit2.Call
+import com.ahmedmatem.android.matura.ui.account.login.external.ExternalLoginData
 import retrofit2.http.*
 
 interface AccountApiService {
@@ -29,7 +29,7 @@ interface AccountApiService {
         @Field("IdToken") idToken: String,
         @Field("LoginProvider") loginProvider: String,
         @Field("SecretKey") secretKey: String = BuildConfig.EXTERNAL_LOGIN_SECRET_KEY
-    ): String?
+    ): ExternalLoginData
 
     @FormUrlEncoded
     @POST("api/account/register")
