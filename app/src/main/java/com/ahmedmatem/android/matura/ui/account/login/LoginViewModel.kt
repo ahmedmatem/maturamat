@@ -3,6 +3,7 @@ package com.ahmedmatem.android.matura.ui.account.login
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.*
+import com.ahmedmatem.android.matura.BuildConfig
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.base.NavigationCommand
 import com.ahmedmatem.android.matura.local.MaturaDb
@@ -27,8 +28,6 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
             AccountApi.retrofitService
         )
     }
-
-    private lateinit var idToken: String
 
     val username = MutableLiveData<String>("")
     val password = MutableLiveData<String>("")
@@ -85,6 +84,12 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
         }
     }
 
+    private fun loginWithLocalAccount(_username: String, _password: String) {
+        username.value = _username
+        password.value = _password
+        loginWithLocalAccount()
+    }
+
     fun navigateToRegistration() {
         navigationCommand.value = NavigationCommand.To(
             LoginFragmentDirections.actionLoginFragmentToRegistrationFragment()
@@ -111,9 +116,6 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
      * user will be able to request access token by its local account.
      */
     fun tokenSignIn(idToken: String, provider: String) {
-        // save idToken for next usage in case of second tokenSignIn request
-        this.idToken = idToken
-
         viewModelScope.launch {
             when (val result = _accountRepository.tokenSignIn(idToken, provider)) {
                 is Result.Success -> onTokenSignInSuccess(result.data)
@@ -129,25 +131,25 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
      * If email is null - new local account has just been created and new tokenSignIn
      * request is required in order to record user as external in the database.
      */
-    private fun onTokenSignInSuccess(data: ExternalLoginData) {
-//        if (data.passwordRequired) {
-//            showToast.value = "Password required"
-//        } else {
-//            if (data.email != null) {
-//                loginWithLocalAccount()
-//            } else {
-//                // A local account for user has just been created. Repeat tokenSignIn request.
-//                tokenSignIn(idToken, ExternalLoginProvider.Google.name)
-//            }
-//        }
+    private suspend fun onTokenSignInSuccess(data: ExternalLoginData) {
+        if (data.needAccountConnection) {
+            showToast.value = "Local account exist. Account connection required"
+        } else {
+            data.email?.let { email ->
+                var password = BuildConfig.EXTERNAL_LOGIN_SECRET_KEY
+                val user = _accountRepository.getUser(email)
+                user?.let { user ->
+                    password = user.password!!
+                }
+                loginWithLocalAccount(email, password)
+            }
+        }
     }
 
     private suspend fun onSuccess(token: Token) {
         _accountRepository.saveToken(token)
         _userPrefs.setUser(token.userName, password.value)
         _loginAttemptResult.value = true
-        val user = _userPrefs.getUser()
-        Log.d("DEBUG", "onSuccess: User name ${user?.username}, password - ${user?.password}")
     }
 
     private fun onNetworkError() {

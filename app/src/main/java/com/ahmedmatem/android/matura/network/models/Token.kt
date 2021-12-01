@@ -14,5 +14,6 @@ data class Token(
     @Json(name = "token_type") val type: String,
     @ColumnInfo(name = "expire_in") @Json(name = "expires_in") val expireIn: String,
     @ColumnInfo(name = "issued") @Json(name = ".issued") val issued: String,
-    @ColumnInfo(name = "expires") @Json(name = ".expires") val expires: String
+    @ColumnInfo(name = "expires") @Json(name = ".expires") val expires: String,
+    @ColumnInfo(name = "password") var password: String?
 )

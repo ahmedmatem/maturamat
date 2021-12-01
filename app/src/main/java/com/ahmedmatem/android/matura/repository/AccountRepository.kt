@@ -46,6 +46,10 @@ class AccountRepository(
         }
     }
 
+    suspend fun getUser(email: String): Token? {
+        return accountDao.getUser(email)
+    }
+
     suspend fun register(email: String, password: String, passwordConfirm: String, token: String):
             Result<Unit> {
         return safeApiCall(dispatcher) {
