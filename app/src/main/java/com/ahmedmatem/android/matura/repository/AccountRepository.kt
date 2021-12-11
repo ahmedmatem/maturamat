@@ -46,8 +46,8 @@ class AccountRepository(
         }
     }
 
-    suspend fun getUser(email: String): Token? {
-        return accountDao.getUser(email)
+    suspend fun getUser(username: String): Token? {
+        return accountDao.getUser(username)
     }
 
     suspend fun register(email: String, password: String, passwordConfirm: String, token: String):

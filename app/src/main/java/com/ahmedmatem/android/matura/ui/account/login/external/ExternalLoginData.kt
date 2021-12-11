@@ -7,7 +7,6 @@ import com.squareup.moshi.Json
 data class ExternalLoginData(
     @Json(name = "IdToken") var idToken: String,
     @Json(name = "LoginProvider") var loginProvider: String,
-    @Json(name = "SecretKey") var secretKey: String,
     @Json(name = "Email") var email: String?,
-    @Json(name = "NeedAccountConnection") var needAccountConnection: Boolean
+    @Json(name = "LoginAccompanyingAction") var accompanyingAction: Int
 )

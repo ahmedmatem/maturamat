@@ -2,7 +2,6 @@ package com.ahmedmatem.android.matura.ui.account.login
 
 import android.content.Context
 import androidx.lifecycle.*
-import com.ahmedmatem.android.matura.BuildConfig
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.base.NavigationCommand
 import com.ahmedmatem.android.matura.local.MaturaDb
@@ -14,6 +13,7 @@ import com.ahmedmatem.android.matura.network.bgDescription
 import com.ahmedmatem.android.matura.repository.AccountRepository
 import com.ahmedmatem.android.matura.ui.account.login.external.ExternalLoginProvider
 import com.ahmedmatem.android.matura.ui.account.login.external.ExternalLoginData
+import com.ahmedmatem.android.matura.ui.account.login.external.LoginAccompanyingAction
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 
@@ -30,6 +30,7 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
 
     val username = MutableLiveData<String>("")
     val password = MutableLiveData<String>("")
+    var externalLogin = false
 
     private val _loginButtonEnabled = MutableLiveData<Boolean>()
     val loginButtonEnabled: LiveData<Boolean>
@@ -60,20 +61,25 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
             when (val tokenResponse =
                 _accountRepository.requestToken(username.value!!, password.value!!)) {
                 is Result.Success -> {
-                    // Request Email confirmation check
-                    when (val emailResponse =
-                        _accountRepository.hasEmailConfirmed(tokenResponse.data.userName)) {
-                        is Result.Success -> {
-                            if (emailResponse.data) {
-                                // User exists and email has confirmed
-                                onSuccess(tokenResponse.data)
-                            } else {
-                                // User exists but email is not confirmed yet
-                                navigateToEmailConfirmation(tokenResponse.data.userName)
+                    if (externalLogin) {
+                        // No email confirmation required
+                        login(tokenResponse.data)
+                    } else {
+                        // Request Email confirmation check
+                        when (val emailResponse =
+                            _accountRepository.hasEmailConfirmed(tokenResponse.data.userName)) {
+                            is Result.Success -> {
+                                if (emailResponse.data) {
+                                    // User exists and email has confirmed
+                                    login(tokenResponse.data)
+                                } else {
+                                    // User exists but email is not confirmed yet
+                                    navigateToEmailConfirmation(tokenResponse.data.userName)
+                                }
                             }
+                            is Result.GenericError -> onGenericError(emailResponse)
+                            is Result.NetworkError -> onNetworkError()
                         }
-                        is Result.GenericError -> onGenericError(emailResponse)
-                        is Result.NetworkError -> onNetworkError()
                     }
                 }
                 is Result.NetworkError -> onNetworkError()
@@ -83,9 +89,10 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
         }
     }
 
-    private fun loginWithLocalAccount(_username: String, _password: String) {
-        username.value = _username
-        password.value = _password
+    private fun externalLogin(username: String, password: String) {
+        this.username.value = username
+        this.password.value = password
+        externalLogin = true
         loginWithLocalAccount()
     }
 
@@ -117,35 +124,33 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
     fun validateIdToken(idToken: String, provider: String) {
         viewModelScope.launch {
             when (val result = _accountRepository.validateIdToken(idToken, provider)) {
-                is Result.Success -> onTokenSignInSuccess(result.data)
+                is Result.Success -> onValidIdToken(result.data)
                 is Result.GenericError -> {}
                 is Result.NetworkError -> {}
             }
         }
     }
 
-    /**
-     * OnSuccess user email will be returned from the server. Use this email and
-     * External secret key to request access token by login with local account credentials.
-     * If email is null - new local account has just been created and new tokenSignIn
-     * request is required in order to record user as external in the database.
-     */
-    private suspend fun onTokenSignInSuccess(data: ExternalLoginData) {
-        if (data.needAccountConnection) {
-            showToast.value = "Local account exist. Account connection required"
-        } else {
-            data.email?.let { email ->
-                var password = BuildConfig.EXTERNAL_LOGIN_SECRET_KEY
-                val user = _accountRepository.getUser(email)
-                user?.let { user ->
-                    password = user.password!!
+    private suspend fun onValidIdToken(data: ExternalLoginData) {
+        when (data.accompanyingAction) {
+            LoginAccompanyingAction.Login -> {
+                // todo: Request Access Token
+                data.email?.let { username ->
+                    _accountRepository.getUser(username)?.let {
+                        externalLogin(it.userName, it.password!!)
+                    }
                 }
-                loginWithLocalAccount(email, password)
+            }
+            LoginAccompanyingAction.CreateLocalAccount -> {
+                // todo: Create Local Account
+            }
+            LoginAccompanyingAction.ConfirmLocalAccount -> {
+                // todo: Confirm Local Account
             }
         }
     }
 
-    private suspend fun onSuccess(token: Token) {
+    private suspend fun login(token: Token) {
         _accountRepository.saveToken(token)
         _userPrefs.setUser(token.userName, password.value)
         _loginAttemptResult.value = true
