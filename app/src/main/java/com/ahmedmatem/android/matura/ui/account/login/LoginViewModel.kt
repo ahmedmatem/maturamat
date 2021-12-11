@@ -1,7 +1,6 @@
 package com.ahmedmatem.android.matura.ui.account.login
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.*
 import com.ahmedmatem.android.matura.BuildConfig
 import com.ahmedmatem.android.matura.base.BaseViewModel
@@ -115,9 +114,9 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
      * After idToken verified successfully on the server by external login Provider,
      * user will be able to request access token by its local account.
      */
-    fun tokenSignIn(idToken: String, provider: String) {
+    fun validateIdToken(idToken: String, provider: String) {
         viewModelScope.launch {
-            when (val result = _accountRepository.tokenSignIn(idToken, provider)) {
+            when (val result = _accountRepository.validateIdToken(idToken, provider)) {
                 is Result.Success -> onTokenSignInSuccess(result.data)
                 is Result.GenericError -> {}
                 is Result.NetworkError -> {}

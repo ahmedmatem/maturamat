@@ -24,11 +24,10 @@ interface AccountApiService {
     suspend fun sendEmailConfirmationLink(@Query("email") email: String)
 
     @FormUrlEncoded
-    @POST("api/account/tokenSignIn")
-    suspend fun tokenSignIn(
+    @POST("api/account/validateIdToken")
+    suspend fun validateIdToken(
         @Field("IdToken") idToken: String,
-        @Field("LoginProvider") loginProvider: String,
-        @Field("SecretKey") secretKey: String = BuildConfig.EXTERNAL_LOGIN_SECRET_KEY
+        @Field("LoginProvider") loginProvider: String
     ): ExternalLoginData
 
     @FormUrlEncoded

@@ -31,8 +31,8 @@ class LoginFragment : BaseFragment() {
             try {
                 val account: GoogleSignInAccount = task.getResult(ApiException::class.java)
                 val idToken = account.idToken
-                // Send idToken to the Server
-                viewModel.tokenSignIn(idToken, ExternalLoginProvider.Google.name)
+                // Send idToken to the Server for validation
+                viewModel.validateIdToken(idToken, ExternalLoginProvider.Google.name)
                 Log.w("DEBUG", "idToken $idToken")
             } catch (exc: ApiException) {
                 Log.w("WARN", "handleSignInResult:error", exc)

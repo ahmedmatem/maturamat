@@ -40,9 +40,9 @@ class AccountRepository(
         }
     }
 
-    suspend fun tokenSignIn(idToken: String, provider: String): Result<ExternalLoginData> {
+    suspend fun validateIdToken(idToken: String, provider: String): Result<ExternalLoginData> {
         return safeApiCall(dispatcher) {
-            accountService.tokenSignIn(idToken, provider)
+            accountService.validateIdToken(idToken, provider)
         }
     }
 
