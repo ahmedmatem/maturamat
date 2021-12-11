@@ -22,6 +22,14 @@ class AccountRepository(
         }
     }
 
+    // TODO: getToken from Database. If it is expired request new token from the server
+    suspend fun getToken(username: String): String {
+        val token = accountDao.getUser(username)
+        token.let {
+            if(it.expireIn)
+        }
+    }
+
     suspend fun saveToken(token: Token) {
         withContext(dispatcher) {
             accountDao.insert(token)

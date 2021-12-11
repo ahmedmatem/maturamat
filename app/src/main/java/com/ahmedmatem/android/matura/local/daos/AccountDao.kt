@@ -18,6 +18,6 @@ interface AccountDao {
     @Query("SELECT EXISTS(SELECT * FROM token_table WHERE user_name = :email)")
     suspend fun isUserExists(email: String): Boolean
 
-    @Query("SELECT * FROM token_table WHERE user_name = :username")
-    suspend fun getUser(username: String): Token?
+    @Query("SELECT * FROM token_table WHERE user_name = :userName")
+    suspend fun getUser(userName: String): Token?
 }
