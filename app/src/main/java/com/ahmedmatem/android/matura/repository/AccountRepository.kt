@@ -16,18 +16,22 @@ class AccountRepository(
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
 
+    /**
+     * Request token from the Server
+     */
     suspend fun requestToken(username: String, password: String): Result<Token> {
         return safeApiCall(dispatcher) {
             accountService.getToken(username, password)
         }
     }
 
-    // TODO: getToken from Database. If it is expired request new token from the server
+    /**
+     * Read token for user from database.
+     * On App start it wil be checked for expiration and if it is
+     * request for new token will be triggered.
+     */
     suspend fun getToken(username: String): String {
-        val token = accountDao.getUser(username)
-        token.let {
-            if(it.expireIn)
-        }
+        return accountDao.getToken(username)
     }
 
     suspend fun saveToken(token: Token) {
