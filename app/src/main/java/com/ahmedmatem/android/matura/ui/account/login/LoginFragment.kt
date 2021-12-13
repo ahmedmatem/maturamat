@@ -90,6 +90,7 @@ class LoginFragment : BaseFragment() {
                     ExternalLoginProvider.Facebook -> {
                     }
                 }
+                viewModel.onExternalLoginComplete()
             }
         }
 

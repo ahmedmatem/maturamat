@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_loginFragment_to_passwordResetFragment"
             app:destination="@id/passwordResetFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_confirmAccountFragment"
+            app:destination="@id/confirmAccountFragment" />
     </fragment>
 
     <fragment
@@ -70,5 +73,10 @@
             android:id="@+id/action_passwordResetFragment_to_noConnectionFragment"
             app:destination="@id/noConnectionFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/confirmAccountFragment"
+        android:name="com.ahmedmatem.android.matura.ui.account.login.external.ConfirmAccountFragment"
+        tools:layout="@layout/fragment_confirm_account" />
 
 </navigation>

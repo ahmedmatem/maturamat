@@ -30,7 +30,7 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
 
     val username = MutableLiveData<String>("")
     val password = MutableLiveData<String>("")
-    var externalLogin = false
+    private var externalLogin = false
 
     private val _loginButtonEnabled = MutableLiveData<Boolean>()
     val loginButtonEnabled: LiveData<Boolean>
@@ -40,8 +40,8 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
     val loginAttemptResult: LiveData<Boolean>
         get() = _loginAttemptResult
 
-    private val _externalLoginFlow = MutableLiveData<ExternalLoginProvider>()
-    val externalLoginFlow: LiveData<ExternalLoginProvider> = _externalLoginFlow
+    private val _externalLoginFlow = MutableLiveData<ExternalLoginProvider?>()
+    val externalLoginFlow: LiveData<ExternalLoginProvider?> = _externalLoginFlow
 
     fun validateLoginButtonEnableState() {
         _loginButtonEnabled.value = username.value!!.isNotBlank() && password.value!!.isNotBlank()
@@ -110,6 +110,10 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
         TODO("Facebook login not yet implemented")
     }
 
+    fun onExternalLoginComplete() {
+        _externalLoginFlow.value = null
+    }
+
     fun navigateToPasswordReset() {
         navigationCommand.value = NavigationCommand.To(
             LoginFragmentDirections.actionLoginFragmentToPasswordResetFragment()
@@ -145,7 +149,8 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
                 // todo: Create Local Account
             }
             LoginAccompanyingAction.ConfirmLocalAccount -> {
-                // todo: Confirm Local Account
+                navigationCommand.value = NavigationCommand
+                    .To(LoginFragmentDirections.actionLoginFragmentToConfirmAccountFragment())
             }
         }
     }
