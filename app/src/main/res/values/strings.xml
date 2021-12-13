@@ -11,6 +11,7 @@
     <string name="title_account">Профил</string>
     <string name="title_settings">Настройки</string>
     <string name="title_login">Вход</string>
+    <string name="title_confirm_account">Потвърждение на профил</string>
     <string name="title_registration">Регистрация</string>
     <string name="title_google">Гугъл</string>
     <string name="title_facebook">Фейсбук</string>
@@ -70,6 +71,10 @@
     </string>
     <string name="open_email_client_text">Към електронната поща</string>
     <string name="new_confirmation_link_text">Нов линк за активиране на профила</string>
+
+    <!-- fragment_confirm_account layout -->
+    <string name="confirm_account_text">За да свържем профила Ви от %1$s с %2$s от МтураМат е необходимо да потвърдите, че е ваш.</string>
+    <string name="user_in_maturamat_text">Потребител в Матура Мат</string>
 
     <!-- Registration form validation messages/alerts -->
     <string name="email_required_message">Изисква се имейл адрес</string>
