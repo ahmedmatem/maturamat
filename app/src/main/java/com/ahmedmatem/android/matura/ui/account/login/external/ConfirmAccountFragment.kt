@@ -15,7 +15,8 @@ class ConfirmAccountFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProvider(this).get(ConfirmAccountViewModel::class.java)
+        viewModel = ViewModelProvider(this, ConfirmAccountViewModel.Factory(requireContext()))
+            .get(ConfirmAccountViewModel::class.java)
 
         val binding = FragmentConfirmAccountBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this

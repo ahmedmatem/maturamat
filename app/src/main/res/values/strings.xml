@@ -74,7 +74,7 @@
 
     <!-- fragment_confirm_account layout -->
     <string name="confirm_account_text">За да свържем профила Ви от %1$s с %2$s от МтураМат е необходимо да потвърдите, че е ваш.</string>
-    <string name="user_in_maturamat_text">Потребител в Матура Мат</string>
+    <string name="profile_in_maturamat_text">Профил в Матура Мат</string>
 
     <!-- Registration form validation messages/alerts -->
     <string name="email_required_message">Изисква се имейл адрес</string>
