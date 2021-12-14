@@ -149,8 +149,11 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
                 // todo: Create Local Account
             }
             LoginAccompanyingAction.ConfirmLocalAccount -> {
-                navigationCommand.value = NavigationCommand
-                    .To(LoginFragmentDirections.actionLoginFragmentToConfirmAccountFragment())
+                navigationCommand.value = NavigationCommand.To(
+                    LoginFragmentDirections.actionLoginFragmentToConfirmAccountFragment(
+                        data.email!!, data.loginProvider
+                    )
+                )
             }
         }
     }

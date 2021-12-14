@@ -77,6 +77,13 @@
     <fragment
         android:id="@+id/confirmAccountFragment"
         android:name="com.ahmedmatem.android.matura.ui.account.login.external.ConfirmAccountFragment"
-        tools:layout="@layout/fragment_confirm_account" />
+        tools:layout="@layout/fragment_confirm_account" >
+        <argument
+            android:name="email"
+            app:argType="string" />
+        <argument
+            android:name="loginProvider"
+            app:argType="string" />
+    </fragment>
 
 </navigation>

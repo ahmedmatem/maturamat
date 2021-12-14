@@ -9,26 +9,30 @@ import com.ahmedmatem.android.matura.R
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import java.lang.IllegalArgumentException
 
-class ConfirmAccountViewModel(val context: Context) : BaseViewModel() {
+class ConfirmAccountViewModel(
+    private val context: Context,
+    private val args: ConfirmAccountFragmentArgs
+) : BaseViewModel() {
 
-    private val _confirmAccountText = MutableLiveData<String>()
-    val confirmAccountText: LiveData<String> = _confirmAccountText
-
+    val confirmAccountText: LiveData<String> = MutableLiveData<String>(
+        context.getString(
+            R.string.confirm_account_text,
+            args.loginProvider,
+            args.email
+        )
+    )
     val password = MutableLiveData<String>("")
-
-    init {
-        _confirmAccountText.value =
-            context.getString(R.string.confirm_account_text, "Гугъл", "ahmedmatem@gmail.com")
-    }
+    val email: LiveData<String> = MutableLiveData<String>(args.email)
 
     fun confirmAccount() {
 
     }
 
-    class Factory(private val context: Context) : ViewModelProvider.Factory {
+    class Factory(private val context: Context, private val args: ConfirmAccountFragmentArgs) :
+        ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(ConfirmAccountViewModel::class.java)) {
-                return ConfirmAccountViewModel(context) as T
+                return ConfirmAccountViewModel(context, args) as T
             }
             throw IllegalArgumentException("Unable to construct ConfirmAccountViewModel")
         }
