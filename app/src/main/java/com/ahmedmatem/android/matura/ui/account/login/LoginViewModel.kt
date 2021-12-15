@@ -10,6 +10,7 @@ import com.ahmedmatem.android.matura.network.Result
 import com.ahmedmatem.android.matura.network.models.Token
 import com.ahmedmatem.android.matura.network.services.AccountApi
 import com.ahmedmatem.android.matura.network.bgDescription
+import com.ahmedmatem.android.matura.network.models.withPassword
 import com.ahmedmatem.android.matura.repository.AccountRepository
 import com.ahmedmatem.android.matura.ui.account.login.external.ExternalLoginProvider
 import com.ahmedmatem.android.matura.ui.account.login.external.ExternalLoginData
@@ -63,7 +64,7 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
                 is Result.Success -> {
                     if (externalLogin) {
                         // No email confirmation required
-                        login(tokenResponse.data)
+                        login(tokenResponse.data.withPassword(password.value))
                     } else {
                         // Request Email confirmation check
                         when (val emailResponse =
@@ -71,7 +72,7 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
                             is Result.Success -> {
                                 if (emailResponse.data) {
                                     // User exists and email has confirmed
-                                    login(tokenResponse.data)
+                                    login(tokenResponse.data.withPassword(password.value))
                                 } else {
                                     // User exists but email is not confirmed yet
                                     navigateToEmailConfirmation(tokenResponse.data.userName)
@@ -137,29 +138,30 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
 
     private suspend fun onValidIdToken(data: ExternalLoginData) {
         when (data.accompanyingAction) {
-            LoginAccompanyingAction.Login -> {
-                // todo: Request Access Token
-                data.email?.let { username ->
-                    _accountRepository.getUser(username)?.let {
-                        externalLogin(it.userName, it.password!!)
-                    }
-                }
-            }
-            LoginAccompanyingAction.CreateLocalAccount -> {
+            LoginAccompanyingAction.Login -> externalLogin(data)
+            LoginAccompanyingAction.CreateAccount -> {
                 // todo: Create Local Account
-            }
-            LoginAccompanyingAction.ConfirmLocalAccount -> {
-                navigationCommand.value = NavigationCommand.To(
-                    LoginFragmentDirections.actionLoginFragmentToConfirmAccountFragment(
-                        data.email!!, data.loginProvider
-                    )
-                )
             }
         }
     }
 
-    private suspend fun login(token: Token) {
-        _accountRepository.saveToken(token)
+    private suspend fun externalLogin(data: ExternalLoginData) {
+        val user = _accountRepository.getUser(data.email!!)
+        if (user?.password != null) {
+            externalLogin(user.userName, user.password!!)
+        } else {
+            navigationCommand.value = NavigationCommand.To(
+                LoginFragmentDirections.actionLoginFragmentToConfirmAccountFragment(
+                    data.email!!, data.loginProvider
+                )
+            )
+        }
+    }
+
+    private suspend fun login(token: Token, saveInLocalDb: Boolean = true) {
+        if (saveInLocalDb) {
+            _accountRepository.saveToken(token)
+        }
         _userPrefs.setUser(token.userName, password.value)
         _loginAttemptResult.value = true
     }

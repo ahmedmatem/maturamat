@@ -49,3 +49,8 @@ data class Token(
         @Ignore const val DATE_FORMAT_PATTERN = "E, dd MMM yyyy HH:mm:ss"
     }
 }
+
+fun Token.withPassword(password: String?): Token {
+    this.password = password
+    return this
+}
