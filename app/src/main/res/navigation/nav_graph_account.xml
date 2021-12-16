@@ -84,6 +84,9 @@
         <argument
             android:name="loginProvider"
             app:argType="string" />
+        <action
+            android:id="@+id/action_confirmAccountFragment_to_noConnectionFragment"
+            app:destination="@id/noConnectionFragment" />
     </fragment>
 
 </navigation>
