@@ -2,6 +2,7 @@ package com.ahmedmatem.android.matura
 
 import android.app.Application
 import android.util.Log
+import com.ahmedmatem.android.matura.infrastructure.di.applicationModule
 import com.ahmedmatem.android.matura.local.MaturaDb
 import com.ahmedmatem.android.matura.local.preferences.UserPrefs
 import com.ahmedmatem.android.matura.network.Result
@@ -12,6 +13,9 @@ import com.ahmedmatem.android.matura.repository.AccountRepository
 import com.ahmedmatem.android.matura.utils.safeApiCall
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
 
 
 class MyApp : Application() {
@@ -19,6 +23,13 @@ class MyApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        // Start Koin
+        startKoin {
+            androidLogger()
+            androidContext(this@MyApp)
+            modules(applicationModule)
+        }
 
         /**
          * Refresh user access token if it is expired.
