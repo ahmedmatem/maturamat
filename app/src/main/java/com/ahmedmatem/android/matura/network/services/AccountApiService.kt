@@ -1,9 +1,8 @@
 package com.ahmedmatem.android.matura.network.services
 
-import com.ahmedmatem.android.matura.BuildConfig
 import com.ahmedmatem.android.matura.infrastructure.GRANT_TYPE
 import com.ahmedmatem.android.matura.network.Retrofit
-import com.ahmedmatem.android.matura.network.models.Token
+import com.ahmedmatem.android.matura.network.models.User
 import com.ahmedmatem.android.matura.ui.account.login.external.ExternalLoginData
 import retrofit2.http.*
 
@@ -15,7 +14,7 @@ interface AccountApiService {
         @Field("username") username: String,
         @Field("password") password: String,
         @Field("grant_type") grantType: String = GRANT_TYPE
-    ): Token
+    ): User
 
     @GET("api/account/emailConfirmation")
     suspend fun hasEmailConfirmed(@Query("email") email: String): Boolean

@@ -8,12 +8,12 @@ import com.ahmedmatem.android.matura.local.daos.TestDao
 import com.ahmedmatem.android.matura.local.daos.AccountDao
 import com.ahmedmatem.android.matura.local.daos.PrizeDao
 import com.ahmedmatem.android.matura.network.models.Test
-import com.ahmedmatem.android.matura.network.models.Token
+import com.ahmedmatem.android.matura.network.models.User
 import com.ahmedmatem.android.matura.prizesystem.models.Coin
 import com.ahmedmatem.android.matura.prizesystem.models.Period
 
 @Database(
-    entities = [Test::class, Token::class, Coin::class, Period::class],
+    entities = [Test::class, User::class, Coin::class, Period::class],
     version = 3
 )
 @TypeConverters(Converters::class)

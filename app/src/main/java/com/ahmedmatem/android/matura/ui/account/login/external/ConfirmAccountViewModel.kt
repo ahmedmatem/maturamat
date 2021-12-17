@@ -9,11 +9,10 @@ import com.ahmedmatem.android.matura.local.MaturaDb
 import com.ahmedmatem.android.matura.local.preferences.UserPrefs
 import com.ahmedmatem.android.matura.network.Result
 import com.ahmedmatem.android.matura.network.bgDescription
-import com.ahmedmatem.android.matura.network.models.Token
+import com.ahmedmatem.android.matura.network.models.User
 import com.ahmedmatem.android.matura.network.models.withPassword
 import com.ahmedmatem.android.matura.network.services.AccountApi
 import com.ahmedmatem.android.matura.repository.AccountRepository
-import com.ahmedmatem.android.matura.ui.account.login.LoginFragmentDirections
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 
@@ -59,9 +58,9 @@ class ConfirmAccountViewModel(
         }
     }
 
-    private suspend fun login(token: Token, saveInLocalDb: Boolean = true) {
+    private suspend fun login(token: User, saveInLocalDb: Boolean = true) {
         if (saveInLocalDb) {
-            _accountRepository.saveToken(token)
+            _accountRepository.saveUser(token)
         }
         _userPrefs.setUser(token.userName, password.value)
         _loginAttemptResult.value = true

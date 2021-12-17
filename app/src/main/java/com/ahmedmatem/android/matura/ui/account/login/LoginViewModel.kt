@@ -7,7 +7,7 @@ import com.ahmedmatem.android.matura.base.NavigationCommand
 import com.ahmedmatem.android.matura.local.MaturaDb
 import com.ahmedmatem.android.matura.local.preferences.UserPrefs
 import com.ahmedmatem.android.matura.network.Result
-import com.ahmedmatem.android.matura.network.models.Token
+import com.ahmedmatem.android.matura.network.models.User
 import com.ahmedmatem.android.matura.network.services.AccountApi
 import com.ahmedmatem.android.matura.network.bgDescription
 import com.ahmedmatem.android.matura.network.models.withPassword
@@ -16,18 +16,21 @@ import com.ahmedmatem.android.matura.ui.account.login.external.ExternalLoginProv
 import com.ahmedmatem.android.matura.ui.account.login.external.ExternalLoginData
 import com.ahmedmatem.android.matura.ui.account.login.external.LoginAccompanyingAction
 import kotlinx.coroutines.launch
+import org.koin.java.KoinJavaComponent.inject
 import java.lang.IllegalArgumentException
 
 class LoginViewModel(val context: Context) : BaseViewModel() {
 
-    private val _userPrefs: UserPrefs by lazy { UserPrefs(context) }
+//    private val _userPrefs: UserPrefs by lazy { UserPrefs(context) }
+    private val _userPrefs: UserPrefs by inject(UserPrefs::class.java)
 
-    private val _accountRepository by lazy {
-        AccountRepository(
-            MaturaDb.getInstance(context).accountDao,
-            AccountApi.retrofitService
-        )
-    }
+//    private val _accountRepository by lazy {
+//        AccountRepository(
+//            MaturaDb.getInstance(context).accountDao,
+//            AccountApi.retrofitService
+//        )
+//    }
+    private val _accountRepository: AccountRepository by inject(AccountRepository::class.java)
 
     val username = MutableLiveData<String>("")
     val password = MutableLiveData<String>("")
@@ -158,9 +161,9 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
         }
     }
 
-    private suspend fun login(token: Token, saveInLocalDb: Boolean = true) {
+    private suspend fun login(token: User, saveInLocalDb: Boolean = true) {
         if (saveInLocalDb) {
-            _accountRepository.saveToken(token)
+            _accountRepository.saveUser(token)
         }
         _userPrefs.setUser(token.userName, password.value)
         _loginAttemptResult.value = true

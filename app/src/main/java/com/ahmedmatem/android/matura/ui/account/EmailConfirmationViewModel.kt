@@ -10,11 +10,8 @@ import com.ahmedmatem.android.matura.network.Result
 import com.ahmedmatem.android.matura.network.services.AccountApi
 import com.ahmedmatem.android.matura.repository.AccountRepository
 import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
-import com.google.firebase.messaging.FirebaseMessagingService
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.lang.IllegalArgumentException
 
 class EmailConfirmationViewModel(
@@ -42,7 +39,7 @@ class EmailConfirmationViewModel(
     fun requestEmailConfirmationLink() {
         showLoading.value = true
         viewModelScope.launch {
-            when (val result = _accountRepository.sendEmailConfirmationLink(email)) {
+            when (val result = _accountRepository.requestEmailConfirmationLink(email)) {
                 is Result.Success -> onSuccess()
                 is Result.GenericError -> onGenericError(result)
                 is Result.NetworkError -> onNetworkError()

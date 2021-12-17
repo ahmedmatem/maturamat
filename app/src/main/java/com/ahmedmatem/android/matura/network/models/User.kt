@@ -12,8 +12,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 @Keep
-@Entity(tableName = "token_table")
-data class Token(
+@Entity(tableName = "user_table")
+data class User(
     @PrimaryKey @ColumnInfo(name = "user_name") val userName: String,
     @Json(name = "access_token") val token: String,
     @Json(name = "token_type") val type: String,
@@ -22,13 +22,13 @@ data class Token(
     @ColumnInfo(name = "expires") @Json(name = ".expires") val expires: String,
     @ColumnInfo(name = "password") var password: String?
 ){
-    fun isExpired(): Boolean {
+    fun isTokenExpired(): Boolean {
         val dateFormat: SimpleDateFormat = SimpleDateFormat(DATE_FORMAT_PATTERN)
         var expires: Date? = null
         try {
             expires = dateFormat.parse(this.expires)
         } catch (exc: ParseException) {
-            Log.e("", "isExpired: Error parsing token expires date format", null);
+            Log.e("", "isTokenExpired: Error parsing token expires date format", null);
         }
 
         // Set calendar to date before day of token expiration
@@ -50,7 +50,7 @@ data class Token(
     }
 }
 
-fun Token.withPassword(password: String?): Token {
+fun User.withPassword(password: String?): User {
     this.password = password
     return this
 }

@@ -6,10 +6,7 @@ import com.ahmedmatem.android.matura.infrastructure.di.applicationModule
 import com.ahmedmatem.android.matura.local.MaturaDb
 import com.ahmedmatem.android.matura.local.preferences.UserPrefs
 import com.ahmedmatem.android.matura.network.Result
-import com.ahmedmatem.android.matura.network.Retrofit
 import com.ahmedmatem.android.matura.network.services.AccountApi
-import com.ahmedmatem.android.matura.network.services.AccountApiService
-import com.ahmedmatem.android.matura.repository.AccountRepository
 import com.ahmedmatem.android.matura.utils.safeApiCall
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers
@@ -41,7 +38,7 @@ class MyApp : Application() {
             applicationScope.launch {
                 val token = db.accountDao.getUser(user.username)
                 token?.let {
-                    if (it.isExpired()) {
+                    if (it.isTokenExpired()) {
                         val tokenResponse = safeApiCall(Dispatchers.IO) {
                             AccountApi.retrofitService.getToken(it.userName, it.password!!)
                         }
