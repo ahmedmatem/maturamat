@@ -27,9 +27,19 @@ class AccountRepository(
         return accountDao.getUser(username)
     }
 
+    suspend fun isUserExist(username: String): Boolean {
+        return accountDao.isUserExists(username)
+    }
+
     suspend fun saveUser(user: User) {
         withContext(dispatcher) {
             accountDao.insert(user)
+        }
+    }
+
+    suspend fun setEmailConfirmed(email: String, value: Boolean) {
+        withContext(dispatcher) {
+            accountDao.setEmailConfirmed(email, value)
         }
     }
 

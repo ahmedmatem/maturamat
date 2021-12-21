@@ -1,6 +1,7 @@
 package com.ahmedmatem.android.matura.ui.account.registration
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.*
 import com.ahmedmatem.android.matura.R
 import com.ahmedmatem.android.matura.base.BaseViewModel
@@ -12,6 +13,8 @@ import com.ahmedmatem.android.matura.network.HttpStatus
 import com.ahmedmatem.android.matura.network.Result
 import com.ahmedmatem.android.matura.network.services.AccountApi
 import com.ahmedmatem.android.matura.repository.AccountRepository
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 
@@ -62,9 +65,18 @@ class RegistrationViewModel(private val context: Context) : BaseViewModel() {
             hideValidationMessages()
             _showRegisterButton.value = false
             showLoading.value = true
-            viewModelScope.launch {
-                val token = UserPrefs(context).getFcmToken()
-                token?.let {
+            FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    Log.w(
+                        TAG,
+                        "register: Fetching FCM registration token failed",
+                        task.exception
+                    )
+                    return@OnCompleteListener
+                }
+                // Get new FCM registration token
+                val token = task.result
+                viewModelScope.launch {
                     when (val response = _accountRepository.register(
                         username.value!!,
                         password.value!!,
@@ -75,10 +87,10 @@ class RegistrationViewModel(private val context: Context) : BaseViewModel() {
                         is Result.GenericError -> onGenericError(response)
                         is Result.NetworkError -> onNetworkError()
                     }
+                    showLoading.value = false
+                    _showRegisterButton.value = true
                 }
-                showLoading.value = false
-                _showRegisterButton.value = true
-            }
+            })
         } else {
             val errors = inputValidator.errors
             invalidateUi(errors)
@@ -176,5 +188,9 @@ class RegistrationViewModel(private val context: Context) : BaseViewModel() {
             throw IllegalArgumentException("Unable to construct RegistrationViewModel")
         }
 
+    }
+
+    companion object {
+        const val TAG: String = "RegistrationViewModel"
     }
 }

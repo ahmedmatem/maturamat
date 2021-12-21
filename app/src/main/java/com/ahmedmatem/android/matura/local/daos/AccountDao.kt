@@ -15,8 +15,8 @@ interface AccountDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(user: User)
 
-    @Query("SELECT EXISTS(SELECT * FROM user_table WHERE user_name = :email)")
-    suspend fun isUserExists(email: String): Boolean
+    @Query("SELECT EXISTS(SELECT * FROM user_table WHERE user_name = :userName)")
+    suspend fun isUserExists(userName: String): Boolean
 
     @Query("SELECT * FROM user_table WHERE user_name = :userName")
     suspend fun getUser(userName: String): User?
