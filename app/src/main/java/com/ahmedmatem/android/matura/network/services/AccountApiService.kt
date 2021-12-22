@@ -35,7 +35,7 @@ interface AccountApiService {
         @Field("email") email: String,
         @Field("password") password: String,
         @Field("confirmPassword") passwordConfirm: String,
-        @Field("fcmRegistrationToken") fcmRegToken: String
+        @Field("fcmRegistrationToken") fcmRegToken: String?
     )
 
     @FormUrlEncoded

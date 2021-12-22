@@ -7,31 +7,35 @@ import com.ahmedmatem.android.matura.R
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.base.NavigationCommand
 import com.ahmedmatem.android.matura.infrastructure.PasswordOptions
-import com.ahmedmatem.android.matura.local.MaturaDb
 import com.ahmedmatem.android.matura.local.preferences.UserPrefs
 import com.ahmedmatem.android.matura.network.HttpStatus
 import com.ahmedmatem.android.matura.network.Result
-import com.ahmedmatem.android.matura.network.services.AccountApi
+import com.ahmedmatem.android.matura.network.models.User
+import com.ahmedmatem.android.matura.network.models.withPassword
 import com.ahmedmatem.android.matura.repository.AccountRepository
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.launch
+import org.koin.java.KoinJavaComponent.inject
 import java.lang.IllegalArgumentException
 
-class RegistrationViewModel(private val context: Context) : BaseViewModel() {
+class RegistrationViewModel(
+    private val context: Context,
+    private val args: RegistrationFragmentArgs
+) : BaseViewModel() {
 
-    private val inputValidator by lazy { RegistrationInputValidator() }
-
-    private val _accountRepository by lazy {
-        AccountRepository(MaturaDb.getInstance(context).accountDao, AccountApi.retrofitService)
-    }
+    private val _inputValidator by lazy { RegistrationInputValidator() }
+    private val _accountRepository: AccountRepository by inject(AccountRepository::class.java)
+    private val _userPrefs: UserPrefs by inject(UserPrefs::class.java)
+    private val _isExternalLogin = args.email != null
 
     // Username input
-    val username = MutableLiveData("")
+    val username = MutableLiveData(args.email ?: "")
     private val _usernameValidationMessage = MutableLiveData("")
     val usernameValidationMessage: LiveData<String> = _usernameValidationMessage
     private val _showUsernameValidationMessage = MutableLiveData(false)
     val showUsernameValidationMessage: LiveData<Boolean> = _showUsernameValidationMessage
+    val usernameEnabled: Boolean = args.email == null
 
     // Password input
     val password = MutableLiveData("")
@@ -60,28 +64,21 @@ class RegistrationViewModel(private val context: Context) : BaseViewModel() {
 
     private val _fcmRegistrationTokenReceived = MutableLiveData(false)
 
+    private val _onLoginComplete: MutableLiveData<Boolean> = MutableLiveData(false)
+    val onLoginComplete: LiveData<Boolean> = _onLoginComplete
+
     fun register() {
         if (isInputValid()) {
             hideValidationMessages()
             _showRegisterButton.value = false
             showLoading.value = true
-            FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-                if (!task.isSuccessful) {
-                    Log.w(
-                        TAG,
-                        "register: Fetching FCM registration token failed",
-                        task.exception
-                    )
-                    return@OnCompleteListener
-                }
-                // Get new FCM registration token
-                val token = task.result
+            if (_isExternalLogin) {
                 viewModelScope.launch {
                     when (val response = _accountRepository.register(
                         username.value!!,
                         password.value!!,
                         passwordConfirm.value!!,
-                        token
+                        null // null token means email is confirmed
                     )) {
                         is Result.Success -> onSuccess()
                         is Result.GenericError -> onGenericError(response)
@@ -90,9 +87,36 @@ class RegistrationViewModel(private val context: Context) : BaseViewModel() {
                     showLoading.value = false
                     _showRegisterButton.value = true
                 }
-            })
+            } else {
+                FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+                    if (!task.isSuccessful) {
+                        Log.w(
+                            TAG,
+                            "register: Fetching FCM registration token failed",
+                            task.exception
+                        )
+                        return@OnCompleteListener
+                    }
+                    // Get new FCM registration token
+                    val token = task.result
+                    viewModelScope.launch {
+                        when (val response = _accountRepository.register(
+                            username.value!!,
+                            password.value!!,
+                            passwordConfirm.value!!,
+                            token
+                        )) {
+                            is Result.Success -> onSuccess()
+                            is Result.GenericError -> onGenericError(response)
+                            is Result.NetworkError -> onNetworkError()
+                        }
+                        showLoading.value = false
+                        _showRegisterButton.value = true
+                    }
+                })
+            }
         } else {
-            val errors = inputValidator.errors
+            val errors = _inputValidator.errors
             invalidateUi(errors)
         }
     }
@@ -145,7 +169,7 @@ class RegistrationViewModel(private val context: Context) : BaseViewModel() {
     }
 
     private fun isInputValid(): Boolean {
-        return inputValidator.isValid(
+        return _inputValidator.isValid(
             username.value!!,
             password.value!!,
             passwordConfirm.value!!
@@ -160,11 +184,15 @@ class RegistrationViewModel(private val context: Context) : BaseViewModel() {
     }
 
     private fun onSuccess() {
-        navigationCommand.value = NavigationCommand.To(
-            RegistrationFragmentDirections.actionRegistrationFragmentToEmailConfirmationFragment(
-                username.value!!
+        if (_isExternalLogin) {
+            loginWithLocalAccount()
+        } else {
+            navigationCommand.value = NavigationCommand.To(
+                RegistrationFragmentDirections.actionRegistrationFragmentToEmailConfirmationFragment(
+                    username.value!!
+                )
             )
-        )
+        }
     }
 
     private fun onGenericError(error: Result.GenericError) {
@@ -180,10 +208,38 @@ class RegistrationViewModel(private val context: Context) : BaseViewModel() {
         )
     }
 
-    class Factory(val context: Context) : ViewModelProvider.Factory {
+    /**
+     * This function request access token by user credentials in order to login.
+     * If token is received as request response still we need to check if email address
+     * is confirmed. If it is - login succeeded, otherwise not.
+     * If token is not received, possible reasons are lack of Internet connection (onNetworkError) or
+     * invalid user credentials(onGenericError - code 400, Bad Request).
+     */
+    fun loginWithLocalAccount() {
+        showLoading.value = true
+        viewModelScope.launch {
+            // Request access token and ensure email is already confirmed before login
+            when (val tokenResponse =
+                _accountRepository.requestToken(username.value!!, password.value!!)) {
+                is Result.Success -> login(tokenResponse.data.withPassword(password.value))
+                is Result.NetworkError -> onNetworkError()
+                is Result.GenericError -> onGenericError(tokenResponse)
+            }
+            showLoading.value = false
+        }
+    }
+
+    private suspend fun login(user: User) {
+        _accountRepository.saveUser(user)
+        _userPrefs.setUser(user.userName, user.password)
+        _onLoginComplete.value = true
+    }
+
+    class Factory(val context: Context, val args: RegistrationFragmentArgs) :
+        ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(RegistrationViewModel::class.java)) {
-                return RegistrationViewModel(context) as T
+                return RegistrationViewModel(context, args) as T
             }
             throw IllegalArgumentException("Unable to construct RegistrationViewModel")
         }

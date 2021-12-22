@@ -37,12 +37,6 @@ class AccountRepository(
         }
     }
 
-    suspend fun setEmailConfirmed(email: String, value: Boolean) {
-        withContext(dispatcher) {
-            accountDao.setEmailConfirmed(email, value)
-        }
-    }
-
     /**
      * Network requests
      */
@@ -71,7 +65,7 @@ class AccountRepository(
         }
     }
 
-    suspend fun register(email: String, password: String, passwordConfirm: String, token: String):
+    suspend fun register(email: String, password: String, passwordConfirm: String, token: String?):
             Result<Unit> {
         return safeApiCall(dispatcher) {
             accountService.register(email, password, passwordConfirm, token)

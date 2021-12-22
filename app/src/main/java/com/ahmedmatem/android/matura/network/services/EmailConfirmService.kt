@@ -20,12 +20,12 @@ class EmailConfirmService : FirebaseMessagingService() {
     private val _accountRepository: AccountRepository by inject()
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
-        // Set EmailConfirmed in database
-        remoteMessage.data["email"]?.let { email ->
-            coroutineScope.launch {
-                _accountRepository.setEmailConfirmed(email, true)
-            }
-        }
+//        // Set EmailConfirmed in database
+//        remoteMessage.data["email"]?.let { email ->
+//            coroutineScope.launch {
+//                _accountRepository.setEmailConfirmed(email, true)
+//            }
+//        }
 
         // create notification channel
         val channelId = getString(R.string.confirm_email_notification_channel_id)

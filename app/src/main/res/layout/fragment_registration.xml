@@ -51,6 +51,7 @@
             android:drawableStart="@drawable/ic_account_24"
             android:hint="@string/hint_email"
             android:inputType="textEmailAddress"
+            android:enabled="@{viewModel.usernameEnabled}"
             android:text="@={viewModel.username}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

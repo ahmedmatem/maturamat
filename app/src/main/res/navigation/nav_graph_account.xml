@@ -38,6 +38,10 @@
         <action
             android:id="@+id/action_registrationFragment_to_emailConfirmationFragment"
             app:destination="@id/emailConfirmationFragment" />
+        <argument
+            android:name="email"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
 
     <fragment

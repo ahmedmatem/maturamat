@@ -111,7 +111,7 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
 
     fun navigateToRegistration() {
         navigationCommand.value = NavigationCommand.To(
-            LoginFragmentDirections.actionLoginFragmentToRegistrationFragment()
+            LoginFragmentDirections.actionLoginFragmentToRegistrationFragment(null)
         )
     }
 
@@ -142,8 +142,8 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
         viewModelScope.launch {
             when (val result = _accountRepository.validateIdToken(idToken, provider)) {
                 is Result.Success -> onValidIdToken(result.data)
-                is Result.GenericError -> {}
-                is Result.NetworkError -> {}
+                is Result.GenericError -> onGenericError(result)
+                is Result.NetworkError -> onNetworkError()
             }
         }
     }
@@ -152,7 +152,9 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
         when (data.accompanyingAction) {
             LoginAccompanyingAction.Login -> externalLogin(data)
             LoginAccompanyingAction.CreateAccount -> {
-                // todo: Create Local Account
+                navigationCommand.value = NavigationCommand.To(
+                    LoginFragmentDirections.actionLoginFragmentToRegistrationFragment(data.email)
+                )
             }
         }
     }

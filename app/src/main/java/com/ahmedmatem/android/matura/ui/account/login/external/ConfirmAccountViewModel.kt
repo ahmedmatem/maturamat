@@ -58,10 +58,8 @@ class ConfirmAccountViewModel(
         }
     }
 
-    private suspend fun login(token: User, saveInLocalDb: Boolean = true) {
-        if (saveInLocalDb) {
-            _accountRepository.saveUser(token)
-        }
+    private suspend fun login(token: User) {
+        _accountRepository.saveUser(token)
         _userPrefs.setUser(token.userName, password.value)
         _loginAttemptResult.value = true
     }
