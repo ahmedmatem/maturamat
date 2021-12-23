@@ -29,6 +29,8 @@
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/ic_account_black_24.xml" value="0.23981481481481481" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/ic_alert_circle.xml" value="0.2755208333333333" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/ic_baseline_local_fire_department_24.xml" value="0.24814814814814815" />
+        <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/ic_check_outline.xml" value="0.2755208333333333" />
+        <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/ic_close.xml" value="0.2755208333333333" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/ic_email_alert.xml" value="0.2755208333333333" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/ic_email_check.xml" value="0.2537037037037037" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/ic_email_send.xml" value="0.2755208333333333" />
@@ -47,7 +49,7 @@
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/layout/activity_auth.xml" value="0.259375" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/layout/activity_help.xml" value="0.259375" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/layout/activity_main.xml" value="0.259375" />
-        <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/layout/fragment_account.xml" value="0.259375" />
+        <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/layout/fragment_account.xml" value="0.264" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/layout/fragment_account_copy.xml" value="0.259375" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/layout/fragment_confirm_account.xml" value="0.264" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/layout/fragment_email_confirmation.xml" value="0.264" />
