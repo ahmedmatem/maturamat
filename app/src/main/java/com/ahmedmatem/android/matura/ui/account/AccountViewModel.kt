@@ -9,6 +9,10 @@ import org.koin.java.KoinJavaComponent.inject
 
 class AccountViewModel : BaseViewModel() {
     private val _userPref: UserPrefs by inject(UserPrefs::class.java)
+
+    private val _onLogout = MutableLiveData<Boolean>()
+    val onLogout: LiveData<Boolean> = _onLogout
+
     private val _isAccountActive = MutableLiveData(false)
     val isAccountActive: LiveData<Boolean> = _isAccountActive
 
@@ -23,6 +27,11 @@ class AccountViewModel : BaseViewModel() {
     fun logout() {
         _isAccountActive.value = false
         _userPref.logout()
+        _onLogout.value = true
+    }
+
+    private fun googleSignOut() {
+        TODO("Not yet implemented")
     }
 
     fun login() {

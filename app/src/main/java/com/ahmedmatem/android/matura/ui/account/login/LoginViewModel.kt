@@ -120,7 +120,7 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
     }
 
     fun loginWithFacebook() {
-        TODO("Facebook login not yet implemented")
+        _externalLoginFlow.value = ExternalLoginProvider.Facebook
     }
 
     fun onExternalLoginComplete() {

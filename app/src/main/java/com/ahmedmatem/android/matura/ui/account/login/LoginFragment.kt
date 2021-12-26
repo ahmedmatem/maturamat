@@ -88,6 +88,7 @@ class LoginFragment : BaseFragment() {
                         externalLoginResultLauncher.launch(googleSignInClient.signInIntent)
                     }
                     ExternalLoginProvider.Facebook -> {
+                        
                     }
                 }
                 viewModel.onExternalLoginComplete()
