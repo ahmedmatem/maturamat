@@ -8,8 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.ahmedmatem.android.matura.AccountActivity
+import com.ahmedmatem.android.matura.R
 import com.ahmedmatem.android.matura.base.BaseFragment
 import com.ahmedmatem.android.matura.databinding.FragmentAccountBinding
 import com.ahmedmatem.android.matura.prizesystem.PrizeSetup
@@ -28,6 +30,8 @@ class AccountFragment : BaseFragment() {
                  * enqueue work request to setup prize.
                  */
                 PrizeSetup.onLogin(requireContext())
+
+                viewModel.login()
             }
         }
 
@@ -41,6 +45,8 @@ class AccountFragment : BaseFragment() {
 
         val binding = FragmentAccountBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
+
+        binding.viewModel = viewModel
 
         val loginBtn: Button = binding.loginBtn
 

@@ -4,6 +4,8 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.util.Log
 import android.view.View
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.DecelerateInterpolator
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -68,20 +70,23 @@ fun String.hasLengthEqualOrGreaterThan(len: Int): Boolean {
 
 //animate changing the view visibility
 fun View.fadeIn() {
-    this.visibility = View.VISIBLE
+    this.visibility = View.GONE
     this.alpha = 0f
-    this.animate().alpha(1f).setListener(object : AnimatorListenerAdapter() {
+    this.animate().alpha(0f).setListener(object : AnimatorListenerAdapter() {
         override fun onAnimationEnd(animation: Animator) {
             this@fadeIn.alpha = 1f
+            this@fadeIn.visibility = View.VISIBLE
         }
     })
 }
 
 //animate changing the view visibility
 fun View.fadeOut() {
-    this.animate().alpha(0f).setListener(object : AnimatorListenerAdapter() {
+    this.visibility = View.VISIBLE
+    this.alpha = 1f
+    this.animate().alpha(1f).setListener(object : AnimatorListenerAdapter() {
         override fun onAnimationEnd(animation: Animator) {
-            this@fadeOut.alpha = 1f
+            this@fadeOut.alpha = 0f
             this@fadeOut.visibility = View.GONE
         }
     })

@@ -33,6 +33,10 @@ class UserPrefs(val context: Context) {
         return null
     }
 
+    fun logout() {
+        setUsername(null)
+    }
+
     private fun setUsername(username: String?) {
         with(sharedPref.edit()) {
             putString(context.getString(R.string.user_key), username)

@@ -3,7 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data></data>
+    <data>
+        <variable
+            name="viewModel"
+            type="com.ahmedmatem.android.matura.ui.account.AccountViewModel" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -14,7 +18,7 @@
             android:id="@+id/profile_photo"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:background="?android:attr/background"
+            android:background="@color/white"
             android:contentDescription="@string/disabled_profile_img"
             android:padding="@dimen/large_padding"
             android:src="@drawable/profile_photo_disabled"
@@ -24,10 +28,10 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.Group
-            android:id="@+id/logout_group"
+            android:id="@+id/logged_out_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
+            android:fadeVisible="@{!viewModel.isAccountActive}"
             app:constraint_referenced_ids="loginBtn" />
 
         <Button
@@ -42,9 +46,10 @@
             app:layout_constraintTop_toBottomOf="@+id/profile_photo" />
 
         <androidx.constraintlayout.widget.Group
+            android:id="@+id/logged_in_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="visible"
+            android:fadeVisible="@{viewModel.isAccountActive}"
             app:constraint_referenced_ids="emailAddress, logoutBtn" />
 
         <TextView
@@ -66,6 +71,7 @@
             android:layout_marginTop="@dimen/layout_margin"
             android:layout_marginEnd="@dimen/layout_margin"
             android:text="@string/logout_btn"
+            android:onClick="@{() -> viewModel.logout()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/emailAddress" />
 
