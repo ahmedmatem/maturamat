@@ -8,6 +8,8 @@ import com.ahmedmatem.android.matura.local.preferences.UserPrefs
 import com.ahmedmatem.android.matura.network.Result
 import com.ahmedmatem.android.matura.network.services.AccountApi
 import com.ahmedmatem.android.matura.utils.safeApiCall
+import com.facebook.FacebookSdk
+import com.facebook.appevents.AppEventsLogger
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers
 import org.koin.android.ext.koin.androidContext
@@ -20,6 +22,10 @@ class MyApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        // Facebook Logging App Activation
+        FacebookSdk.sdkInitialize(applicationContext)
+        AppEventsLogger.activateApp(this)
 
         // Start Koin
         startKoin {
