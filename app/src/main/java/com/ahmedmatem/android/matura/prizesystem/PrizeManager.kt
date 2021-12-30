@@ -43,7 +43,7 @@ class PrizeManager(
                     }
                 }
                 else -> {
-                    // Prize doesn't exist either on remote machine
+                    // Prize doesn't exist either on remote machine or on local machine
                     val newPrize = Prize(Coin(username), Period(username))
                     prizeRepository.syncPrize(newPrize)
                 }

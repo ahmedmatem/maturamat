@@ -3,6 +3,11 @@
     <string name="title_activity_main">Main Activity</string>
     <string name="title_activity_auth">Auth Activity</string>
 
+    <!-- Facebook App ID -->
+    <string name="facebook_app_id">1063983791112481</string>
+    <string name="fb_login_protocol_scheme">fb1063983791112481</string>
+
+
     <string name="authorization">bearer %s</string>
 
     <string name="title_home">Начало</string>

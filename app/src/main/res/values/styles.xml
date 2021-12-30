@@ -48,6 +48,13 @@
         <item name="android:padding">@dimen/small_padding</item>
     </style>
 
+    <style name="FacebookLoginButton">
+        <item name="android:background">@drawable/ic_facebook_24</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+    </style>
+
 <!--    <style name="GoogleButtonStyle" parent="FirebaseUI.Button.AccountChooser.GoogleButton">-->
 <!--        <item name="android:background">@drawable/button_left_bg</item>-->
 <!--        <item name="android:minHeight">@dimen/form_ui_min_height</item>-->

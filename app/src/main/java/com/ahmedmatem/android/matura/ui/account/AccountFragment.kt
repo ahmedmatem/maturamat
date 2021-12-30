@@ -15,10 +15,13 @@ import com.ahmedmatem.android.matura.AccountActivity
 import com.ahmedmatem.android.matura.base.BaseFragment
 import com.ahmedmatem.android.matura.databinding.FragmentAccountBinding
 import com.ahmedmatem.android.matura.prizesystem.PrizeSetup
+import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class AccountFragment : BaseFragment() {
 
@@ -71,6 +74,7 @@ class AccountFragment : BaseFragment() {
 
         viewModel.onLogout.observe(viewLifecycleOwner, Observer { logout ->
             if (logout) {
+                // Logout from google
                 _googleSignInClient.signOut().addOnCompleteListener(OnCompleteListener {
                     if (it.isSuccessful) {
                         Log.d("DEBUG", "Google signOut was complete successfully.")
@@ -78,6 +82,8 @@ class AccountFragment : BaseFragment() {
                         Log.d("DEBUG", "Google signOut exception ${it.exception?.message}.")
                     }
                 })
+                // Logout from Facebook
+                Firebase.auth.signOut()
             }
         })
 
