@@ -25,3 +25,8 @@ object PasswordOptions {
     const val REQUIRE_NON_ALPHANUMERIC = false
     const val REQUIRED_LENGTH: Int = 6
 }
+
+object FlavorDistribution {
+    const val FREE = "free"
+    const val PAID = "paid"
+}

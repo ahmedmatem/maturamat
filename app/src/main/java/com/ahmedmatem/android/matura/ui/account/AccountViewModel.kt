@@ -13,16 +13,11 @@ class AccountViewModel : BaseViewModel() {
     private val _onLogout = MutableLiveData<Boolean>()
     val onLogout: LiveData<Boolean> = _onLogout
 
-    private val _isAccountActive = MutableLiveData(false)
+    private val _isAccountActive = MutableLiveData(_userPref.getUser() != null)
     val isAccountActive: LiveData<Boolean> = _isAccountActive
 
-    private val _user = MutableLiveData<UserPrefs.User>()
-    val user: LiveData<UserPrefs.User> = _user
-
-    init {
-        _user.value = _userPref.getUser()
-        _isAccountActive.value = _user != null
-    }
+    private val _user = MutableLiveData<UserPrefs.User?>(_userPref.getUser())
+    val user: LiveData<UserPrefs.User?> = _user
 
     fun logout() {
         _isAccountActive.value = false

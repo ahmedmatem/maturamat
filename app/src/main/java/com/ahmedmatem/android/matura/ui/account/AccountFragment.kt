@@ -12,8 +12,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.ahmedmatem.android.matura.AccountActivity
+import com.ahmedmatem.android.matura.BuildConfig
 import com.ahmedmatem.android.matura.base.BaseFragment
 import com.ahmedmatem.android.matura.databinding.FragmentAccountBinding
+import com.ahmedmatem.android.matura.infrastructure.FlavorDistribution
 import com.ahmedmatem.android.matura.prizesystem.PrizeSetup
 import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -37,7 +39,9 @@ class AccountFragment : BaseFragment() {
                  * Only for free distribution in all app versions after success login
                  * enqueue work request to setup prize.
                  */
-                PrizeSetup.onLogin(requireContext())
+                if (BuildConfig.FLAVOR_distribution == FlavorDistribution.FREE) {
+                    PrizeSetup.onLogin(requireContext())
+                }
 
                 viewModel.login()
             }

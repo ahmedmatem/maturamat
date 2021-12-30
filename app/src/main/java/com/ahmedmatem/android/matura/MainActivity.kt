@@ -4,15 +4,8 @@ import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.work.OneTimeWorkRequest
-import androidx.work.WorkManager
 import com.ahmedmatem.android.matura.databinding.ActivityMainBinding
-import com.ahmedmatem.android.matura.local.preferences.UserPrefs
-import com.ahmedmatem.android.matura.prizesystem.PrizeSetup
-import com.ahmedmatem.android.matura.prizesystem.worker.PrizeSetupOnAppStartWorker
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,14 +13,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        /**
-         * PRIZE SETUP - onAppStart
-         *
-         * Only for free distribution and logged in user in all app versions
-         * enqueue work request to setup prize.
-         */
-        PrizeSetup.onAppStart(applicationContext)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

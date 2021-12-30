@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android Studio/Matura by Kotlin/app/src/free/res/layout/fragment_account.xml" value="0.264" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/button_base.xml" value="0.262037037037037" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/button_base_bg.xml" value="0.262037037037037" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/button_base_bg_night.xml" value="0.2755208333333333" />
@@ -45,6 +46,8 @@
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/ic_lock_outline_black_24.xml" value="0.2755208333333333" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/ic_mail_forward.xml" value="0.25925925925925924" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/ic_mail_send.xml" value="0.25925925925925924" />
+        <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/ic_send.xml" value="0.2755208333333333" />
+        <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/ic_star_outline_24.xml" value="0.2755208333333333" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/layout/activity_account.xml" value="0.259375" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/layout/activity_auth.xml" value="0.259375" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/layout/activity_help.xml" value="0.259375" />
@@ -61,7 +64,7 @@
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/layout/fragment_password_reset.xml" value="0.264" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/layout/fragment_registration.xml" value="0.259375" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/layout/fragment_test.xml" value="0.259375" />
-        <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/layout/list_item_test.xml" value="0.1" />
+        <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/layout/list_item_test.xml" value="0.2" />
         <entry key="..\:/Android Studio/MaturaByKotlin/app/src/main/res/drawable/account_off_header_bg.xml" value="0.2755208333333333" />
         <entry key="..\:/Android Studio/MaturaByKotlin/app/src/main/res/drawable/edit_text_outline.xml" value="0.2755208333333333" />
         <entry key="..\:/Android Studio/MaturaByKotlin/app/src/main/res/drawable/form_button.xml" value="0.18611111111111112" />

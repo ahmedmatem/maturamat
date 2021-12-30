@@ -32,7 +32,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fadeVisible="@{!viewModel.isAccountActive}"
-            app:constraint_referenced_ids="loginBtn" />
+            app:constraint_referenced_ids="loginBtn"
+            tools:visibility="gone"/>
 
         <Button
             android:id="@+id/loginBtn"
@@ -43,7 +44,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profile_photo" />
+            app:layout_constraintTop_toBottomOf="@+id/profile_photo"/>
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/logged_in_group"
@@ -57,12 +58,13 @@
             style="@style/TextView.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/layout_margin"
             android:text="@{viewModel.user.username}"
-            tools:text="ahmedmatem@gmail.com"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profile_photo" />
+            app:layout_constraintTop_toBottomOf="@+id/profile_photo"
+            tools:text="ahmedmatem@gmail.com" />
 
         <Button
             android:id="@+id/logoutBtn"
