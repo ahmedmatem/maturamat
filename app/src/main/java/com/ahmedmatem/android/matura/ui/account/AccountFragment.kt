@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -17,7 +16,6 @@ import com.ahmedmatem.android.matura.base.BaseFragment
 import com.ahmedmatem.android.matura.databinding.FragmentAccountBinding
 import com.ahmedmatem.android.matura.infrastructure.FlavorDistribution
 import com.ahmedmatem.android.matura.prizesystem.PrizeSetup
-import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -42,15 +40,13 @@ class AccountFragment : BaseFragment() {
                 if (BuildConfig.FLAVOR_distribution == FlavorDistribution.FREE) {
                     PrizeSetup.onLogin(requireContext())
                 }
-
-                viewModel.login()
             }
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//            .requestIdToken(BuildConfig.WEB_CLIENT_ID)
+            .requestIdToken(BuildConfig.WEB_CLIENT_ID)
             .requestEmail()
             .build()
         _googleSignInClient = GoogleSignIn.getClient(requireContext(), gso)
@@ -69,8 +65,7 @@ class AccountFragment : BaseFragment() {
 
         binding.viewModel = viewModel
 
-        val loginBtn: Button = binding.loginBtn
-
+        val loginBtn = binding.loginBtn
         loginBtn.setOnClickListener {
             val intent = Intent(requireContext(), AccountActivity::class.java)
             loginResultLauncher.launch(intent)
@@ -92,5 +87,10 @@ class AccountFragment : BaseFragment() {
         })
 
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.updateAccountActive()
     }
 }

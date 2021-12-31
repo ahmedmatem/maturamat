@@ -16,5 +16,7 @@
         <!-- Customize your theme here. -->
         <item name="android:buttonStyle">@style/AppButtonNightStyle</item>
         <item name="editTextStyle">@style/AppEditTextNightStyle</item>
+
+        <item name="android:textColor">@color/white</item>
     </style>
 </resources>

@@ -25,11 +25,11 @@ class AccountViewModel : BaseViewModel() {
         _onLogout.value = true
     }
 
-    private fun googleSignOut() {
-        TODO("Not yet implemented")
+    fun updateAccountActive() {
+        _isAccountActive.value = _userPref.getUser() != null
     }
 
-    fun login() {
-        _isAccountActive.value = true
+    private fun googleSignOut() {
+        TODO("Not yet implemented")
     }
 }

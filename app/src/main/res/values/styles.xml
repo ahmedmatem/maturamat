@@ -80,7 +80,7 @@
     </style>
 
     <style name="TextView.Title">
-        <item name="android:textSize">@dimen/title_size_16</item>
+        <item name="android:textSize">@dimen/text_size_16</item>
         <item name="android:textStyle">bold</item>
     </style>
 
@@ -125,6 +125,20 @@
     <style name="InlineErrorMessageStyle" parent="Widget.AppCompat.TextView">
         <item name="android:textSize">@dimen/text_size_12</item>
         <item name="android:textColor">?attr/colorAccent</item>
+    </style>
+
+    <!-- Cards Style -->
+    <style name="CardStyle" parent="Widget.MaterialComponents.CardView">
+        <item name="android:fontFamily">@font/rubik_medium</item>
+    </style>
+
+    <style name="CardStyle.Title" parent="CardStyle">
+        <item name="android:textSize">@dimen/text_size_16</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="CardStyle.Body" parent="CardStyle">
+        <item name="android:textSize">@dimen/text_size_14</item>
     </style>
 
 </resources>

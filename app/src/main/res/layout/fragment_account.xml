@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.ahmedmatem.android.matura.ui.account.AccountViewModel" />
@@ -18,7 +19,6 @@
             android:id="@+id/profile_photo"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:background="@color/white"
             android:contentDescription="@string/disabled_profile_img"
             android:padding="@dimen/large_padding"
             android:src="@drawable/profile_photo_disabled"
@@ -27,56 +27,111 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/logged_out_group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fadeVisible="@{!viewModel.isAccountActive}"
-            app:constraint_referenced_ids="loginBtn"
-            tools:visibility="gone"/>
-
-        <Button
-            android:id="@+id/loginBtn"
-            style="@style/BaseButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/loginBtn"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profile_photo"/>
-
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/logged_in_group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fadeVisible="@{viewModel.isAccountActive}"
-            app:constraint_referenced_ids="emailAddress, logoutBtn" />
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_500"
+            app:layout_constraintBottom_toBottomOf="@+id/profile_photo" />
 
         <TextView
             android:id="@+id/emailAddress"
             style="@style/TextView.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin"
+            android:layout_marginBottom="8dp"
             android:text="@{viewModel.user.username}"
+            android:fadeVisible="@{viewModel.isAccountActive}"
+            app:layout_constraintBottom_toBottomOf="@+id/profile_photo"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profile_photo"
             tools:text="ahmedmatem@gmail.com" />
 
-        <Button
+        <TextView
             android:id="@+id/logoutBtn"
+            style="@style/TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/layout_margin"
             android:layout_marginEnd="@dimen/layout_margin"
-            android:text="@string/logout_btn"
+            android:drawableEnd="@drawable/ic_logout_24"
+            android:fadeVisible="@{viewModel.isAccountActive}"
             android:onClick="@{() -> viewModel.logout()}"
+            android:text="@string/logout_btn"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/emailAddress" />
+            app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/loginBtn"
+            style="@style/TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/layout_margin"
+            android:layout_marginBottom="@dimen/small_margin"
+            android:drawableEnd="@drawable/ic_login_24"
+            android:fadeVisible="@{!viewModel.isAccountActive}"
+            android:text="@string/loginBtn"
+            app:layout_constraintBottom_toBottomOf="@+id/profile_photo"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:fadeVisible="@{viewModel.isAccountActive}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profile_photo">
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="@dimen/card_1_line_height"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/prize_title"
+                        style="@style/CardStyle.Title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginBottom="-40dp"
+                        android:text="Награди"
+                        app:layout_constraintBottom_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/imageView3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_star_outline_24" />
+
+                    <TextView
+                        android:id="@+id/coinsNumber"
+                        style="@style/CardStyle.Body"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="3"
+                        app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+                        app:layout_constraintEnd_toStartOf="@+id/imageView3" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

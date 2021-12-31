@@ -35,9 +35,13 @@
 
     <!-- Text dimens -->
     <dimen name="text_size_14">14sp</dimen>
-    <dimen name="title_size_16">16sp</dimen>
+    <dimen name="text_size_16">16sp</dimen>
     <dimen name="text_size_12">12sp</dimen>
 
     <!-- image view -->
     <dimen name="iv_btn_size">32dp</dimen>
+
+    <!-- Cards -->
+    <dimen name="card_1_line_height">48dp</dimen>
+    <dimen name="card_2_line_height">96dp</dimen>
 </resources>

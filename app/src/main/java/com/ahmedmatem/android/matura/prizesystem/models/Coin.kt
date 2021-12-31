@@ -54,3 +54,7 @@ fun Coin.bet(count: Int = 1) {
         throw InsufficientCoinException()
     }
 }
+
+fun Coin.count(): Int {
+    return gift + earned
+}

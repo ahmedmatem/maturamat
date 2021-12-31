@@ -44,6 +44,8 @@
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/ic_facebook_logo_24.xml" value="0.2755208333333333" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/ic_google_logo_24.xml" value="0.2518518518518518" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/ic_lock_outline_black_24.xml" value="0.2755208333333333" />
+        <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/ic_login_24.xml" value="0.2755208333333333" />
+        <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/ic_logout_24.xml" value="0.2755208333333333" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/ic_mail_forward.xml" value="0.25925925925925924" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/ic_mail_send.xml" value="0.25925925925925924" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/ic_send.xml" value="0.2755208333333333" />
@@ -52,8 +54,9 @@
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/layout/activity_auth.xml" value="0.259375" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/layout/activity_help.xml" value="0.259375" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/layout/activity_main.xml" value="0.259375" />
-        <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/layout/fragment_account.xml" value="0.264" />
+        <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/layout/fragment_account.xml" value="0.4" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/layout/fragment_account_copy.xml" value="0.259375" />
+        <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/layout/fragment_account_out.xml" value="0.259375" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/layout/fragment_confirm_account.xml" value="0.264" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/layout/fragment_email_confirmation.xml" value="0.264" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/layout/fragment_external_login.xml" value="0.259375" />
