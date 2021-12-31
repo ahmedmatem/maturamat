@@ -1,14 +1,18 @@
 package com.ahmedmatem.android.matura.ui.account
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.local.preferences.UserPrefs
+import com.ahmedmatem.android.matura.prizesystem.models.Coin
+import com.ahmedmatem.android.matura.prizesystem.models.Prize
+import com.ahmedmatem.android.matura.prizesystem.models.total
+import com.ahmedmatem.android.matura.repository.PrizeRepository
+import kotlinx.coroutines.launch
 import org.koin.java.KoinJavaComponent.inject
 
 class AccountViewModel : BaseViewModel() {
     private val _userPref: UserPrefs by inject(UserPrefs::class.java)
+    private val prizeRepository: PrizeRepository by inject(PrizeRepository::class.java)
 
     private val _onLogout = MutableLiveData<Boolean>()
     val onLogout: LiveData<Boolean> = _onLogout
@@ -18,6 +22,10 @@ class AccountViewModel : BaseViewModel() {
 
     private val _user = MutableLiveData<UserPrefs.User?>(_userPref.getUser())
     val user: LiveData<UserPrefs.User?> = _user
+
+    val totalCoin: LiveData<Int> = Transformations.map(prizeRepository.getCoin()){
+        it.total()
+    }
 
     fun logout() {
         _isAccountActive.value = false

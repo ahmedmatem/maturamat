@@ -1,15 +1,16 @@
 package com.ahmedmatem.android.matura.prizesystem
 
 import android.content.Context
+import com.ahmedmatem.android.matura.local.preferences.UserPrefs
 import com.ahmedmatem.android.matura.network.Result
 import com.ahmedmatem.android.matura.prizesystem.models.*
 import com.ahmedmatem.android.matura.repository.PrizeRepository
+import org.koin.java.KoinJavaComponent.inject
 
-class PrizeManager(
-    private val context: Context,
-    private val username: String
-) {
-    private val prizeRepository by lazy { PrizeRepository(context, username) }
+class PrizeManager(private val context: Context) {
+    private val _userPrefs: UserPrefs by inject(UserPrefs::class.java)
+//    private val prizeRepository by lazy { PrizeRepository(context) }
+    private val prizeRepository: PrizeRepository by inject(PrizeRepository::class.java)
 
     suspend fun setupOnAppStart() {
         val prize = prizeRepository.getPrize()
@@ -44,8 +45,11 @@ class PrizeManager(
                 }
                 else -> {
                     // Prize doesn't exist either on remote machine or on local machine
-                    val newPrize = Prize(Coin(username), Period(username))
-                    prizeRepository.syncPrize(newPrize)
+                    val username = _userPrefs.getUser()?.username
+                    username?.let {
+                        val newPrize = Prize(Coin(username), Period(username))
+                        prizeRepository.syncPrize(newPrize)
+                    }
                 }
             }
         }

@@ -55,6 +55,6 @@ fun Coin.bet(count: Int = 1) {
     }
 }
 
-fun Coin.count(): Int {
+fun Coin.total(): Int {
     return gift + earned
 }

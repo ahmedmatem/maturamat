@@ -13,7 +13,7 @@ class PrizeSetupOnLoginWorker(val context: Context, workerParams: WorkerParamete
 
     override suspend fun doWork(): Result {
         username?.let {
-            val prizeManager = PrizeManager(context, it)
+            val prizeManager = PrizeManager(context)
             prizeManager.setupOnLogin()
             return Result.success()
         }

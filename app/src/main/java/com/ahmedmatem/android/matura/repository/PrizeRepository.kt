@@ -1,7 +1,9 @@
 package com.ahmedmatem.android.matura.repository
 
 import android.content.Context
+import androidx.lifecycle.LiveData
 import com.ahmedmatem.android.matura.local.MaturaDb
+import com.ahmedmatem.android.matura.local.preferences.UserPrefs
 import com.ahmedmatem.android.matura.network.Result
 import com.ahmedmatem.android.matura.utils.safeApiCall
 import com.ahmedmatem.android.matura.network.services.PrizeApi
@@ -11,27 +13,23 @@ import com.ahmedmatem.android.matura.prizesystem.models.Prize
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.koin.java.KoinJavaComponent.inject
 
 class PrizeRepository(
     context: Context,
-    private val username: String,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
+    private val _userPrefs: UserPrefs by inject(UserPrefs::class.java)
     private val prizeDao by lazy { MaturaDb.getInstance(context).prizeDao }
+    private val username by lazy { _userPrefs.getUser()?.username }
 
-    suspend fun getCoin(): Int {
-        return withContext(dispatcher) {
-            val coin = prizeDao.getCoinForUser(username)
-            coin?.let {
-                coin.gift + coin.earned
-            }
-            0
-        }
+    fun getCoin(): LiveData<Coin> {
+        return prizeDao.getCoinForUser(username!!)
     }
 
     suspend fun getPrize(): Prize? {
         return withContext(dispatcher) {
-            prizeDao.getPrizeForUser(username)
+            prizeDao.getPrizeForUser(username!!)
         }
     }
 
@@ -49,7 +47,7 @@ class PrizeRepository(
 
     suspend fun getPrizeFromNetwork(): Result<Prize> {
         return safeApiCall(dispatcher) {
-            PrizeApi.retrofitService.getUserPrize(username)
+            PrizeApi.retrofitService.getUserPrize(username!!)
         }
     }
 

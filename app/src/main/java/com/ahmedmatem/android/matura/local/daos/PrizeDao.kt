@@ -1,5 +1,6 @@
 package com.ahmedmatem.android.matura.local.daos
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.ahmedmatem.android.matura.prizesystem.models.Coin
 import com.ahmedmatem.android.matura.prizesystem.models.Period
@@ -17,7 +18,7 @@ interface PrizeDao {
     suspend fun getPrizeForUser(username: String): Prize?
 
     @Query("SELECT * FROM coin_table WHERE holder = :username")
-    suspend fun getCoinForUser(username: String): Coin?
+    fun getCoinForUser(username: String): LiveData<Coin>
 
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
