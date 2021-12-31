@@ -36,8 +36,4 @@ class AccountViewModel : BaseViewModel() {
     fun updateAccountActive() {
         _isAccountActive.value = _userPref.getUser() != null
     }
-
-    private fun googleSignOut() {
-        TODO("Not yet implemented")
-    }
 }
