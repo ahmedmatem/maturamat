@@ -34,6 +34,7 @@
     <string name="check_email_description">Бутон към пощата</string>
     <string name="new_email_confirmation_link_description">Бутон за заявка на нов линк за потвърждение на имейл</string>
     <string name="check_description">Успешна операция</string>
+    <string name="new_test_description">Бутон за начало на нов тест</string>
 
     <!-- fragment_login layout -->
     <string name="account_off_image_description">Account off image</string>

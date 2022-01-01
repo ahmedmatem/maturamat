@@ -1,3 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE resources [
+    <!ENTITY m_base_url "https://maturamat.com/m">
+<!--    <!ENTITY author "Oded">-->
+    ]>
+
 <resources>
+    <string name="app_name">ДЗИ 12</string>
+    
+    <string name="M_BASE_URL">&m_base_url;</string>
+    <string name="test_url">&m_base_url;/test/dzi</string>
+    <string name="test_repeat_url">&m_base_url;/test/repeatDzi</string>
+    <string name="test_resume_url">&m_base_url;/test/resumeDzi</string>
+
+    <string name="google_play_store_url">
+        https://play.google.com/store/apps/details?id=com.ahmedmatem.android.matura.dzi12
+    </string>
 </resources>

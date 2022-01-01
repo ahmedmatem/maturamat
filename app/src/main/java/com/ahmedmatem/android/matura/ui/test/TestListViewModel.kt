@@ -4,7 +4,9 @@ import android.content.Context
 import androidx.lifecycle.*
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.local.MaturaDb
+import com.ahmedmatem.android.matura.network.models.Test
 import com.ahmedmatem.android.matura.repository.TestRepository
+import com.ahmedmatem.android.matura.ui.test.contracts.TestState
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 
@@ -22,10 +24,13 @@ class TestListViewModel(val context: Context) : BaseViewModel() {
     // Read data from local database
     val testList = testRepository.testList
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is Test Fragment"
+    fun onTestItemClick(test: Test) {
+        when (test.state) {
+            TestState.NOT_STARTED -> {}
+            TestState.INCOMPLETE -> {}
+            TestState.COMPLETE -> {}
+        }
     }
-    val text: LiveData<String> = _text
 
     class Factory(private val context: Context) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {

@@ -141,4 +141,10 @@
         <item name="android:textSize">@dimen/text_size_14</item>
     </style>
 
+    <!-- Floating Action Button Style -->
+    <style name="appActionOverFlowStyle" parent="@style/Widget.MaterialComponents.FloatingActionButton">
+        <item name="backgroundTint">@color/colorPrimary</item>
+        <item name="tint">@android:color/white</item>
+    </style>
+
 </resources>

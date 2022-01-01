@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.ahmedmatem.android.matura.base.BaseFragment
@@ -26,14 +27,14 @@ class TestListFragment : BaseFragment() {
             TestListViewModel.Factory(requireContext())
         ).get(TestListViewModel::class.java)
 
-        val binding = FragmentTestBinding.inflate(inflater, container, false)
-        binding.lifecycleOwner = this
-
         // Initiate recycler adapter
         val adapter = TestListAdapter(TestClickListener {
-
+//            Toast.makeText(requireContext(), "test: ${it.id}", Toast.LENGTH_LONG).show()
+            viewModel.onTestItemClick(it)
         })
 
+        val binding = FragmentTestBinding.inflate(inflater, container, false)
+        binding.lifecycleOwner = this
         binding.testList.adapter = adapter
 
         viewModel.testList?.observe(viewLifecycleOwner, Observer {
