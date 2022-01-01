@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:key="@string/category_test_key"
+        android:title="@string/category_test_title">
+
+        <SeekBarPreference
+            android:key="@string/test_size_key"
+            android:title="@string/test_size_title"
+            android:max="@integer/max_test_size"
+            android:defaultValue="@integer/default_test_size"/>
+
+        <SwitchPreferenceCompat
+            android:key="@string/timer_key"
+            android:title="@string/timer_title"
+            android:defaultValue="true"/>
+
+        <ListPreference
+            android:key="@string/test_view_key"
+            android:title="@string/test_view_title"
+            android:summary="@string/test_view_summary"
+            android:defaultValue="@string/test_view_list"
+            android:entries="@array/test_view_names"
+            android:entryValues="@array/test_view_values" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="@string/category_feedback_key"
+        android:title="@string/category_feedback_title">
+
+        <Preference
+            android:key="@string/feedback_rate_key"
+            android:title="@string/feedback_rate_title">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/google_play_store_url" />
+        </Preference>
+
+        <Preference
+            android:key="@string/feedback_share_key"
+            android:title="@string/feedback_share_title">
+        </Preference>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="@string/category_about_key"
+        android:title="@string/category_about_title">
+
+        <Preference
+            android:key="@string/about_version_key"
+            android:title="@string/about_version_title"
+            android:defaultValue="@string/version_default_value"/>
+    </PreferenceCategory>
+
+</PreferenceScreen>

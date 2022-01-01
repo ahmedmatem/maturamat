@@ -106,7 +106,38 @@
     <string name="confirm_email_notification_channel_id">confirm_email_notification_channel_id</string>
     <string name="confirm_email_notification_channel_name">Email_Confirmation_Channel</string>
     <string name="confirm_email_notification_channel_description">Email confirmation succeeded</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Settings -->
+    <string name="category_test_key">category_test_key</string>
+    <string name="category_test_title">Тест</string>
+    <string name="test_size_key">test_size_key</string>
+    <string name="test_size_title">Брой задачи</string>
+    <string name="timer_key">timer_key</string>
+    <string name="timer_title">Таймер</string>
+    <string name="test_view_key">test_view_key</string>
+    <string name="test_view_title">Изглед</string>
+    <string name="test_view_list">Списък</string>
+    <string name="test_view_cards">Карти</string>
+    <string name="test_view_default">@string/test_view_list</string>
+    <string name="test_view_summary">@string/test_view_list</string>
+    <string-array name="test_view_names">
+        <item>@string/test_view_list</item>
+        <item>@string/test_view_cards</item>
+    </string-array>
+    <string-array name="test_view_values">
+        <item>@string/test_view_list</item>
+        <item>@string/test_view_cards</item>
+    </string-array>
+    <string name="category_feedback_key">category_feedback_key</string>
+    <string name="category_feedback_title">Обратна връзка</string>
+    <string name="feedback_rate_key">feedback_rate_key</string>
+    <string name="feedback_rate_title">Оцени</string>
+    <string name="feedback_share_key">feedback_share_key</string>
+    <string name="feedback_share_title">Сподели</string>
+    <string name="category_about_key">category_about_key</string>
+    <string name="category_about_title">За нас</string>
+    <string name="about_version_key">about_version_key</string>
+    <string name="about_version_title">Версия</string>
+    <string name="version_default_value">1.0.0</string>
 
 </resources>
