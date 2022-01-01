@@ -11,10 +11,9 @@
     <string name="authorization">bearer %s</string>
 
     <string name="title_home">Начало</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_settings">Настройки</string>
     <string name="title_tests">Тестове</string>
     <string name="title_account">Профил</string>
-    <string name="title_settings">Настройки</string>
     <string name="title_login">Вход</string>
     <string name="title_confirm_account">Потвърждение на профил</string>
     <string name="title_registration">Регистрация</string>
