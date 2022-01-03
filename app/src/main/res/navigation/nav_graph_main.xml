@@ -15,7 +15,11 @@
         android:id="@+id/navigation_tests"
         android:name="com.ahmedmatem.android.matura.ui.test.TestListFragment"
         android:label="@string/title_tests"
-        tools:layout="@layout/fragment_test" />
+        tools:layout="@layout/fragment_test" >
+        <action
+            android:id="@+id/action_navigation_tests_to_newTestFragment"
+            app:destination="@id/newTestFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_account"
@@ -26,7 +30,12 @@
     <fragment
         android:id="@+id/navigation_settings"
         android:name="com.ahmedmatem.android.matura.ui.settings.SettingsFragment"
-        android:label="@string/title_settings"
-        tools:layout="@layout/fragment_settings" />
+        android:label="@string/title_settings" />
+
+    <fragment
+        android:id="@+id/newTestFragment"
+        android:name="com.ahmedmatem.android.matura.ui.test.NewTestFragment"
+        android:label="NewTestFragment"
+        tools:layout="@layout/fragment_new_test"/>
 
 </navigation>

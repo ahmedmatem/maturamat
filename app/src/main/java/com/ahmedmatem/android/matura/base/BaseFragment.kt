@@ -1,9 +1,11 @@
 package com.ahmedmatem.android.matura.base
 
+import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 
 /**
@@ -40,5 +42,11 @@ abstract class BaseFragment : Fragment() {
                 )
             }
         })
+    }
+}
+
+fun BaseFragment.hideBottomNavigation(resId: Int) {
+    activity?.findViewById<BottomNavigationView>(resId)?.apply {
+        visibility = View.GONE
     }
 }

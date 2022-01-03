@@ -3,6 +3,7 @@ package com.ahmedmatem.android.matura.ui.test
 import android.content.Context
 import androidx.lifecycle.*
 import com.ahmedmatem.android.matura.base.BaseViewModel
+import com.ahmedmatem.android.matura.base.NavigationCommand
 import com.ahmedmatem.android.matura.infrastructure.ProductFlavor
 import com.ahmedmatem.android.matura.local.MaturaDb
 import com.ahmedmatem.android.matura.network.models.Test
@@ -29,14 +30,26 @@ class TestListViewModel(val context: Context) : BaseViewModel() {
     fun onTestItemClick(test: Test) {
         when (test.state) {
             TestState.NOT_STARTED -> startNewTest()
-            TestState.INCOMPLETE -> {}
-            TestState.COMPLETE -> {}
+            TestState.INCOMPLETE -> resumeTest()
+            TestState.COMPLETE -> showTestResult()
         }
     }
 
     private fun startNewTest() {
         val urlUtil = URLUtil.from(context, ProductFlavor.DZI_12)
+        val newTestUrl = urlUtil.newTestUrl()
+        navigationCommand.value =
+            NavigationCommand.To(TestListFragmentDirections.actionNavigationTestsToNewTestFragment())
+    }
 
+    private fun resumeTest() {
+        navigationCommand.value =
+            NavigationCommand.To(TestListFragmentDirections.actionNavigationTestsToNewTestFragment())
+    }
+
+    private fun showTestResult() {
+        navigationCommand.value =
+            NavigationCommand.To(TestListFragmentDirections.actionNavigationTestsToNewTestFragment())
     }
 
     class Factory(private val context: Context) : ViewModelProvider.Factory {
