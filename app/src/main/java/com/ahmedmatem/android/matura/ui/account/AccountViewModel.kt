@@ -23,9 +23,12 @@ class AccountViewModel : BaseViewModel() {
     private val _user = MutableLiveData<UserPrefs.User?>(_userPref.getUser())
     val user: LiveData<UserPrefs.User?> = _user
 
-    val totalCoin: LiveData<Int> = Transformations.map(prizeRepository.getCoin()){
-        it.total()
-    }
+    val totalCoin: LiveData<Int>? =
+        user?.value?.username?.let {
+            Transformations.map(prizeRepository.getCoin()!!) {
+                it?.total()
+            }
+        }
 
     fun logout() {
         _isAccountActive.value = false

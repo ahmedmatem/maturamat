@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="max_test_size">20</integer>
+    <integer name="min_test_size">10</integer>
+    <integer name="test_size_step">2</integer>
     <integer name="default_test_size">20</integer>
 </resources>

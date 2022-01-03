@@ -23,8 +23,11 @@ class PrizeRepository(
     private val prizeDao by lazy { MaturaDb.getInstance(context).prizeDao }
     private val username by lazy { _userPrefs.getUser()?.username }
 
-    fun getCoin(): LiveData<Coin> {
-        return prizeDao.getCoinForUser(username!!)
+    fun getCoin(): LiveData<Coin>? {
+        username?.let {
+            return prizeDao.getCoinForUser(username!!)
+        }
+        return null
     }
 
     suspend fun getPrize(): Prize? {
