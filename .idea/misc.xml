@@ -51,6 +51,7 @@
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/ic_mail_send.xml" value="0.25925925925925924" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/ic_send.xml" value="0.2755208333333333" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/ic_star_outline_24.xml" value="0.2755208333333333" />
+        <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/top_left_round_corner_bg.xml" value="0.2755208333333333" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/layout/activity_account.xml" value="0.259375" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/layout/activity_auth.xml" value="0.259375" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/layout/activity_help.xml" value="0.259375" />
@@ -71,6 +72,7 @@
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/layout/fragment_settings.xml" value="0.259375" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/layout/fragment_test.xml" value="0.259375" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/layout/list_item_test.xml" value="0.2" />
+        <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/layout/test_list_bottom_sheet.xml" value="0.259375" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/xml/preferences.xml" value="0.259375" />
         <entry key="..\:/Android Studio/MaturaByKotlin/app/src/main/res/drawable/account_off_header_bg.xml" value="0.2755208333333333" />
         <entry key="..\:/Android Studio/MaturaByKotlin/app/src/main/res/drawable/edit_text_outline.xml" value="0.2755208333333333" />
