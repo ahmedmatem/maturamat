@@ -13,6 +13,7 @@
     <string name="title_home">Начало</string>
     <string name="title_settings">Настройки</string>
     <string name="title_tests">Тестове</string>
+    <string name="title_test">Тест</string>
     <string name="title_account">Профил</string>
     <string name="title_login">Вход</string>
     <string name="title_confirm_account">Потвърждение на профил</string>

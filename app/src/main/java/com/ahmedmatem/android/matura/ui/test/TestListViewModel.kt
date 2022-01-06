@@ -3,19 +3,19 @@ package com.ahmedmatem.android.matura.ui.test
 import android.content.Context
 import androidx.lifecycle.*
 import com.ahmedmatem.android.matura.base.BaseViewModel
-import com.ahmedmatem.android.matura.base.NavigationCommand
-import com.ahmedmatem.android.matura.infrastructure.ProductFlavor
 import com.ahmedmatem.android.matura.local.MaturaDb
 import com.ahmedmatem.android.matura.network.models.Test
 import com.ahmedmatem.android.matura.repository.TestRepository
 import com.ahmedmatem.android.matura.ui.test.contracts.TestState
-import com.ahmedmatem.android.matura.utils.URLUtil
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 
 class TestListViewModel(val context: Context) : BaseViewModel() {
 
     private val testRepository = TestRepository(context, MaturaDb.getInstance(context))
+
+    private val _navigateToTest = MutableLiveData<Int?>().apply { value = null }
+    val navigateToTest: LiveData<Int?> = _navigateToTest
 
     // Refresh test list in local database from network
     init {
@@ -36,20 +36,23 @@ class TestListViewModel(val context: Context) : BaseViewModel() {
     }
 
     private fun startNewTest() {
-        val urlUtil = URLUtil.from(context, ProductFlavor.DZI_12)
-        val newTestUrl = urlUtil.newTestUrl()
-        navigationCommand.value =
-            NavigationCommand.To(TestListFragmentDirections.actionNavigationTestsToNewTestFragment())
+//        val urlUtil = URLUtil.from(context, ProductFlavor.DZI_12)
+//        val newTestUrl = urlUtil.newTestUrl()
+//        navigationCommand.value =
+//            NavigationCommand.To(TestListFragmentDirections.actionNavigationTestsToNewTestFragment())
+        _navigateToTest.value = TestState.NOT_STARTED
     }
 
     private fun resumeTest() {
-        navigationCommand.value =
-            NavigationCommand.To(TestListFragmentDirections.actionNavigationTestsToNewTestFragment())
+//        navigationCommand.value =
+//            NavigationCommand.To(TestListFragmentDirections.actionNavigationTestsToNewTestFragment())
+        _navigateToTest.value = TestState.NOT_STARTED
     }
 
     private fun showTestResult() {
-        navigationCommand.value =
-            NavigationCommand.To(TestListFragmentDirections.actionNavigationTestsToNewTestFragment())
+//        navigationCommand.value =
+//            NavigationCommand.To(TestListFragmentDirections.actionNavigationTestsToNewTestFragment())
+        _navigateToTest.value = TestState.NOT_STARTED
     }
 
     class Factory(private val context: Context) : ViewModelProvider.Factory {
