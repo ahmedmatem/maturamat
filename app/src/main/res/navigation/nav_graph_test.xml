@@ -7,11 +7,13 @@
 
     <fragment
         android:id="@+id/placeholder"
-        android:name="com.ahmedmatem.android.matura.ui.test.TestActivityPlaceholderFragment"
-        tools:layout="@layout/fragment_test_activity_placeholder">
+        android:name="com.ahmedmatem.android.matura.ui.test.TestActivityPlaceholderFragment">
         <action
             android:id="@+id/action_placeholder_to_newTestFragment"
             app:destination="@id/newTestFragment" />
+        <argument
+            android:name="testState"
+            app:argType="integer"/>
     </fragment>
 
     <fragment

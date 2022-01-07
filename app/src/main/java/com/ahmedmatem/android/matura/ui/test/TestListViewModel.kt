@@ -14,8 +14,8 @@ class TestListViewModel(val context: Context) : BaseViewModel() {
 
     private val testRepository = TestRepository(context, MaturaDb.getInstance(context))
 
-    private val _navigateToTest = MutableLiveData<Int?>().apply { value = null }
-    val navigateToTest: LiveData<Int?> = _navigateToTest
+    private val _navigateByTestState = MutableLiveData<Int?>().apply { value = null }
+    val navigateByTestState: LiveData<Int?> = _navigateByTestState
 
     // Refresh test list in local database from network
     init {
@@ -40,19 +40,19 @@ class TestListViewModel(val context: Context) : BaseViewModel() {
 //        val newTestUrl = urlUtil.newTestUrl()
 //        navigationCommand.value =
 //            NavigationCommand.To(TestListFragmentDirections.actionNavigationTestsToNewTestFragment())
-        _navigateToTest.value = TestState.NOT_STARTED
+        _navigateByTestState.value = TestState.NOT_STARTED
     }
 
     private fun resumeTest() {
 //        navigationCommand.value =
 //            NavigationCommand.To(TestListFragmentDirections.actionNavigationTestsToNewTestFragment())
-        _navigateToTest.value = TestState.NOT_STARTED
+        _navigateByTestState.value = TestState.NOT_STARTED
     }
 
     private fun showTestResult() {
 //        navigationCommand.value =
 //            NavigationCommand.To(TestListFragmentDirections.actionNavigationTestsToNewTestFragment())
-        _navigateToTest.value = TestState.NOT_STARTED
+        _navigateByTestState.value = TestState.NOT_STARTED
     }
 
     class Factory(private val context: Context) : ViewModelProvider.Factory {

@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.ahmedmatem.android.matura.ui.test.TestActivityPlaceholderFragment
 
 class TestActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -21,5 +22,9 @@ class TestActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         return findNavController(R.id.nav_host_fragment_activity_test).navigateUp() ||
                 super.onSupportNavigateUp()
+    }
+
+    companion object {
+        const val EXTRA_TEST_STATE = "testState"
     }
 }
