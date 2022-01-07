@@ -19,5 +19,9 @@
     <fragment
         android:id="@+id/newTestFragment"
         android:name="com.ahmedmatem.android.matura.ui.test.NewTestFragment"
-        android:label="@string/title_test" />
+        android:label="@string/title_test" >
+        <argument
+            android:name="url"
+            app:argType="string" />
+    </fragment>
 </navigation>

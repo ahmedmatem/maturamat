@@ -28,31 +28,8 @@ class TestListViewModel(val context: Context) : BaseViewModel() {
     val testList = testRepository.testList
 
     fun onTestItemClick(test: Test) {
-        when (test.state) {
-            TestState.NOT_STARTED -> startNewTest()
-            TestState.INCOMPLETE -> resumeTest()
-            TestState.COMPLETE -> showTestResult()
-        }
-    }
-
-    private fun startNewTest() {
-//        val urlUtil = URLUtil.from(context, ProductFlavor.DZI_12)
-//        val newTestUrl = urlUtil.newTestUrl()
-//        navigationCommand.value =
-//            NavigationCommand.To(TestListFragmentDirections.actionNavigationTestsToNewTestFragment())
-        _navigateByTestState.value = TestState.NOT_STARTED
-    }
-
-    private fun resumeTest() {
-//        navigationCommand.value =
-//            NavigationCommand.To(TestListFragmentDirections.actionNavigationTestsToNewTestFragment())
-        _navigateByTestState.value = TestState.NOT_STARTED
-    }
-
-    private fun showTestResult() {
-//        navigationCommand.value =
-//            NavigationCommand.To(TestListFragmentDirections.actionNavigationTestsToNewTestFragment())
-        _navigateByTestState.value = TestState.NOT_STARTED
+//        _navigateByTestState.value = TestState.NOT_STARTED
+        _navigateByTestState.value = test.state
     }
 
     class Factory(private val context: Context) : ViewModelProvider.Factory {

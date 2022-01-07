@@ -13,12 +13,15 @@ import com.ahmedmatem.android.matura.databinding.FragmentTestActivityPlaceholder
 import com.ahmedmatem.android.matura.ui.test.contracts.TestState
 
 /**
- * Use placeholder fragment to redirect to a specific test fragment
- * depends on testState value put in intent extra.
+ * Use placeholder fragment to navigate to a specific test fragment
+ * depends on test state value put in intent extra.
  */
 class TestActivityPlaceholderFragment : BaseFragment() {
     override val viewModel: TestActivityPlaceholderViewModel
-        get() = ViewModelProvider(this).get(TestActivityPlaceholderViewModel::class.java)
+        get() = ViewModelProvider(
+            this,
+            TestActivityPlaceholderViewModel.Factory(requireContext())
+        ).get(TestActivityPlaceholderViewModel::class.java)
 
     override fun onCreateView(
         inflater: LayoutInflater,
