@@ -12,21 +12,22 @@
         android:id="@+id/keyboard_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:background="@color/gray_200"/>
+        android:background="@color/gray_200"
+        android:visibility="gone" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/colorAccent">
+        android:background="@color/colorAccent"
+        android:orientation="vertical">
 
-        <FrameLayout
+        <fragment
             android:id="@+id/timer_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:background="@drawable/top_left_round_corner_bg"/>
+            android:background="@drawable/top_left_round_corner_bg"
+            tools:layout="@layout/fragment_count_down_timer" />
 
     </LinearLayout>
 
