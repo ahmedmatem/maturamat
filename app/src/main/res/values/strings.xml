@@ -94,6 +94,9 @@
     <string name="reset_password_text">Въведете имейл адреса, с който сте регистриран. На електронната
         Ви поща ще бъде изпратен линк за възстановяване на паролата.</string>
 
+    <!-- fragment_count_down_timer layout -->
+    <string name="timer_content_description">Хронометър</string>
+
     <!-- general button texts -->
     <string name="send_btn">Изпрати</string>
     <string name="ok_btn">OK</string>
@@ -143,7 +146,6 @@
     <string name="test_timer_off_summary">
         Таймерът може да се включи, когато броят на задачите в теста е %1$d.
     </string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
 </resources>
