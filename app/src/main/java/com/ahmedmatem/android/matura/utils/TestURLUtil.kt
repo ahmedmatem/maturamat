@@ -6,7 +6,7 @@ import com.ahmedmatem.android.matura.R
 import com.ahmedmatem.android.matura.local.preferences.UserPrefs
 import org.koin.java.KoinJavaComponent.inject
 
-class URLUtil(ctx: Context) {
+class TestURLUtil(ctx: Context) {
     private val _context: Context = ctx
     private val userPrefs: UserPrefs by inject(UserPrefs::class.java)
     private val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(ctx)

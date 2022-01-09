@@ -1,13 +1,12 @@
 package com.ahmedmatem.android.matura.ui.test
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.base.NavigationCommand
 import com.ahmedmatem.android.matura.ui.test.contracts.TestState
-import com.ahmedmatem.android.matura.utils.URLUtil
+import com.ahmedmatem.android.matura.utils.TestURLUtil
 import java.lang.IllegalArgumentException
 
 class TestActivityPlaceholderViewModel(private val context: Context) : BaseViewModel() {
@@ -21,7 +20,7 @@ class TestActivityPlaceholderViewModel(private val context: Context) : BaseViewM
     }
 
     private fun startNewTest() {
-        val newTestUrl = URLUtil(context).newTestUrl()
+        val newTestUrl = TestURLUtil(context).newTestUrl()
         navigationCommand.value = NavigationCommand.To(
             TestActivityPlaceholderFragmentDirections.actionPlaceholderToNewTestFragment(newTestUrl)
         )

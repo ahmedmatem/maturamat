@@ -43,11 +43,11 @@ class TestListFragment : BaseFragment() {
             }
         })
 
-        viewModel.navigateByTestState.observe(viewLifecycleOwner, Observer { state ->
+        viewModel.onTestItemClick.observe(viewLifecycleOwner, Observer { state ->
             state?.let {
                 // Create intent with extra containing test state
                 val intent = Intent(requireContext(), TestActivity::class.java).apply {
-                    putExtra(EXTRA_TEST_STATE, state)
+                    putExtra(EXTRA_TEST_STATE, it)
                 }
                 startActivity(intent)
             }
