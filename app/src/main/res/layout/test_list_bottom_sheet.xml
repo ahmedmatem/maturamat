@@ -5,7 +5,6 @@
     android:id="@+id/testListBottomSheet"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="bottom"
     android:orientation="vertical">
 
     <FrameLayout
@@ -21,8 +20,9 @@
         android:background="@color/colorAccent"
         android:orientation="vertical">
 
-        <fragment
+        <androidx.fragment.app.FragmentContainerView
             android:id="@+id/timer_container"
+            android:name="com.ahmedmatem.android.matura.ui.general.CountDownTimerFragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
@@ -30,6 +30,5 @@
             tools:layout="@layout/fragment_count_down_timer" />
 
     </LinearLayout>
-
 
 </LinearLayout>

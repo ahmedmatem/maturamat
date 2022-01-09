@@ -41,6 +41,11 @@
 
     </androidx.core.widget.NestedScrollView>
 
-    <include layout="@layout/test_list_bottom_sheet" />
+<!--    <include layout="@layout/test_list_bottom_sheet" />-->
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/bottomSheetFragmentContainer"
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
