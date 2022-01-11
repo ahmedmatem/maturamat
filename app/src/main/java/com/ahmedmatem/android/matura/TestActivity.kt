@@ -20,12 +20,12 @@ class TestActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
-        if (savedInstanceState == null) {
-            supportFragmentManager.commit {
-                setReorderingAllowed(true)
-                add<TestBottomSheetFragment>(R.id.bottomSheetFragmentContainer)
-            }
-        }
+//        if (savedInstanceState == null) {
+//            supportFragmentManager.commit {
+//                setReorderingAllowed(true)
+//                add<TestBottomSheetFragment>(R.id.bottomSheetFragmentContainer)
+//            }
+//        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
