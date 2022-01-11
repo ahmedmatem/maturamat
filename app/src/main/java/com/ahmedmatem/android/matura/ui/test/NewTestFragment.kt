@@ -5,6 +5,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.add
+import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.ahmedmatem.android.matura.R
@@ -19,6 +21,13 @@ class NewTestFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this).get(NewTestViewModel::class.java)
+
+        if (savedInstanceState == null) {
+            requireActivity().supportFragmentManager.commit {
+                setReorderingAllowed(true)
+                add<TestBottomSheetFragment>(R.id.bottomSheetContainer)
+            }
+        }
     }
 
     override fun onCreateView(
@@ -29,11 +38,9 @@ class NewTestFragment : BaseFragment() {
         val binding = FragmentNewTestBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
 
-        binding.newTestWebView.settings.javaScriptEnabled = true
+        binding.newTest.settings.javaScriptEnabled = true
         // todo: here add javascript interface
-        binding.newTestWebView.loadUrl(args.url)
-
-//        hideBottomNavigation(R.id.nav_view)
+        binding.newTest.loadUrl(args.url)
 
         return binding.root
     }

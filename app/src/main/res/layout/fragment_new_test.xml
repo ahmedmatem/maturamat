@@ -13,18 +13,16 @@
         tools:context=".ui.test.NewTestFragment">
 
         <WebView
-            android:id="@+id/newTestWebView"
+            android:id="@+id/newTest"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@id/fragmentContainerView"
+            app:layout_constraintBottom_toTopOf="@id/bottomSheetContainer"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <fragment
-            android:id="@+id/fragmentContainerView"
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/bottomSheetContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:name="com.ahmedmatem.android.matura.ui.test.TestBottomSheetFragment"
-            app:layout_constraintBottom_toBottomOf="parent"
-            tools:layout="@layout/test_list_bottom_sheet" />
+            app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
