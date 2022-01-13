@@ -12,7 +12,7 @@ import java.lang.IllegalArgumentException
 
 class PlaceholderViewModel(private val context: Context) : BaseViewModel() {
 
-    val urlUtil: TestURLUtil by lazy { TestURLUtil(context) }
+    private val urlUtil: TestURLUtil by lazy { TestURLUtil(context) }
 
     fun navigateByTest(test: Test) {
         when (test.state) {
@@ -31,6 +31,11 @@ class PlaceholderViewModel(private val context: Context) : BaseViewModel() {
 
     private fun resumeTest(test: Test) {
         val resumeTestUrl = urlUtil.resumeTestUrl(test.id)
+        navigationCommand.value = NavigationCommand.To(
+            PlaceholderFragmentDirections.actionPlaceholderToResumeTestFragment(
+                resumeTestUrl, test
+            )
+        )
     }
 
     private fun showTestResult(testId: String) {

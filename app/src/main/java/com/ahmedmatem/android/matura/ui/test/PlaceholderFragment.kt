@@ -27,6 +27,8 @@ class PlaceholderFragment : BaseFragment() {
     ): View? {
         val binding = FragmentTestActivityPlaceholderBinding
             .inflate(inflater, container, false)
+        binding.lifecycleOwner = this
+
 
         /**
          * Read extra related to test and
