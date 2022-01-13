@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE resources [
     <!ENTITY base_test_url "https://maturamat.com/m">
-<!--    <!ENTITY author "Oded">-->
-    ]>
+]>
 
 <resources>
     <string name="app_name">ДЗИ 12</string>
-    
+
     <string name="base_test_url">&base_test_url;</string>
     <string name="test_new_url">&base_test_url;/test/dzi</string>
     <string name="test_repeat_url">&base_test_url;/test/repeatDzi</string>

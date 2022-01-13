@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.base.NavigationCommand
+import com.ahmedmatem.android.matura.network.models.Test
 import com.ahmedmatem.android.matura.ui.test.contracts.TestState
 import com.ahmedmatem.android.matura.utils.TestURLUtil
 import java.lang.IllegalArgumentException
@@ -13,11 +14,11 @@ class PlaceholderViewModel(private val context: Context) : BaseViewModel() {
 
     val urlUtil: TestURLUtil by lazy { TestURLUtil(context) }
 
-    fun navigateByTestState(testState: Int) {
-        when (testState) {
+    fun navigateByTest(test: Test) {
+        when (test.state) {
             TestState.NOT_STARTED -> startNewTest()
-            TestState.INCOMPLETE -> resumeTest()
-            TestState.COMPLETE -> showTestResult()
+            TestState.INCOMPLETE -> resumeTest(test)
+            TestState.COMPLETE -> showTestResult(test.id)
         }
     }
 
@@ -28,12 +29,15 @@ class PlaceholderViewModel(private val context: Context) : BaseViewModel() {
         )
     }
 
-    private fun resumeTest(testId: String) {
-        val resumeTestUrl = urlUtil.resumeTestUrl(testId )
+    private fun resumeTest(test: Test) {
+        val resumeTestUrl = urlUtil.resumeTestUrl(test.id)
     }
 
-    private fun showTestResult() {
-
+    private fun showTestResult(testId: String) {
+        val testResultUrl = urlUtil.testResultUrl(testId)
+        navigationCommand.value = NavigationCommand.To(
+            PlaceholderFragmentDirections.actionPlaceholderToTestResultFragment(testResultUrl)
+        )
     }
 
     class Factory(private val context: Context) : ViewModelProvider.Factory {

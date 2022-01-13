@@ -27,6 +27,6 @@ class TestActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val EXTRA_TEST_STATE = "testState"
+        const val EXTRA_TEST = "test"
     }
 }

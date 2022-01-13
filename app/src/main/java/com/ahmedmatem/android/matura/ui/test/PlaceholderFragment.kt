@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import com.ahmedmatem.android.matura.TestActivity.Companion.EXTRA_TEST_STATE
+import com.ahmedmatem.android.matura.TestActivity.Companion.EXTRA_TEST
 import com.ahmedmatem.android.matura.base.BaseFragment
 import com.ahmedmatem.android.matura.databinding.FragmentTestActivityPlaceholderBinding
 
@@ -29,17 +29,17 @@ class PlaceholderFragment : BaseFragment() {
             .inflate(inflater, container, false)
 
         /**
-         * Read extra related to test state and
+         * Read extra related to test and
          * remove the extra which will guarantee the next time we get back to placeholder
          * fragment it will trigger TestActivity finishing.
          */
         val intent = requireActivity().intent
-        if (intent.hasExtra(EXTRA_TEST_STATE)) {
+        if (intent.hasExtra(EXTRA_TEST)) {
             val bundle = intent.extras
             bundle?.let { it ->
-                val testState = PlaceholderFragmentArgs.fromBundle(it).testState
+                val test = PlaceholderFragmentArgs.fromBundle(it).test
                 intent.replaceExtras(null) // remove extras
-                viewModel.navigateByTestState(testState)
+                viewModel.navigateByTest(test)
             }
         } else {
             requireActivity().finish()

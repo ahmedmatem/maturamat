@@ -73,4 +73,7 @@ class TestURLUtil(ctx: Context) {
 
         return repeatTestUrl.toString()
     }
+
+    fun testResultUrl(testId: String): String =
+        _context.getString(R.string.test_result_url, testId)
 }

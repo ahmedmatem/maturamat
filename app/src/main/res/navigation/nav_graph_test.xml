@@ -15,13 +15,8 @@
             android:id="@+id/action_placeholder_to_testResultFragment"
             app:destination="@id/testResultFragment" />
         <argument
-            android:name="testState"
-            app:argType="integer" />
-        <argument
-            android:name="testId"
-            android:defaultValue="null"
-            app:argType="string"
-            app:nullable="true" />
+            android:name="test"
+            app:argType="com.ahmedmatem.android.matura.network.models.Test" />
     </fragment>
 
     <fragment

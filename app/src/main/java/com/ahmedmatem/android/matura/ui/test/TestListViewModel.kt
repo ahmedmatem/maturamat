@@ -14,8 +14,8 @@ class TestListViewModel(val context: Context) : BaseViewModel() {
 
     private val testRepository = TestRepository(context, MaturaDb.getInstance(context))
 
-    private val _onTestItemClick = MutableLiveData<Int?>().apply { value = null }
-    val onTestItemClick: LiveData<Int?> = _onTestItemClick
+    private val _onTestItemClick = MutableLiveData<Test?>().apply { value = null }
+    val onTestItemClick: LiveData<Test?> = _onTestItemClick
 
     // Refresh test list in local database from network
     init {
@@ -28,7 +28,7 @@ class TestListViewModel(val context: Context) : BaseViewModel() {
     val testList = testRepository.testList
 
     fun onTestItemClick(test: Test) {
-        _onTestItemClick.value = test.state
+        _onTestItemClick.value = test
     }
 
     class Factory(private val context: Context) : ViewModelProvider.Factory {
