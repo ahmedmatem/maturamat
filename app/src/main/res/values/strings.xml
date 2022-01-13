@@ -22,6 +22,7 @@
     <string name="title_facebook">Фейсбук</string>
     <string name="email_confirmation_title">Имейл потвърждение</string>
     <string name="password_reset_title">Възстановяване на парола</string>
+    <string name="test_result_title">Резултат</string>
 
     <!-- image descriptions -->
     <string name="test_image_description">Emoticon description</string>

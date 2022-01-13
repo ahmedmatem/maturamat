@@ -43,4 +43,34 @@ class TestURLUtil(ctx: Context) {
 
         return newTestUrl.toString()
     }
+
+    fun resumeTestUrl(testId: String): String {
+        var resumeTestUrl: StringBuilder =
+            StringBuilder(_context.getString(R.string.test_resume_url))
+        resumeTestUrl.append("?testId=$testId")
+
+        val testViewKey = _context.getString(R.string.test_view_key)
+        val testViewDefault = _context.getString(R.string.test_view_default)
+        val testView = sharedPrefs.getString(testViewKey, testViewDefault)
+        if (testView == _context.getString(R.string.test_view_cards)) {
+            resumeTestUrl.append("&viewMode=cards")
+        }
+
+        return resumeTestUrl.toString()
+    }
+
+    fun repeatTestUrl(testId: String): String {
+        var repeatTestUrl: StringBuilder =
+            StringBuilder(_context.getString(R.string.test_repeat_url))
+        repeatTestUrl.append("?testId=$testId")
+
+        val testViewKey = _context.getString(R.string.test_view_key)
+        val testViewDefault = _context.getString(R.string.test_view_default)
+        val testView = sharedPrefs.getString(testViewKey, testViewDefault)
+        if (testView == _context.getString(R.string.test_view_cards)) {
+            repeatTestUrl.append("&viewMode=cards")
+        }
+
+        return repeatTestUrl.toString()
+    }
 }

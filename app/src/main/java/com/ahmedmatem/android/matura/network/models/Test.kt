@@ -1,5 +1,6 @@
 package com.ahmedmatem.android.matura.network.models
 
+import android.os.Parcelable
 import androidx.annotation.Keep
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -7,8 +8,10 @@ import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.ahmedmatem.android.matura.infrastructure.toDisplayFormat
 import com.squareup.moshi.Json
+import kotlinx.android.parcel.Parcelize
 import java.util.*
 
+@Parcelize
 @Keep
 @Entity(tableName = "test_table")
 data class Test(
@@ -46,7 +49,7 @@ data class Test(
 
     @ColumnInfo(name = "username")
     @Transient var username: String? = null // default value required
-) {
+): Parcelable {
     @Ignore
     @Transient
     val title = createdOn.toDisplayFormat(DisplayFormat)

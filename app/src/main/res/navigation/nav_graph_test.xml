@@ -7,19 +7,37 @@
 
     <fragment
         android:id="@+id/placeholder"
-        android:name="com.ahmedmatem.android.matura.ui.test.TestActivityPlaceholderFragment">
+        android:name="com.ahmedmatem.android.matura.ui.test.PlaceholderFragment">
         <action
             android:id="@+id/action_placeholder_to_newTestFragment"
             app:destination="@id/newTestFragment" />
+        <action
+            android:id="@+id/action_placeholder_to_testResultFragment"
+            app:destination="@id/testResultFragment" />
         <argument
             android:name="testState"
-            app:argType="integer"/>
+            app:argType="integer" />
+        <argument
+            android:name="testId"
+            android:defaultValue="null"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
 
     <fragment
         android:id="@+id/newTestFragment"
         android:name="com.ahmedmatem.android.matura.ui.test.NewTestFragment"
-        android:label="@string/title_test" >
+        android:label="@string/title_test">
+        <argument
+            android:name="url"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/testResultFragment"
+        android:name="com.ahmedmatem.android.matura.ui.test.TestResultFragment"
+        android:label="@string/test_result_title"
+        tools:layout="@layout/fragment_test_result">
         <argument
             android:name="url"
             app:argType="string" />

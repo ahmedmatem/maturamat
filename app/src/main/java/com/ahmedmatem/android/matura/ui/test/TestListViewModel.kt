@@ -28,8 +28,7 @@ class TestListViewModel(val context: Context) : BaseViewModel() {
     val testList = testRepository.testList
 
     fun onTestItemClick(test: Test) {
-        _onTestItemClick.value = TestState.NOT_STARTED
-//        _onTestItemClick.value = test.state
+        _onTestItemClick.value = test.state
     }
 
     class Factory(private val context: Context) : ViewModelProvider.Factory {

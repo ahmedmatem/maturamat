@@ -19,13 +19,6 @@ class TestActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_activity_test)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
-
-//        if (savedInstanceState == null) {
-//            supportFragmentManager.commit {
-//                setReorderingAllowed(true)
-//                add<TestBottomSheetFragment>(R.id.bottomSheetFragmentContainer)
-//            }
-//        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

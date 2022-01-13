@@ -9,27 +9,37 @@ import com.ahmedmatem.android.matura.ui.test.contracts.TestState
 import com.ahmedmatem.android.matura.utils.TestURLUtil
 import java.lang.IllegalArgumentException
 
-class TestActivityPlaceholderViewModel(private val context: Context) : BaseViewModel() {
+class PlaceholderViewModel(private val context: Context) : BaseViewModel() {
+
+    val urlUtil: TestURLUtil by lazy { TestURLUtil(context) }
 
     fun navigateByTestState(testState: Int) {
         when (testState) {
             TestState.NOT_STARTED -> startNewTest()
-            TestState.INCOMPLETE -> {}
-            TestState.COMPLETE -> {}
+            TestState.INCOMPLETE -> resumeTest()
+            TestState.COMPLETE -> showTestResult()
         }
     }
 
     private fun startNewTest() {
-        val newTestUrl = TestURLUtil(context).newTestUrl()
+        val newTestUrl = urlUtil.newTestUrl()
         navigationCommand.value = NavigationCommand.To(
-            TestActivityPlaceholderFragmentDirections.actionPlaceholderToNewTestFragment(newTestUrl)
+            PlaceholderFragmentDirections.actionPlaceholderToNewTestFragment(newTestUrl)
         )
+    }
+
+    private fun resumeTest(testId: String) {
+        val resumeTestUrl = urlUtil.resumeTestUrl(testId )
+    }
+
+    private fun showTestResult() {
+
     }
 
     class Factory(private val context: Context) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(TestActivityPlaceholderViewModel::class.java)) {
-                return TestActivityPlaceholderViewModel(context) as T
+            if (modelClass.isAssignableFrom(PlaceholderViewModel::class.java)) {
+                return PlaceholderViewModel(context) as T
             }
             throw IllegalArgumentException("Unable to construct a TestActivityPlaceholderViewModel")
         }

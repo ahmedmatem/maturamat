@@ -43,6 +43,7 @@ class TestListFragment : BaseFragment() {
             }
         })
 
+        // todo: Navigate by test
         viewModel.onTestItemClick.observe(viewLifecycleOwner, Observer { state ->
             state?.let {
                 // Create intent with extra containing test state
