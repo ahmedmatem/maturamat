@@ -7,6 +7,8 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.ahmedmatem.android.matura.infrastructure.toDisplayFormat
+import com.ahmedmatem.android.matura.ui.test.adapter.TestListAdapter
+import com.ahmedmatem.android.matura.ui.test.contracts.TestState
 import com.squareup.moshi.Json
 import kotlinx.android.parcel.Parcelize
 import java.util.*
@@ -60,6 +62,13 @@ data class Test(
 
     companion object {
         const val DisplayFormat: String = "dd/MM/yyyy, HH:mm"
+    }
+}
+
+fun Test.getViewType(): Int {
+    return when (state) {
+        TestState.COMPLETE -> TestListAdapter.VIEW_TYPE_COMPLETE
+        else -> TestListAdapter.VIEW_TYPE_INCOMPLETE
     }
 }
 
