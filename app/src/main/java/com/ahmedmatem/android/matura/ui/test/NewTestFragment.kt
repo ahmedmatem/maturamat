@@ -16,7 +16,7 @@ import com.ahmedmatem.android.matura.databinding.FragmentNewTestBinding
 
 class NewTestFragment : BaseFragment() {
     override lateinit var viewModel: NewTestViewModel
-    val args: NewTestFragmentArgs by navArgs()
+    private val args: NewTestFragmentArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

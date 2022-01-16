@@ -1,6 +1,7 @@
 package com.ahmedmatem.android.matura.ui.test
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.ahmedmatem.android.matura.TestActivity.Companion.EXTRA_TEST
 import com.ahmedmatem.android.matura.base.BaseFragment
 import com.ahmedmatem.android.matura.databinding.FragmentTestActivityPlaceholderBinding
+import com.ahmedmatem.android.matura.network.models.Test
 
 /**
  * Use placeholder fragment to navigate to a specific test fragment

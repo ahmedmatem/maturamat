@@ -1,12 +1,12 @@
 package com.ahmedmatem.android.matura.ui.test
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.*
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.local.MaturaDb
 import com.ahmedmatem.android.matura.network.models.Test
 import com.ahmedmatem.android.matura.repository.TestRepository
-import com.ahmedmatem.android.matura.ui.test.contracts.TestState
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 

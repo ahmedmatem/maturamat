@@ -14,11 +14,15 @@ class PlaceholderViewModel(private val context: Context) : BaseViewModel() {
 
     private val urlUtil: TestURLUtil by lazy { TestURLUtil(context) }
 
-    fun navigateByTest(test: Test) {
-        when (test.state) {
-            TestState.NOT_STARTED -> startNewTest()
-            TestState.INCOMPLETE -> resumeTest(test)
-            TestState.COMPLETE -> showTestResult(test.id)
+    fun navigateByTest(test: Test?) {
+        if (test == null) {
+            startNewTest()
+        } else {
+            when (test?.state) {
+                TestState.NOT_STARTED -> repeatNewTest(test.id)
+                TestState.INCOMPLETE -> resumeTest(test)
+                TestState.COMPLETE -> showTestResult(test.id)
+            }
         }
     }
 
@@ -26,6 +30,13 @@ class PlaceholderViewModel(private val context: Context) : BaseViewModel() {
         val newTestUrl = urlUtil.newTestUrl()
         navigationCommand.value = NavigationCommand.To(
             PlaceholderFragmentDirections.actionPlaceholderToNewTestFragment(newTestUrl)
+        )
+    }
+
+    private fun repeatNewTest(testId: String) {
+        val repeatTestUrl = urlUtil.repeatTestUrl(testId)
+        navigationCommand.value = NavigationCommand.To(
+            PlaceholderFragmentDirections.actionPlaceholderToNewTestFragment(repeatTestUrl)
         )
     }
 

@@ -19,7 +19,9 @@
             app:destination="@id/resumeTestFragment" />
         <argument
             android:name="test"
-            app:argType="com.ahmedmatem.android.matura.network.models.Test" />
+            app:argType="com.ahmedmatem.android.matura.network.models.Test"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
 
     <fragment
