@@ -15,41 +15,20 @@ class PlaceholderViewModel(private val context: Context) : BaseViewModel() {
     private val urlUtil: TestURLUtil by lazy { TestURLUtil(context) }
 
     fun navigateByTest(test: Test?) {
-        if (test == null) {
-            startNewTest()
+        if (test?.state == TestState.COMPLETE) {
+            navigateToTestResult(test.id)
         } else {
-            when (test?.state) {
-                TestState.NOT_STARTED -> repeatNewTest(test.id)
-                TestState.INCOMPLETE -> resumeTest(test)
-                TestState.COMPLETE -> showTestResult(test.id)
-            }
+            navigateToTest(test)
         }
     }
 
-    private fun startNewTest() {
-        val newTestUrl = urlUtil.newTestUrl()
+    private fun navigateToTest(test: Test?) {
         navigationCommand.value = NavigationCommand.To(
-            PlaceholderFragmentDirections.actionPlaceholderToNewTestFragment(newTestUrl)
+            PlaceholderFragmentDirections.actionPlaceholderToNewTestFragment(test)
         )
     }
 
-    private fun repeatNewTest(testId: String) {
-        val repeatTestUrl = urlUtil.repeatTestUrl(testId)
-        navigationCommand.value = NavigationCommand.To(
-            PlaceholderFragmentDirections.actionPlaceholderToNewTestFragment(repeatTestUrl)
-        )
-    }
-
-    private fun resumeTest(test: Test) {
-        val resumeTestUrl = urlUtil.resumeTestUrl(test.id)
-        navigationCommand.value = NavigationCommand.To(
-            PlaceholderFragmentDirections.actionPlaceholderToResumeTestFragment(
-                resumeTestUrl, test
-            )
-        )
-    }
-
-    private fun showTestResult(testId: String) {
+    private fun navigateToTestResult(testId: String) {
         val testResultUrl = urlUtil.testResultUrl(testId)
         navigationCommand.value = NavigationCommand.To(
             PlaceholderFragmentDirections.actionPlaceholderToTestResultFragment(testResultUrl)

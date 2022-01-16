@@ -33,9 +33,10 @@ class PlaceholderFragment : BaseFragment() {
 
 
         /**
-         * Read extra related to test and
-         * remove the extra which will guarantee the next time we get back to placeholder
-         * fragment it will trigger TestActivity finishing.
+         * Extra_test contains information about test itself.
+         * If navigate back on nav graph to place_holder fragment the
+         * value of the extra_test will be null. If it is null -
+         * finish TestActivity.
          */
         val intent = requireActivity().intent
         if (intent.hasExtra(EXTRA_TEST)) {

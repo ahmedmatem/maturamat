@@ -14,9 +14,6 @@
         <action
             android:id="@+id/action_placeholder_to_testResultFragment"
             app:destination="@id/testResultFragment" />
-        <action
-            android:id="@+id/action_placeholder_to_resumeTestFragment"
-            app:destination="@id/resumeTestFragment" />
         <argument
             android:name="test"
             app:argType="com.ahmedmatem.android.matura.network.models.Test"
@@ -26,11 +23,13 @@
 
     <fragment
         android:id="@+id/newTestFragment"
-        android:name="com.ahmedmatem.android.matura.ui.test.NewTestFragment"
+        android:name="com.ahmedmatem.android.matura.ui.test.TestViewFragment"
         android:label="@string/title_test">
         <argument
-            android:name="url"
-            app:argType="string" />
+            android:name="test"
+            app:argType="com.ahmedmatem.android.matura.network.models.Test"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
 
     <fragment
@@ -43,16 +42,4 @@
             app:argType="string" />
     </fragment>
 
-    <fragment
-        android:id="@+id/resumeTestFragment"
-        android:name="com.ahmedmatem.android.matura.ui.test.ResumeTestFragment"
-        android:label="@string/title_test"
-        tools:layout="@layout/fragment_resume_test">
-        <argument
-            android:name="url"
-            app:argType="string" />
-        <argument
-            android:name="test"
-            app:argType="com.ahmedmatem.android.matura.network.models.Test" />
-    </fragment>
 </navigation>

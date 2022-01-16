@@ -43,7 +43,7 @@ class TestListFragment : BaseFragment() {
 
         binding.testStartFab.setOnClickListener(View.OnClickListener {
             Intent(requireContext(), TestActivity::class.java).apply {
-                val test: Test? = null
+                val test: Test? = null // put null value for test in extra
                 putExtra(EXTRA_TEST, test)
                 startActivity(this)
             }
@@ -59,10 +59,10 @@ class TestListFragment : BaseFragment() {
         viewModel.onTestItemClick.observe(viewLifecycleOwner, Observer { test ->
             test?.let {
                 // Create intent with extra containing test
-                val intent = Intent(requireContext(), TestActivity::class.java).apply {
+                Intent(requireContext(), TestActivity::class.java).apply {
                     putExtra(EXTRA_TEST, it)
+                    startActivity(this)
                 }
-                startActivity(intent)
             }
         })
 
