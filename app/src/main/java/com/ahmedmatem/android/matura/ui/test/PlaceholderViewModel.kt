@@ -24,7 +24,7 @@ class PlaceholderViewModel(private val context: Context) : BaseViewModel() {
 
     private fun navigateToTest(test: Test?) {
         navigationCommand.value = NavigationCommand.To(
-            PlaceholderFragmentDirections.actionPlaceholderToNewTestFragment(test)
+            PlaceholderFragmentDirections.actionPlaceholderToTestViewFragment(test)
         )
     }
 

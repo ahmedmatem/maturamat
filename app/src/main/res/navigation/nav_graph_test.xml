@@ -9,8 +9,8 @@
         android:id="@+id/placeholder"
         android:name="com.ahmedmatem.android.matura.ui.test.PlaceholderFragment">
         <action
-            android:id="@+id/action_placeholder_to_newTestFragment"
-            app:destination="@id/newTestFragment" />
+            android:id="@+id/action_placeholder_to_testViewFragment"
+            app:destination="@id/testViewFragment" />
         <action
             android:id="@+id/action_placeholder_to_testResultFragment"
             app:destination="@id/testResultFragment" />
@@ -22,7 +22,7 @@
     </fragment>
 
     <fragment
-        android:id="@+id/newTestFragment"
+        android:id="@+id/testViewFragment"
         android:name="com.ahmedmatem.android.matura.ui.test.TestViewFragment"
         android:label="@string/title_test">
         <argument

@@ -44,4 +44,11 @@
     <!-- Cards -->
     <dimen name="card_1_line_height">48dp</dimen>
     <dimen name="card_2_line_height">96dp</dimen>
+
+    <!-- Test bottom sheet -->
+    <dimen name="bottom_sheet_content_height">56dp</dimen>
+    <dimen name="test_cards_bottom_sheet_peek_height">56dp</dimen>
+    <dimen name="test_list_bottom_sheet_peek_height">56dp</dimen>
+    <dimen name="banner_elevation">4dp</dimen>
+    <dimen name="keyboard_and_timer_bottom_sheet_height">530dp</dimen>
 </resources>

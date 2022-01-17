@@ -9,6 +9,7 @@ import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.ahmedmatem.android.matura.R
+import com.ahmedmatem.android.matura.TestActivity.Companion.EXTRA_TEST
 import com.ahmedmatem.android.matura.base.BaseFragment
 import com.ahmedmatem.android.matura.databinding.FragmentTestViewBinding
 
@@ -26,7 +27,8 @@ class TestViewFragment : BaseFragment() {
         if (savedInstanceState == null) {
             requireActivity().supportFragmentManager.commit {
                 setReorderingAllowed(true)
-                add<TestBottomSheetFragment>(R.id.bottomSheetContainer)
+//                add<TestBottomSheetFragment>(R.id.bottomSheetContainer)
+                add(R.id.bottomSheetContainer, TestBottomSheetFragment.newInstance(viewModel.test))
             }
         }
     }
@@ -39,9 +41,9 @@ class TestViewFragment : BaseFragment() {
         val binding = FragmentTestViewBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
 
-        binding.newTest.settings.javaScriptEnabled = true
+        binding.testWebView.settings.javaScriptEnabled = true
         // todo: here add javascript interface
-        binding.newTest.loadUrl(viewModel.url)
+        binding.testWebView.loadUrl(viewModel.url)
 
         return binding.root
     }

@@ -1,9 +1,12 @@
 package com.ahmedmatem.android.matura.ui.test
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.preference.PreferenceManager
 import com.ahmedmatem.android.matura.base.BaseViewModel
+import com.ahmedmatem.android.matura.network.models.Test
 import com.ahmedmatem.android.matura.ui.test.contracts.TestState
 import com.ahmedmatem.android.matura.utils.TestURLUtil
 import java.lang.IllegalArgumentException
@@ -14,9 +17,11 @@ class TestViewViewModel(
 ) : BaseViewModel() {
 
     private val urlUtil: TestURLUtil by lazy { TestURLUtil(context) }
+    private val prefs: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+
+    val test: Test? = args.test
 
     val url: String by lazy {
-        val test = args.test
         when (test?.state) {
             // Test is created but not started yet
             TestState.NOT_STARTED -> urlUtil.repeatTestUrl(test?.id)

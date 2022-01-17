@@ -1,7 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE resources [
-    <!ENTITY base_test_url "https://maturamat.com/m">
-    ]>
+<?xml version="1.0" encoding="utf-8"?><!DOCTYPE resources [<!ENTITY base_test_url "https://maturamat.com/m">]>
 
 <resources>
     <string name="app_name">Матура Мат</string>
@@ -155,5 +152,10 @@
         Таймерът може да се включи, когато броят на задачите в теста е %1$d.
     </string>
 
+    <!-- fragment_bottom_sheet -->
+    <string name="prev_card_description">Към предишна задача</string>
+    <string name="next_card_description">Към следваща задача</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

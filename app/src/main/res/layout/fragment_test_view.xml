@@ -13,7 +13,7 @@
         tools:context=".ui.test.TestViewFragment">
 
         <WebView
-            android:id="@+id/newTest"
+            android:id="@+id/testWebView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toTopOf="@id/bottomSheetContainer"
