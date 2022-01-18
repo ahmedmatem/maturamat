@@ -2,7 +2,7 @@ package com.ahmedmatem.android.matura.utils
 
 import android.os.CountDownTimer
 
-class Timer private constructor(
+class TestCountDownTimer private constructor(
     var millisInFuture: Long,
     private val listener: TimerListener
 ) : CountDownTimer(millisInFuture, COUNT_DOWN_INTERVAL) {
@@ -28,10 +28,11 @@ class Timer private constructor(
     fun pause() = cancel()
 
     companion object {
-        private const val COUNT_DOWN_INTERVAL: Long = 1000 // 1 sec
+        const val COUNT_DOWN_INTERVAL: Long = 1000 // 1 sec
 
-        fun create(millisInFuture: Long, listener: TimerListener): Timer {
-            return  Timer(millisInFuture, listener)
+        @JvmStatic
+        fun create(millisInFuture: Long, listener: TimerListener): TestCountDownTimer {
+            return TestCountDownTimer(millisInFuture, listener)
         }
     }
 }

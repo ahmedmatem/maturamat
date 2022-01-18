@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
 import com.ahmedmatem.android.matura.R
 import com.ahmedmatem.android.matura.base.BaseFragment
 import com.ahmedmatem.android.matura.network.models.Test
+import com.ahmedmatem.android.matura.ui.general.CountDownTimerFragment
 
 private const val ARG_TEST = "test"
 
@@ -27,6 +29,14 @@ class TestBottomSheetFragment : BaseFragment() {
                 requireContext(), test
             )
         ).get(TestBottomSheetViewModel::class.java)
+
+        // Add timer
+        if (savedInstanceState == null) {
+            requireActivity().supportFragmentManager.commit {
+                setReorderingAllowed(true)
+                add(R.id.timer_container, CountDownTimerFragment.newInstance(20000))
+            }
+        }
     }
 
     override fun onCreateView(
@@ -41,6 +51,7 @@ class TestBottomSheetFragment : BaseFragment() {
             // List view bottom sheet
             inflater.inflate(R.layout.test_list_bottom_sheet, container, false)
         }
+
         return view
     }
 
