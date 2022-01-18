@@ -8,8 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.ahmedmatem.android.matura.TestActivity.Companion.EXTRA_TEST
 import com.ahmedmatem.android.matura.base.BaseFragment
-import com.ahmedmatem.android.matura.databinding.FragmentTestActivityPlaceholderBinding
-import com.ahmedmatem.android.matura.network.models.Test
+import com.ahmedmatem.android.matura.databinding.FragmentTestPlaceholderBinding
 
 /**
  * Use placeholder fragment to navigate to a specific test fragment
@@ -27,7 +26,7 @@ class PlaceholderFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentTestActivityPlaceholderBinding
+        val binding = FragmentTestPlaceholderBinding
             .inflate(inflater, container, false)
         binding.lifecycleOwner = this
 

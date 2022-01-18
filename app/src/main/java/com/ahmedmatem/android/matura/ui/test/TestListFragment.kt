@@ -2,9 +2,6 @@ package com.ahmedmatem.android.matura.ui.test
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Parcel
-import android.os.Parcelable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.ahmedmatem.android.matura.TestActivity
 import com.ahmedmatem.android.matura.TestActivity.Companion.EXTRA_TEST
 import com.ahmedmatem.android.matura.base.BaseFragment
-import com.ahmedmatem.android.matura.databinding.FragmentTestBinding
+import com.ahmedmatem.android.matura.databinding.FragmentTestListBinding
 import com.ahmedmatem.android.matura.network.models.Test
 import com.ahmedmatem.android.matura.ui.test.adapter.TestClickListener
 import com.ahmedmatem.android.matura.ui.test.adapter.TestListAdapter
@@ -37,7 +34,7 @@ class TestListFragment : BaseFragment() {
             viewModel.onTestItemClick(it)
         })
 
-        val binding = FragmentTestBinding.inflate(inflater, container, false)
+        val binding = FragmentTestListBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
         binding.testList.adapter = adapter
 
