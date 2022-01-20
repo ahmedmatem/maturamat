@@ -4,17 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.ahmedmatem.android.matura.R
-import com.ahmedmatem.android.matura.TestActivity.Companion.EXTRA_TEST
 import com.ahmedmatem.android.matura.base.BaseFragment
 import com.ahmedmatem.android.matura.databinding.FragmentTestViewBinding
 
 class TestViewFragment : BaseFragment() {
     override lateinit var viewModel: TestViewViewModel
+
     private val args: TestViewFragmentArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
