@@ -1,6 +1,7 @@
 package com.ahmedmatem.android.matura.ui.test
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,11 +31,16 @@ class TestBottomSheetFragment : BaseFragment() {
             )
         ).get(TestBottomSheetViewModel::class.java)
 
-        // Add timer
-        if (savedInstanceState == null) {
-            requireActivity().supportFragmentManager.commit {
-                setReorderingAllowed(true)
-                add(R.id.timer_container, CountDownTimerFragment.newInstance(20000))
+        // Add timer if required
+        if (viewModel.hasTimer) {
+            if (savedInstanceState == null) {
+                requireActivity().supportFragmentManager.commit {
+                    setReorderingAllowed(true)
+                    add(
+                        R.id.timer_container,
+                        CountDownTimerFragment.newInstance(viewModel.millisInFuture)
+                    )
+                }
             }
         }
     }

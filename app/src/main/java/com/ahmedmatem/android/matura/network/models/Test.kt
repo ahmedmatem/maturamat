@@ -42,7 +42,7 @@ data class Test(
     @Json(name = "CorrectAnswersNumber") val correctAnswersNumber: String,
 
     @ColumnInfo(name = "millis_until_finished")
-    @Json(name = "MillisUntilFinished") val millisUntilFinished: Long,
+    @Json(name = "MillisUntilFinished") val millisInFuture: Long,
 
     @Json(name = "State") val state: Int,
 

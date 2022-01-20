@@ -2,11 +2,8 @@ package com.ahmedmatem.android.matura.ui.settings
 
 import android.content.Intent
 import android.content.SharedPreferences
-import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
-import android.view.ContextMenu
-import android.view.View
+import android.widget.Switch
 import androidx.preference.*
 import com.ahmedmatem.android.matura.R
 
@@ -64,7 +61,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
                     newValue++
                 }
             }
-            Log.d("DEBUG", "onSharedPreferenceChanged: newValue = $newValue")
+//            Log.d("DEBUG", "onSharedPreferenceChanged: newValue = $newValue")
             sharedPreferences?.edit()?.putInt(key, newValue!!)?.apply()
             testSizeSeekBarPreference?.value =
                 newValue ?: resources.getInteger(R.integer.default_test_size)
@@ -78,15 +75,14 @@ class SettingsFragment : PreferenceFragmentCompat(),
         val timerKey = getString(R.string.timer_key)
         val timerSwitchPreference: SwitchPreferenceCompat? = findPreference(timerKey)
         val testDefaultSize: Int = resources.getInteger(R.integer.default_test_size)
-        if (newValue == testDefaultSize) {
-            timerSwitchPreference?.apply {
+        timerSwitchPreference?.apply {
+            if (newValue == testDefaultSize) {
                 isEnabled = true
                 summary = ""
-            }
-        } else{
-            timerSwitchPreference?.apply {
+            } else {
                 isEnabled = false
                 summary = getString(R.string.test_timer_off_summary, testDefaultSize)
+                isChecked = false
             }
         }
     }

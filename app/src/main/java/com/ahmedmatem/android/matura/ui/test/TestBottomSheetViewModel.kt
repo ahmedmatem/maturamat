@@ -28,6 +28,13 @@ class TestBottomSheetViewModel(
 
     val isListViewMode = !isCardsViewMode
 
+    val hasTimer =
+        test?.hasTimer ?: prefs.getBoolean(context.getString(R.string.timer_key), true)
+
+    val millisInFuture: Long =
+        test?.millisInFuture
+            ?: context.resources.getInteger(R.integer.test_duration_in_minutes) * 60 * 1000L
+
     class Factory(private val context: Context, private val test: Test?) :
         ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
