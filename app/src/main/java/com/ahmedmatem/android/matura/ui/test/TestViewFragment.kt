@@ -1,6 +1,7 @@
 package com.ahmedmatem.android.matura.ui.test
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,11 +10,11 @@ import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.ahmedmatem.android.matura.R
-import com.ahmedmatem.android.matura.base.NoticeDialogFragment
 import com.ahmedmatem.android.matura.base.BaseFragment
 import com.ahmedmatem.android.matura.databinding.FragmentTestViewBinding
+import com.ahmedmatem.android.matura.ui.general.NoticeDialogFragment
 
-class TestViewFragment : BaseFragment(), NoticeDialogFragment.NoticeDialogListener {
+class TestViewFragment : BaseFragment() {
     override lateinit var viewModel: TestViewViewModel
 
     private val args: TestViewFragmentArgs by navArgs()
@@ -32,6 +33,7 @@ class TestViewFragment : BaseFragment(), NoticeDialogFragment.NoticeDialogListen
                 add(R.id.bottomSheetContainer, TestBottomSheetFragment.newInstance(viewModel.test))
             }
         }
+
     }
 
     override fun onCreateView(
@@ -47,20 +49,5 @@ class TestViewFragment : BaseFragment(), NoticeDialogFragment.NoticeDialogListen
         binding.testWebView.loadUrl(viewModel.url)
 
         return binding.root
-    }
-
-    /**
-     * AlertDialog listeners
-     */
-    override fun onDialogPositiveClick(dialog: DialogFragment, tag: Any?) {
-        TODO("Not yet implemented")
-    }
-
-    override fun onDialogNegativeClick(dialog: DialogFragment, tag: Any?) {
-        TODO("Not yet implemented")
-    }
-
-    override fun onDialogNeutralClick(dialog: DialogFragment, tag: Any?) {
-        TODO("Not yet implemented")
     }
 }

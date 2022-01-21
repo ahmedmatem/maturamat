@@ -2,11 +2,14 @@ package com.ahmedmatem.android.matura.ui.test
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.network.models.Test
+import com.ahmedmatem.android.matura.ui.general.NoticeData
+import com.ahmedmatem.android.matura.ui.general.NoticeDialogFragment
 import com.ahmedmatem.android.matura.ui.test.contracts.TestState
 import com.ahmedmatem.android.matura.utils.TestURLUtil
 import java.lang.IllegalArgumentException
@@ -14,12 +17,23 @@ import java.lang.IllegalArgumentException
 class TestViewViewModel(
     private val context: Context,
     private val args: TestViewFragmentArgs
-) : BaseViewModel() {
+) : BaseViewModel(), NoticeDialogFragment.NoticeDialogListener {
 
     private val urlUtil: TestURLUtil by lazy { TestURLUtil(context) }
     private val prefs: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
     val test: Test? = args.test
+
+    init {
+        showNoticeDialog.value = NoticeData(
+            "title",
+            "message",
+            "Ok",
+            null,
+            null,
+            "tag"
+        )
+    }
 
     val url: String by lazy {
         when (test?.state) {
@@ -42,5 +56,17 @@ class TestViewViewModel(
             }
             throw IllegalArgumentException("Unable to construct a TestViewViewModel")
         }
+    }
+
+    override fun onDialogPositiveClick(dialog: DialogFragment) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onDialogNegativeClick(dialog: DialogFragment) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onDialogNeutralClick(dialog: DialogFragment) {
+        TODO("Not yet implemented")
     }
 }

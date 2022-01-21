@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.ahmedmatem.android.matura.ui.general.NoticeDialogFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 
@@ -40,6 +41,16 @@ abstract class BaseFragment : Fragment() {
                     command.destinationId,
                     false
                 )
+            }
+        })
+
+        viewModel.showNoticeDialog.observe(viewLifecycleOwner, Observer {
+            try {
+                val listener = viewModel as NoticeDialogFragment.NoticeDialogListener
+                NoticeDialogFragment.newInstance(it, listener)
+                    .show(requireActivity().supportFragmentManager, it.tag)
+            } catch (e: ClassCastException) {
+                throw ClassCastException("${context.toString()} must implement NoticeDialogListener")
             }
         })
     }

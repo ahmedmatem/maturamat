@@ -1,4 +1,4 @@
-package com.ahmedmatem.android.matura.base
+package com.ahmedmatem.android.matura.ui.general
 
 import android.app.Activity
 import android.app.Dialog
@@ -27,6 +27,7 @@ class NoticeDialogFragment : DialogFragment() {
     internal lateinit var listener: NoticeDialogListener
 
     private var data: NoticeData? = null
+    private var _cancelable: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,9 +37,9 @@ class NoticeDialogFragment : DialogFragment() {
     }
 
     interface NoticeDialogListener {
-        fun onDialogPositiveClick(dialog: DialogFragment, tag: Any?)
-        fun onDialogNegativeClick(dialog: DialogFragment, tag: Any?)
-        fun onDialogNeutralClick(dialog: DialogFragment, tag: Any?)
+        fun onDialogPositiveClick(dialog: DialogFragment)
+        fun onDialogNegativeClick(dialog: DialogFragment)
+        fun onDialogNeutralClick(dialog: DialogFragment)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -48,40 +49,39 @@ class NoticeDialogFragment : DialogFragment() {
                 data?.message?.let { this.setMessage(it) }
                 data?.positiveButton?.let {
                     this.setPositiveButton(it, DialogInterface.OnClickListener { dialog, which ->
-                        listener.onDialogPositiveClick(this@NoticeDialogFragment, data?.tag)
+                        listener.onDialogPositiveClick(this@NoticeDialogFragment)
                     })
                 }
                 data?.negativeButton?.let {
                     this.setNegativeButton(it, DialogInterface.OnClickListener { dialog, which ->
-                        listener.onDialogNegativeClick(this@NoticeDialogFragment, data?.tag)
+                        listener.onDialogNegativeClick(this@NoticeDialogFragment)
                     })
                 }
                 data?.neutralButton?.let {
                     this.setNeutralButton(it, DialogInterface.OnClickListener { dialog, which ->
-                        listener.onDialogNeutralClick(this@NoticeDialogFragment, data?.tag)
+                        listener.onDialogNeutralClick(this@NoticeDialogFragment)
                     })
                 }
             }
-            builder.create()
+            builder.create().apply {
+                isCancelable = _cancelable
+            }
         } ?: throw IllegalStateException("Activity cannot be null")
-    }
-
-    override fun onAttach(activity: Activity) {
-        super.onAttach(activity)
-        try {
-            listener = context as NoticeDialogListener
-        } catch (e: ClassCastException) {
-            throw ClassCastException("${context.toString()} must implement AlertDialogListener")
-        }
     }
 
     companion object {
         @JvmStatic
-        fun newInstance(data: NoticeData) {
-            NoticeDialogFragment().apply {
+        fun newInstance(
+            data: NoticeData,
+            listener: NoticeDialogListener,
+            cancelable: Boolean = false
+        ): NoticeDialogFragment {
+            return NoticeDialogFragment().apply {
                 arguments = Bundle().apply {
                     putParcelable(ARG_DATA, data)
                 }
+                this.listener = listener
+                this._cancelable = cancelable
             }
         }
     }

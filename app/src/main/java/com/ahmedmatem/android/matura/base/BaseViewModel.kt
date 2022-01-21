@@ -3,6 +3,7 @@ package com.ahmedmatem.android.matura.base
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ahmedmatem.android.matura.infrastructure.SingleLiveEvent
+import com.ahmedmatem.android.matura.ui.general.NoticeData
 
 /**
  * Base class for View Models to declare the common LiveData objects in one place
@@ -15,4 +16,5 @@ abstract class BaseViewModel(): ViewModel() {
     val showToast: SingleLiveEvent<String> = SingleLiveEvent()
     val showLoading: SingleLiveEvent<Boolean> = SingleLiveEvent()
     val showNoData: MutableLiveData<Boolean> = MutableLiveData()
+    val showNoticeDialog: SingleLiveEvent<NoticeData> = SingleLiveEvent()
 }
