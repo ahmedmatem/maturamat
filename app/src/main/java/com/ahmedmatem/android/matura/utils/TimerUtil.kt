@@ -27,6 +27,10 @@ class TestCountDownTimer private constructor(
 
     fun pause() = cancel()
 
+    fun resume() {
+        create(millisInFuture, listener).start()
+    }
+
     companion object {
         const val COUNT_DOWN_INTERVAL: Long = 1000 // 1 sec
 
