@@ -30,12 +30,13 @@ class CountDownTimerFragment : BaseFragment() {
             }
         })
 
-        viewModel.onTimerResume.observe(viewLifecycleOwner, Observer { millisInFuture ->
-            millisInFuture?.let {
-                timerViewModel.timer.resume()
-            }
+        viewModel.dialogPromptsTimerResume.observe(viewLifecycleOwner, Observer { prompt ->
+            if (prompt) timerViewModel.timer.resume()
         })
 
+        /**
+         * Observe this property to handle 'Home' and 'Check' menu item pressed
+         */
         viewModel.onOptionItemSelected.observe(viewLifecycleOwner, Observer { selected ->
             if (selected) {
                 timerViewModel.onOptionItemSelected()
@@ -45,11 +46,17 @@ class CountDownTimerFragment : BaseFragment() {
         return binding.root
     }
 
+    /**
+     * Fragment onPause response
+     */
     override fun onPause() {
         super.onPause()
         timerViewModel.onPause()
     }
 
+    /**
+     * Fragment onResume response
+     */
     override fun onResume() {
         super.onResume()
         timerViewModel.onResume()

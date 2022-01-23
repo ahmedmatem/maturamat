@@ -42,6 +42,9 @@ class CountDownTimerViewModel(private val millis: Long?) : BaseViewModel(), Time
         }
     }
 
+    /**
+     * On 'Home' and 'Check' menu items press handler
+     */
     fun onOptionItemSelected() {
         timer.pause()
     }

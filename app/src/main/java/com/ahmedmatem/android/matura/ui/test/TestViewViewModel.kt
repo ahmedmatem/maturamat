@@ -13,7 +13,6 @@ import com.ahmedmatem.android.matura.network.models.Test
 import com.ahmedmatem.android.matura.ui.general.NoticeDialogFragment
 import com.ahmedmatem.android.matura.ui.general.NoticeDialogTag
 import com.ahmedmatem.android.matura.ui.test.contracts.TestState
-import com.ahmedmatem.android.matura.utils.TestCountDownTimer
 import com.ahmedmatem.android.matura.utils.TestURLUtil
 import com.ahmedmatem.android.matura.utils.helpers.NoticeDataCreator
 import com.ahmedmatem.android.matura.utils.providers.ResourcesProvider
@@ -38,7 +37,8 @@ class TestViewViewModel(var test: Test? = null) : BaseViewModel(),
         sharedPreferencesProvider.getDefaultSharedPreferences()
     }
 
-    val hasTimer = test?.hasTimer ?: _prefs.getBoolean(_resources.getString(R.string.timer_key), true)
+    val hasTimer =
+        test?.hasTimer ?: _prefs.getBoolean(_resources.getString(R.string.timer_key), true)
     val isCardsViewMode: Boolean
         get() {
             val cardsViewValue = _resources.getString(R.string.test_view_cards)
@@ -49,8 +49,8 @@ class TestViewViewModel(var test: Test? = null) : BaseViewModel(),
         }
     val isListViewMode = !isCardsViewMode
 
-    private val _onTimerResume = MutableLiveData<Long?>().apply { value = null }
-    val onTimerResume: LiveData<Long?> = _onTimerResume
+    private val _dialogPromptsTimerResume = MutableLiveData<Boolean>().apply { value = false }
+    val dialogPromptsTimerResume: LiveData<Boolean> = _dialogPromptsTimerResume
 
     // Observe this property in response of onOptionItemSelected event
     private val _onOptionItemSelected = MutableLiveData<Boolean>(false)
@@ -75,23 +75,21 @@ class TestViewViewModel(var test: Test? = null) : BaseViewModel(),
 
     fun onHomePressed() {
         showNoticeDialog.value = noticeDataCreator.createCancelNotice()
-        if (hasTimer) {
-            _onOptionItemSelected.value = true
-        }
+        // If test has a timer trigger onOptionItemSelected handler in timer fragment
+        if (hasTimer) _onOptionItemSelected.value = true
     }
 
     fun onCheckPressed() {
         showNoticeDialog.value = noticeDataCreator.createCheckNotice()
-        if (hasTimer) {
-            _onOptionItemSelected.value = true
-        }
+        // If test has a timer trigger onOptionItemSelected handler in timer fragment
+        if (hasTimer) _onOptionItemSelected.value = true
     }
 
     override fun onDialogPositiveClick(dialog: DialogFragment) {
         when (dialog.tag) {
             NoticeDialogTag.START.tag -> {
-                if (test?.hasTimer!!) {
-                    _onTimerResume.value = test?.millisInFuture
+                if (hasTimer) {
+                    _dialogPromptsTimerResume.value = true
                 }
             }
             NoticeDialogTag.STOP.tag -> {}
