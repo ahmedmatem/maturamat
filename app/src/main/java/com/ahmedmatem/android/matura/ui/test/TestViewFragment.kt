@@ -1,22 +1,19 @@
 package com.ahmedmatem.android.matura.ui.test
 
+import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.DialogFragment
+import androidx.activity.addCallback
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.ahmedmatem.android.matura.R
 import com.ahmedmatem.android.matura.base.BaseFragment
 import com.ahmedmatem.android.matura.databinding.FragmentTestViewBinding
 import com.ahmedmatem.android.matura.network.WebAppInterface
-import com.ahmedmatem.android.matura.ui.general.NoticeDialogFragment
-import org.koin.androidx.viewmodel.ViewModelOwner
 
 class TestViewFragment : BaseFragment() {
 
@@ -38,6 +35,13 @@ class TestViewFragment : BaseFragment() {
         }
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        requireActivity().onBackPressedDispatcher.addCallback(activity) {
+            viewModel.onBackPressed()
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -51,6 +55,7 @@ class TestViewFragment : BaseFragment() {
                 settings.javaScriptEnabled = true
                 addJavascriptInterface(WebAppInterface(requireContext()), "Android")
             }.loadUrl(viewModel.url)
+
         }.root
     }
 }

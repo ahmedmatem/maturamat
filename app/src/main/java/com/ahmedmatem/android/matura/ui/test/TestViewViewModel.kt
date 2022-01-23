@@ -66,6 +66,10 @@ class TestViewViewModel(var test: Test? = null) : BaseViewModel(),
         }
     }
 
+    fun onBackPressed() {
+        showNoticeDialog.value = noticeDataCreator.createCancelNotice()
+    }
+
     override fun onDialogPositiveClick(dialog: DialogFragment) {
         when (dialog.tag) {
             NoticeDialogTag.START.tag -> {

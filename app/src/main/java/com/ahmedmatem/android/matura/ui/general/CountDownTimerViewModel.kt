@@ -5,11 +5,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.utils.TestCountDownTimer
 import com.ahmedmatem.android.matura.utils.TimerListener
 import java.lang.IllegalArgumentException
 
-class CountDownTimerViewModel(private val millis: Long?) : ViewModel(), TimerListener {
+class CountDownTimerViewModel(private val millis: Long?) : BaseViewModel(), TimerListener {
 
     val timer = TestCountDownTimer(millis!!, this)
     private var _pausedByUser: Boolean = false

@@ -25,7 +25,9 @@ data class NoticeData(
 enum class NoticeDialogTag(val tag: String) {
     START("start"),
     CHECK("check"),
-    STOP("stop")
+    STOP("stop"),
+    CANCEL("cancel"),
+    FINISH("finish")
 }
 
 class NoticeDialogFragment : DialogFragment() {

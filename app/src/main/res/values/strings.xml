@@ -173,9 +173,9 @@
     </string>
     <string name="test_check_message">Ако сте готови с теста, моля потвърдете за да бъде проверен.</string>
     <string name="test_time_finish_message">Времето за работа изтече.</string>
-    <string name="test_remains_time">Оставащо време - %1$s</string>
+    <string name="test_left_time">Оставащо време - %1$s</string>
     <string name="test_begin_title">Начало</string>
-    <string name="test_pause_title">Пауза</string>
+    <string name="test_stop_title">Пауза</string>
     <string name="test_cancel_title">Прекъсване на теста</string>
     <string name="test_time_finish_title">Край на теста</string>
     <string name="test_resume_btn">Продължи</string>
