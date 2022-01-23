@@ -36,6 +36,12 @@ class CountDownTimerFragment : BaseFragment() {
             }
         })
 
+        viewModel.onOptionItemSelected.observe(viewLifecycleOwner, Observer { selected ->
+            if (selected) {
+                timerViewModel.onOptionItemSelected()
+            }
+        })
+
         return binding.root
     }
 

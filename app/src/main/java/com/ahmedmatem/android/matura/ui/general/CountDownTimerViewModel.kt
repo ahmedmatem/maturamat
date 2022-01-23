@@ -42,6 +42,10 @@ class CountDownTimerViewModel(private val millis: Long?) : BaseViewModel(), Time
         }
     }
 
+    fun onOptionItemSelected() {
+        timer.pause()
+    }
+
     override fun onTimerTick(millisInFuture: Long) {
         // update timer ui
         _millisInFuture.value = millisInFuture

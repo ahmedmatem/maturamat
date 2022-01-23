@@ -38,8 +38,7 @@ class TestViewViewModel(var test: Test? = null) : BaseViewModel(),
         sharedPreferencesProvider.getDefaultSharedPreferences()
     }
 
-    val hasTimer =
-        test?.hasTimer ?: _prefs.getBoolean(_resources.getString(R.string.timer_key), true)
+    val hasTimer = test?.hasTimer ?: _prefs.getBoolean(_resources.getString(R.string.timer_key), true)
     val isCardsViewMode: Boolean
         get() {
             val cardsViewValue = _resources.getString(R.string.test_view_cards)
@@ -52,6 +51,10 @@ class TestViewViewModel(var test: Test? = null) : BaseViewModel(),
 
     private val _onTimerResume = MutableLiveData<Long?>().apply { value = null }
     val onTimerResume: LiveData<Long?> = _onTimerResume
+
+    // Observe this property in response of onOptionItemSelected event
+    private val _onOptionItemSelected = MutableLiveData<Boolean>(false)
+    val onOptionItemSelected: LiveData<Boolean> = _onOptionItemSelected
 
     init {
         // Show start notice dialog
@@ -68,6 +71,20 @@ class TestViewViewModel(var test: Test? = null) : BaseViewModel(),
 
     fun onBackPressed() {
         showNoticeDialog.value = noticeDataCreator.createCancelNotice()
+    }
+
+    fun onHomePressed() {
+        showNoticeDialog.value = noticeDataCreator.createCancelNotice()
+        if (hasTimer) {
+            _onOptionItemSelected.value = true
+        }
+    }
+
+    fun onCheckPressed() {
+        showNoticeDialog.value = noticeDataCreator.createCheckNotice()
+        if (hasTimer) {
+            _onOptionItemSelected.value = true
+        }
     }
 
     override fun onDialogPositiveClick(dialog: DialogFragment) {

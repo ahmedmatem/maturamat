@@ -63,4 +63,18 @@ class TestViewFragment : BaseFragment() {
         inflater.inflate(R.menu.test_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                viewModel.onHomePressed()
+                true
+            }
+            R.id.check_result_menu_item -> {
+                viewModel.onCheckPressed()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
 }
