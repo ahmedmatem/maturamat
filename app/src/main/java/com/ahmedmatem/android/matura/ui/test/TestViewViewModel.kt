@@ -10,11 +10,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.ahmedmatem.android.matura.R
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.network.models.Test
-import com.ahmedmatem.android.matura.ui.general.NoticeData
 import com.ahmedmatem.android.matura.ui.general.NoticeDialogFragment
+import com.ahmedmatem.android.matura.ui.general.NoticeDialogTag
 import com.ahmedmatem.android.matura.ui.test.contracts.TestState
 import com.ahmedmatem.android.matura.utils.TestCountDownTimer
 import com.ahmedmatem.android.matura.utils.TestURLUtil
+import com.ahmedmatem.android.matura.utils.helpers.NoticeDataCreator
 import com.ahmedmatem.android.matura.utils.providers.ResourcesProvider
 import com.ahmedmatem.android.matura.utils.providers.SharedPreferencesProvider
 import org.koin.java.KoinJavaComponent.inject
@@ -24,25 +25,18 @@ import java.security.InvalidAlgorithmParameterException
 class TestViewViewModel(var test: Test? = null) : BaseViewModel(),
     NoticeDialogFragment.NoticeDialogListener {
 
-    private enum class NoticeDialogTag(val tag: String) {
-        START("start"),
-        CHECK("check"),
-        STOP("stop")
-    }
-
     // Koin injections
     private val urlUtil: TestURLUtil by inject(TestURLUtil::class.java)
     private val resourcesProvider: ResourcesProvider by inject(ResourcesProvider::class.java)
     private val sharedPreferencesProvider: SharedPreferencesProvider by inject(
         SharedPreferencesProvider::class.java
     )
+    private val noticeDataCreator: NoticeDataCreator by inject(NoticeDataCreator::class.java)
 
     private val _resources: Resources by lazy { resourcesProvider.getResources() }
     private val _prefs: SharedPreferences by lazy {
         sharedPreferencesProvider.getDefaultSharedPreferences()
     }
-
-//    lateinit var timer: TestCountDownTimer
 
     val hasTimer =
         test?.hasTimer ?: _prefs.getBoolean(_resources.getString(R.string.timer_key), true)
@@ -61,23 +55,13 @@ class TestViewViewModel(var test: Test? = null) : BaseViewModel(),
 
     init {
         // Show start notice dialog
-        showNoticeDialog.value = NoticeData(
-            "title",
-            "message",
-            "Ok",
-            "Cancel",
-            null,
-            NoticeDialogTag.START.tag
-        )
+        showNoticeDialog.value = noticeDataCreator.createStartNotice(test?.millisInFuture!!)
     }
 
     val url: String by lazy {
         when (test?.state) {
-            // Test is created but not started yet
             TestState.NOT_STARTED -> urlUtil.repeatTestUrl(test?.id!!)
-            // Test is created and started but not finished
             TestState.INCOMPLETE -> urlUtil.resumeTestUrl(test?.id!!)
-            // Test is not created yet
             else -> urlUtil.newTestUrl()
         }
     }

@@ -1,20 +1,22 @@
 package com.ahmedmatem.android.matura.ui.general
 
-import android.os.CountDownTimer
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.utils.TestCountDownTimer
+import com.ahmedmatem.android.matura.utils.TimerListener
 import java.lang.IllegalArgumentException
 
-class CountDownTimerViewModel(private val millis: Long?) : ViewModel(),
-    TestCountDownTimer.TimerListener {
+class CountDownTimerViewModel(private val millis: Long?) : ViewModel(), TimerListener {
 
-    val timer = TestCountDownTimer.create(millis!!, this)
+    val timer = TestCountDownTimer(millis!!, this)
+    private var _pausedByUser: Boolean = false
+    private var _pausedBySystem: Boolean = false
 
-    // millisInFuture
+
+    // millisInFuture used to update UI
     private val _millisInFuture = MutableLiveData<Long?>(millis)
     val millisInFuture: LiveData<Long?> = _millisInFuture
 
@@ -28,15 +30,27 @@ class CountDownTimerViewModel(private val millis: Long?) : ViewModel(),
 
     }
 
-    fun timerResume() {
-        timer.resume()
+    fun onPause() {
+        _pausedBySystem = !_pausedByUser
+        timer.pause()
+    }
+
+    fun onResume() {
+        if (_pausedBySystem && !_pausedByUser) {
+            timer.resume()
+        }
     }
 
     override fun onTimerTick(millisInFuture: Long) {
+        // update timer ui
         _millisInFuture.value = millisInFuture
     }
 
     override fun onTimerFinish() {
-        TODO("Not yet implemented")
+        Log.d(TAG, "onTimerFinish: finish")
+    }
+
+    companion object {
+        const val TAG = "CountDownTimerViewModel"
     }
 }

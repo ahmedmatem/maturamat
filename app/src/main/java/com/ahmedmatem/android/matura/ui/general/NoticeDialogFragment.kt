@@ -22,6 +22,12 @@ data class NoticeData(
     val tag: String?
 ) : Parcelable
 
+enum class NoticeDialogTag(val tag: String) {
+    START("start"),
+    CHECK("check"),
+    STOP("stop")
+}
+
 class NoticeDialogFragment : DialogFragment() {
 
     internal lateinit var listener: NoticeDialogListener
