@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/check_result_menu_item"
+        android:icon="@drawable/ic_check_white_24"
+        android:title="@string/mi_check_result"
+        app:showAsAction="ifRoom" />
+</menu>

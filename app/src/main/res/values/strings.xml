@@ -182,4 +182,7 @@
     <string name="test_stop_btn">Край</string>
     <string name="check_result_btn">Проверка на резултата</string>
 
+    <!-- Menu items -->
+    <string name="mi_check_result">Проверка на резултата</string>
+
 </resources>

@@ -2,9 +2,7 @@ package com.ahmedmatem.android.matura.ui.test
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.activity.addCallback
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
@@ -26,6 +24,8 @@ class TestViewFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        setHasOptionsMenu(true)
 
         if (savedInstanceState == null) {
             requireActivity().supportFragmentManager.commit {
@@ -57,5 +57,10 @@ class TestViewFragment : BaseFragment() {
             }.loadUrl(viewModel.url)
 
         }.root
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.test_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
     }
 }
