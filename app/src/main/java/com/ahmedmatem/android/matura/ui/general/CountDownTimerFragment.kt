@@ -38,6 +38,10 @@ class CountDownTimerFragment : BaseFragment() {
             }
         })
 
+        timerViewModel.onTimerFinish.observe(viewLifecycleOwner) {
+            viewModel.onTimerFinish()
+        }
+
         viewModel.dialogPromptsTimerResume.observe(viewLifecycleOwner, Observer { prompt ->
             if (prompt) timerViewModel.timer.resume()
         })
@@ -52,7 +56,7 @@ class CountDownTimerFragment : BaseFragment() {
         })
 
         viewModel.onBackPressed.observe(viewLifecycleOwner, Observer { pressed ->
-            if(pressed) timerViewModel.onBackPressed()
+            if (pressed) timerViewModel.onBackPressed()
         })
 
         viewModel.onTimerCLick.observe(viewLifecycleOwner) {

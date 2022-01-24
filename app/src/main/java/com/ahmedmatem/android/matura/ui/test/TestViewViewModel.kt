@@ -100,6 +100,10 @@ class TestViewViewModel(var test: Test? = null) : BaseViewModel(),
         if (hasTimer) _onOptionItemSelected.value = true
     }
 
+    fun onTimerFinish() {
+        showNoticeDialog.value = noticeDataCreator.createFinishNotice()
+    }
+
     override fun onDialogPositiveClick(dialog: DialogFragment) {
         when (dialog.tag) {
             NoticeDialogTag.START.tag -> {

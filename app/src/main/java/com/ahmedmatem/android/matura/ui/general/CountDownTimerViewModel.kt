@@ -16,10 +16,12 @@ class CountDownTimerViewModel(millis: Long?) : BaseViewModel(), TimerListener {
     private var _pausedByUser: Boolean = false
     private var _pausedBySystem: Boolean = false
 
-
     // millisInFuture used to update UI
     private val _millisInFuture = MutableLiveData<Long?>(millis)
     val millisInFuture: LiveData<Long?> = _millisInFuture
+
+    private val _onTimerFinish = MutableLiveData<Boolean>().apply { false }
+    val onTimerFinish: LiveData<Boolean> = _onTimerFinish
 
     fun onTimerClick() {
         timer.pause()
@@ -53,7 +55,7 @@ class CountDownTimerViewModel(millis: Long?) : BaseViewModel(), TimerListener {
     }
 
     override fun onTimerFinish() {
-        Log.d(TAG, "onTimerFinish: finish")
+        _onTimerFinish.value = true
     }
 
     class Factory(private val millisInFuture: Long?) : ViewModelProvider.Factory {
