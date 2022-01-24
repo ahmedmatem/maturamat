@@ -36,6 +36,10 @@ class CountDownTimerViewModel(millis: Long?) : BaseViewModel(), TimerListener {
         }
     }
 
+    fun onBackPressed() {
+        timer.pause()
+    }
+
     /**
      * On 'Home' and 'Check' menu items press handler
      */

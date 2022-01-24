@@ -51,6 +51,10 @@ class CountDownTimerFragment : BaseFragment() {
             }
         })
 
+        viewModel.onBackPressed.observe(viewLifecycleOwner, Observer { pressed ->
+            if(pressed) timerViewModel.onBackPressed()
+        })
+
         viewModel.onTimerCLick.observe(viewLifecycleOwner) {
             timerViewModel.onTimerClick()
         }

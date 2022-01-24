@@ -56,6 +56,10 @@ class TestViewViewModel(var test: Test? = null) : BaseViewModel(),
     private val _onOptionItemSelected = MutableLiveData<Boolean>(false)
     val onOptionItemSelected: LiveData<Boolean> = _onOptionItemSelected
 
+    // Observe this property in response of onOptionItemSelected event
+    private val _onBackPressed = MutableLiveData<Boolean>(false)
+    val onBackPressed: LiveData<Boolean> = _onBackPressed
+
     // Observe this property to handle timer click
     private val _onTimerClick = MutableLiveData<Boolean>()
     val onTimerCLick: LiveData<Boolean> = _onTimerClick
@@ -80,6 +84,8 @@ class TestViewViewModel(var test: Test? = null) : BaseViewModel(),
 
     fun onBackPressed() {
         showNoticeDialog.value = noticeDataCreator.createCancelNotice()
+        // If test has a timer trigger back pressedd handler in timer fragment
+        if (hasTimer) _onBackPressed.value = true
     }
 
     fun onHomePressed() {
