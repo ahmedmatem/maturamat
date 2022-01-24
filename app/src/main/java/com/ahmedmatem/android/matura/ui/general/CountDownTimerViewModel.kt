@@ -23,10 +23,6 @@ class CountDownTimerViewModel(millis: Long?) : BaseViewModel(), TimerListener {
     private val _onTimerFinish = MutableLiveData<Boolean>().apply { false }
     val onTimerFinish: LiveData<Boolean> = _onTimerFinish
 
-    fun onTimerClick() {
-        timer.pause()
-    }
-
     fun onPause() {
         _pausedBySystem = !_pausedByUser
         timer.pause()
@@ -38,7 +34,13 @@ class CountDownTimerViewModel(millis: Long?) : BaseViewModel(), TimerListener {
         }
     }
 
+    fun onTimerClick() {
+        _pausedByUser = true
+        timer.pause()
+    }
+
     fun onBackPressed() {
+        _pausedByUser = true
         timer.pause()
     }
 
@@ -46,6 +48,7 @@ class CountDownTimerViewModel(millis: Long?) : BaseViewModel(), TimerListener {
      * On 'Home' and 'Check' menu items press handler
      */
     fun onOptionItemSelected() {
+        _pausedByUser = true
         timer.pause()
     }
 

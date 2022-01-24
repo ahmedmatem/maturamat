@@ -84,7 +84,7 @@ class TestViewViewModel(var test: Test? = null) : BaseViewModel(),
 
     fun onBackPressed() {
         showNoticeDialog.value = noticeDataCreator.createCancelNotice()
-        // If test has a timer trigger back pressedd handler in timer fragment
+        // If test has a timer trigger back pressed handler in timer fragment
         if (hasTimer) _onBackPressed.value = true
     }
 
