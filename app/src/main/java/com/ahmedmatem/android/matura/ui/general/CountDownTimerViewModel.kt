@@ -10,7 +10,7 @@ import com.ahmedmatem.android.matura.utils.TestCountDownTimer
 import com.ahmedmatem.android.matura.utils.TimerListener
 import java.lang.IllegalArgumentException
 
-class CountDownTimerViewModel(private val millis: Long?) : BaseViewModel(), TimerListener {
+class CountDownTimerViewModel(millis: Long?) : BaseViewModel(), TimerListener {
 
     val timer = TestCountDownTimer(millis!!, this)
     private var _pausedByUser: Boolean = false
@@ -21,14 +21,8 @@ class CountDownTimerViewModel(private val millis: Long?) : BaseViewModel(), Time
     private val _millisInFuture = MutableLiveData<Long?>(millis)
     val millisInFuture: LiveData<Long?> = _millisInFuture
 
-    class Factory(private val millisInFuture: Long?) : ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(CountDownTimerViewModel::class.java)) {
-                return CountDownTimerViewModel(millisInFuture) as T
-            }
-            throw IllegalArgumentException("Unable to construct CountDownTimerViewModel")
-        }
-
+    fun onTimerClick() {
+        timer.pause()
     }
 
     fun onPause() {
@@ -56,6 +50,15 @@ class CountDownTimerViewModel(private val millis: Long?) : BaseViewModel(), Time
 
     override fun onTimerFinish() {
         Log.d(TAG, "onTimerFinish: finish")
+    }
+
+    class Factory(private val millisInFuture: Long?) : ViewModelProvider.Factory {
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(CountDownTimerViewModel::class.java)) {
+                return CountDownTimerViewModel(millisInFuture) as T
+            }
+            throw IllegalArgumentException("Unable to construct CountDownTimerViewModel")
+        }
     }
 
     companion object {

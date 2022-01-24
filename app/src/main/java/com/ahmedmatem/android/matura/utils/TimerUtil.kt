@@ -7,10 +7,7 @@ interface TimerListener {
     fun onTimerFinish()
 }
 
-class TestCountDownTimer(
-    private var millis: Long,
-    private val listener: TimerListener
-) {
+class TestCountDownTimer(millis: Long, private val listener: TimerListener) {
     private var _timer: CountDownTimer? = null
     private var _millisLeft: Long = millis
 

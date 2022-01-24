@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.ahmedmatem.android.matura.base.BaseFragment
@@ -24,6 +25,13 @@ class CountDownTimerFragment : BaseFragment() {
         val binding = FragmentCountDownTimerBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
 
+        // Set timer click listener on timer fragment layout
+        binding.apply {
+            (root as ConstraintLayout).setOnClickListener {
+                viewModel.onTimerClick(timerViewModel.millisInFuture?.value!!)
+            }
+        }
+
         timerViewModel.millisInFuture.observe(viewLifecycleOwner, Observer { millis ->
             millis?.let {
                 binding.time = TimeConverter.from(it).toTimerString()
@@ -42,6 +50,10 @@ class CountDownTimerFragment : BaseFragment() {
                 timerViewModel.onOptionItemSelected()
             }
         })
+
+        viewModel.onTimerCLick.observe(viewLifecycleOwner) {
+            timerViewModel.onTimerClick()
+        }
 
         return binding.root
     }

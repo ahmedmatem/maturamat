@@ -37,6 +37,9 @@ class TestViewFragment : BaseFragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        /**
+         * Callback for Back pressed
+         */
         requireActivity().onBackPressedDispatcher.addCallback(activity) {
             viewModel.onBackPressed()
         }

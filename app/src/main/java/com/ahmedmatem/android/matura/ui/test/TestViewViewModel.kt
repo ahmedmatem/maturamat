@@ -56,6 +56,10 @@ class TestViewViewModel(var test: Test? = null) : BaseViewModel(),
     private val _onOptionItemSelected = MutableLiveData<Boolean>(false)
     val onOptionItemSelected: LiveData<Boolean> = _onOptionItemSelected
 
+    // Observe this property to handle timer click
+    private val _onTimerClick = MutableLiveData<Boolean>()
+    val onTimerCLick: LiveData<Boolean> = _onTimerClick
+
     init {
         // Show start notice dialog
         showNoticeDialog.value = noticeDataCreator.createStartNotice(test?.millisInFuture!!)
@@ -67,6 +71,11 @@ class TestViewViewModel(var test: Test? = null) : BaseViewModel(),
             TestState.INCOMPLETE -> urlUtil.resumeTestUrl(test?.id!!)
             else -> urlUtil.newTestUrl()
         }
+    }
+
+    fun onTimerClick(millis: Long) {
+        showNoticeDialog.value = noticeDataCreator.createStopNotice(millis)
+        _onTimerClick.value = true
     }
 
     fun onBackPressed() {

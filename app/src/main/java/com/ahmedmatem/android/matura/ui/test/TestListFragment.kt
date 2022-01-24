@@ -52,7 +52,6 @@ class TestListFragment : BaseFragment() {
             }
         })
 
-        // todo: Navigate by test
         viewModel.onTestItemClick.observe(viewLifecycleOwner, Observer { test ->
             test?.let {
                 // Create intent with extra containing test
