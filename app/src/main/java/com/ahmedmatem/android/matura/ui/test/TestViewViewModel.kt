@@ -79,12 +79,14 @@ class TestViewViewModel(var test: Test? = null) : BaseViewModel(),
     private val _onSaveTest = MutableLiveData<SaveTestArgs>(null)
     val onSaveTest: LiveData<SaveTestArgs> = _onSaveTest
 
+    var millisInFuture: Long = test?.millisInFuture
+        ?: _resources.getInteger(R.integer.test_duration_in_minutes) * 60 * 1000L
+
     init {
         // Show start notice dialog
-        showNoticeDialog.value = noticeDataCreator.createStartNotice(test?.millisInFuture!!)
+        showNoticeDialog.value = noticeDataCreator.createStartNotice(millisInFuture)
     }
 
-    var millisInFuture: Long = 0
     val url: String by lazy {
         when (test?.state) {
             TestState.NOT_STARTED -> urlUtil.repeatTestUrl(test?.id!!)

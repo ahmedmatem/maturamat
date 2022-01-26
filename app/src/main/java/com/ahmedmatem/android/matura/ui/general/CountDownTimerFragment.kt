@@ -20,7 +20,7 @@ class CountDownTimerFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        timerViewModel = CountDownTimerViewModel(viewModel.test?.millisInFuture)
+        timerViewModel = CountDownTimerViewModel(viewModel.millisInFuture)
 
         val binding = FragmentCountDownTimerBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
@@ -35,7 +35,7 @@ class CountDownTimerFragment : BaseFragment() {
         timerViewModel.millisInFuture.observe(viewLifecycleOwner, Observer { millis ->
             millis?.let {
                 binding.time = TimeConverter.from(it).toTimerString()
-                viewModel.millisInFuture = millis
+                viewModel.millisInFuture = millis // update millis in shared TestViewModel
             }
         })
 

@@ -13,7 +13,7 @@ import java.lang.IllegalArgumentException
 
 class CountDownTimerViewModel(millis: Long?) : BaseViewModel(), TimerListener {
 
-    val timer = TestCountDownTimer(millis!!, this)
+    private val timer = TestCountDownTimer(millis!!, this)
     private var _pausedByUser: Boolean = false
     private var _pausedBySystem: Boolean = false
 
