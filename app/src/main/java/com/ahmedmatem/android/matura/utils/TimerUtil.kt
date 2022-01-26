@@ -13,6 +13,8 @@ class TestCountDownTimer(millis: Long, private val listener: TimerListener) {
 
     fun start() = resume()
 
+    fun cancel() = _timer?.cancel()
+
     fun pause() {
         _timer?.cancel()
     }

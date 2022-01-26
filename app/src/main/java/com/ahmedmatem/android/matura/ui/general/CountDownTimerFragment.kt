@@ -35,6 +35,7 @@ class CountDownTimerFragment : BaseFragment() {
         timerViewModel.millisInFuture.observe(viewLifecycleOwner, Observer { millis ->
             millis?.let {
                 binding.time = TimeConverter.from(it).toTimerString()
+                viewModel.millisInFuture = millis
             }
         })
 
@@ -42,8 +43,16 @@ class CountDownTimerFragment : BaseFragment() {
             viewModel.onTimerFinish()
         }
 
-        viewModel.dialogPromptsTimerResume.observe(viewLifecycleOwner, Observer { prompt ->
-            if (prompt) timerViewModel.timer.resume()
+        viewModel.onDialogPositiveClick.observe(viewLifecycleOwner, Observer { tag ->
+            tag?.let { timerViewModel.onDialogPositiveClick(tag) }
+        })
+
+        viewModel.onDialogNegativeClick.observe(viewLifecycleOwner, Observer { tag ->
+            tag?.let { timerViewModel.onDialogNegativeClick(tag) }
+        })
+
+        viewModel.onDialogNeutralClick.observe(viewLifecycleOwner, Observer { tag ->
+            tag?.let { timerViewModel.onDialogNeutralClick(tag) }
         })
 
         /**

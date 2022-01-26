@@ -1,13 +1,10 @@
 package com.ahmedmatem.android.matura.network
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.webkit.JavascriptInterface
 import com.ahmedmatem.android.matura.TestActivity
-
-enum class ActionCode(val code: Int) {
-    NO_ACTION(0), ACTION_FINISH(1)
-}
 
 class WebAppInterface(private val context: Context) {
 
@@ -21,8 +18,13 @@ class WebAppInterface(private val context: Context) {
     @JavascriptInterface
     fun postExecute(actionCode: Int) {
         when (actionCode) {
-            ActionCode.ACTION_FINISH.code -> {}
+            ACTION_FINISH_ACTIVITY -> (context as Activity).finish()
             else -> {}
         }
+    }
+
+    companion object {
+        const val NO_ACTION = 0
+        const val ACTION_FINISH_ACTIVITY = 1
     }
 }

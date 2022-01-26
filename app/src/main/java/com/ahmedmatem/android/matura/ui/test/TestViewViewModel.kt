@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.ahmedmatem.android.matura.R
 import com.ahmedmatem.android.matura.base.BaseViewModel
+import com.ahmedmatem.android.matura.network.WebAppInterface.Companion.ACTION_FINISH_ACTIVITY
 import com.ahmedmatem.android.matura.network.models.Test
 import com.ahmedmatem.android.matura.ui.general.NoticeDialogFragment
 import com.ahmedmatem.android.matura.ui.general.NoticeDialogTag
@@ -19,10 +20,12 @@ import com.ahmedmatem.android.matura.utils.providers.ResourcesProvider
 import com.ahmedmatem.android.matura.utils.providers.SharedPreferencesProvider
 import org.koin.java.KoinJavaComponent.inject
 import java.lang.IllegalArgumentException
-import java.security.InvalidAlgorithmParameterException
 
 class TestViewViewModel(var test: Test? = null) : BaseViewModel(),
     NoticeDialogFragment.NoticeDialogListener {
+
+    private var _testChecked = false
+    private var _testCanceled = false
 
     // Koin injections
     private val urlUtil: TestURLUtil by inject(TestURLUtil::class.java)
@@ -47,10 +50,16 @@ class TestViewViewModel(var test: Test? = null) : BaseViewModel(),
             val currentView = _prefs.getString(testViewKey, testViewDefault)
             return currentView == cardsViewValue
         }
-    val isListViewMode = !isCardsViewMode
+//    val isListViewMode = !isCardsViewMode
 
-    private val _dialogPromptsTimerResume = MutableLiveData<Boolean>().apply { value = false }
-    val dialogPromptsTimerResume: LiveData<Boolean> = _dialogPromptsTimerResume
+    private val _onDialogPositiveClick = MutableLiveData<NoticeDialogTag?>().apply { value = null }
+    val onDialogPositiveClick: LiveData<NoticeDialogTag?> = _onDialogPositiveClick
+
+    private val _onDialogNegativeClick = MutableLiveData<NoticeDialogTag?>().apply { value = null }
+    val onDialogNegativeClick: LiveData<NoticeDialogTag?> = _onDialogNegativeClick
+
+    private val _onDialogNeutralClick = MutableLiveData<NoticeDialogTag?>().apply { value = null }
+    val onDialogNeutralClick: LiveData<NoticeDialogTag?> = _onDialogNeutralClick
 
     // Observe this property in response of onOptionItemSelected event
     private val _onOptionItemSelected = MutableLiveData<Boolean>(false)
@@ -64,11 +73,18 @@ class TestViewViewModel(var test: Test? = null) : BaseViewModel(),
     private val _onTimerClick = MutableLiveData<Boolean>()
     val onTimerCLick: LiveData<Boolean> = _onTimerClick
 
+    private val _onActivityFinish: MutableLiveData<Boolean> = MutableLiveData(false)
+    val onActivityFinish: LiveData<Boolean> = _onActivityFinish
+
+    private val _onSaveTest = MutableLiveData<SaveTestArgs>(null)
+    val onSaveTest: LiveData<SaveTestArgs> = _onSaveTest
+
     init {
         // Show start notice dialog
         showNoticeDialog.value = noticeDataCreator.createStartNotice(test?.millisInFuture!!)
     }
 
+    var millisInFuture: Long = 0
     val url: String by lazy {
         when (test?.state) {
             TestState.NOT_STARTED -> urlUtil.repeatTestUrl(test?.id!!)
@@ -105,25 +121,57 @@ class TestViewViewModel(var test: Test? = null) : BaseViewModel(),
     }
 
     override fun onDialogPositiveClick(dialog: DialogFragment) {
-        when (dialog.tag) {
-            NoticeDialogTag.START.tag -> {
-                if (hasTimer) {
-                    _dialogPromptsTimerResume.value = true
+        dialog.tag?.let { value ->
+            val dialogTag = NoticeDialogTag.fromValue(value)
+            when (dialogTag) {
+                NoticeDialogTag.START -> {}
+                NoticeDialogTag.STOP -> {}
+                NoticeDialogTag.CHECK -> {}
+                NoticeDialogTag.CANCEL -> {
+                    _onSaveTest.value =
+                        SaveTestArgs(millisInFuture, hasTimer, ACTION_FINISH_ACTIVITY)
                 }
+                NoticeDialogTag.FINISH -> {}
             }
-            NoticeDialogTag.STOP.tag -> {}
-            NoticeDialogTag.CHECK.tag -> {}
-            else -> throw InvalidAlgorithmParameterException("Invalid tag ${dialog.tag}")
+            if (hasTimer) {
+                _onDialogPositiveClick.value = dialogTag
+            }
         }
     }
 
     override fun onDialogNegativeClick(dialog: DialogFragment) {
-        TODO("Not yet implemented")
+        dialog.tag?.let { value ->
+            val dialogTag = NoticeDialogTag.fromValue(value)
+            when (dialogTag) {
+                NoticeDialogTag.START -> _onActivityFinish.value = true
+                NoticeDialogTag.STOP -> {}
+                NoticeDialogTag.CHECK -> {}
+                NoticeDialogTag.CANCEL -> _onActivityFinish.value = true
+                NoticeDialogTag.FINISH -> {}
+            }
+            if (hasTimer) {
+                _onDialogNegativeClick.value = dialogTag
+            }
+        }
     }
 
     override fun onDialogNeutralClick(dialog: DialogFragment) {
-        TODO("Not yet implemented")
+        dialog.tag?.let { value ->
+            val dialogTag = NoticeDialogTag.fromValue(value)
+            when (dialogTag) {
+                NoticeDialogTag.START -> {}
+                NoticeDialogTag.STOP -> {}
+                NoticeDialogTag.CHECK -> {}
+                NoticeDialogTag.CANCEL -> {}
+                NoticeDialogTag.FINISH -> {}
+            }
+            if (hasTimer) {
+                _onDialogNeutralClick.value = dialogTag
+            }
+        }
     }
+
+    data class SaveTestArgs(val millisInFuture: Long, val hasTimer: Boolean, val actionCode: Int)
 
     class Factory(
         private val test: Test? = null

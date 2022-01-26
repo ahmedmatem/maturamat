@@ -18,7 +18,7 @@ class NoticeDataCreator(val context: Context) {
             context.getString(R.string.start_btn),
             context.getString(R.string.cancel_btn),
             null,
-            NoticeDialogTag.START.tag
+            NoticeDialogTag.START.value
         )
     }
 
@@ -32,7 +32,7 @@ class NoticeDataCreator(val context: Context) {
             context.getString(R.string.test_resume_btn),
             null,
             null,
-            NoticeDialogTag.STOP.tag
+            NoticeDialogTag.STOP.value
         )
     }
 
@@ -43,7 +43,7 @@ class NoticeDataCreator(val context: Context) {
             context.getString(R.string.yes_btn),
             context.getString(R.string.no_btn),
             null,
-            NoticeDialogTag.CANCEL.tag
+            NoticeDialogTag.CANCEL.value
         )
     }
 
@@ -54,7 +54,7 @@ class NoticeDataCreator(val context: Context) {
             context.getString(R.string.check_btn),
             null,
             context.getString(R.string.cancel_btn),
-            NoticeDialogTag.CHECK.tag
+            NoticeDialogTag.CHECK.value
         )
     }
 
@@ -65,7 +65,7 @@ class NoticeDataCreator(val context: Context) {
             context.getString(R.string.check_result_btn),
             null,
             null,
-            NoticeDialogTag.FINISH.tag
+            NoticeDialogTag.FINISH.value
         )
     }
 }

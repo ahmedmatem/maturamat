@@ -1,6 +1,5 @@
 package com.ahmedmatem.android.matura.ui.general
 
-import android.app.Activity
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
@@ -8,7 +7,6 @@ import android.os.Parcelable
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import kotlinx.android.parcel.Parcelize
-import kotlin.ClassCastException
 
 private const val ARG_DATA = "data"
 
@@ -19,15 +17,27 @@ data class NoticeData(
     val positiveButton: String?,
     val negativeButton: String?,
     val neutralButton: String?,
-    val tag: String?
+    val tag: String
 ) : Parcelable
 
-enum class NoticeDialogTag(val tag: String) {
+enum class NoticeDialogTag(val value: String) {
     START("start"),
     CHECK("check"),
     STOP("stop"),
     CANCEL("cancel"),
-    FINISH("finish")
+    FINISH("finish");
+
+    companion object {
+        private val map = NoticeDialogTag.values()
+        fun fromValue(tagValue: String): NoticeDialogTag? {
+            values().forEach { tag ->
+                if (tag.value == tagValue) {
+                    return tag
+                }
+            }
+            return null
+        }
+    }
 }
 
 class NoticeDialogFragment : DialogFragment() {

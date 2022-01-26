@@ -7,6 +7,7 @@ import androidx.activity.addCallback
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import com.ahmedmatem.android.matura.R
 import com.ahmedmatem.android.matura.base.BaseFragment
@@ -49,9 +50,25 @@ class TestViewFragment : BaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val binding = FragmentTestViewBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
+
+        viewModel.onSaveTest.observe(viewLifecycleOwner, Observer { args ->
+            args?.let {
+                binding.testWebView.loadUrl(
+                    "javascript: saveTest(" +
+                            "${args.millisInFuture}," +
+                            "${args.hasTimer}," +
+                            "${args.actionCode}" +
+                            ")"
+                )
+            }
+        })
+
+        viewModel.onActivityFinish.observe(viewLifecycleOwner) {
+            if (it) requireActivity().finish()
+        }
 
         return binding?.apply {
             testWebView.apply {

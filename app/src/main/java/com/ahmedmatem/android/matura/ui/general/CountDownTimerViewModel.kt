@@ -1,6 +1,7 @@
 package com.ahmedmatem.android.matura.ui.general
 
 import android.util.Log
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -50,6 +51,58 @@ class CountDownTimerViewModel(millis: Long?) : BaseViewModel(), TimerListener {
     fun onOptionItemSelected() {
         _pausedByUser = true
         timer.pause()
+    }
+
+    fun onDialogPositiveClick(tag: NoticeDialogTag) {
+        when (tag) {
+            NoticeDialogTag.START -> {
+                _pausedByUser = false
+                timer.resume()
+            }
+            NoticeDialogTag.STOP -> {
+                _pausedByUser = false
+                timer.resume()
+            }
+            NoticeDialogTag.CHECK -> {
+                timer.cancel()
+                // todo: check test
+            }
+            NoticeDialogTag.CANCEL -> {
+                timer.cancel()
+                // todo: save test
+            }
+            NoticeDialogTag.FINISH -> {
+                timer.cancel()
+                // todo: check test
+            }
+        }
+    }
+
+    fun onDialogNegativeClick(tag: NoticeDialogTag) {
+        // Todo: not implemented yet
+        when (tag) {
+            NoticeDialogTag.START -> {
+                timer.cancel()
+            }
+            NoticeDialogTag.STOP -> {}
+            NoticeDialogTag.CHECK -> {}
+            NoticeDialogTag.CANCEL -> timer.resume()
+            NoticeDialogTag.FINISH -> {}
+        }
+    }
+
+    fun onDialogNeutralClick(tag: NoticeDialogTag) {
+        // Todo: not implemented yet
+        when (tag) {
+            NoticeDialogTag.START -> {}
+            NoticeDialogTag.STOP -> {}
+            NoticeDialogTag.CHECK -> {
+                _pausedByUser = false
+                timer.resume()
+            }
+            NoticeDialogTag.CANCEL -> {}
+            NoticeDialogTag.FINISH -> {}
+        }
     }
 
     override fun onTimerTick(millisInFuture: Long) {
