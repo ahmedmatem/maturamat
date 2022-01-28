@@ -24,7 +24,7 @@ data class Test(
     @Json(name = "ProblemIds") val problemIds: String,
 
     @ColumnInfo(name = "result_in_percent")
-    @Json(name = "ResultInPercent") val resultInPercent: String,
+    @Json(name = "ResultInPercent") val resultInPercent: String?,
 
     @ColumnInfo(name = "is_saved")
     @Json(name = "IsSaved") val isSaved: Boolean,
@@ -33,13 +33,13 @@ data class Test(
     @Json(name = "CreatedOn") val createdOn: Date,
 
     @ColumnInfo(name = "modified_on")
-    @Json(name = "ModifiedOn") val modifiedOn: Date,
+    @Json(name = "ModifiedOn") val modifiedOn: Date?,
 
     @ColumnInfo(name = "answer_number")
-    @Json(name = "AnswersNumber") val answersNumber: String,
+    @Json(name = "AnswersNumber") val answersNumber: String?,
 
     @ColumnInfo(name = "correct_answer_number")
-    @Json(name = "CorrectAnswersNumber") val correctAnswersNumber: String,
+    @Json(name = "CorrectAnswersNumber") val correctAnswersNumber: String?,
 
     @ColumnInfo(name = "millis_until_finished")
     @Json(name = "MillisUntilFinished") val millisInFuture: Long,

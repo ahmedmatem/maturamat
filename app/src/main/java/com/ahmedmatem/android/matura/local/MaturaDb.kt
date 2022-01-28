@@ -14,7 +14,7 @@ import com.ahmedmatem.android.matura.prizesystem.models.Period
 
 @Database(
     entities = [Test::class, User::class, Coin::class, Period::class],
-    version = 3
+    version = 2
 )
 @TypeConverters(Converters::class)
 abstract class MaturaDb : RoomDatabase() {

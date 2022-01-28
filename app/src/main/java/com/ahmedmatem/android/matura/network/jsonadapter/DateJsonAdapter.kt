@@ -10,17 +10,21 @@ import java.util.*
 class DateJsonAdapter {
     @FromJson
     fun dateFromJson(date: String): Date? {
-        try {
-            return dateFormat.parse(date)
+        return try {
+            synchronized(date) {
+                dateFormat.parse(date)
+            }
         } catch (pe: ParseException) {
             Log.d("DEBUG", "dateFromJson: Invalid date format: $date")
+            null
         }
-        return null
     }
 
     @ToJson
     fun dateToJson(date: Date): String {
-        return dateFormat.format(date)
+        return synchronized(date) {
+            dateFormat.format(date)
+        }
     }
 
     companion object {
