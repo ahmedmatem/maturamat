@@ -3,14 +3,12 @@ package com.ahmedmatem.android.matura.ui.test
 import android.content.SharedPreferences
 import android.content.res.Resources
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.*
 import com.ahmedmatem.android.matura.R
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.network.WebAppInterface.Companion.ACTION_FINISH_ACTIVITY
 import com.ahmedmatem.android.matura.network.models.Test
+import com.ahmedmatem.android.matura.repository.TestRepository
 import com.ahmedmatem.android.matura.ui.general.NoticeDialogFragment
 import com.ahmedmatem.android.matura.ui.general.NoticeDialogTag
 import com.ahmedmatem.android.matura.ui.test.contracts.TestState
@@ -34,23 +32,12 @@ class TestViewViewModel(var test: Test? = null) : BaseViewModel(),
         SharedPreferencesProvider::class.java
     )
     private val noticeDataCreator: NoticeDataCreator by inject(NoticeDataCreator::class.java)
+    private val _testRepo: TestRepository by inject(TestRepository::class.java)
 
     private val _resources: Resources by lazy { resourcesProvider.getResources() }
     private val _prefs: SharedPreferences by lazy {
         sharedPreferencesProvider.getDefaultSharedPreferences()
     }
-
-    val hasTimer =
-        test?.hasTimer ?: _prefs.getBoolean(_resources.getString(R.string.timer_key), true)
-    val isCardsViewMode: Boolean
-        get() {
-            val cardsViewValue = _resources.getString(R.string.test_view_cards)
-            val testViewKey = _resources.getString(R.string.test_view_key)
-            val testViewDefault = _resources.getString(R.string.test_view_default)
-            val currentView = _prefs.getString(testViewKey, testViewDefault)
-            return currentView == cardsViewValue
-        }
-//    val isListViewMode = !isCardsViewMode
 
     private val _onDialogPositiveClick = MutableLiveData<NoticeDialogTag?>().apply { value = null }
     val onDialogPositiveClick: LiveData<NoticeDialogTag?> = _onDialogPositiveClick
@@ -79,10 +66,37 @@ class TestViewViewModel(var test: Test? = null) : BaseViewModel(),
     private val _onSaveTest = MutableLiveData<SaveTestArgs>(null)
     val onSaveTest: LiveData<SaveTestArgs> = _onSaveTest
 
-    var millisInFuture: Long = test?.millisInFuture
-        ?: _resources.getInteger(R.integer.test_duration_in_minutes) * 60 * 1000L
+    private val testDurationInMillis =
+        _resources.getInteger(R.integer.test_duration_in_minutes) * 60 * 1000L
+    // initialize millis
+    var millisInFuture: Long = testDurationInMillis
+
+    private val _timerSwitchOnFromSettings: Boolean =
+        _prefs.getBoolean(_resources.getString(R.string.timer_key), true)
+    // initialize hasTimer
+    var hasTimer = _timerSwitchOnFromSettings
+
+    val isCardsViewMode: Boolean
+        get() {
+            val cardsViewValue = _resources.getString(R.string.test_view_cards)
+            val testViewKey = _resources.getString(R.string.test_view_key)
+            val testViewDefault = _resources.getString(R.string.test_view_default)
+            val currentView = _prefs.getString(testViewKey, testViewDefault)
+            return currentView == cardsViewValue
+        }
+
+//    val isListViewMode = !isCardsViewMode
 
     init {
+        test?.let {
+            if (it.state == TestState.NOT_STARTED) {
+                millisInFuture = testDurationInMillis
+                hasTimer = _timerSwitchOnFromSettings
+            } else {
+                millisInFuture = it.millisInFuture
+                hasTimer = it.hasTimer
+            }
+        }
         // Show start notice dialog
         showNoticeDialog.value = noticeDataCreator.createStartNotice(millisInFuture)
     }

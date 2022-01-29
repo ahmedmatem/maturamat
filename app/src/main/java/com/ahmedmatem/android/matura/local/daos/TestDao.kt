@@ -15,7 +15,7 @@ interface TestDao {
     @Query("SELECT * FROM test_table WHERE username = :username")
     fun getAllBy(username: String?): LiveData<List<Test>>
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(vararg tests: Test)
 
     @Delete

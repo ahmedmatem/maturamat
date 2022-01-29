@@ -2,6 +2,7 @@ package com.ahmedmatem.android.matura.ui.test
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -63,5 +64,10 @@ class TestListFragment : BaseFragment() {
         })
 
         return binding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.refreshTestList()
     }
 }

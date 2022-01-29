@@ -8,6 +8,7 @@ import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.navArgs
 import com.ahmedmatem.android.matura.R
 import com.ahmedmatem.android.matura.base.BaseFragment

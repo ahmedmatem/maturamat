@@ -2,6 +2,9 @@ package com.ahmedmatem.android.matura.network.models
 
 import android.os.Parcelable
 import androidx.annotation.Keep
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.liveData
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore

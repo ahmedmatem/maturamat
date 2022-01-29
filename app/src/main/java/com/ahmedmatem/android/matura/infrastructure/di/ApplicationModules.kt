@@ -6,6 +6,7 @@ import com.ahmedmatem.android.matura.network.services.AccountApi
 import com.ahmedmatem.android.matura.prizesystem.PrizeManager
 import com.ahmedmatem.android.matura.repository.AccountRepository
 import com.ahmedmatem.android.matura.repository.PrizeRepository
+import com.ahmedmatem.android.matura.repository.TestRepository
 import com.ahmedmatem.android.matura.utils.TestURLUtil
 import com.ahmedmatem.android.matura.utils.helpers.NoticeDataCreator
 import com.ahmedmatem.android.matura.utils.providers.ResourcesProvider
@@ -24,18 +25,14 @@ val applicationModule = module {
             AccountApi.retrofitService
         )
     }
-
-    single {
-        PrizeRepository(
-            androidContext(),
-            dispatcher = Dispatchers.IO
-        )
-    }
+    single { PrizeRepository(get(), dispatcher = Dispatchers.IO) }
+    single { TestRepository(get(), get()) }
 
     single { TestURLUtil(get()) }
     single { SharedPreferencesProvider(get()) }
     single { ResourcesProvider(get()) }
     single { NoticeDataCreator(get()) }
+    single { MaturaDb.getInstance(get()) }
 
     single { PrizeManager(androidContext()) }
 }

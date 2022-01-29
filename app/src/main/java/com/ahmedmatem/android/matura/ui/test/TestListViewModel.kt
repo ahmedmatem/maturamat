@@ -1,7 +1,6 @@
 package com.ahmedmatem.android.matura.ui.test
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.*
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.local.MaturaDb
@@ -18,14 +17,21 @@ class TestListViewModel(val context: Context) : BaseViewModel() {
     val onTestItemClick: LiveData<Test?> = _onTestItemClick
 
     // Refresh test list in local database from network
-    init {
+//    init {
+//        refreshTestList()
+//    }
+
+    // Read data from local database
+    val testList = testRepository.testList
+
+    /**
+     * Invoke this function from fragment onStart to refresh test list
+     */
+    fun refreshTestList() {
         viewModelScope.launch {
             testRepository.refreshTestList()
         }
     }
-
-    // Read data from local database
-    val testList = testRepository.testList
 
     fun onTestItemClick(test: Test) {
         _onTestItemClick.value = test
