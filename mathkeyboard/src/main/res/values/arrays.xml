@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="keys">
+        <item>@drawable/abc_vector_test</item>
+    </array>
+    <array name="codes">
+        <item>1</item>
+    </array>
+</resources>
