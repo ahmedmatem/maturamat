@@ -18,13 +18,16 @@ class TestBottomSheetFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Add timer if required
-        if (viewModel.hasTimer) {
-            if (savedInstanceState == null) {
-                requireActivity().supportFragmentManager.commit {
-                    setReorderingAllowed(true)
+        if (savedInstanceState == null) {
+            requireActivity().supportFragmentManager.commit {
+                setReorderingAllowed(true)
+
+                // Add keyboard
+                add<MathInputEditorFragment>(R.id.keyboard_container)
+
+                // Add timer
+                if (viewModel.hasTimer) {
                     add<CountDownTimerFragment>(R.id.timer_container)
-                    add<MathInputEditorFragment>(R.id.keyboard_container)
                 }
             }
         }

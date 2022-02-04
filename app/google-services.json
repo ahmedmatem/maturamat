@@ -26,6 +26,9 @@
       "api_key": [
         {
           "current_key": "AIzaSyAex0WFybkShqk6MTZkzkhnEl-sz9CXOyw"
+        },
+        {
+          "current_key": "AIzaSyByn22KBI8UberRPlgMh7SzJ2oEwjxb3SU"
         }
       ],
       "services": {
@@ -59,6 +62,45 @@
       "api_key": [
         {
           "current_key": "AIzaSyAex0WFybkShqk6MTZkzkhnEl-sz9CXOyw"
+        },
+        {
+          "current_key": "AIzaSyByn22KBI8UberRPlgMh7SzJ2oEwjxb3SU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "137470652016-lnmjf8rhj6vcc3ju8jt9k5q6bjsmn9h4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:137470652016:android:dc705543a744b67431ceb5",
+        "android_client_info": {
+          "package_name": "com.ahmedmatem.android.matura.nvo7"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "137470652016-jpu6d3pmiopt0op7mid9a1adptqvnib3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ahmedmatem.android.matura.nvo7",
+            "certificate_hash": "cb48f1c11681b52223d49a787b067ee32634183b"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAex0WFybkShqk6MTZkzkhnEl-sz9CXOyw"
+        },
+        {
+          "current_key": "AIzaSyByn22KBI8UberRPlgMh7SzJ2oEwjxb3SU"
         }
       ],
       "services": {
