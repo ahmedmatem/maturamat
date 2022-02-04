@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
-import androidx.fragment.app.viewModels
 import com.ahmedmatem.android.matura.R
 import com.ahmedmatem.android.matura.base.BaseFragment
 import com.ahmedmatem.android.matura.ui.general.CountDownTimerFragment
+import com.ahmedmatem.lib.mathkeyboard.MathInputEditorFragment
 
 class TestBottomSheetFragment : BaseFragment() {
     override val viewModel: TestViewViewModel by activityViewModels()
@@ -24,6 +24,7 @@ class TestBottomSheetFragment : BaseFragment() {
                 requireActivity().supportFragmentManager.commit {
                     setReorderingAllowed(true)
                     add<CountDownTimerFragment>(R.id.timer_container)
+                    add<MathInputEditorFragment>(R.id.keyboard_container)
                 }
             }
         }
@@ -44,4 +45,5 @@ class TestBottomSheetFragment : BaseFragment() {
 
         return view
     }
+
 }

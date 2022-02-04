@@ -187,6 +187,10 @@ class TestViewViewModel(var test: Test? = null) : BaseViewModel(),
         }
     }
 
+    fun onKeyboardClose() {
+        showToast.value = "Test"
+    }
+
     data class SaveTestArgs(val millisInFuture: Long, val hasTimer: Boolean, val actionCode: Int)
 
     class Factory(

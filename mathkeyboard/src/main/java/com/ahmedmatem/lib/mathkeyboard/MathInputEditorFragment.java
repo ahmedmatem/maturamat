@@ -1,5 +1,6 @@
 package com.ahmedmatem.lib.mathkeyboard;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -122,12 +123,12 @@ public class MathInputEditorFragment extends Fragment implements KeyboardClickLi
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if(context instanceof KeyboardExternalListener){
-            listener = (KeyboardExternalListener) context;
-        } else {
-            throw new ClassCastException(context.getClass().getSimpleName() +
-                    " must implement KeyboardExternalListener interface");
-        }
+//        if(context instanceof KeyboardExternalListener){
+//            listener = (KeyboardExternalListener) context;
+//        } else {
+//            throw new ClassCastException(context.getClass().getSimpleName() +
+//                    " must implement KeyboardExternalListener interface");
+//        }
     }
 
     @Override
