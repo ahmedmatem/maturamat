@@ -2,6 +2,8 @@ package com.ahmedmatem.android.matura.ui.test
 
 import android.content.SharedPreferences
 import android.content.res.Resources
+import androidx.annotation.MainThread
+import androidx.annotation.UiThread
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.*
 import com.ahmedmatem.android.matura.R
@@ -125,11 +127,15 @@ class TestViewViewModel(var test: Test? = null) : BaseViewModel(),
         }
     }
 
+    /**
+     * This function triggers from background thread. Use postValue instead of setValue
+     */
     fun showTestResult(testId: String) {
         val testResultUrl = urlUtil.testResultUrl(testId)
-        navigationCommand.value = NavigationCommand.To(
+        // call postValue to set navigationCommand value asynchronously
+        navigationCommand.postValue(NavigationCommand.To(
             TestViewFragmentDirections.actionTestViewFragmentToTestResultFragment(testResultUrl)
-        )
+        ))
     }
 
     fun onTimerClick(millis: Long) {
@@ -167,15 +173,15 @@ class TestViewViewModel(var test: Test? = null) : BaseViewModel(),
                 NoticeDialogTag.START -> {}
                 NoticeDialogTag.STOP -> {}
                 NoticeDialogTag.CHECK -> {
-                    _testChecked = true
                     _onCheckTest.value = TestArgs(millisInFuture, hasTimer)
+                    _testChecked = true
                 }
                 NoticeDialogTag.CANCEL -> {
                     _onSaveTest.value = TestArgs(millisInFuture, hasTimer, ACTION_FINISH_ACTIVITY)
                 }
                 NoticeDialogTag.FINISH -> {
-                    _testChecked = true
                     _onCheckTest.value = TestArgs(0, true)
+                    _testChecked = true
                 }
             }
             if (hasTimer) {

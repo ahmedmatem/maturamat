@@ -15,7 +15,7 @@ import com.ahmedmatem.android.matura.databinding.FragmentTestViewBinding
 import com.ahmedmatem.android.matura.network.WebAppInterface
 import com.ahmedmatem.lib.mathkeyboard.contracts.KeyboardExternalListener
 
-class TestViewFragment : BaseFragment(), KeyboardExternalListener {
+class TestViewFragment : BaseFragment() {
 
     private val args: TestViewFragmentArgs by navArgs()
 
@@ -67,16 +67,16 @@ class TestViewFragment : BaseFragment(), KeyboardExternalListener {
             }
         })
 
-        viewModel.onCheckTest.observe(viewLifecycleOwner) { args ->
+        viewModel.onCheckTest.observe(viewLifecycleOwner, Observer { args ->
             args?.let {
                 binding.testWebView.loadUrl(
                     "javascript: checkTest(" +
                             "${args.millisInFuture}," +
-                            "${args.hasTimer}," +
+                            "${args.hasTimer}" +
                             ")"
                 )
             }
-        }
+        })
 
         viewModel.onActivityFinish.observe(viewLifecycleOwner) {
             if (it) requireActivity().finish()
@@ -115,11 +115,11 @@ class TestViewFragment : BaseFragment(), KeyboardExternalListener {
         viewModel.onPause()
     }
 
-    override fun onKeyboardCloseBtnClick() {
-        viewModel.onKeyboardClose()
-    }
-
-    override fun onKeyboardSubmit(selector: String?) {
-        TODO("Not yet implemented")
-    }
+//    override fun onKeyboardCloseBtnClick() {
+//        viewModel.onKeyboardClose()
+//    }
+//
+//    override fun onKeyboardSubmit(selector: String?) {
+//        TODO("Not yet implemented")
+//    }
 }
