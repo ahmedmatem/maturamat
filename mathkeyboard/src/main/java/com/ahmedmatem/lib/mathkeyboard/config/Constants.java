@@ -11,4 +11,5 @@ public class Constants {
     public static final List<Character> OPERATORS = Arrays.asList('+', '-', '*', '/', '^');
 
     public static final String EMPTY_CHAR = "?";
+    public static final String FRAGMENT_TAG = "Keyboard";
 }

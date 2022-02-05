@@ -11,6 +11,7 @@ import com.ahmedmatem.android.matura.R
 import com.ahmedmatem.android.matura.base.BaseFragment
 import com.ahmedmatem.android.matura.ui.general.CountDownTimerFragment
 import com.ahmedmatem.lib.mathkeyboard.MathInputEditorFragment
+import com.ahmedmatem.lib.mathkeyboard.config.Constants
 
 class TestBottomSheetFragment : BaseFragment() {
     override val viewModel: TestViewViewModel by activityViewModels()
@@ -23,7 +24,7 @@ class TestBottomSheetFragment : BaseFragment() {
                 setReorderingAllowed(true)
 
                 // Add keyboard
-                add<MathInputEditorFragment>(R.id.keyboard_container)
+                add<MathInputEditorFragment>(R.id.keyboard_container, Constants.FRAGMENT_TAG)
 
                 // Add timer
                 if (viewModel.hasTimer) {

@@ -15,7 +15,7 @@ import com.ahmedmatem.android.matura.databinding.FragmentTestViewBinding
 import com.ahmedmatem.android.matura.network.WebAppInterface
 import com.ahmedmatem.lib.mathkeyboard.contracts.KeyboardExternalListener
 
-class TestViewFragment : BaseFragment() {
+class TestViewFragment : BaseFragment(), KeyboardExternalListener {
 
     private val args: TestViewFragmentArgs by navArgs()
 
@@ -115,11 +115,11 @@ class TestViewFragment : BaseFragment() {
         viewModel.onPause()
     }
 
-//    override fun onKeyboardCloseBtnClick() {
-//        viewModel.onKeyboardClose()
-//    }
-//
-//    override fun onKeyboardSubmit(selector: String?) {
-//        TODO("Not yet implemented")
-//    }
+    override fun onKeyboardCloseBtnClick() {
+        viewModel.onKeyboardClose()
+    }
+
+    override fun onKeyboardSubmit(selector: String?) {
+        TODO("Not yet implemented")
+    }
 }
