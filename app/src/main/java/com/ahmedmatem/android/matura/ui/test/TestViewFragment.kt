@@ -8,7 +8,6 @@ import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.navArgs
 import com.ahmedmatem.android.matura.R
 import com.ahmedmatem.android.matura.base.BaseFragment
@@ -68,6 +67,17 @@ class TestViewFragment : BaseFragment(), KeyboardExternalListener {
             }
         })
 
+        viewModel.onCheckTest.observe(viewLifecycleOwner) { args ->
+            args?.let {
+                binding.testWebView.loadUrl(
+                    "javascript: checkTest(" +
+                            "${args.millisInFuture}," +
+                            "${args.hasTimer}," +
+                            ")"
+                )
+            }
+        }
+
         viewModel.onActivityFinish.observe(viewLifecycleOwner) {
             if (it) requireActivity().finish()
         }
@@ -75,7 +85,7 @@ class TestViewFragment : BaseFragment(), KeyboardExternalListener {
         return binding?.apply {
             testWebView.apply {
                 settings.javaScriptEnabled = true
-                addJavascriptInterface(WebAppInterface(requireContext()), "Android")
+                addJavascriptInterface(WebAppInterface(requireContext(), viewModel), "Android")
             }.loadUrl(viewModel.url)
 
         }.root
@@ -98,6 +108,11 @@ class TestViewFragment : BaseFragment(), KeyboardExternalListener {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.onPause()
     }
 
     override fun onKeyboardCloseBtnClick() {

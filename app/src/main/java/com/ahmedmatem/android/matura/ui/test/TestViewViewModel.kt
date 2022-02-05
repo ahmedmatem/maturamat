@@ -6,7 +6,9 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.*
 import com.ahmedmatem.android.matura.R
 import com.ahmedmatem.android.matura.base.BaseViewModel
+import com.ahmedmatem.android.matura.base.NavigationCommand
 import com.ahmedmatem.android.matura.network.WebAppInterface.Companion.ACTION_FINISH_ACTIVITY
+import com.ahmedmatem.android.matura.network.WebAppInterface.Companion.NO_ACTION
 import com.ahmedmatem.android.matura.network.models.Test
 import com.ahmedmatem.android.matura.repository.TestRepository
 import com.ahmedmatem.android.matura.ui.general.NoticeDialogFragment
@@ -63,16 +65,21 @@ class TestViewViewModel(var test: Test? = null) : BaseViewModel(),
     private val _onActivityFinish: MutableLiveData<Boolean> = MutableLiveData(false)
     val onActivityFinish: LiveData<Boolean> = _onActivityFinish
 
-    private val _onSaveTest = MutableLiveData<SaveTestArgs>(null)
-    val onSaveTest: LiveData<SaveTestArgs> = _onSaveTest
+    private val _onSaveTest = MutableLiveData<TestArgs?>(null)
+    val onSaveTest: LiveData<TestArgs?> = _onSaveTest
+
+    private val _onCheckTest = MutableLiveData<TestArgs?>(null)
+    val onCheckTest: LiveData<TestArgs?> = _onCheckTest
 
     private val testDurationInMillis =
         _resources.getInteger(R.integer.test_duration_in_minutes) * 60 * 1000L
+
     // initialize millis
     var millisInFuture: Long = testDurationInMillis
 
     private val _timerSwitchOnFromSettings: Boolean =
         _prefs.getBoolean(_resources.getString(R.string.timer_key), true)
+
     // initialize hasTimer
     var hasTimer = _timerSwitchOnFromSettings
 
@@ -109,6 +116,22 @@ class TestViewViewModel(var test: Test? = null) : BaseViewModel(),
         }
     }
 
+    /**
+     * Handle activity onPause
+     */
+    fun onPause() {
+        if (!_testChecked && !_testCanceled) {
+            _onSaveTest.value = TestArgs(millisInFuture, hasTimer)
+        }
+    }
+
+    fun showTestResult(testId: String) {
+        val testResultUrl = urlUtil.testResultUrl(testId)
+        navigationCommand.value = NavigationCommand.To(
+            TestViewFragmentDirections.actionTestViewFragmentToTestResultFragment(testResultUrl)
+        )
+    }
+
     fun onTimerClick(millis: Long) {
         showNoticeDialog.value = noticeDataCreator.createStopNotice(millis)
         _onTimerClick.value = true
@@ -133,6 +156,7 @@ class TestViewViewModel(var test: Test? = null) : BaseViewModel(),
     }
 
     fun onTimerFinish() {
+        _onSaveTest.value = TestArgs(0, true)
         showNoticeDialog.value = noticeDataCreator.createFinishNotice()
     }
 
@@ -142,12 +166,17 @@ class TestViewViewModel(var test: Test? = null) : BaseViewModel(),
             when (dialogTag) {
                 NoticeDialogTag.START -> {}
                 NoticeDialogTag.STOP -> {}
-                NoticeDialogTag.CHECK -> {}
-                NoticeDialogTag.CANCEL -> {
-                    _onSaveTest.value =
-                        SaveTestArgs(millisInFuture, hasTimer, ACTION_FINISH_ACTIVITY)
+                NoticeDialogTag.CHECK -> {
+                    _testChecked = true
+                    _onCheckTest.value = TestArgs(millisInFuture, hasTimer)
                 }
-                NoticeDialogTag.FINISH -> {}
+                NoticeDialogTag.CANCEL -> {
+                    _onSaveTest.value = TestArgs(millisInFuture, hasTimer, ACTION_FINISH_ACTIVITY)
+                }
+                NoticeDialogTag.FINISH -> {
+                    _testChecked = true
+                    _onCheckTest.value = TestArgs(0, true)
+                }
             }
             if (hasTimer) {
                 _onDialogPositiveClick.value = dialogTag
@@ -159,10 +188,13 @@ class TestViewViewModel(var test: Test? = null) : BaseViewModel(),
         dialog.tag?.let { value ->
             val dialogTag = NoticeDialogTag.fromValue(value)
             when (dialogTag) {
-                NoticeDialogTag.START -> _onActivityFinish.value = true
+                NoticeDialogTag.START -> {
+                    _testCanceled = true
+                    _onActivityFinish.value = true
+                }
                 NoticeDialogTag.STOP -> {}
                 NoticeDialogTag.CHECK -> {}
-                NoticeDialogTag.CANCEL -> _onActivityFinish.value = true
+                NoticeDialogTag.CANCEL -> {}
                 NoticeDialogTag.FINISH -> {}
             }
             if (hasTimer) {
@@ -191,7 +223,11 @@ class TestViewViewModel(var test: Test? = null) : BaseViewModel(),
         showToast.value = "Test"
     }
 
-    data class SaveTestArgs(val millisInFuture: Long, val hasTimer: Boolean, val actionCode: Int)
+    data class TestArgs(
+        val millisInFuture: Long,
+        val hasTimer: Boolean,
+        val actionCode: Int = NO_ACTION
+    )
 
     class Factory(
         private val test: Test? = null

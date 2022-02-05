@@ -24,11 +24,17 @@ class CountDownTimerViewModel(millis: Long?) : BaseViewModel(), TimerListener {
     private val _onTimerFinish = MutableLiveData<Boolean>().apply { false }
     val onTimerFinish: LiveData<Boolean> = _onTimerFinish
 
+    /**
+     * Handle Activity onPause
+     */
     fun onPause() {
         _pausedBySystem = !_pausedByUser
         timer.pause()
     }
 
+    /**
+     * Handle Activity onResume
+     */
     fun onResume() {
         if (_pausedBySystem && !_pausedByUser) {
             timer.resume()
@@ -65,11 +71,9 @@ class CountDownTimerViewModel(millis: Long?) : BaseViewModel(), TimerListener {
             }
             NoticeDialogTag.CHECK -> {
                 timer.cancel()
-                // todo: check test
             }
             NoticeDialogTag.CANCEL -> {
                 timer.cancel()
-                // todo: save test
             }
             NoticeDialogTag.FINISH -> {
                 timer.cancel()

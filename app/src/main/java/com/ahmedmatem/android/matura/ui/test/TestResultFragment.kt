@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.ahmedmatem.android.matura.databinding.FragmentTestResultBinding
+import com.ahmedmatem.android.matura.network.WebAppInterface
 
 class TestResultFragment: Fragment() {
     private val args: TestResultFragmentArgs by navArgs()
@@ -17,9 +18,14 @@ class TestResultFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val binding = FragmentTestResultBinding.inflate(inflater, container, false)
+        binding.lifecycleOwner = this
 
-        binding.testResultWebView.loadUrl(args.url)
+        return binding?.apply {
+            testResultWebView.apply {
+                settings.javaScriptEnabled = true
+                addJavascriptInterface(WebAppInterface(requireContext()), "Android")
+            }.loadUrl(args.url)
 
-        return binding.root
+        }.root
     }
 }

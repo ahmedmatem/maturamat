@@ -2,20 +2,17 @@ package com.ahmedmatem.android.matura.network
 
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.webkit.JavascriptInterface
-import com.ahmedmatem.android.matura.TestActivity
-import com.ahmedmatem.android.matura.repository.TestRepository
-import org.koin.java.KoinJavaComponent.inject
+import com.ahmedmatem.android.matura.ui.test.TestViewViewModel
 
-class WebAppInterface(private val context: Context) {
-    private val _testRepo: TestRepository by inject(TestRepository::class.java)
+class WebAppInterface(
+    private val context: Context,
+    private val viewModel: TestViewViewModel? = null
+) {
 
     @JavascriptInterface
     fun showTestResult(testId: String) {
-        Intent(context, TestActivity::class.java).apply {
-
-        }
+        viewModel?.let { it.showTestResult(testId) }
     }
 
     @JavascriptInterface
