@@ -1,10 +1,7 @@
 package com.ahmedmatem.lib.mathkeyboard;
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,7 +33,7 @@ public class MathInputEditorFragment extends Fragment implements KeyboardClickLi
 
     private GridLayoutManager layoutManager;
 
-    private KeyboardExternalListener listener;
+    static KeyboardExternalListener externalListener;
 
     // UI elements
     private DisplayView displayView; //  extends WebView
@@ -48,10 +45,11 @@ public class MathInputEditorFragment extends Fragment implements KeyboardClickLi
         // Required empty public constructor
     }
 
-    public static MathInputEditorFragment newInstance() {
+    public static MathInputEditorFragment newInstance(KeyboardExternalListener listener) {
         MathInputEditorFragment fragment = new MathInputEditorFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
+        externalListener = listener;
         return fragment;
     }
 
@@ -78,8 +76,8 @@ public class MathInputEditorFragment extends Fragment implements KeyboardClickLi
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(listener != null){
-                    listener.onKeyboardCloseBtnClick();
+                if (externalListener != null) {
+                    externalListener.onKeyboardCloseBtnClick();
                 }
             }
         });
@@ -101,15 +99,15 @@ public class MathInputEditorFragment extends Fragment implements KeyboardClickLi
             @Override
             public int getSpanSize(int position) {
                 int keyboardType = keyboardAdapter.getKeyboardType();
-                if(keyboardType == KeyboardType.BG_SMALL
-                || keyboardType == KeyboardType.BG_CAPS) {
+                if (keyboardType == KeyboardType.BG_SMALL
+                        || keyboardType == KeyboardType.BG_CAPS) {
                     if (position == keyboardAdapter.getItemCount() - 5) { // space key
                         return 3;
                     }
                     return 1;
-                } else if(keyboardType == KeyboardType.MATH ||
-                            keyboardType == KeyboardType.MATH_CAPS){
-                    if(position == (3 * KeyboardConfig.MATH_SPAN_COUNT - 4)){ // third row, third position from right
+                } else if (keyboardType == KeyboardType.MATH ||
+                        keyboardType == KeyboardType.MATH_CAPS) {
+                    if (position == (3 * KeyboardConfig.MATH_SPAN_COUNT - 4)) { // third row, third position from right
                         return 2;
                     }
                 }
@@ -120,16 +118,16 @@ public class MathInputEditorFragment extends Fragment implements KeyboardClickLi
         return view;
     }
 
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-//        if(context instanceof KeyboardExternalListener){
-//            listener = (KeyboardExternalListener) context;
-//        } else {
-//            throw new ClassCastException(context.getClass().getSimpleName() +
-//                    " must implement KeyboardExternalListener interface");
-//        }
-    }
+//    @Override
+//    public void onAttach(@NonNull Context context) {
+//        super.onAttach(context);
+////        if(context instanceof KeyboardExternalListener){
+////            listener = (KeyboardExternalListener) context;
+////        } else {
+////            throw new ClassCastException(context.getClass().getSimpleName() +
+////                    " must implement KeyboardExternalListener interface");
+////        }
+//    }
 
     @Override
     public <T extends Key> void onKeyLongPress(View v, T key) {
@@ -181,16 +179,16 @@ public class MathInputEditorFragment extends Fragment implements KeyboardClickLi
 
     @Override
     public void onSubmit(Key key) {
-        if (listener != null) {
-            listener.onKeyboardSubmit(divSelector);
+        if (externalListener != null) {
+            externalListener.onKeyboardSubmit(divSelector);
         }
     }
 
-    public DisplayView getDisplayView(){
+    public DisplayView getDisplayView() {
         return displayAdapter.getDisplayView();
     }
 
-    public DisplayContent getDisplayContent(){
+    public DisplayContent getDisplayContent() {
         return displayAdapter.getDisplayContent();
     }
 }

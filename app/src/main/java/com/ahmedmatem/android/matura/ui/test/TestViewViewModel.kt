@@ -73,6 +73,19 @@ class TestViewViewModel(var test: Test? = null) : BaseViewModel(),
     private val _onCheckTest = MutableLiveData<TestArgs?>(null)
     val onCheckTest: LiveData<TestArgs?> = _onCheckTest
 
+    /**
+     * Keyboard
+     */
+    private val _showKeyboard = MutableLiveData<Boolean>(false)
+    val showKeyboard: LiveData<Boolean> = _showKeyboard
+
+    private val _onKeyboardCloseButtonClick = MutableLiveData<Boolean>(false)
+    val onKeyboardCloseButtonClick: LiveData<Boolean> = _onKeyboardCloseButtonClick
+
+    private val _onKeyboardSubmit = MutableLiveData<String?>(null)
+    val onKeyboardSubmit: LiveData<String?> = _onKeyboardSubmit
+
+    // Test duration
     private val testDurationInMillis =
         _resources.getInteger(R.integer.test_duration_in_minutes) * 60 * 1000L
 
@@ -133,9 +146,11 @@ class TestViewViewModel(var test: Test? = null) : BaseViewModel(),
     fun showTestResult(testId: String) {
         val testResultUrl = urlUtil.testResultUrl(testId)
         // call postValue to set navigationCommand value asynchronously
-        navigationCommand.postValue(NavigationCommand.To(
-            TestViewFragmentDirections.actionTestViewFragmentToTestResultFragment(testResultUrl)
-        ))
+        navigationCommand.postValue(
+            NavigationCommand.To(
+                TestViewFragmentDirections.actionTestViewFragmentToTestResultFragment(testResultUrl)
+            )
+        )
     }
 
     fun onTimerClick(millis: Long) {
@@ -225,10 +240,26 @@ class TestViewViewModel(var test: Test? = null) : BaseViewModel(),
         }
     }
 
-    fun onKeyboardClose() {
-        showToast.value = "Test"
+    /**
+     * Keyboard handlers
+     */
+
+    fun onKeyboardCloseBtnClick() {
+        showKeyboard(false)
+        _onKeyboardCloseButtonClick.value = true
     }
 
+    fun onKeyboardSubmit(selector: String) {
+        _onKeyboardSubmit.value = selector
+    }
+
+    fun showKeyboard(show: Boolean) {
+        _showKeyboard.value = show
+    }
+
+    /**
+     * Use this data class as argument data for test save and check operations
+     */
     data class TestArgs(
         val millisInFuture: Long,
         val hasTimer: Boolean,

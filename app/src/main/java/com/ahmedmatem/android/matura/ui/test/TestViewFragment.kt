@@ -2,6 +2,7 @@ package com.ahmedmatem.android.matura.ui.test
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.activity.addCallback
 import androidx.fragment.app.add
@@ -13,9 +14,11 @@ import com.ahmedmatem.android.matura.R
 import com.ahmedmatem.android.matura.base.BaseFragment
 import com.ahmedmatem.android.matura.databinding.FragmentTestViewBinding
 import com.ahmedmatem.android.matura.network.WebAppInterface
+import com.ahmedmatem.lib.mathkeyboard.MathInputEditorFragment
+import com.ahmedmatem.lib.mathkeyboard.config.Constants
 import com.ahmedmatem.lib.mathkeyboard.contracts.KeyboardExternalListener
 
-class TestViewFragment : BaseFragment(), KeyboardExternalListener {
+class TestViewFragment : BaseFragment() {
 
     private val args: TestViewFragmentArgs by navArgs()
 
@@ -78,6 +81,26 @@ class TestViewFragment : BaseFragment(), KeyboardExternalListener {
             }
         })
 
+        viewModel.onKeyboardSubmit.observe(viewLifecycleOwner, Observer { selector ->
+            selector?.let {
+                (requireActivity().supportFragmentManager.findFragmentByTag(Constants.FRAGMENT_TAG)
+                        as MathInputEditorFragment)
+
+                    .apply {
+                        binding.testWebView.loadUrl(
+                            "javascript: submitKeyboardContent('$selector', '$displayContent')"
+                        )
+                    }
+            }
+        })
+
+        viewModel.onKeyboardCloseButtonClick.observe(viewLifecycleOwner, Observer { clicked ->
+            if (clicked) {
+                // Clear accent style from web view
+                binding.testWebView.loadUrl("javascript: clearAccent()")
+            }
+        })
+
         viewModel.onActivityFinish.observe(viewLifecycleOwner) {
             if (it) requireActivity().finish()
         }
@@ -113,13 +136,5 @@ class TestViewFragment : BaseFragment(), KeyboardExternalListener {
     override fun onPause() {
         super.onPause()
         viewModel.onPause()
-    }
-
-    override fun onKeyboardCloseBtnClick() {
-        viewModel.onKeyboardClose()
-    }
-
-    override fun onKeyboardSubmit(selector: String?) {
-        TODO("Not yet implemented")
     }
 }

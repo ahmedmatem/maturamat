@@ -36,19 +36,32 @@ class WebAppInterface(
         }
     }
 
+    /**
+     * This function is invoked in background so run it in UI Thread
+     */
     @JavascriptInterface
     fun showKeyboard(selector: String, content: String) {
-        (context as Activity).runOnUiThread(Runnable {
-            val keyboardFragment = (context as FragmentActivity)
-                .supportFragmentManager.findFragmentByTag(Constants.FRAGMENT_TAG) as MathInputEditorFragment
-            keyboardFragment.divSelector = selector
-            val displayContent = keyboardFragment.displayContent
-            displayContent.setContent(content)
-            val displayView = keyboardFragment.displayView
-            displayView.print(displayContent)
-            (context as FragmentActivity).findViewById<FrameLayout>(R.id.keyboard_container).visibility =
-                View.VISIBLE
-        })
+        (context as FragmentActivity).apply {
+            runOnUiThread(Runnable {
+                val keyboardFragment =
+                    supportFragmentManager.findFragmentByTag(Constants.FRAGMENT_TAG)
+                            as MathInputEditorFragment
+
+                keyboardFragment.apply {
+                    divSelector = selector
+                    displayContent.let {
+                        // Set content
+                        it.setContent(content)
+                    }.also {
+                        // Print content to display
+                        displayView.print(displayContent)
+                    }
+                    // Set keyboard visibility to VISIBLE
+//                    findViewById<FrameLayout>(R.id.keyboard_container).visibility = View.VISIBLE
+                    (viewModel as TestViewViewModel).showKeyboard(true)
+                }
+            })
+        }
     }
 
     companion object {
