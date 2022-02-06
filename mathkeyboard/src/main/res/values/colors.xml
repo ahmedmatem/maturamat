@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <color name="colorPrimary">@color/grey_900</color>
+    <color name="colorPrimaryLight">@color/grey_primary_light</color>
+    <color name="colorPrimaryDark">@color/black</color>
+    <color name="colorSecondary">@color/grey_600</color>
+    <color name="colorSecondaryLight">@color/grey_secondary_light</color>
+    <color name="colorSecondaryDark">@color/grey_secondary_dark</color>
+    <color name="textColorOnPrimary">@color/white</color>
+    <color name="textColorOnSecondary">@color/white</color>
+
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+
     <!--yellow-->
     <color name="yellow_50">#FFFDE7</color>
     <color name="yellow_100">#FFF9C4</color>
@@ -27,6 +40,9 @@
     <color name="grey_700">#616161</color>
     <color name="grey_800">#424242</color>
     <color name="grey_900">#212121</color>
+    <color name="grey_primary_light">#484848</color>
+    <color name="grey_secondary_light">#a4a4a4</color>
+    <color name="grey_secondary_dark">#494949</color>
 
     <!--blue grey-->
     <color name="blue_grey_50">#ECEFF1</color>
@@ -49,8 +65,6 @@
 
     <!--green-->
     <color name="green_700">#388E3C</color>
-
-    <color name="white">#FFFFFF</color>
 
     <!--keyboard-->
     <color name="keyboard_bg">@color/grey_100</color>

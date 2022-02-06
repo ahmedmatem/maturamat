@@ -89,9 +89,19 @@
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/menu/bottom_nav_menu.xml" value="0.259375" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/menu/test_menu.xml" value="0.259375" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/xml/preferences.xml" value="0.259375" />
+        <entry key="..\:/Android Studio/Matura by Kotlin/mathkeyboard/src/main/res/drawable/digit_bg.xml" value="0.2215" />
+        <entry key="..\:/Android Studio/Matura by Kotlin/mathkeyboard/src/main/res/drawable/func_bg.xml" value="0.2215" />
+        <entry key="..\:/Android Studio/Matura by Kotlin/mathkeyboard/src/main/res/drawable/key_bg.xml" value="0.2215" />
+        <entry key="..\:/Android Studio/Matura by Kotlin/mathkeyboard/src/main/res/drawable/nav_bg.xml" value="0.2215" />
         <entry key="..\:/Android Studio/Matura by Kotlin/mathkeyboard/src/main/res/layout/digit_key.xml" value="0.259375" />
         <entry key="..\:/Android Studio/Matura by Kotlin/mathkeyboard/src/main/res/layout/fragment_math_input_editor.xml" value="0.259375" />
+        <entry key="..\:/Android Studio/Matura by Kotlin/mathkeyboard/src/main/res/layout/func_key.xml" value="0.259375" />
+        <entry key="..\:/Android Studio/Matura by Kotlin/mathkeyboard/src/main/res/layout/group_key.xml" value="0.259375" />
+        <entry key="..\:/Android Studio/Matura by Kotlin/mathkeyboard/src/main/res/layout/nav_key.xml" value="0.259375" />
+        <entry key="..\:/Android Studio/Matura by Kotlin/mathkeyboard/src/main/res/layout/popup_key.xml" value="0.259375" />
+        <entry key="..\:/Android Studio/Matura by Kotlin/mathkeyboard/src/main/res/layout/popup_layout.xml" value="0.259375" />
         <entry key="..\:/Android Studio/Matura by Kotlin/mathkeyboard/src/main/res/layout/printable_key.xml" value="0.259375" />
+        <entry key="..\:/Android Studio/Matura by Kotlin/mathkeyboard/src/main/res/layout/submit_key.xml" value="0.259375" />
         <entry key="..\:/Android Studio/MaturaByKotlin/app/src/main/res/drawable/account_off_header_bg.xml" value="0.2755208333333333" />
         <entry key="..\:/Android Studio/MaturaByKotlin/app/src/main/res/drawable/edit_text_outline.xml" value="0.2755208333333333" />
         <entry key="..\:/Android Studio/MaturaByKotlin/app/src/main/res/drawable/form_button.xml" value="0.18611111111111112" />

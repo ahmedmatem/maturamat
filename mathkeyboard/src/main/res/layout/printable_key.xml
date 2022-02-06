@@ -1,46 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/key_height"
-    android:layout_margin="@dimen/key_margin">
+    android:layout_margin="@dimen/key_margin"
+    android:background="@drawable/key_bg">
 
     <TextView
         android:id="@+id/key_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/grey_800"
+        android:textSize="@dimen/key_text_size"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:visibility="gone"
-        android:textSize="@dimen/key_text_size"
-        tools:text="B"/>
+        tools:text="B" />
 
     <ImageView
         android:id="@+id/key_image"
         android:layout_width="@dimen/key_image_size"
         android:layout_height="@dimen/key_image_size"
+        android:contentDescription="@string/image_key_description"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:visibility="gone"
-        app:srcCompat="@drawable/abc_vector_test"
-        android:contentDescription="@string/image_key_description"/>
+        app:srcCompat="@drawable/abc_vector_test" />
 
     <ImageView
         android:id="@+id/drop_down_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/drop_down_description"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/drop_down_icon"
-        android:visibility="gone"
-        android:contentDescription="@string/drop_down_description" />
+        app:srcCompat="@drawable/drop_down_icon" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -21,6 +21,7 @@
 
     <TextView
         android:id="@+id/key_text"
+        android:textColor="@color/grey_800"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
