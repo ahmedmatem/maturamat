@@ -76,6 +76,7 @@ class TestViewViewModel(var test: Test? = null) : BaseViewModel(),
     /**
      * Keyboard
      */
+
     private val _showKeyboard = MutableLiveData<Boolean>(false)
     val showKeyboard: LiveData<Boolean> = _showKeyboard
 
@@ -84,6 +85,16 @@ class TestViewViewModel(var test: Test? = null) : BaseViewModel(),
 
     private val _onKeyboardSubmit = MutableLiveData<String?>(null)
     val onKeyboardSubmit: LiveData<String?> = _onKeyboardSubmit
+
+    /**
+     * Card bottom sheet click events
+     */
+
+    private val _onNextCard = MutableLiveData<Boolean>(false)
+    val onNextCard: LiveData<Boolean> = _onNextCard
+
+    private val _onPrevCard = MutableLiveData<Boolean>(false)
+    val onPrevCard: LiveData<Boolean> = _onPrevCard
 
     // Test duration
     private val testDurationInMillis =
@@ -255,6 +266,18 @@ class TestViewViewModel(var test: Test? = null) : BaseViewModel(),
 
     fun showKeyboard(show: Boolean) {
         _showKeyboard.value = show
+    }
+
+    /**
+     * Bottom sheet click handlers
+     */
+
+    fun onNextCardClick() {
+        _onNextCard.value = true
+    }
+
+    fun onPrevCardClick() {
+        _onPrevCard.value = true
     }
 
     /**

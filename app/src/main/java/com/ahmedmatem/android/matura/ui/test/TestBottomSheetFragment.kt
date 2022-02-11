@@ -51,7 +51,10 @@ class TestBottomSheetFragment : BaseFragment(), KeyboardExternalListener {
         binding = if (viewModel.isCardsViewMode) {
             // Card view bottom sheet
             binding = TestCardsBottomSheetBinding.inflate(inflater, container, false)
-            (binding as TestCardsBottomSheetBinding)
+            (binding as TestCardsBottomSheetBinding).apply {
+                prevCard.setOnClickListener { viewModel.onPrevCardClick() }
+                nextCard.setOnClickListener { viewModel.onNextCardClick() }
+            }
         } else {
             // List view bottom sheet
             binding = TestListBottomSheetBinding.inflate(inflater, container, false)

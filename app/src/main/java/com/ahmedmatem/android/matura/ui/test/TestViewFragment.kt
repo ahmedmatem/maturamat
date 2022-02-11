@@ -101,6 +101,18 @@ class TestViewFragment : BaseFragment() {
             }
         })
 
+        viewModel.onNextCard.observe(viewLifecycleOwner, Observer { clicked ->
+            if (clicked) {
+                binding.testWebView.loadUrl("javascript: showNextCard()")
+            }
+        })
+
+        viewModel.onPrevCard.observe(viewLifecycleOwner, Observer { clicked ->
+            if (clicked) {
+                binding.testWebView.loadUrl("javascript: showPrevCard()")
+            }
+        })
+
         viewModel.onActivityFinish.observe(viewLifecycleOwner) {
             if (it) requireActivity().finish()
         }
