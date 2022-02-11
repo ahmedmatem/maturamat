@@ -168,6 +168,7 @@
     * Test Scrim Notice dialog strings
     */
     <string name="test_duration_message">Време за работа - %1$s</string>
+    <string name="test_begin_message">Начало на теста.</string>
     <string name="test_cancel_message">
         Тестът ще бъде запазен.\nСигурни ли сте, че искате да прекъснете сега?
     </string>

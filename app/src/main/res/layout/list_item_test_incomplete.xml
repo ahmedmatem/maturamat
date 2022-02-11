@@ -6,6 +6,7 @@
     <data>
 
         <import type="com.ahmedmatem.android.matura.infrastructure.ExtensionsKt" />
+
         <variable
             name="test"
             type="com.ahmedmatem.android.matura.network.models.Test" />
@@ -40,31 +41,32 @@
             android:contentDescription="@string/test_image_description"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/ic_file_incomplete_24"/>
+            tools:src="@drawable/ic_file_incomplete_24" />
 
         <TextView
             android:id="@+id/test_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/list_item_margin"
-            tools:text="07/05/21 (11:25)"
             android:text="@{test.title}"
             app:layout_constraintBottom_toTopOf="@+id/guideline1"
-            app:layout_constraintStart_toEndOf="@+id/test_icon" />
+            app:layout_constraintStart_toEndOf="@+id/test_icon"
+            tools:text="07/05/21 (11:25)" />
 
         <TextView
             android:id="@+id/test_subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/list_item_margin"
-            tools:text="незапонат | незавършен"
             app:layout_constraintBottom_toTopOf="@+id/guideline2"
-            app:layout_constraintStart_toEndOf="@+id/test_icon" />
+            app:layout_constraintStart_toEndOf="@+id/test_icon"
+            tools:text="незапонат | незавършен" />
 
         <ImageView
             android:id="@+id/test_meta"
             style="@style/ListItemMetaImageStyle"
             android:contentDescription="@string/test_meta_description"
+            android:fadeVisible="@{test.hasTimer}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_elapsed_time_black_24" />
