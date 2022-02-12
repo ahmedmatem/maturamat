@@ -10,7 +10,7 @@ import retrofit2.http.Query
 
 interface PrizeApiService {
     @GET("api/prizeSystem/prize")
-    suspend fun getUserPrize(@Query("username") username: String): Prize
+    suspend fun getPrize(@Query("username") username: String): Prize
 
     @PUT("api/prizeSystem/update")
     suspend fun updatePrize(@Body prize: Prize)

@@ -53,8 +53,11 @@ data class Test(
     @Json(name = "HasTimer") val hasTimer: Boolean,
 
     @ColumnInfo(name = "username")
-    @Transient var username: String? = null // default value required
-): Parcelable {
+    @Transient var username: String? = null, // default value required
+
+    @ColumnInfo(name = "uuid")
+    @Transient var uuid: String? = null // default value required
+) : Parcelable {
     @Ignore
     @Transient
     val title = createdOn.toDisplayFormat(DisplayFormat)
@@ -82,6 +85,17 @@ fun Test.addUsername(username: String?) {
 fun List<Test>.addUsername(username: String?): List<Test> {
     forEach { test ->
         test.username = username
+    }
+    return this
+}
+
+fun Test.addUuid(uuid: String?) {
+    this.uuid = uuid
+}
+
+fun List<Test>.addUuid(uuid: String?): List<Test> {
+    forEach { test ->
+        test.uuid = uuid
     }
     return this
 }

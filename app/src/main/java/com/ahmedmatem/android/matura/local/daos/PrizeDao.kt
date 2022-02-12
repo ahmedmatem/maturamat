@@ -15,10 +15,10 @@ interface PrizeDao {
      */
     @Transaction
     @Query("SELECT * FROM coin_table WHERE holder = :username")
-    suspend fun getPrizeForUser(username: String): Prize?
+    suspend fun getPrize(username: String): Prize?
 
     @Query("SELECT * FROM coin_table WHERE holder = :username")
-    fun getCoinForUser(username: String): LiveData<Coin>?
+    fun getCoin(username: String): LiveData<Coin>?
 
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)

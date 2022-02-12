@@ -7,6 +7,7 @@ import com.ahmedmatem.android.matura.local.preferences.UserPrefs
 import com.ahmedmatem.android.matura.network.Result
 import com.ahmedmatem.android.matura.utils.safeApiCall
 import com.ahmedmatem.android.matura.network.services.PrizeApi
+import com.ahmedmatem.android.matura.network.services.PrizeApiService
 import com.ahmedmatem.android.matura.prizesystem.models.Coin
 import com.ahmedmatem.android.matura.prizesystem.models.Period
 import com.ahmedmatem.android.matura.prizesystem.models.Prize
@@ -20,19 +21,20 @@ class PrizeRepository(
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
     private val _userPrefs: UserPrefs by inject(UserPrefs::class.java)
-    private val prizeDao by lazy { MaturaDb.getInstance(context).prizeDao }
+    private val prizeLocalDataSource by lazy { MaturaDb.getInstance(context).prizeDao }
+    private val prizeRemoteDataSource: PrizeApiService by lazy { PrizeApi.retrofitService }
     private val username by lazy { _userPrefs.getUser()?.username }
 
     fun getCoin(): LiveData<Coin>? {
         username?.let {
-            return prizeDao.getCoinForUser(username!!)
+            return prizeLocalDataSource.getCoin(username!!)
         }
         return null
     }
 
     suspend fun getPrize(): Prize? {
         return withContext(dispatcher) {
-            prizeDao.getPrizeForUser(username!!)
+            prizeLocalDataSource.getPrize(username!!)
         }
     }
 
@@ -50,20 +52,20 @@ class PrizeRepository(
 
     suspend fun getPrizeFromNetwork(): Result<Prize> {
         return safeApiCall(dispatcher) {
-            PrizeApi.retrofitService.getUserPrize(username!!)
+            prizeRemoteDataSource.getPrize(username!!)
         }
     }
 
     private suspend fun updatePrizeRemote(prize: Prize): Result<Unit> {
         return withContext(dispatcher) {
             safeApiCall(dispatcher) {
-                PrizeApi.retrofitService.updatePrize(prize)
+                prizeRemoteDataSource.updatePrize(prize)
             }
         }
     }
 
     private suspend fun upsertPrize(coin: Coin, period: Period) {
-        prizeDao.insertCoin(coin)
-        prizeDao.insertPeriod(period)
+        prizeLocalDataSource.insertCoin(coin)
+        prizeLocalDataSource.insertPeriod(period)
     }
 }

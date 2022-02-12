@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import com.ahmedmatem.android.matura.R
 import com.ahmedmatem.android.matura.local.MaturaDb
+import com.ahmedmatem.android.matura.datasource.local.TestLocalDataSource
 import com.ahmedmatem.android.matura.local.preferences.UserPrefs
 import com.ahmedmatem.android.matura.network.Result
 import com.ahmedmatem.android.matura.network.models.Test
@@ -14,16 +15,25 @@ import com.ahmedmatem.android.matura.network.services.TestApi
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.koin.java.KoinJavaComponent.inject
 
 class TestRepository(
     val context: Context,
     private val database: MaturaDb,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
-    private val testApiService = TestApi.retrofitService
-    private val username: String? by lazy { UserPrefs(context).getUser()?.username }
+    private val testApiService = TestApi.retrofitService // remote data source
+    private val localDataSource: TestLocalDataSource by inject(TestLocalDataSource::class.java)
 
-    val testList: LiveData<List<Test>> by lazy { database.testDao.getAllBy(username) }
+    private val userPrefs: UserPrefs by inject(UserPrefs::class.java)
+    private val username: String? by lazy { userPrefs.getUser()?.username }
+
+    //    val testList: LiveData<List<Test>> by lazy { database.testDao.getAllBy(username) }
+    val testList: LiveData<List<Test>> by lazy {
+        username?.let {
+            localDataSource.getAll(it)
+        } ?: localDataSource.getAll(userPrefs.getUuid())
+    }
 
     suspend fun refreshTestList() {
         withContext(dispatcher) {

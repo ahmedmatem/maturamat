@@ -1,6 +1,7 @@
 package com.ahmedmatem.android.matura.infrastructure.di
 
 import com.ahmedmatem.android.matura.local.MaturaDb
+import com.ahmedmatem.android.matura.datasource.local.TestLocalDataSource
 import com.ahmedmatem.android.matura.local.preferences.UserPrefs
 import com.ahmedmatem.android.matura.network.services.AccountApi
 import com.ahmedmatem.android.matura.prizesystem.PrizeManager
@@ -27,6 +28,9 @@ val applicationModule = module {
     }
     single { PrizeRepository(get(), dispatcher = Dispatchers.IO) }
     single { TestRepository(get(), get()) }
+
+    // Local data sources
+    single { TestLocalDataSource() }
 
     single { TestURLUtil(get()) }
     single { SharedPreferencesProvider(get()) }
