@@ -2,7 +2,6 @@ package com.ahmedmatem.android.matura.ui.test
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,6 +42,14 @@ class TestListFragment : BaseFragment() {
                 startActivity(this)
             }
         })
+
+        /**
+         * Observe Fab button in order to show or hide it
+         * depending of user prize in free app distribution.
+         */
+        viewModel.isFabVisible.observe(viewLifecycleOwner) { visible ->
+            binding.isFabVisible = visible
+        }
 
         viewModel.testList?.observe(viewLifecycleOwner, Observer {
             it?.let {

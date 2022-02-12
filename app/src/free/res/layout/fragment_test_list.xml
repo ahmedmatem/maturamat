@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="viewModel"
-            type="com.ahmedmatem.android.matura.ui.test.TestListViewModel" />
+            name="isFabVisible"
+            type="Boolean" />
 
     </data>
 
@@ -28,14 +28,15 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/testStartFab"
-            android:tint="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/layout_margin"
             android:layout_marginBottom="72dp"
             android:clickable="true"
             android:contentDescription="@string/new_test_description"
+            android:fadeVisible="@{isFabVisible}"
             android:focusable="true"
+            android:tint="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/ic_add_24"

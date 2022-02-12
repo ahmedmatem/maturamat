@@ -5,6 +5,7 @@ import com.ahmedmatem.android.matura.BuildConfig
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.infrastructure.FlavorDistribution
 import com.ahmedmatem.android.matura.network.models.Test
+import com.ahmedmatem.android.matura.prizesystem.models.total
 import com.ahmedmatem.android.matura.repository.PrizeRepository
 import com.ahmedmatem.android.matura.repository.TestRepository
 import kotlinx.coroutines.launch
@@ -18,14 +19,14 @@ class TestListViewModel : BaseViewModel() {
     private val _onTestItemClick = MutableLiveData<Test?>().apply { value = null }
     val onTestItemClick: LiveData<Test?> = _onTestItemClick
 
+    private val _isStartTestFabVisible = MutableLiveData<Boolean>(false)
+    val isFabVisible: LiveData<Boolean> = _isStartTestFabVisible
+
     init {
         /*// Refresh test list in local database from network
         refreshTestList()*/
 
-        // Get prize info in free distribution
-        if (BuildConfig.FLAVOR_distribution == FlavorDistribution.FREE) {
-
-        }
+        setFabVisibility()
     }
 
     // Read data from local database
@@ -42,6 +43,23 @@ class TestListViewModel : BaseViewModel() {
 
     fun onTestItemClick(test: Test) {
         _onTestItemClick.value = test
+    }
+
+    /**
+     * Use this function to set visibility of Fab button in app free distribution.
+     * Depending of user prize button should be hide or visible in order
+     * of restriction user of creating unlimited new tests.
+     */
+    private fun setFabVisibility() {
+        if(BuildConfig.FLAVOR_distribution != FlavorDistribution.FREE) return
+
+        viewModelScope.launch {
+            val prize = prizeRepo.getPrize()
+            prize?.let {
+                val coin = it.coin
+                _isStartTestFabVisible.value = coin.total() > 0
+            }
+        }
     }
 
     /*class Factory(private val context: Context) : ViewModelProvider.Factory {
