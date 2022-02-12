@@ -44,7 +44,7 @@ class MyApp : Application() {
         if (BuildConfig.FLAVOR_distribution == FlavorDistribution.FREE &&
             _userPrefs.getUser() != null
         ) {
-            Log.d("DEBUG", "Prize setup onAppStart")
+//            Log.d("DEBUG", "Prize setup onAppStart")
             PrizeSetup.onAppStart(applicationContext)
         }
 
