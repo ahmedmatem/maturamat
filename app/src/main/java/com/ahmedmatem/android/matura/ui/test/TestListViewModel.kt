@@ -1,35 +1,42 @@
 package com.ahmedmatem.android.matura.ui.test
 
-import android.content.Context
 import androidx.lifecycle.*
+import com.ahmedmatem.android.matura.BuildConfig
 import com.ahmedmatem.android.matura.base.BaseViewModel
-import com.ahmedmatem.android.matura.local.MaturaDb
+import com.ahmedmatem.android.matura.infrastructure.FlavorDistribution
 import com.ahmedmatem.android.matura.network.models.Test
+import com.ahmedmatem.android.matura.repository.PrizeRepository
 import com.ahmedmatem.android.matura.repository.TestRepository
 import kotlinx.coroutines.launch
-import java.lang.IllegalArgumentException
+import org.koin.java.KoinJavaComponent.inject
 
-class TestListViewModel(val context: Context) : BaseViewModel() {
+class TestListViewModel : BaseViewModel() {
 
-    private val testRepository = TestRepository(context, MaturaDb.getInstance(context))
+    private val testRepo: TestRepository by inject(TestRepository::class.java)
+    private val prizeRepo: PrizeRepository by inject(PrizeRepository::class.java)
 
     private val _onTestItemClick = MutableLiveData<Test?>().apply { value = null }
     val onTestItemClick: LiveData<Test?> = _onTestItemClick
 
-    // Refresh test list in local database from network
-//    init {
-//        refreshTestList()
-//    }
+    init {
+        /*// Refresh test list in local database from network
+        refreshTestList()*/
+
+        // Get prize info in free distribution
+        if (BuildConfig.FLAVOR_distribution == FlavorDistribution.FREE) {
+
+        }
+    }
 
     // Read data from local database
-    val testList = testRepository.testList
+    val testList = testRepo.testList
 
     /**
      * Invoke this function from fragment onStart to refresh test list
      */
     fun refreshTestList() {
         viewModelScope.launch {
-            testRepository.refreshTestList()
+            testRepo.refreshTestList()
         }
     }
 
@@ -37,7 +44,7 @@ class TestListViewModel(val context: Context) : BaseViewModel() {
         _onTestItemClick.value = test
     }
 
-    class Factory(private val context: Context) : ViewModelProvider.Factory {
+    /*class Factory(private val context: Context) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(TestListViewModel::class.java)) {
                 return TestListViewModel(context) as T
@@ -45,5 +52,5 @@ class TestListViewModel(val context: Context) : BaseViewModel() {
             throw IllegalArgumentException("Unable to construct a TestViewModel")
         }
 
-    }
+    }*/
 }

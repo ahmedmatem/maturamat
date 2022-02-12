@@ -25,10 +25,7 @@ class TestListFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProvider(
-            this,
-            TestListViewModel.Factory(requireContext())
-        ).get(TestListViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(TestListViewModel::class.java)
 
         // Initiate recycler adapter
         val adapter = TestListAdapter(TestClickListener {
