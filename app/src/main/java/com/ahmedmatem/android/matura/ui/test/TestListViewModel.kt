@@ -5,6 +5,7 @@ import com.ahmedmatem.android.matura.BuildConfig
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.infrastructure.FlavorDistribution
 import com.ahmedmatem.android.matura.network.models.Test
+import com.ahmedmatem.android.matura.prizesystem.models.bet
 import com.ahmedmatem.android.matura.prizesystem.models.total
 import com.ahmedmatem.android.matura.repository.PrizeRepository
 import com.ahmedmatem.android.matura.repository.TestRepository
@@ -29,8 +30,8 @@ class TestListViewModel : BaseViewModel() {
         /*// Refresh test list in local database from network
         refreshTestList()*/
 
-        // Set Fab visibility for app free distribution
-        if (BuildConfig.FLAVOR_distribution != FlavorDistribution.FREE) {
+        // Code related to FREE distribution
+        if (BuildConfig.FLAVOR_distribution == FlavorDistribution.FREE) {
             setFabVisibility()
         }
     }
@@ -51,11 +52,21 @@ class TestListViewModel : BaseViewModel() {
         _onTestItemClick.value = test
     }
 
-    /**
-     * Use this function to set visibility of Fab button in app free distribution.
-     * Depending of user prize button should be hide or visible in order
-     * of restriction user of creating unlimited new tests.
+    /*
+     *
+     * FREE distribution code
+     *
      */
+
+    fun bet() {
+        Transformations.map(prizeRepo.getCoin()!!) { it.bet() }
+    }
+
+    /*
+    * Use this function to set visibility of Fab button in app free distribution.
+    * Depending of user prize button should be hide or visible in order
+    * of restriction user of creating unlimited new tests.
+    */
     private fun setFabVisibility() {
         viewModelScope.launch {
             val prize = prizeRepo.getPrize()

@@ -7,10 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.ahmedmatem.android.matura.BuildConfig
 import com.ahmedmatem.android.matura.TestActivity
 import com.ahmedmatem.android.matura.TestActivity.Companion.EXTRA_TEST
 import com.ahmedmatem.android.matura.base.BaseFragment
 import com.ahmedmatem.android.matura.databinding.FragmentTestListBinding
+import com.ahmedmatem.android.matura.infrastructure.FlavorDistribution
 import com.ahmedmatem.android.matura.network.models.Test
 import com.ahmedmatem.android.matura.ui.test.adapter.TestClickListener
 import com.ahmedmatem.android.matura.ui.test.adapter.TestListAdapter
@@ -44,6 +46,9 @@ class TestListFragment : BaseFragment() {
         }
 
         binding.testStartFab.setOnClickListener(View.OnClickListener {
+            if (BuildConfig.FLAVOR_distribution == FlavorDistribution.FREE) {
+//                viewModel.bet()
+            }
             Intent(requireContext(), TestActivity::class.java).apply {
                 val test: Test? = null // put null value for test in extra
                 putExtra(EXTRA_TEST, test)

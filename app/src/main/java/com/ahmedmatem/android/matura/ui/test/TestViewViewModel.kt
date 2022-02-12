@@ -130,8 +130,13 @@ class TestViewViewModel(var test: Test? = null) : BaseViewModel(),
                 hasTimer = it.hasTimer
             }
         }
+
         // Show start notice dialog
-        showNoticeDialog.value = noticeDataCreator.createStartNotice(millisInFuture, test?.hasTimer!!)
+        if (test == null) {
+            showNoticeDialog.value = noticeDataCreator.createStartNotice(millisInFuture, hasTimer)
+        } else {
+            showNoticeDialog.value = noticeDataCreator.createStartNotice(millisInFuture, test?.hasTimer!!)
+        }
     }
 
     val url: String by lazy {
