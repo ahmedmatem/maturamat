@@ -35,14 +35,6 @@ class TestListFragment : BaseFragment() {
         binding.lifecycleOwner = this
         binding.testList.adapter = adapter
 
-        binding.testStartFab.setOnClickListener(View.OnClickListener {
-            Intent(requireContext(), TestActivity::class.java).apply {
-                val test: Test? = null // put null value for test in extra
-                putExtra(EXTRA_TEST, test)
-                startActivity(this)
-            }
-        })
-
         /**
          * Observe Fab button in order to show or hide it
          * depending of user prize in free app distribution.
@@ -50,6 +42,14 @@ class TestListFragment : BaseFragment() {
         viewModel.isFabVisible.observe(viewLifecycleOwner) { visible ->
             binding.isFabVisible = visible
         }
+
+        binding.testStartFab.setOnClickListener(View.OnClickListener {
+            Intent(requireContext(), TestActivity::class.java).apply {
+                val test: Test? = null // put null value for test in extra
+                putExtra(EXTRA_TEST, test)
+                startActivity(this)
+            }
+        })
 
         viewModel.testList?.observe(viewLifecycleOwner, Observer {
             it?.let {

@@ -19,14 +19,20 @@ class TestListViewModel : BaseViewModel() {
     private val _onTestItemClick = MutableLiveData<Test?>().apply { value = null }
     val onTestItemClick: LiveData<Test?> = _onTestItemClick
 
-    private val _isStartTestFabVisible = MutableLiveData<Boolean>(false)
-    val isFabVisible: LiveData<Boolean> = _isStartTestFabVisible
+    /**
+     * Use thees properties in App FREE distribution
+     */
+    private val _isFabVisible = MutableLiveData<Boolean>(false)
+    val isFabVisible: LiveData<Boolean> = _isFabVisible
 
     init {
         /*// Refresh test list in local database from network
         refreshTestList()*/
 
-        setFabVisibility()
+        // Set Fab visibility for app free distribution
+        if (BuildConfig.FLAVOR_distribution != FlavorDistribution.FREE) {
+            setFabVisibility()
+        }
     }
 
     // Read data from local database
@@ -51,13 +57,11 @@ class TestListViewModel : BaseViewModel() {
      * of restriction user of creating unlimited new tests.
      */
     private fun setFabVisibility() {
-        if(BuildConfig.FLAVOR_distribution != FlavorDistribution.FREE) return
-
         viewModelScope.launch {
             val prize = prizeRepo.getPrize()
             prize?.let {
                 val coin = it.coin
-                _isStartTestFabVisible.value = coin.total() > 0
+                _isFabVisible.value = coin.total() > 0
             }
         }
     }
