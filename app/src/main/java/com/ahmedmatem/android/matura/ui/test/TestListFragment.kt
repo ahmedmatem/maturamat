@@ -2,6 +2,7 @@ package com.ahmedmatem.android.matura.ui.test
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import com.ahmedmatem.android.matura.base.BaseFragment
 import com.ahmedmatem.android.matura.databinding.FragmentTestListBinding
 import com.ahmedmatem.android.matura.infrastructure.FlavorDistribution
 import com.ahmedmatem.android.matura.network.models.Test
+import com.ahmedmatem.android.matura.prizesystem.models.total
 import com.ahmedmatem.android.matura.ui.test.adapter.TestClickListener
 import com.ahmedmatem.android.matura.ui.test.adapter.TestListAdapter
 
@@ -45,10 +47,15 @@ class TestListFragment : BaseFragment() {
             binding.isFabVisible = visible
         }
 
+        viewModel.coin?.observe(viewLifecycleOwner) { coin ->
+            viewModel.setFabVisibility(coin.total())
+        }
+
         binding.testStartFab.setOnClickListener(View.OnClickListener {
             if (BuildConfig.FLAVOR_distribution == FlavorDistribution.FREE) {
-//                viewModel.bet()
+                viewModel.bet()
             }
+            // Start test Activity
             Intent(requireContext(), TestActivity::class.java).apply {
                 val test: Test? = null // put null value for test in extra
                 putExtra(EXTRA_TEST, test)

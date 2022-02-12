@@ -5,6 +5,8 @@ import com.ahmedmatem.android.matura.BuildConfig
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.infrastructure.FlavorDistribution
 import com.ahmedmatem.android.matura.network.models.Test
+import com.ahmedmatem.android.matura.prizesystem.models.Coin
+import com.ahmedmatem.android.matura.prizesystem.models.Prize
 import com.ahmedmatem.android.matura.prizesystem.models.bet
 import com.ahmedmatem.android.matura.prizesystem.models.total
 import com.ahmedmatem.android.matura.repository.PrizeRepository
@@ -26,14 +28,11 @@ class TestListViewModel : BaseViewModel() {
     private val _isFabVisible = MutableLiveData<Boolean>(false)
     val isFabVisible: LiveData<Boolean> = _isFabVisible
 
+    val coin = prizeRepo.getCoin()
+
     init {
         /*// Refresh test list in local database from network
         refreshTestList()*/
-
-        // Code related to FREE distribution
-        if (BuildConfig.FLAVOR_distribution == FlavorDistribution.FREE) {
-            setFabVisibility()
-        }
     }
 
     // Read data from local database
@@ -59,22 +58,19 @@ class TestListViewModel : BaseViewModel() {
      */
 
     fun bet() {
-        Transformations.map(prizeRepo.getCoin()!!) { it.bet() }
-    }
-
-    /*
-    * Use this function to set visibility of Fab button in app free distribution.
-    * Depending of user prize button should be hide or visible in order
-    * of restriction user of creating unlimited new tests.
-    */
-    private fun setFabVisibility() {
         viewModelScope.launch {
-            val prize = prizeRepo.getPrize()
-            prize?.let {
-                val coin = it.coin
-                _isFabVisible.value = coin.total() > 0
+            prizeRepo.apply {
+                val prize = getPrize()
+                prize?.let {
+                    it.coin.bet() // bet 1 coin for new test
+                    update(prize)
+                }
             }
         }
+    }
+
+    fun setFabVisibility(totalCoin: Int) {
+        _isFabVisible.value = totalCoin > 0
     }
 
     /*class Factory(private val context: Context) : ViewModelProvider.Factory {
