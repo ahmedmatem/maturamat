@@ -7,8 +7,10 @@ import com.ahmedmatem.android.matura.infrastructure.DB_NAME
 import com.ahmedmatem.android.matura.local.daos.TestDao
 import com.ahmedmatem.android.matura.local.daos.AccountDao
 import com.ahmedmatem.android.matura.local.daos.CoinPrizeDao
+import com.ahmedmatem.android.matura.local.daos.IPrizeDao
 import com.ahmedmatem.android.matura.network.models.Test
 import com.ahmedmatem.android.matura.network.models.User
+import com.ahmedmatem.android.matura.prizesystem.contract.IPrize
 import com.ahmedmatem.android.matura.prizesystem.models.Coin
 import com.ahmedmatem.android.matura.prizesystem.models.Period
 
@@ -21,7 +23,7 @@ abstract class MaturaDb : RoomDatabase() {
 
     abstract val testDao: TestDao
     abstract val accountDao: AccountDao
-    abstract val prizeDao: CoinPrizeDao
+    abstract val prizeDao: IPrizeDao<IPrize>
 
     companion object {
         // For Singleton instantiation

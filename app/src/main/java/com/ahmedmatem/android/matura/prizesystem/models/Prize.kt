@@ -12,7 +12,7 @@ import java.util.*
  */
 @Keep
 data class Prize<T: IPrize>(
-    @Embedded val prize: T,
+    @Embedded val prizeItem: T,
     @Relation(
         parentColumn = "holder",
         entityColumn = "prizeHolder"
