@@ -25,7 +25,7 @@ class TestListViewModel : BaseViewModel() {
     /**
      * Use thees properties in App FREE distribution
      */
-    private val _isFabVisible = MutableLiveData<Boolean>(false)
+    private val _isFabVisible = MutableLiveData<Boolean>(true)
     val isFabVisible: LiveData<Boolean> = _isFabVisible
 
     val coin = prizeRepo.getCoin()

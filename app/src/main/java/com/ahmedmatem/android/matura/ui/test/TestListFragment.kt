@@ -48,7 +48,7 @@ class TestListFragment : BaseFragment() {
         }
 
         viewModel.coin?.observe(viewLifecycleOwner) { coin ->
-            viewModel.setFabVisibility(coin.total())
+            viewModel.setFabVisibility(coin.total)
         }
 
         binding.testStartFab.setOnClickListener(View.OnClickListener {

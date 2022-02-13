@@ -12,8 +12,8 @@ import java.util.*
 data class Period(
     @PrimaryKey val coinHolder: String,
     var start: Date = Date(),
-    var end: Date = Date().add(PrizeConfig.DEFAULT_PERIOD_DURATION_IN_DAYS),
-    val duration: Int = PrizeConfig.DEFAULT_PERIOD_DURATION_IN_DAYS,
+    var end: Date = Date().add(PrizeConfig.COIN_DEFAULT_PERIOD_DURATION_IN_DAYS),
+    val duration: Int = PrizeConfig.COIN_DEFAULT_PERIOD_DURATION_IN_DAYS,
     val cyclic: Boolean = true,
     val measure: DurationMeasure = DurationMeasure.DAYS
 )

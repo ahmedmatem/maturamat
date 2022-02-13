@@ -4,57 +4,51 @@ import androidx.annotation.Keep
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.ahmedmatem.android.matura.prizesystem.PrizeConfig
+import com.ahmedmatem.android.matura.prizesystem.contract.IPrize
 import com.ahmedmatem.android.matura.prizesystem.exceptions.InsufficientCoinException
 
 @Keep
 @Entity(tableName = "coin_table")
 data class Coin(
     // username
-    @PrimaryKey val holder: String,
+    @PrimaryKey override val holder: String,
     // coins given by default as a gift from app for specific period
-    var gift: Int = PrizeConfig.DEFAULT_GIFT_PER_WEEK,
+    override var gift: Int = PrizeConfig.COIN_DEFAULT_GIFT_PER_WEEK,
     // coins earned by the user offered in different app activities
-    var earned: Int = 0,
+    override var earned: Int = 0,
+    override var drawableResId: Int,
     // indicator for synchronization status
-    var synced: Boolean = false
-)
+    override var synced: Boolean = false
+) : IPrize {
 
-/**
- * Extension functions
- */
+    override val total: Int
+        get() = gift + earned
 
-fun Coin.resetGift() {
-    gift = PrizeConfig.DEFAULT_GIFT_PER_WEEK
-}
-
-/**
- * Add 'count' coin as earned coin
- */
-fun Coin.add(count: Int = 1) {
-    earned += count
-}
-
-/**
- * Reduce count number of coin trying first to use gift coin and then earned.
- * @throws InsufficientCoinException if no enough gift and earned coin to bet.
- */
-fun Coin.bet(count: Int = 1) {
-    val allCoin = gift + earned
-    if (allCoin >= count) {
-        // first try to use coin from gift
-        gift -= count
-        // in case of no enough gift coin to bet
-        if (gift < 0) {
-            // reduce earned coin with rest of the count
-            earned += gift
-            // and set gift to zero
-            gift = 0
+    /**
+     * Reduce count number of coin trying first to use gift coin and then earned.
+     * @throws InsufficientCoinException if no enough gift and earned coin to bet.
+     */
+    override fun bet(amount: Int) {
+        if (total >= amount) {
+            // first try to use coin from gift
+            gift -= amount
+            // in case of no enough gift coin to bet
+            if (gift < 0) {
+                // reduce earned coin with rest of the count
+                earned += gift
+                // and set gift to zero
+                gift = 0
+            }
+        } else {
+            throw InsufficientCoinException()
         }
-    } else {
-        throw InsufficientCoinException()
     }
-}
 
-fun Coin.total(): Int {
-    return gift + earned
+    override fun add(amount: Int) {
+        earned += amount
+    }
+
+    override fun reset() {
+        gift = PrizeConfig.COIN_DEFAULT_GIFT_PER_WEEK
+    }
 }

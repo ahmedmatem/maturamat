@@ -4,7 +4,6 @@ import android.util.Log
 import com.ahmedmatem.android.matura.local.MaturaDb
 import com.ahmedmatem.android.matura.local.preferences.UserPrefs
 import com.ahmedmatem.android.matura.network.Result
-import com.ahmedmatem.android.matura.network.models.Test
 import com.ahmedmatem.android.matura.network.models.addUsername
 import com.ahmedmatem.android.matura.network.models.addUuid
 import com.ahmedmatem.android.matura.network.services.TestApi
@@ -27,7 +26,7 @@ class TestRemoteDataSource(private val dispatcher: CoroutineDispatcher = Dispatc
     /**
      * Get test list for user (if such logged in) or guest(not logged in user)
      */
-    suspend fun refreshTestList() {
+    suspend fun getTestList() {
         withContext(dispatcher) {
             var response = if (username != null) { /* User logged in */
                 val token = localDb.accountDao.getToken(username!!)
