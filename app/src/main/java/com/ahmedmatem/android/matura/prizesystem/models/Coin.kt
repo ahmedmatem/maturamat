@@ -4,25 +4,24 @@ import androidx.annotation.Keep
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.ahmedmatem.android.matura.prizesystem.PrizeConfig
-import com.ahmedmatem.android.matura.prizesystem.contract.IPrizeItem
 import com.ahmedmatem.android.matura.prizesystem.exceptions.InsufficientCoinException
 
 @Keep
 @Entity(tableName = "coin_table")
 data class Coin(
     // username
-    @PrimaryKey override val holder: String,
+    @PrimaryKey val holder: String,
     // coins given by default as a gift from app for specific period
-    override var gift: Int = PrizeConfig.COIN_DEFAULT_GIFT_PER_WEEK,
+    var gift: Int = PrizeConfig.COIN_DEFAULT_GIFT_PER_WEEK,
     // coins earned by the user offered in different app activities
-    override var earned: Int = 0,
-    override var drawableResId: Int,
+    var earned: Int = 0,
+    var drawableResId: Int,
     // indicator for synchronization status
-    override var synced: Boolean = false
-) : IPrizeItem {
+    var synced: Boolean = false
+) {
 
     @Transient
-    override val total: Int = gift + earned
+    val total: Int = gift + earned
 
     /**
      * Reduce count number of coin trying first to use gift coin and then earned.
@@ -30,7 +29,7 @@ data class Coin(
      */
 
     @Throws(InsufficientCoinException::class)
-    override fun bet(amount: Int) {
+    fun bet(amount: Int = 1) {
         if (total >= amount) {
             // first try to use coin from gift
             gift -= amount
@@ -46,11 +45,11 @@ data class Coin(
         }
     }
 
-    override fun add(amount: Int) {
+    fun add(amount: Int) {
         earned += amount
     }
 
-    override fun reset() {
+    fun reset() {
         gift = PrizeConfig.COIN_DEFAULT_GIFT_PER_WEEK
     }
 }

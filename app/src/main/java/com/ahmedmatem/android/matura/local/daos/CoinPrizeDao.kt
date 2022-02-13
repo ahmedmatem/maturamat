@@ -4,10 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.ahmedmatem.android.matura.prizesystem.models.Coin
 import com.ahmedmatem.android.matura.prizesystem.models.Period
-import com.ahmedmatem.android.matura.prizesystem.models.Prize
+import com.ahmedmatem.android.matura.prizesystem.models.CoinPrize
 
 @Dao
-interface CoinPrizeDao: IPrizeDao<Coin> {
+interface CoinPrizeDao {
 
     /**
      * Result of this query contains user coins and period they belong to (prize)
@@ -15,18 +15,18 @@ interface CoinPrizeDao: IPrizeDao<Coin> {
      */
     @Transaction
     @Query("SELECT * FROM coin_table WHERE holder = :username")
-    override suspend fun getPrize(username: String): Prize<Coin>?
+    suspend fun getPrize(username: String): CoinPrize?
 
     @Query("SELECT * FROM coin_table WHERE holder = :username")
-    override fun getPrizeItem(username: String): LiveData<Coin>?
+    fun getCoin(username: String): LiveData<Coin>?
 
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    override suspend fun insertPrize(coin: Coin, period: Period)
+    suspend fun insertPrize(coin: Coin, period: Period)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    override suspend fun insertPrize(coin: Coin)
+    suspend fun insertPrize(coin: Coin)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    override suspend fun insertPeriod(period: Period)
+    suspend fun insertPeriod(period: Period)
 }

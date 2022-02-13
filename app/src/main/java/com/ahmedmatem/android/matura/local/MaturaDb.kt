@@ -6,23 +6,22 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.ahmedmatem.android.matura.infrastructure.DB_NAME
 import com.ahmedmatem.android.matura.local.daos.TestDao
 import com.ahmedmatem.android.matura.local.daos.AccountDao
-import com.ahmedmatem.android.matura.local.daos.IPrizeDao
+import com.ahmedmatem.android.matura.local.daos.CoinPrizeDao
 import com.ahmedmatem.android.matura.network.models.Test
 import com.ahmedmatem.android.matura.network.models.User
-import com.ahmedmatem.android.matura.prizesystem.contract.IPrizeItem
 import com.ahmedmatem.android.matura.prizesystem.models.Coin
 import com.ahmedmatem.android.matura.prizesystem.models.Period
 
 @Database(
     entities = [Test::class, User::class, Coin::class, Period::class],
-    version = 3
+    version = 4
 )
 @TypeConverters(Converters::class)
 abstract class MaturaDb : RoomDatabase() {
 
     abstract val testDao: TestDao
     abstract val accountDao: AccountDao
-    abstract val prizeDao: IPrizeDao<IPrizeItem>
+    abstract val coinPrizeDao: CoinPrizeDao
 
     companion object {
         // For Singleton instantiation

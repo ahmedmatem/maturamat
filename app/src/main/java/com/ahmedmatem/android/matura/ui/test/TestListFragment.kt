@@ -2,7 +2,6 @@ package com.ahmedmatem.android.matura.ui.test
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +14,6 @@ import com.ahmedmatem.android.matura.base.BaseFragment
 import com.ahmedmatem.android.matura.databinding.FragmentTestListBinding
 import com.ahmedmatem.android.matura.infrastructure.FlavorDistribution
 import com.ahmedmatem.android.matura.network.models.Test
-import com.ahmedmatem.android.matura.prizesystem.models.total
 import com.ahmedmatem.android.matura.ui.test.adapter.TestClickListener
 import com.ahmedmatem.android.matura.ui.test.adapter.TestListAdapter
 
@@ -37,18 +35,11 @@ class TestListFragment : BaseFragment() {
 
         val binding = FragmentTestListBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
+        binding.viewModel = viewModel
         binding.testList.adapter = adapter
 
-        /**
-         * Observe Fab button in order to show or hide it
-         * depending of user prize in free app distribution.
-         */
-        viewModel.isFabVisible.observe(viewLifecycleOwner) { visible ->
-            binding.isFabVisible = visible
-        }
-
-        viewModel.coin?.observe(viewLifecycleOwner) { coin ->
-            viewModel.setFabVisibility(coin.total)
+        viewModel.coin.observe(viewLifecycleOwner) { coin ->
+            viewModel.setFabVisibility(coin)
         }
 
         binding.testStartFab.setOnClickListener(View.OnClickListener {

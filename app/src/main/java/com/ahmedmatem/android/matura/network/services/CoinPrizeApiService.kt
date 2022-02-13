@@ -1,24 +1,22 @@
 package com.ahmedmatem.android.matura.network.services
 
 import com.ahmedmatem.android.matura.network.Retrofit
-import com.ahmedmatem.android.matura.prizesystem.contract.IPrizeItem
-import com.ahmedmatem.android.matura.prizesystem.models.Coin
-import com.ahmedmatem.android.matura.prizesystem.models.Prize
+import com.ahmedmatem.android.matura.prizesystem.models.CoinPrize
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.PUT
 import retrofit2.http.Query
 
-interface CoinPrizeApiService: IPrizeApiService {
+interface CoinPrizeApiService {
     @GET("api/prizeSystem/prize")
-    override suspend fun <T: IPrizeItem> getPrize(@Query("username") username: String): Prize<T>
+    suspend fun getPrize(@Query("username") username: String): CoinPrize
 
     @PUT("api/prizeSystem/update")
-    override suspend fun <T: IPrizeItem> updatePrize(@Body prize: Prize<T>)
+    suspend fun updatePrize(@Body prize: CoinPrize)
 }
 
 object PrizeApi {
-    val retrofitService: IPrizeApiService by lazy {
-        Retrofit.instance.create(IPrizeApiService::class.java)
+    val coinPrizeRetrofitService: CoinPrizeApiService by lazy {
+        Retrofit.instance.create(CoinPrizeApiService::class.java)
     }
 }
