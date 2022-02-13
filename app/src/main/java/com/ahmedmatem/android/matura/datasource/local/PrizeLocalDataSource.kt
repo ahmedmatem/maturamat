@@ -12,6 +12,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.koin.java.KoinJavaComponent.inject
+import java.lang.ClassCastException
 
 class PrizeLocalDataSource<T : IPrizeItem>(
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
