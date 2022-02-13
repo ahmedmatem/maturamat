@@ -11,8 +11,8 @@ import java.util.*
  * Set one-to-one relationships between two tables
  */
 @Keep
-data class Prize(
-    @Embedded val prize: IPrize,
+data class Prize<T: IPrize>(
+    @Embedded val prize: T,
     @Relation(
         parentColumn = "holder",
         entityColumn = "prizeHolder"

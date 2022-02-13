@@ -7,7 +7,7 @@ import com.ahmedmatem.android.matura.prizesystem.models.Period
 import com.ahmedmatem.android.matura.prizesystem.models.Prize
 
 @Dao
-interface PrizeDao {
+interface CoinPrizeDao {
 
     /**
      * Result of this query contains user coins and period they belong to (prize)
@@ -15,7 +15,7 @@ interface PrizeDao {
      */
     @Transaction
     @Query("SELECT * FROM coin_table WHERE holder = :username")
-    suspend fun getPrize(username: String): Prize?
+    suspend fun getPrize(username: String): Prize<Coin>?
 
     @Query("SELECT * FROM coin_table WHERE holder = :username")
     fun getCoin(username: String): LiveData<Coin>?

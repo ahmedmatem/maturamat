@@ -6,7 +6,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.ahmedmatem.android.matura.infrastructure.DB_NAME
 import com.ahmedmatem.android.matura.local.daos.TestDao
 import com.ahmedmatem.android.matura.local.daos.AccountDao
-import com.ahmedmatem.android.matura.local.daos.PrizeDao
+import com.ahmedmatem.android.matura.local.daos.CoinPrizeDao
 import com.ahmedmatem.android.matura.network.models.Test
 import com.ahmedmatem.android.matura.network.models.User
 import com.ahmedmatem.android.matura.prizesystem.models.Coin
@@ -21,7 +21,7 @@ abstract class MaturaDb : RoomDatabase() {
 
     abstract val testDao: TestDao
     abstract val accountDao: AccountDao
-    abstract val prizeDao: PrizeDao
+    abstract val prizeDao: CoinPrizeDao
 
     companion object {
         // For Singleton instantiation
