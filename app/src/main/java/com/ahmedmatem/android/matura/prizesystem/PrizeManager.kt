@@ -60,6 +60,6 @@ class PrizeManager(private val context: Context) {
      */
     private suspend fun resetPrize(prize: Prize) {
         prize.period.reset()
-        prize.coin.resetGift()
+        prize.prize.resetGift()
     }
 }

@@ -21,13 +21,15 @@ data class Coin(
     override var synced: Boolean = false
 ) : IPrize {
 
-    override val total: Int
-        get() = gift + earned
+    @Transient
+    override val total: Int = gift + earned
 
     /**
      * Reduce count number of coin trying first to use gift coin and then earned.
      * @throws InsufficientCoinException if no enough gift and earned coin to bet.
      */
+
+    @Throws(InsufficientCoinException::class)
     override fun bet(amount: Int) {
         if (total >= amount) {
             // first try to use coin from gift

@@ -46,8 +46,8 @@ class PrizeRepository(
     }
 
     suspend fun update(prize: Prize, synced: Boolean = false) {
-        prize.coin.synced = synced
-        upsertPrize(prize.coin, prize.period)
+        prize.prize.synced = synced
+        upsertPrize(prize.prize, prize.period)
     }
 
     suspend fun getPrizeFromNetwork(): Result<Prize> {

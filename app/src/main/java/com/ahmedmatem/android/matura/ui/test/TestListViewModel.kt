@@ -1,14 +1,8 @@
 package com.ahmedmatem.android.matura.ui.test
 
 import androidx.lifecycle.*
-import com.ahmedmatem.android.matura.BuildConfig
 import com.ahmedmatem.android.matura.base.BaseViewModel
-import com.ahmedmatem.android.matura.infrastructure.FlavorDistribution
 import com.ahmedmatem.android.matura.network.models.Test
-import com.ahmedmatem.android.matura.prizesystem.models.Coin
-import com.ahmedmatem.android.matura.prizesystem.models.Prize
-import com.ahmedmatem.android.matura.prizesystem.models.bet
-import com.ahmedmatem.android.matura.prizesystem.models.total
 import com.ahmedmatem.android.matura.repository.PrizeRepository
 import com.ahmedmatem.android.matura.repository.TestRepository
 import kotlinx.coroutines.launch
@@ -62,7 +56,7 @@ class TestListViewModel : BaseViewModel() {
             prizeRepo.apply {
                 val prize = getPrize()
                 prize?.let {
-                    it.coin.bet() // bet 1 coin for new test
+                    it.prize.bet() // bet 1 coin for new test
                     update(prize)
                 }
             }
