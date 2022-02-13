@@ -4,11 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Transaction
-import com.ahmedmatem.android.matura.prizesystem.contract.IPrize
+import com.ahmedmatem.android.matura.prizesystem.contract.IPrizeItem
 import com.ahmedmatem.android.matura.prizesystem.models.Period
 import com.ahmedmatem.android.matura.prizesystem.models.Prize
 
-interface IPrizeDao<T: IPrize> {
+interface IPrizeDao<T: IPrizeItem> {
     @Transaction
     suspend fun getPrize(id: String): Prize<T>?
 

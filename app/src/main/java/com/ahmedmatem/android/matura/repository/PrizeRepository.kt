@@ -7,7 +7,7 @@ import com.ahmedmatem.android.matura.local.preferences.UserPrefs
 import com.ahmedmatem.android.matura.network.Result
 import com.ahmedmatem.android.matura.utils.safeApiCall
 import com.ahmedmatem.android.matura.network.services.PrizeApi
-import com.ahmedmatem.android.matura.network.services.PrizeApiService
+import com.ahmedmatem.android.matura.network.services.CoinPrizeApiService
 import com.ahmedmatem.android.matura.prizesystem.models.Coin
 import com.ahmedmatem.android.matura.prizesystem.models.Period
 import com.ahmedmatem.android.matura.prizesystem.models.Prize
@@ -22,7 +22,7 @@ class PrizeRepository(
 ) {
     private val _userPrefs: UserPrefs by inject(UserPrefs::class.java)
     private val prizeLocalDataSource by lazy { MaturaDb.getInstance(context).prizeDao }
-    private val prizeRemoteDataSource: PrizeApiService by lazy { PrizeApi.retrofitService }
+    private val prizeRemoteDataSource: CoinPrizeApiService by lazy { PrizeApi.retrofitService }
     private val username by lazy { _userPrefs.getUser()?.username }
 
     fun getCoin(): LiveData<Coin>? {

@@ -4,7 +4,8 @@ import androidx.lifecycle.LiveData
 import com.ahmedmatem.android.matura.local.MaturaDb
 import com.ahmedmatem.android.matura.local.daos.IPrizeDao
 import com.ahmedmatem.android.matura.local.preferences.UserPrefs
-import com.ahmedmatem.android.matura.prizesystem.contract.IPrize
+import com.ahmedmatem.android.matura.network.Result
+import com.ahmedmatem.android.matura.prizesystem.contract.IPrizeItem
 import com.ahmedmatem.android.matura.prizesystem.models.Period
 import com.ahmedmatem.android.matura.prizesystem.models.Prize
 import kotlinx.coroutines.CoroutineDispatcher
@@ -12,7 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.koin.java.KoinJavaComponent.inject
 
-class PrizeLocalDataSource<T : IPrize>(
+class PrizeLocalDataSource<T : IPrizeItem>(
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
 
@@ -35,6 +36,8 @@ class PrizeLocalDataSource<T : IPrize>(
             prizeDao.getPrize(usernameOrUuid)
         }
     }
+
+    suspend fun sync(prize: Prize<T>, synced: Boolean) = update(prize, synced)
 
     suspend fun update(prize: Prize<T>, synced: Boolean = false) {
         prize.prizeItem.synced = synced

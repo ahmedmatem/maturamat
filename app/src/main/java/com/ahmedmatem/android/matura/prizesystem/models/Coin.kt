@@ -4,7 +4,7 @@ import androidx.annotation.Keep
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.ahmedmatem.android.matura.prizesystem.PrizeConfig
-import com.ahmedmatem.android.matura.prizesystem.contract.IPrize
+import com.ahmedmatem.android.matura.prizesystem.contract.IPrizeItem
 import com.ahmedmatem.android.matura.prizesystem.exceptions.InsufficientCoinException
 
 @Keep
@@ -19,7 +19,7 @@ data class Coin(
     override var drawableResId: Int,
     // indicator for synchronization status
     override var synced: Boolean = false
-) : IPrize {
+) : IPrizeItem {
 
     @Transient
     override val total: Int = gift + earned

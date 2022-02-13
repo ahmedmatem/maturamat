@@ -1,6 +1,6 @@
 package com.ahmedmatem.android.matura.prizesystem.contract
 
-interface IPrize {
+interface IPrizeItem {
     val holder: String
     // Amount of prize given from app as a gift (for some period of time or endless)
     var gift: Int
