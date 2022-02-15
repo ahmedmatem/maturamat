@@ -1,6 +1,7 @@
 package com.ahmedmatem.android.matura.repository
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import com.ahmedmatem.android.matura.local.MaturaDb
 import com.ahmedmatem.android.matura.datasource.local.TestLocalDataSource
@@ -29,10 +30,11 @@ class TestRepository(
     }
 
     //    val testList: LiveData<List<Test>> by lazy { database.testDao.getAllBy(username) }
-    val testList: LiveData<List<Test>> by lazy {
-        localDataSource.getAll(usernameOrUuid)
-    }
+    val testList: LiveData<List<Test>> by lazy { localDataSource.getAll(usernameOrUuid) }
 
+    /**
+     * Refresh test list from network
+     */
     suspend fun refreshTestList() {
         remoteDataSource.getTestList()
     }

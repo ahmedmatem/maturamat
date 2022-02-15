@@ -1,5 +1,6 @@
 package com.ahmedmatem.android.matura.datasource.local
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import com.ahmedmatem.android.matura.local.MaturaDb
 import com.ahmedmatem.android.matura.local.daos.TestDao
@@ -14,6 +15,7 @@ class TestLocalDataSource {
     }
 
     fun getAll(usernameOrUuid: String): LiveData<List<Test>> {
+        Log.d("DEBUG", "$usernameOrUuid: ")
         return dataSource.getAllBy(usernameOrUuid)
     }
 

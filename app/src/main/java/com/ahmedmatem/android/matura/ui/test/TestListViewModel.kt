@@ -1,5 +1,6 @@
 package com.ahmedmatem.android.matura.ui.test
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.network.models.Test
@@ -27,8 +28,9 @@ class TestListViewModel : BaseViewModel() {
     }
 
     init {
-        /*// Refresh test list in local database from network
-        refreshTestList()*/
+        // Refresh test list in local database from network
+        Log.d("DEBUG", "Init starts: ")
+        refreshTestList()
     }
 
     // Read data from local database
@@ -37,7 +39,7 @@ class TestListViewModel : BaseViewModel() {
     /**
      * Invoke this function from fragment onStart to refresh test list
      */
-    fun refreshTestList() {
+    private fun refreshTestList() {
         viewModelScope.launch {
             testRepo.refreshTestList()
         }
