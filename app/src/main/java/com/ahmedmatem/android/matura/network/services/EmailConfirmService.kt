@@ -4,7 +4,6 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.graphics.Color
 import android.os.Build
-import android.util.Log
 import androidx.core.content.ContextCompat
 import com.ahmedmatem.android.matura.R
 import com.ahmedmatem.android.matura.local.preferences.UserPrefs
@@ -18,6 +17,7 @@ import org.koin.android.ext.android.inject
 class EmailConfirmService : FirebaseMessagingService() {
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private val _accountRepository: AccountRepository by inject()
+    private val _userPrefs: UserPrefs by inject<UserPrefs>()
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
 //        // Set EmailConfirmed in database
@@ -48,7 +48,7 @@ class EmailConfirmService : FirebaseMessagingService() {
     }
 
     override fun onNewToken(token: String) {
-        UserPrefs(applicationContext).setFcmToken(token)
+        _userPrefs.setFcmToken(token)
     }
 
     private fun createChannel(channelId: String, channelName: String) {

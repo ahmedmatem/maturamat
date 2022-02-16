@@ -14,13 +14,14 @@ import com.ahmedmatem.android.matura.network.models.withPassword
 import com.ahmedmatem.android.matura.network.services.AccountApi
 import com.ahmedmatem.android.matura.repository.AccountRepository
 import kotlinx.coroutines.launch
+import org.koin.java.KoinJavaComponent.inject
 import java.lang.IllegalArgumentException
 
 class ConfirmAccountViewModel(
     private val context: Context,
     private val args: ConfirmAccountFragmentArgs
 ) : BaseViewModel() {
-    private val _userPrefs: UserPrefs by lazy { UserPrefs(context) }
+    private val _userPrefs: UserPrefs by inject(UserPrefs::class.java)
 
     private val _accountRepository by lazy {
         AccountRepository(

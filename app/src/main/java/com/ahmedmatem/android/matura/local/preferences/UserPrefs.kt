@@ -2,7 +2,6 @@ package com.ahmedmatem.android.matura.local.preferences
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.ahmedmatem.android.matura.R
 import java.util.*
 
 class UserPrefs(val context: Context) {
@@ -14,10 +13,7 @@ class UserPrefs(val context: Context) {
     )
 
     private val sharedPref: SharedPreferences by lazy {
-        context.getSharedPreferences(
-            context.getString(R.string.shared_pref_file_key),
-            Context.MODE_PRIVATE
-        )
+        context.getSharedPreferences(SHARED_PREFS_FILE, Context.MODE_PRIVATE)
     }
 
     fun setUser(username: String, password: String?, token: String?) {
@@ -118,5 +114,6 @@ class UserPrefs(val context: Context) {
         const val TOKEN = "token"
         const val UUID_KEY = "uuid_key"
         const val FCM_TOKEN_KEY = "fcm_token_key"
+        const val SHARED_PREFS_FILE = "shared_prefs_file"
     }
 }

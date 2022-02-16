@@ -20,7 +20,7 @@ class AccountViewModel : BaseViewModel() {
     val user: LiveData<UserPrefs.User?> = _user
 
     val totalCoin: LiveData<Int>? =
-        user?.value?.username?.let {
+        user.value?.username?.let {
             Transformations.map(coinPrizeRepository.getCoin()!!) {
                 it?.total
             }

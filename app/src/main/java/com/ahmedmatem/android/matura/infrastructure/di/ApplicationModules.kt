@@ -20,7 +20,7 @@ import org.koin.dsl.module
 
 val applicationModule = module {
 
-    single { UserPrefs(androidContext()) }
+    single { UserPrefs(get()) }
 
     single {
         AccountRepository(
