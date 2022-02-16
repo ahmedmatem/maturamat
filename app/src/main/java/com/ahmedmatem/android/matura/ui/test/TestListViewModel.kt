@@ -27,17 +27,22 @@ class TestListViewModel : BaseViewModel() {
         it?.total ?: 0
     }
 
-    init {
-        // Refresh test list in local database from network
-        Log.d("DEBUG", "Init starts: ")
-        refreshTestList()
-    }
-
     // Read data from local database
     val testList = testRepo.testList
 
     /**
-     * Invoke this function from fragment onStart to refresh test list
+     * Get only last test from remote server and refresh local database.
+     * This change in local db will update test list in UI.
+     */
+    fun refreshLastTest() {
+        viewModelScope.launch {
+            testRepo.refreshLastTest()
+        }
+    }
+
+    /**
+     * Invoke this function only once in background when app starts.
+     * It will update all test for user or guest in local database.
      */
     private fun refreshTestList() {
         viewModelScope.launch {

@@ -80,12 +80,12 @@ class TestRemoteDataSource(private val dispatcher: CoroutineDispatcher = Dispatc
                 is Result.GenericError -> {
                     Log.d(
                         "DEBUG",
-                        "getTestListForUser: Generic error (${response.errorResponse?.description})"
+                        "getLastTestForUser: Generic error (${response.errorResponse?.description})"
                     )
                     null
                 }
                 is Result.NetworkError -> {
-                    Log.d("DEBUG", "getTestListForUser: Network error")
+                    Log.d("DEBUG", "getLastTestForUser: Network error")
                     null
                 }
             }

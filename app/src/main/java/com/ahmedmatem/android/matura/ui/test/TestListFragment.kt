@@ -55,7 +55,7 @@ class TestListFragment : BaseFragment() {
             }
         })
 
-        viewModel.testList?.observe(viewLifecycleOwner, Observer {
+        viewModel.testList.observe(viewLifecycleOwner, Observer {
             it?.let {
                 adapter.submitList(it)
             }
@@ -74,9 +74,8 @@ class TestListFragment : BaseFragment() {
         return binding.root
     }
 
-    /*override fun onStart() {
+    override fun onStart() {
         super.onStart()
-        Log.d("DEBUG", "onStart: starts")
-        viewModel.refreshTestList()
-    }*/
+        viewModel.refreshLastTest()
+    }
 }
