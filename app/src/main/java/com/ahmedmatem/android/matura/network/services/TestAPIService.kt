@@ -7,10 +7,22 @@ import retrofit2.http.*
 
 interface TestApiService {
     @GET("api/test/allByGuest/{uuid}")
-    suspend fun getAllTestByGuest(@Path("uuid") uuid: String): List<Test>
+    suspend fun getAllTestsByGuest(@Path("uuid") uuid: String): List<Test>
+
+    @GET("api/test/lastByGuest/{uuid}")
+    suspend fun getLastTestsByGuest(
+        @Path("uuid") uuid: String,
+        @Field("count") count: Int
+    ): List<Test>
 
     @GET("api/test/allByUser")
-    suspend fun getAllTestByUser(@Header("Authorization") authorization: String): List<Test>
+    suspend fun getAllTestsByUser(@Header("Authorization") authorization: String): List<Test>
+
+    @GET("api/test/lastByUser")
+    suspend fun getLastTestsByUser(
+        @Header("Authorization") authorization: String,
+        @Field("count") count: Int
+    ): List<Test>
 
     @DELETE("api/test/deleteResult")
     suspend fun deleteTestResult(@Query("id") id: String)

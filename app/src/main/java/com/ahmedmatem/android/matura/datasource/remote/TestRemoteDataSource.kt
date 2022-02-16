@@ -4,6 +4,7 @@ import android.util.Log
 import com.ahmedmatem.android.matura.local.MaturaDb
 import com.ahmedmatem.android.matura.local.preferences.UserPrefs
 import com.ahmedmatem.android.matura.network.Result
+import com.ahmedmatem.android.matura.network.models.Test
 import com.ahmedmatem.android.matura.network.models.addUsername
 import com.ahmedmatem.android.matura.network.models.addUuid
 import com.ahmedmatem.android.matura.network.services.TestApi
@@ -17,47 +18,99 @@ class TestRemoteDataSource(private val dispatcher: CoroutineDispatcher = Dispatc
 
     private val testApiService = TestApi.retrofitService
 
-    private val localDb: MaturaDb by inject(MaturaDb::class.java)
-    private val userPrefs: UserPrefs by inject(UserPrefs::class.java)
-
-    private val username: String? by lazy { userPrefs.getUser()?.username }
-    private val uuid: String = userPrefs.getUuid()
-
-    /**
-     * Get test list for user (if such logged in) or guest(not logged in user)
-     */
-    suspend fun getTestList() {
-        withContext(dispatcher) {
-            var response = if (username != null) { /* User logged in */
-                val token = localDb.accountDao.getToken(username!!)
-                val authorization = "bearer $token"
-                safeApiCall(dispatcher) {
-                    testApiService.getAllTestByUser(authorization)
-                }
-            } else { /* In case of guest */
-                safeApiCall(dispatcher) {
-                    testApiService.getAllTestByGuest(uuid)
-                }
+    suspend fun getAllForUser(token: String): List<Test>? {
+        return withContext(dispatcher) {
+            val authorization = "bearer $token"
+            val response = safeApiCall(dispatcher) {
+                testApiService.getAllTestsByUser(authorization)
             }
-
             when (response) {
                 is Result.Success -> {
-                    var tests = response.data
-                    if (username != null) {
-                        tests.addUsername(username)
-                    } else {
-                        tests.addUuid(uuid)
-                    }
-                    localDb.testDao.insert(*tests.toTypedArray())
+                    response.data
                 }
                 is Result.GenericError -> {
                     Log.d(
                         "DEBUG",
-                        "refreshTestList: Generic error (${response.errorResponse?.description})"
+                        "getTestListForUser: Generic error (${response.errorResponse?.description})"
                     )
+                    null
                 }
                 is Result.NetworkError -> {
-                    Log.d("DEBUG", "refreshTestList: Network error")
+                    Log.d("DEBUG", "getTestListForUser: Network error")
+                    null
+                }
+            }
+        }
+    }
+
+    suspend fun getAllForGuest(uuid: String): List<Test>? {
+        return withContext(dispatcher) {
+            val response = safeApiCall(dispatcher) {
+                testApiService.getAllTestsByGuest(uuid)
+            }
+            when (response) {
+                is Result.Success -> {
+                    response.data
+                }
+                is Result.GenericError -> {
+                    Log.d(
+                        "DEBUG",
+                        "getTestListForUser: Generic error (${response.errorResponse?.description})"
+                    )
+                    null
+                }
+                is Result.NetworkError -> {
+                    Log.d("DEBUG", "getTestListForUser: Network error")
+                    null
+                }
+            }
+        }
+    }
+
+    suspend fun getLastTestsForUser(token: String, count: Int = 1): List<Test>? {
+        return withContext(dispatcher) {
+            val authorization = "bearer $token"
+            val response = safeApiCall(dispatcher) {
+                testApiService.getLastTestsByUser(authorization, count)
+            }
+            when (response) {
+                is Result.Success -> {
+                    response.data
+                }
+                is Result.GenericError -> {
+                    Log.d(
+                        "DEBUG",
+                        "getTestListForUser: Generic error (${response.errorResponse?.description})"
+                    )
+                    null
+                }
+                is Result.NetworkError -> {
+                    Log.d("DEBUG", "getTestListForUser: Network error")
+                    null
+                }
+            }
+        }
+    }
+
+    suspend fun getLastTestsForGuest(uuid: String, count: Int = 1): List<Test>? {
+        return withContext(dispatcher) {
+            var response = safeApiCall(dispatcher) {
+                testApiService.getLastTestsByGuest(uuid!!, count)
+            }
+            when (response) {
+                is Result.Success -> {
+                    response.data
+                }
+                is Result.GenericError -> {
+                    Log.d(
+                        "DEBUG",
+                        "getTestListForUser: Generic error (${response.errorResponse?.description})"
+                    )
+                    null
+                }
+                is Result.NetworkError -> {
+                    Log.d("DEBUG", "getTestListForUser: Network error")
+                    null
                 }
             }
         }

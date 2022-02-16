@@ -1,68 +1,69 @@
 package com.ahmedmatem.android.matura.repository
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import com.ahmedmatem.android.matura.local.MaturaDb
 import com.ahmedmatem.android.matura.datasource.local.TestLocalDataSource
 import com.ahmedmatem.android.matura.datasource.remote.TestRemoteDataSource
 import com.ahmedmatem.android.matura.local.preferences.UserPrefs
 import com.ahmedmatem.android.matura.network.models.Test
-import com.ahmedmatem.android.matura.network.services.TestApi
+import com.ahmedmatem.android.matura.network.models.addUsername
+import com.ahmedmatem.android.matura.network.models.addUuid
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import org.koin.java.KoinJavaComponent.inject
 
-class TestRepository(
-    val context: Context,
-    private val database: MaturaDb,
-    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
-) {
-    //    private val testApiService = TestApi.retrofitService // remote data source
+class TestRepository {
     private val localDataSource: TestLocalDataSource by inject(TestLocalDataSource::class.java)
     private val remoteDataSource: TestRemoteDataSource by inject(TestRemoteDataSource::class.java)
 
     private val userPrefs: UserPrefs by inject(UserPrefs::class.java)
+    private val username: String? by lazy { userPrefs.getUser()?.username }
+    private val uuid: String by lazy { userPrefs.getUuid() }
 
-    //    private val username: String? by lazy { userPrefs.getUser()?.username }
-    private val usernameOrUuid: String by lazy {
-        userPrefs.getUser()?.username ?: userPrefs.getUuid()
+    val testList: LiveData<List<Test>> by lazy {
+        username?.let {
+            localDataSource.getAllForUser(username)
+        } ?: run { localDataSource.getAllForGuest(uuid) }
     }
 
-    //    val testList: LiveData<List<Test>> by lazy { database.testDao.getAllBy(username) }
-    val testList: LiveData<List<Test>> by lazy { localDataSource.getAll(usernameOrUuid) }
+    // Todo: (9/9) Create Account data source and use it here to receive User token
 
     /**
-     * Refresh test list from network
+     * RefreshTestList - read all tests from remote server and
+     * write them in local database. / Replace in case of insert conflict
      */
     suspend fun refreshTestList() {
-        remoteDataSource.getTestList()
+        val testList = remoteDataSource.getTestList()
+        testList?.let {
+            username?.let {
+                // Add username to each test in the list
+                testList.addUsername(it)
+            } ?: run {
+                // Add Uuid to each test in the list
+                testList.addUuid(uuid)
+            }
+            // Write tests in local database
+            localDataSource.insert(*testList.toTypedArray())
+        }
     }
 
-    /*suspend fun refreshTestList() {
-        withContext(dispatcher) {
+    /**
+     * RefreshLastTests - read last count number of tests from remote server
+     * and write them in local database.
+     */
+    suspend fun refreshLastTests(count: Int = 1) {
+        val testList = remoteDataSource.getLastTests(count)
+        testList?.let {
             username?.let {
-                val token = database.accountDao.getToken(it)
-                val authorization = context.getString(R.string.authorization, token)
-                val response = safeApiCall(dispatcher) {
-                    testApiService.getAllTestByUser(authorization)
-                }
-                when (response) {
-                    is Result.Success -> {
-                        val tests = response.data.addUsername(username).toTypedArray()
-                        database.testDao.insert(*tests)
-                    }
-                    is Result.GenericError -> {
-                        Log.d(
-                            "DEBUG",
-                            "refreshTestList: Generic error (${response.errorResponse?.description})"
-                        )
-                    }
-                    is Result.NetworkError -> {
-                        Log.d("DEBUG", "refreshTestList: Network error")
-                    }
-                }
+                // Add username to each test in the list
+                testList.addUsername(it)
+            } ?: run {
+                // Add Uuid to each test in the list
+                testList.addUuid(uuid)
             }
+            // Write tests in local database
+            localDataSource.insert(*testList.toTypedArray())
         }
-    }*/
+    }
 }

@@ -45,7 +45,7 @@ val applicationModule = module {
      * Repositories
      */
     single { CoinPrizeRepository() }
-    single { TestRepository(get(), get()) }
+    single { TestRepository() }
 
     single { TestURLUtil(get()) }
     single { SharedPreferencesProvider(get()) }

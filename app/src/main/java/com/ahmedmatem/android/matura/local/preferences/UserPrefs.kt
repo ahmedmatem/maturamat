@@ -7,7 +7,11 @@ import java.util.*
 
 class UserPrefs(val context: Context) {
 
-    data class User(var username: String, var password: String?)
+    data class User(
+        var username: String,
+        var password: String?,
+        var token: String?
+    )
 
     private val sharedPref: SharedPreferences by lazy {
         context.getSharedPreferences(
@@ -16,9 +20,10 @@ class UserPrefs(val context: Context) {
         )
     }
 
-    fun setUser(username: String, password: String?) {
+    fun setUser(username: String, password: String?, token: String?) {
         setUsername(username)
         setPassword(password)
+        setToken(token)
     }
 
     /**
@@ -28,7 +33,7 @@ class UserPrefs(val context: Context) {
      */
     fun getUser(): User? {
         getUsername()?.let {
-            return User(it, getPassword())
+            return User(it, getPassword(), getToken())
         }
         return null
     }
@@ -39,32 +44,42 @@ class UserPrefs(val context: Context) {
 
     private fun setUsername(username: String?) {
         with(sharedPref.edit()) {
-            putString(context.getString(R.string.user_key), username)
+            putString(USER_KEY, username)
             apply()
         }
     }
 
     private fun setPassword(password: String?) {
         with(sharedPref.edit()) {
-            putString(context.getString(R.string.password_key), password)
+            putString(PASSWORD_KEY, password)
+            apply()
+        }
+    }
+
+    private fun setToken(token: String?) {
+        with(sharedPref.edit()) {
+            putString(TOKEN, token)
             apply()
         }
     }
 
     private fun getUsername(): String? {
-        return sharedPref.getString(context.getString(R.string.user_key), null)
+        return sharedPref.getString(USER_KEY, null)
     }
 
     private fun getPassword(): String? {
-        return sharedPref.getString(context.getString(R.string.password_key), null)
+        return sharedPref.getString(PASSWORD_KEY, null)
+    }
+
+    private fun getToken(): String? {
+        return sharedPref.getString(TOKEN, null)
     }
 
     /**
      * Use this method to obtain UUID from user preferences for guests.
      */
     fun getUuid(): String {
-        val uuidKey = context.getString(R.string.uuid_key)
-        var uuid = sharedPref.getString(uuidKey, null)
+        var uuid = sharedPref.getString(UUID_KEY, null)
         return uuid ?: createUUID()
     }
 
@@ -74,7 +89,7 @@ class UserPrefs(val context: Context) {
     private fun createUUID(): String {
         val uuid = UUID.randomUUID().toString()
         with(sharedPref.edit()) {
-            putString(context.getString(R.string.uuid_key), uuid)
+            putString(UUID_KEY, uuid)
             apply()
         }
         return uuid
@@ -85,7 +100,7 @@ class UserPrefs(val context: Context) {
      */
     fun setFcmToken(token: String?) {
         with(sharedPref.edit()) {
-            putString(context.getString(R.string.fcm_token_key), token)
+            putString(FCM_TOKEN_KEY, token)
             apply()
         }
     }
@@ -94,6 +109,14 @@ class UserPrefs(val context: Context) {
      * Getter for FCM registration token
      */
     fun getFcmToken(): String? {
-        return sharedPref.getString(context.getString(R.string.fcm_token_key), null)
+        return sharedPref.getString(FCM_TOKEN_KEY, null)
+    }
+
+    companion object {
+        const val USER_KEY = "user_key"
+        const val PASSWORD_KEY = "password_key"
+        const val TOKEN = "token"
+        const val UUID_KEY = "uuid_key"
+        const val FCM_TOKEN_KEY = "fcm_token_key"
     }
 }

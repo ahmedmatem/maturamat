@@ -64,10 +64,6 @@
 
     <!-- preferences -->
     <string name="shared_pref_file_key">com.ahmedmatem.android.matura.preference_file_key</string>
-    <string name="user_key">user_key</string>
-    <string name="password_key">password_key</string>
-    <string name="uuid_key">uuid_key</string>
-    <string name="fcm_token_key">fcm_token_key</string>
 
     <!-- fragment_no_connection layout -->
     <string name="no_connection_message">Не беше открита връзка с Интернет. Моля проверете настройките на телефона си към Интернет и опитайте отново.</string>

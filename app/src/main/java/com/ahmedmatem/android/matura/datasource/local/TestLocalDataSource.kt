@@ -14,9 +14,14 @@ class TestLocalDataSource {
         db.testDao
     }
 
-    fun getAll(usernameOrUuid: String): LiveData<List<Test>> {
-        Log.d("DEBUG", "$usernameOrUuid: ")
-        return dataSource.getAllBy(usernameOrUuid)
+    fun getAllForUser(username: String?): LiveData<List<Test>>? {
+        username?.let {
+            return dataSource.getTestListByUsername(username)
+        } ?: run { return null }
+    }
+
+    fun getAllForGuest(uuid: String): LiveData<List<Test>> {
+        return dataSource.getTestListByUsername(uuid)
     }
 
     suspend fun insert(vararg tests: Test) {
