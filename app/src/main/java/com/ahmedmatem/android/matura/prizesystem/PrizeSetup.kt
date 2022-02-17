@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import com.ahmedmatem.android.matura.local.preferences.UserPrefs
-import com.ahmedmatem.android.matura.workers.PrizeSetupOnAppStartWorker
-import com.ahmedmatem.android.matura.workers.PrizeSetupOnLoginWorker
+import com.ahmedmatem.android.matura.prizesystem.worker.PrizeSetupOnAppStartWorker
+import com.ahmedmatem.android.matura.prizesystem.worker.PrizeSetupOnLoginWorker
 import org.koin.java.KoinJavaComponent.inject
 
 object PrizeSetup {

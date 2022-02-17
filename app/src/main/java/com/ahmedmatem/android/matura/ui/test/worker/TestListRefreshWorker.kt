@@ -1,4 +1,4 @@
-package com.ahmedmatem.android.matura.workers
+package com.ahmedmatem.android.matura.ui.test.worker
 
 import android.content.Context
 import androidx.work.CoroutineWorker
@@ -11,7 +11,7 @@ class TestListRefreshWorker(context: Context, workerParams: WorkerParameters) :
     private val testRepo: TestRepository by inject(TestRepository::class.java)
 
     override suspend fun doWork(): Result {
-        val testList = testRepo.refreshTestList()
+        testRepo.refreshTestList()
         return Result.success()
     }
 

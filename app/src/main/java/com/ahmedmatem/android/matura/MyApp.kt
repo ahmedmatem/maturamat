@@ -2,6 +2,9 @@ package com.ahmedmatem.android.matura
 
 import android.app.Application
 import android.util.Log
+import androidx.work.OneTimeWorkRequest
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.ahmedmatem.android.matura.infrastructure.FlavorDistribution
 import com.ahmedmatem.android.matura.infrastructure.di.applicationModule
 import com.ahmedmatem.android.matura.local.MaturaDb
@@ -9,6 +12,7 @@ import com.ahmedmatem.android.matura.local.preferences.UserPrefs
 import com.ahmedmatem.android.matura.network.Result
 import com.ahmedmatem.android.matura.network.services.AccountApi
 import com.ahmedmatem.android.matura.prizesystem.PrizeSetup
+import com.ahmedmatem.android.matura.ui.test.worker.TestListRefreshWorker
 import com.ahmedmatem.android.matura.utils.safeApiCall
 import com.facebook.FacebookSdk
 import com.facebook.appevents.AppEventsLogger
@@ -24,6 +28,7 @@ class MyApp : Application() {
 
     private val _userPrefs: UserPrefs by inject()
     private val applicationScope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
+    private val workManager by lazy { WorkManager.getInstance(applicationContext) }
 
     override fun onCreate() {
         super.onCreate()
@@ -34,6 +39,10 @@ class MyApp : Application() {
             androidContext(this@MyApp)
             modules(applicationModule)
         }
+
+        // Refresh Test List in local db
+        val testListRefreshRequest = OneTimeWorkRequestBuilder<TestListRefreshWorker>().build()
+        workManager.enqueue(testListRefreshRequest)
 
         /**
          * PRIZE SETUP - onAppStart
