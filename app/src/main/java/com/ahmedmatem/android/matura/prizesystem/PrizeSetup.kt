@@ -9,28 +9,27 @@ import com.ahmedmatem.android.matura.prizesystem.worker.PrizeSetupOnLoginWorker
 import org.koin.java.KoinJavaComponent.inject
 
 object PrizeSetup {
-    private var username: String? = null
     private val userPrefs: UserPrefs by inject(UserPrefs::class.java)
 
     fun onLogin(context: Context) {
-        username = userPrefs.getUser()?.username
-        username?.let {
+        val user = userPrefs.getUser()
+        user?.let {
             val request = OneTimeWorkRequest.from(PrizeSetupOnLoginWorker::class.java)
             WorkManager.getInstance(context).enqueue(request)
         }
     }
 
     fun onAppStart(context: Context) {
-        username = userPrefs.getUser()?.username
-        username?.let {
+        val user = userPrefs.getUser()
+        user?.let {
             val request = OneTimeWorkRequest.from(PrizeSetupOnAppStartWorker::class.java)
             WorkManager.getInstance(context).enqueue(request)
         }
     }
 
     fun onPrizeChanged(context: Context) {
-        username = userPrefs.getUser()?.username
-        username?.let {
+        val user = userPrefs.getUser()
+        user?.let {
             TODO("Not implemented yet")
         }
     }
