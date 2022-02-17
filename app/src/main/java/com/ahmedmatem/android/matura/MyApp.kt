@@ -44,7 +44,6 @@ class MyApp : Application() {
         if (BuildConfig.FLAVOR_distribution == FlavorDistribution.FREE &&
             _userPrefs.getUser() != null
         ) {
-//            Log.d("DEBUG", "Prize setup onAppStart")
             PrizeSetup.onAppStart(applicationContext)
         }
 
@@ -52,6 +51,7 @@ class MyApp : Application() {
         FacebookSdk.sdkInitialize(applicationContext)
         AppEventsLogger.activateApp(this)
 
+        // Todo: (5/9) Implement token refresh as background service
         /**
          * Refresh user access token if it is expired.
          *

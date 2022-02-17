@@ -7,10 +7,10 @@ import com.ahmedmatem.android.matura.network.models.Test
 @Dao
 interface TestDao {
 
-    @Query("SELECT * FROM test_table WHERE username = :username")
+    @Query("SELECT * FROM test_table WHERE username = :username ORDER BY created_on DESC")
     fun getTestListByUsername(username: String?): LiveData<List<Test>>
 
-    @Query("SELECT * FROM test_table WHERE uuid = :uuid")
+    @Query("SELECT * FROM test_table WHERE uuid = :uuid ORDER BY created_on DESC")
     fun getTestListByUuid(uuid: String?): LiveData<List<Test>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
