@@ -2,6 +2,7 @@ package com.ahmedmatem.android.matura.datasource.local
 
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.liveData
 import com.ahmedmatem.android.matura.local.MaturaDb
 import com.ahmedmatem.android.matura.local.daos.TestDao
 import com.ahmedmatem.android.matura.network.models.Test
@@ -14,14 +15,14 @@ class TestLocalDataSource {
         db.testDao
     }
 
-    fun getAllForUser(username: String?): LiveData<List<Test>>? {
+    fun getAllForUser(username: String?): LiveData<List<Test>> {
         username?.let {
             return dataSource.getTestListByUsername(username)
-        } ?: run { return null }
+        } ?: run { return liveData { listOf<Test>() } }
     }
 
     fun getAllForGuest(uuid: String): LiveData<List<Test>> {
-        return dataSource.getTestListByUsername(uuid)
+        return dataSource.getTestListByUuid(uuid)
     }
 
     suspend fun insert(vararg tests: Test) {

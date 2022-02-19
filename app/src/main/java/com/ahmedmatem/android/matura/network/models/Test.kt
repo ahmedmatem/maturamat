@@ -45,12 +45,12 @@ data class Test(
     @Json(name = "CorrectAnswersNumber") val correctAnswersNumber: String?,
 
     @ColumnInfo(name = "millis_until_finished")
-    @Json(name = "MillisUntilFinished") val millisInFuture: Long,
+    @Json(name = "MillisUntilFinished") var millisInFuture: Long,
 
-    @Json(name = "State") val state: Int,
+    @Json(name = "State") var state: Int,
 
     @ColumnInfo(name = "has_timer")
-    @Json(name = "HasTimer") val hasTimer: Boolean,
+    @Json(name = "HasTimer") var hasTimer: Boolean,
 
     @ColumnInfo(name = "username")
     @Transient var username: String? = null, // default value required

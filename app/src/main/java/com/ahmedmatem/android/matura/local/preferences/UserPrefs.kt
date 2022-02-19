@@ -41,21 +41,21 @@ class UserPrefs(val context: Context) {
     private fun setUsername(username: String?) {
         with(sharedPref.edit()) {
             putString(USER_KEY, username)
-            apply()
+            commit()
         }
     }
 
     private fun setPassword(password: String?) {
         with(sharedPref.edit()) {
             putString(PASSWORD_KEY, password)
-            apply()
+            commit()
         }
     }
 
     private fun setToken(token: String?) {
         with(sharedPref.edit()) {
             putString(TOKEN, token)
-            apply()
+            commit()
         }
     }
 
@@ -86,7 +86,7 @@ class UserPrefs(val context: Context) {
         val uuid = UUID.randomUUID().toString()
         with(sharedPref.edit()) {
             putString(UUID_KEY, uuid)
-            apply()
+            commit()
         }
         return uuid
     }
@@ -97,7 +97,7 @@ class UserPrefs(val context: Context) {
     fun setFcmToken(token: String?) {
         with(sharedPref.edit()) {
             putString(FCM_TOKEN_KEY, token)
-            apply()
+            commit()
         }
     }
 

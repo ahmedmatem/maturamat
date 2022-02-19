@@ -28,25 +28,16 @@ class TestListViewModel : BaseViewModel() {
     }
 
     // Read data from local database
-    val testList = testRepo.testList
+    val testList = testRepo.getTestList()
 
     /**
-     * Get only last test from remote server and refresh local database.
-     * This change in local db will update test list in UI.
+     * This function will update local db.
+     * Use it in fragment onResume.
+     * In case of creating new test it will be inserting thanks to this function.
      */
     fun refreshLastTest() {
         viewModelScope.launch {
             testRepo.refreshLastTest()
-        }
-    }
-
-    /**
-     * Invoke this function only once in background when app starts.
-     * It will update all test for user or guest in local database.
-     */
-    private fun refreshTestList() {
-        viewModelScope.launch {
-            testRepo.refreshTestList()
         }
     }
 
@@ -75,14 +66,4 @@ class TestListViewModel : BaseViewModel() {
     fun setFabVisibility(totalCoin: Int) {
         _isFabVisible.value = totalCoin > 0
     }
-
-    /*class Factory(private val context: Context) : ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(TestListViewModel::class.java)) {
-                return TestListViewModel(context) as T
-            }
-            throw IllegalArgumentException("Unable to construct a TestViewModel")
-        }
-
-    }*/
 }

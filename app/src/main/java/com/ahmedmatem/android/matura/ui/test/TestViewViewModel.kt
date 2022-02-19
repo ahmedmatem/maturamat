@@ -20,6 +20,7 @@ import com.ahmedmatem.android.matura.utils.TestURLUtil
 import com.ahmedmatem.android.matura.utils.helpers.NoticeDataCreator
 import com.ahmedmatem.android.matura.utils.providers.ResourcesProvider
 import com.ahmedmatem.android.matura.utils.providers.SharedPreferencesProvider
+import kotlinx.coroutines.launch
 import org.koin.java.KoinJavaComponent.inject
 import java.lang.IllegalArgumentException
 
@@ -135,7 +136,8 @@ class TestViewViewModel(var test: Test? = null) : BaseViewModel(),
         if (test == null) {
             showNoticeDialog.value = noticeDataCreator.createStartNotice(millisInFuture, hasTimer)
         } else {
-            showNoticeDialog.value = noticeDataCreator.createStartNotice(millisInFuture, test?.hasTimer!!)
+            showNoticeDialog.value =
+                noticeDataCreator.createStartNotice(millisInFuture, test?.hasTimer!!)
         }
     }
 
@@ -195,6 +197,17 @@ class TestViewViewModel(var test: Test? = null) : BaseViewModel(),
     fun onTimerFinish() {
         _onSaveTest.value = TestArgs(0, true)
         showNoticeDialog.value = noticeDataCreator.createFinishNotice()
+    }
+
+    fun saveTestInLocalDb(testArg: TestArgs) {
+        viewModelScope.launch {
+            test?.apply {
+                this.millisInFuture = testArg.millisInFuture
+                this.hasTimer = testArg.hasTimer
+                this.state = TestState.INCOMPLETE
+                _testRepo.insert(this@apply)
+            }
+        }
     }
 
     override fun onDialogPositiveClick(dialog: DialogFragment) {

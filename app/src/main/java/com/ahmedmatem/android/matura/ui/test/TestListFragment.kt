@@ -2,7 +2,6 @@ package com.ahmedmatem.android.matura.ui.test
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,13 +13,17 @@ import com.ahmedmatem.android.matura.TestActivity.Companion.EXTRA_TEST
 import com.ahmedmatem.android.matura.base.BaseFragment
 import com.ahmedmatem.android.matura.databinding.FragmentTestListBinding
 import com.ahmedmatem.android.matura.infrastructure.FlavorDistribution
+import com.ahmedmatem.android.matura.local.preferences.UserPrefs
 import com.ahmedmatem.android.matura.network.models.Test
 import com.ahmedmatem.android.matura.ui.test.adapter.TestClickListener
 import com.ahmedmatem.android.matura.ui.test.adapter.TestListAdapter
+import org.koin.java.KoinJavaComponent.inject
 
 class TestListFragment : BaseFragment() {
 
     override lateinit var viewModel: TestListViewModel
+
+    private val userPrefs: UserPrefs by inject(UserPrefs::class.java)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,9 +59,7 @@ class TestListFragment : BaseFragment() {
         })
 
         viewModel.testList.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                adapter.submitList(it)
-            }
+            adapter.submitList(it)
         })
 
         viewModel.onTestItemClick.observe(viewLifecycleOwner, Observer { test ->
@@ -74,8 +75,8 @@ class TestListFragment : BaseFragment() {
         return binding.root
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onResume() {
+        super.onResume()
         viewModel.refreshLastTest()
     }
 }

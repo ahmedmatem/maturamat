@@ -60,6 +60,9 @@ class TestViewFragment : BaseFragment() {
 
         viewModel.onSaveTest.observe(viewLifecycleOwner, Observer { args ->
             args?.let {
+                // Save in local Db
+                viewModel.saveTestInLocalDb(args)
+                // Save in remote Db
                 binding.testWebView.loadUrl(
                     "javascript: saveTest(" +
                             "${args.millisInFuture}," +

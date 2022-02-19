@@ -2,6 +2,8 @@ package com.ahmedmatem.android.matura.repository
 
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.liveData
 import com.ahmedmatem.android.matura.datasource.local.TestLocalDataSource
 import com.ahmedmatem.android.matura.datasource.remote.TestRemoteDataSource
 import com.ahmedmatem.android.matura.local.preferences.UserPrefs
@@ -15,21 +17,14 @@ class TestRepository {
     private val remoteDataSource: TestRemoteDataSource by inject(TestRemoteDataSource::class.java)
 
     private val userPrefs: UserPrefs by inject(UserPrefs::class.java)
-    private val user: UserPrefs.User? by lazy { userPrefs.getUser() }
     private val uuid: String by lazy { userPrefs.getUuid() }
 
-    val testList: LiveData<List<Test>> by lazy {
-        user?.let {
-            localDataSource.getAllForUser(it.username)
-        } ?: run { localDataSource.getAllForGuest(uuid) }
-    }
-
     /**
-     * RefreshTestList - read all tests from remote server and
-     * write them in local database. / Replace in case of insert conflict
+     * Refresh test list in local db with list from remote db.
      */
     suspend fun refreshTestList() {
         var testList: List<Test>? = null
+        val user = userPrefs.getUser()
         user?.let {
             // In case of User
             testList = remoteDataSource.getAllForUser(it.token!!)
@@ -50,10 +45,11 @@ class TestRepository {
     }
 
     /**
-     * RefreshLastTest
+     * Refresh last test in local db with test from remote db.
      */
     suspend fun refreshLastTest() {
         var testList: List<Test>? = null
+        val user = userPrefs.getUser()
         user?.let {
             // In case of User
             testList = remoteDataSource.getLastTestsForUser(it.token!!)
@@ -71,5 +67,21 @@ class TestRepository {
         testList?.let {
             localDataSource.insert(*it.toTypedArray())
         }
+    }
+
+    /**
+     * Get Test list from local db
+     */
+    fun getTestList(): LiveData<List<Test>> {
+        val user = userPrefs.getUser()
+        return if (user != null) {
+            localDataSource.getAllForUser(user?.username!!)
+        } else {
+            localDataSource.getAllForGuest(uuid)
+        }
+    }
+
+    suspend fun insert(vararg tests: Test) {
+        localDataSource.insert(*tests)
     }
 }
