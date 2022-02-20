@@ -1,12 +1,17 @@
 package com.ahmedmatem.android.matura.ui.test
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.ahmedmatem.android.matura.TestActivity.Companion.EXTRA_TEST
+import com.ahmedmatem.android.matura.TestActivity.Companion.EXTRA_TEST_ID
 import com.ahmedmatem.android.matura.base.BaseFragment
 import com.ahmedmatem.android.matura.databinding.FragmentTestPlaceholderBinding
 
@@ -20,6 +25,8 @@ class PlaceholderFragment : BaseFragment() {
             this,
             PlaceholderViewModel.Factory(requireContext())
         ).get(PlaceholderViewModel::class.java)
+
+    private val testViewModel: TestViewViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,7 +53,22 @@ class PlaceholderFragment : BaseFragment() {
                 viewModel.navigateByTest(test)
             }
         } else {
-            requireActivity().finish()
+            /**
+             * Finish TestActivity by passing testId as Extra to launcher TestListFragment
+             */
+            val test = testViewModel.test
+            var bundle: Bundle? = null
+            test?.let {
+                bundle = bundleOf(EXTRA_TEST_ID to it.id)
+            } ?: run {
+                bundle = bundleOf(EXTRA_TEST_ID to null)
+            }
+            requireActivity().apply {
+                setResult(Activity.RESULT_OK, Intent().apply {
+                    putExtras(bundle!!)
+                })
+                finish()
+            }
         }
 
         return binding.root
