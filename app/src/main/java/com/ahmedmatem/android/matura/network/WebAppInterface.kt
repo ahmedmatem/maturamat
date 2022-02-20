@@ -2,6 +2,8 @@ package com.ahmedmatem.android.matura.network
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.util.Log
 import android.view.View
 import android.webkit.JavascriptInterface
 import android.widget.FrameLayout
@@ -9,10 +11,12 @@ import androidx.annotation.MainThread
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
 import com.ahmedmatem.android.matura.R
+import com.ahmedmatem.android.matura.TestActivity.Companion.EXTRA_TEST_ID
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.ui.test.TestViewViewModel
 import com.ahmedmatem.lib.mathkeyboard.MathInputEditorFragment
 import com.ahmedmatem.lib.mathkeyboard.config.Constants
+import java.lang.ClassCastException
 
 class WebAppInterface(
     private val context: Context,
@@ -26,11 +30,31 @@ class WebAppInterface(
         }
     }
 
+    /**
+     * This function close TestActivity launched by TestListFragment in MainActivity
+     * returning testId(used to populate test with testId in local database) as a result intent.
+     */
     @JavascriptInterface
     fun postExecute(actionCode: Int) {
         when (actionCode) {
             ACTION_FINISH_ACTIVITY -> {
-                (context as Activity).finish()
+                val activity = (context as Activity)
+                val resultIntent = Intent().apply {
+                    try {
+                        (viewModel as TestViewViewModel).test?.let {
+                            putExtra(EXTRA_TEST_ID, it.id)
+                        }
+                    } catch (e: ClassCastException) {
+                        Log.d("DEBUG", "postExecute: Class acst exception")
+                    }
+                }
+                /**
+                 * Finish activity and return testId as result to the launcher (TestListFragment)
+                 */
+                activity.apply {
+                    setResult(Activity.RESULT_OK, resultIntent)
+                    finish()
+                }
             }
             else -> {}
         }

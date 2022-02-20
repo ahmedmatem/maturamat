@@ -65,6 +65,11 @@ class TestViewViewModel(var test: Test? = null) : BaseViewModel(),
     private val _onTimerClick = MutableLiveData<Boolean>()
     val onTimerCLick: LiveData<Boolean> = _onTimerClick
 
+    /**
+     * Use this property to trigger finishing TestActivity before test starts for the first time.
+     * On finish set testId to null and send it as a result to launcher activity(TestListFragment
+     * in MainActivity).
+     */
     private val _onActivityFinish: MutableLiveData<Boolean> = MutableLiveData(false)
     val onActivityFinish: LiveData<Boolean> = _onActivityFinish
 
@@ -199,17 +204,6 @@ class TestViewViewModel(var test: Test? = null) : BaseViewModel(),
         showNoticeDialog.value = noticeDataCreator.createFinishNotice()
     }
 
-    fun saveTestInLocalDb(testArg: TestArgs) {
-        viewModelScope.launch {
-            test?.apply {
-                this.millisInFuture = testArg.millisInFuture
-                this.hasTimer = testArg.hasTimer
-                this.state = TestState.INCOMPLETE
-                _testRepo.insert(this@apply)
-            }
-        }
-    }
-
     override fun onDialogPositiveClick(dialog: DialogFragment) {
         dialog.tag?.let { value ->
             val dialogTag = NoticeDialogTag.fromValue(value)
@@ -239,6 +233,10 @@ class TestViewViewModel(var test: Test? = null) : BaseViewModel(),
             val dialogTag = NoticeDialogTag.fromValue(value)
             when (dialogTag) {
                 NoticeDialogTag.START -> {
+                    /**
+                     * Case that happened only in very beginning when user cancel test
+                     * before it even starts
+                     */
                     _testCanceled = true
                     _onActivityFinish.value = true
                 }

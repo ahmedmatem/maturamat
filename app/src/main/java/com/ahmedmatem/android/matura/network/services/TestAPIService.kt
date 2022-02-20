@@ -15,6 +15,9 @@ interface TestApiService {
         @Query("count") count: Int
     ): List<Test>
 
+    @GET("api/test/getById/{testId}")
+    suspend fun getById(@Path("testId") testId: String): Test?
+
     @GET("api/test/allByUser")
     suspend fun getAllTestsByUser(@Header("Authorization") authorization: String): List<Test>
 

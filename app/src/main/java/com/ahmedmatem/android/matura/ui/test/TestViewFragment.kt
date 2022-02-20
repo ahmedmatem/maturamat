@@ -1,19 +1,24 @@
 package com.ahmedmatem.android.matura.ui.test
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.activity.addCallback
+import androidx.core.os.bundleOf
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import com.ahmedmatem.android.matura.R
+import com.ahmedmatem.android.matura.TestActivity.Companion.EXTRA_TEST_ID
 import com.ahmedmatem.android.matura.base.BaseFragment
 import com.ahmedmatem.android.matura.databinding.FragmentTestViewBinding
 import com.ahmedmatem.android.matura.network.WebAppInterface
+import com.ahmedmatem.android.matura.ui.test.contracts.TestState
 import com.ahmedmatem.lib.mathkeyboard.MathInputEditorFragment
 import com.ahmedmatem.lib.mathkeyboard.config.Constants
 import com.ahmedmatem.lib.mathkeyboard.contracts.KeyboardExternalListener
@@ -60,8 +65,6 @@ class TestViewFragment : BaseFragment() {
 
         viewModel.onSaveTest.observe(viewLifecycleOwner, Observer { args ->
             args?.let {
-                // Save in local Db
-                viewModel.saveTestInLocalDb(args)
                 // Save in remote Db
                 binding.testWebView.loadUrl(
                     "javascript: saveTest(" +
@@ -116,8 +119,17 @@ class TestViewFragment : BaseFragment() {
             }
         })
 
-        viewModel.onActivityFinish.observe(viewLifecycleOwner) {
-            if (it) requireActivity().finish()
+        viewModel.onActivityFinish.observe(viewLifecycleOwner) { finish ->
+            if (finish) {
+                val resultIntent = Intent().apply {
+                    val bundle = bundleOf(EXTRA_TEST_ID to null)
+                    putExtras(bundle)
+                }
+                requireActivity().apply {
+                    setResult(Activity.RESULT_OK, resultIntent)
+                    finish()
+                }
+            }
         }
 
         return binding?.apply {

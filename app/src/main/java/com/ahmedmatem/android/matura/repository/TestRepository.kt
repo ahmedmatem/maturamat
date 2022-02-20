@@ -81,7 +81,16 @@ class TestRepository {
         }
     }
 
-    suspend fun insert(vararg tests: Test) {
-        localDataSource.insert(*tests)
+    suspend fun refreshTestById(testId: String) {
+        val test = remoteDataSource.getTestById(testId)
+        test?.let {
+            userPrefs.getUser()?.let { user ->
+                test.addUsername(user.username)
+            } ?: /*guest*/run {
+                test.addUuid(uuid)
+            }
+            // populate db
+            localDataSource.insert(test)
+        }
     }
 }

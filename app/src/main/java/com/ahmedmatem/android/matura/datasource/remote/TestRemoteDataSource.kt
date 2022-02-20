@@ -19,99 +19,118 @@ class TestRemoteDataSource(private val dispatcher: CoroutineDispatcher = Dispatc
     private val testApiService = TestApi.retrofitService
 
     suspend fun getAllForUser(token: String): List<Test>? {
-        return withContext(dispatcher) {
-            val authorization = "bearer $token"
-            val response = safeApiCall(dispatcher) {
-                testApiService.getAllTestsByUser(authorization)
+        val authorization = "bearer $token"
+        val response = safeApiCall(dispatcher) {
+            testApiService.getAllTestsByUser(authorization)
+        }
+
+        return when (response) {
+            is Result.Success -> {
+                response.data
             }
-            when (response) {
-                is Result.Success -> {
-                    response.data
-                }
-                is Result.GenericError -> {
-                    Log.d(
-                        "DEBUG",
-                        "getTestListForUser: Generic error (${response.errorResponse?.description})"
-                    )
-                    null
-                }
-                is Result.NetworkError -> {
-                    Log.d("DEBUG", "getTestListForUser: Network error")
-                    null
-                }
+            is Result.GenericError -> {
+                Log.d(
+                    "DEBUG",
+                    "getTestListForUser: Generic error (${response.errorResponse?.description})"
+                )
+                null
+            }
+            is Result.NetworkError -> {
+                Log.d("DEBUG", "getTestListForUser: Network error")
+                null
             }
         }
     }
 
     suspend fun getAllForGuest(uuid: String): List<Test>? {
-        return withContext(dispatcher) {
-            val response = safeApiCall(dispatcher) {
-                testApiService.getAllTestsByGuest(uuid)
+        val response = safeApiCall(dispatcher) {
+            testApiService.getAllTestsByGuest(uuid)
+        }
+
+        return when (response) {
+            is Result.Success -> {
+                response.data
             }
-            when (response) {
-                is Result.Success -> {
-                    response.data
-                }
-                is Result.GenericError -> {
-                    Log.d(
-                        "DEBUG",
-                        "getTestListForUser: Generic error (${response.errorResponse?.description})"
-                    )
-                    null
-                }
-                is Result.NetworkError -> {
-                    Log.d("DEBUG", "getTestListForUser: Network error")
-                    null
-                }
+            is Result.GenericError -> {
+                Log.d(
+                    "DEBUG",
+                    "getTestListForUser: Generic error (${response.errorResponse?.description})"
+                )
+                null
+            }
+            is Result.NetworkError -> {
+                Log.d("DEBUG", "getTestListForUser: Network error")
+                null
             }
         }
     }
 
     suspend fun getLastTestsForUser(token: String, count: Int = 1): List<Test>? {
-        return withContext(dispatcher) {
-            val authorization = "bearer $token"
-            val response = safeApiCall(dispatcher) {
-                testApiService.getLastTestsByUser(authorization, count)
+        val authorization = "bearer $token"
+        val response = safeApiCall(dispatcher) {
+            testApiService.getLastTestsByUser(authorization, count)
+        }
+
+        return when (response) {
+            is Result.Success -> {
+                response.data
             }
-            when (response) {
-                is Result.Success -> {
-                    response.data
-                }
-                is Result.GenericError -> {
-                    Log.d(
-                        "DEBUG",
-                        "getLastTestForUser: Generic error (${response.errorResponse?.description})"
-                    )
-                    null
-                }
-                is Result.NetworkError -> {
-                    Log.d("DEBUG", "getLastTestForUser: Network error")
-                    null
-                }
+            is Result.GenericError -> {
+                Log.d(
+                    "DEBUG",
+                    "getLastTestForUser: Generic error (${response.errorResponse?.description})"
+                )
+                null
+            }
+            is Result.NetworkError -> {
+                Log.d("DEBUG", "getLastTestForUser: Network error")
+                null
             }
         }
     }
 
     suspend fun getLastTestsForGuest(uuid: String, count: Int = 1): List<Test>? {
-        return withContext(dispatcher) {
-            var response = safeApiCall(dispatcher) {
-                testApiService.getLastTestsByGuest(uuid!!, count)
+        var response = safeApiCall(dispatcher) {
+            testApiService.getLastTestsByGuest(uuid!!, count)
+        }
+
+        return when (response) {
+            is Result.Success -> {
+                response.data
             }
-            when (response) {
-                is Result.Success -> {
-                    response.data
-                }
-                is Result.GenericError -> {
-                    Log.d(
-                        "DEBUG",
-                        "getTestListForUser: Generic error (${response.errorResponse?.description})"
-                    )
-                    null
-                }
-                is Result.NetworkError -> {
-                    Log.d("DEBUG", "getTestListForUser: Network error")
-                    null
-                }
+            is Result.GenericError -> {
+                Log.d(
+                    "DEBUG",
+                    "getTestListForUser: Generic error (${response.errorResponse?.description})"
+                )
+                null
+            }
+            is Result.NetworkError -> {
+                Log.d("DEBUG", "getTestListForUser: Network error")
+                null
+            }
+        }
+    }
+
+    suspend fun getTestById(testId: String): Test? {
+        val response = safeApiCall(dispatcher) {
+            testApiService.getById(testId)
+        }
+
+        return when (response) {
+            is Result.Success -> {
+                response.data
+            }
+            is Result.GenericError -> {
+                Log.d(
+                    "DEBUG",
+                    "getTestById: Generic error (${response.errorResponse?.description})"
+                )
+                null
+            }
+            is Result.NetworkError -> {
+                Log.d("DEBUG", "getTestById: Network error")
+                null
             }
         }
     }

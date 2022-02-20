@@ -28,5 +28,6 @@ class TestActivity : AppCompatActivity() {
 
     companion object {
         const val EXTRA_TEST = "test"
+        const val EXTRA_TEST_ID = "test_id"
     }
 }

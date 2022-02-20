@@ -52,11 +52,16 @@ data class Test(
     @ColumnInfo(name = "has_timer")
     @Json(name = "HasTimer") var hasTimer: Boolean,
 
+    /**
+     * Always initialize one of next two properties (username or uuid)
+     * when receive test from remote server.
+     */
     @ColumnInfo(name = "username")
     @Transient var username: String? = null, // default value required
 
     @ColumnInfo(name = "uuid")
     @Transient var uuid: String? = null // default value required
+
 ) : Parcelable {
     @Ignore
     @Transient

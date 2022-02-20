@@ -28,12 +28,16 @@ class TestListViewModel : BaseViewModel() {
     }
 
     // Read data from local database
-    val testList = testRepo.getTestList()
+    var testList = testRepo.getTestList()
+
+    fun refreshTestById(testId: String) {
+        viewModelScope.launch {
+            testRepo.refreshTestById(testId)
+        }
+    }
 
     /**
-     * This function will update local db.
-     * Use it in fragment onResume.
-     * In case of creating new test it will be inserting thanks to this function.
+     * This function will insert/update last test in local db.
      */
     fun refreshLastTest() {
         viewModelScope.launch {
