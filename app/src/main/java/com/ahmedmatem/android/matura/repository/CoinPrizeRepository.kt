@@ -12,31 +12,31 @@ import org.koin.java.KoinJavaComponent.inject
 
 class CoinPrizeRepository(dispatcher: CoroutineDispatcher = Dispatchers.IO) {
 
-    private val coinPrizeLocalDataSource: CoinPrizeLocalDataSource by inject(
+    private val localDataSource: CoinPrizeLocalDataSource by inject(
         CoinPrizeLocalDataSource::class.java
     )
-    private val coinPrizeRemoteDataSource: CoinPrizeRemoteDataSource by inject(
+    private val remoteDataSource: CoinPrizeRemoteDataSource by inject(
         CoinPrizeRemoteDataSource::class.java
     )
 
     fun getCoin(): LiveData<Coin>? {
-        return coinPrizeLocalDataSource.getCoin()
+        return localDataSource.getCoin()
     }
 
     suspend fun getPrize(): CoinPrize? {
-        return coinPrizeLocalDataSource.getPrize()
+        return localDataSource.getPrize()
     }
 
     suspend fun sync(prize: CoinPrize) {
-        val synced = coinPrizeRemoteDataSource.sync(prize)
-        coinPrizeLocalDataSource.sync(prize, synced)
+        val synced = remoteDataSource.sync(prize)
+        localDataSource.sync(prize, synced)
     }
 
     suspend fun update(prize: CoinPrize, synced: Boolean = false) {
-        coinPrizeLocalDataSource.update(prize, synced)
+        localDataSource.update(prize, synced)
     }
 
     suspend fun getPrizeRemote(): Result<CoinPrize> {
-        return coinPrizeRemoteDataSource.getPrize()
+        return remoteDataSource.getPrize()
     }
 }
