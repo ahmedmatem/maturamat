@@ -2,6 +2,7 @@ package com.ahmedmatem.android.matura.ui.test
 
 import android.content.SharedPreferences
 import android.content.res.Resources
+import android.util.Log
 import androidx.annotation.MainThread
 import androidx.annotation.UiThread
 import androidx.fragment.app.DialogFragment
@@ -215,6 +216,7 @@ class TestViewViewModel(var test: Test? = null) : BaseViewModel(),
                     _testChecked = true
                 }
                 NoticeDialogTag.CANCEL -> {
+                    Log.d("DEBUG", "onDialogPositiveClick: test is null - ${test ?: false}")
                     _onSaveTest.value = TestArgs(millisInFuture, hasTimer, ACTION_FINISH_ACTIVITY)
                 }
                 NoticeDialogTag.FINISH -> {

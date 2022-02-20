@@ -33,6 +33,7 @@ class TestListFragment : BaseFragment() {
     /**
      * TestActivity launcher
      * Launcher callback must receive testId in order to populate it in local db.
+     * If it is null just get and populate last test.
      */
     private val testActivityResultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
