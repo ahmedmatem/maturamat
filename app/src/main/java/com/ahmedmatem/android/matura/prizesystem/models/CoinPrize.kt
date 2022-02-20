@@ -16,3 +16,8 @@ data class CoinPrize(
     )
     val period: Period
 )
+
+fun CoinPrize.reset() {
+    coin.reset()
+    period.reset()
+}

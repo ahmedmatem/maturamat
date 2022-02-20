@@ -36,7 +36,10 @@ class CoinPrizeRepository(dispatcher: CoroutineDispatcher = Dispatchers.IO) {
         localDataSource.update(prize, synced)
     }
 
-    suspend fun getPrizeRemote(): Result<CoinPrize> {
-        return remoteDataSource.getPrize()
+    suspend fun getPrizeRemote(): CoinPrize? {
+        return when (val response = remoteDataSource.getPrize()) {
+            is Result.Success -> response.data
+            else -> null
+        }
     }
 }
