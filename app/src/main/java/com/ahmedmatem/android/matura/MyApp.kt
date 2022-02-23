@@ -38,10 +38,6 @@ class MyApp : Application() {
             modules(applicationModule)
         }
 
-        // Refresh Test List in local db
-        val testListRefreshRequest = OneTimeWorkRequestBuilder<TestListRefreshWorker>().build()
-        workManager.enqueue(testListRefreshRequest)
-
         /**
          * PRIZE SETUP - onAppStart
          */

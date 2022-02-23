@@ -10,12 +10,15 @@ import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.ahmedmatem.android.matura.AccountActivity
 import com.ahmedmatem.android.matura.BuildConfig
 import com.ahmedmatem.android.matura.base.BaseFragment
 import com.ahmedmatem.android.matura.databinding.FragmentAccountBinding
 import com.ahmedmatem.android.matura.infrastructure.FlavorDistribution
 import com.ahmedmatem.android.matura.prizesystem.PrizeManager
+import com.ahmedmatem.android.matura.ui.test.worker.TestListRefreshWorker
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -32,7 +35,14 @@ class AccountFragment : BaseFragment() {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == Activity.RESULT_OK) {
                 /**
+                 * Read test list from remote server and refresh local db with it in background.
+                 */
+                val testListRequest = OneTimeWorkRequestBuilder<TestListRefreshWorker>().build()
+                WorkManager.getInstance(requireContext()).enqueue(testListRequest)
+
+                /**
                  * PRIZE SETUP - onLogin success
+                 * Apply only for FREE distribution.
                  */
                 if (BuildConfig.FLAVOR_distribution == FlavorDistribution.FREE) {
                     PrizeManager(requireContext()).setup()
