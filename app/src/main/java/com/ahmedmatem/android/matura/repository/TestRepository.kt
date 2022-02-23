@@ -2,6 +2,7 @@ package com.ahmedmatem.android.matura.repository
 
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.liveData
 import com.ahmedmatem.android.matura.datasource.local.TestLocalDataSource
@@ -92,5 +93,12 @@ class TestRepository {
             // populate db
             localDataSource.insert(test)
         }
+    }
+
+    suspend fun isEmpty(): Boolean {
+        userPrefs.getUser()?.let {
+            return localDataSource.isEmpty(it.username)
+        }
+        return true
     }
 }

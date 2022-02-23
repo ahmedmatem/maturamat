@@ -55,4 +55,5 @@ val applicationModule = module {
     single { MaturaDb.getInstance(get()) }
 
     single { PrizeManager(get()) }
+    single { WorkManager.getInstance(get()) }
 }

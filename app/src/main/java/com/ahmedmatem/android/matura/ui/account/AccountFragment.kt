@@ -35,10 +35,9 @@ class AccountFragment : BaseFragment() {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == Activity.RESULT_OK) {
                 /**
-                 * Read test list from remote server and refresh local db with it in background.
+                 * Refresh test list for user in local database if necessary.
                  */
-                val testListRequest = OneTimeWorkRequestBuilder<TestListRefreshWorker>().build()
-                WorkManager.getInstance(requireContext()).enqueue(testListRequest)
+                viewModel.refreshUserTestListIfNecessary()
 
                 /**
                  * PRIZE SETUP - onLogin success

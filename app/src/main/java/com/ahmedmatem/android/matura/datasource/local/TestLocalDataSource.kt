@@ -32,4 +32,11 @@ class TestLocalDataSource {
     suspend fun delete(vararg tests: Test) {
         dataSource.delete(*tests)
     }
+
+    suspend fun isEmpty(username: String?): Boolean {
+        username?.let {
+            return !dataSource.isEmptyUserTestList(username)
+        }
+        return true
+    }
 }

@@ -1,6 +1,7 @@
 package com.ahmedmatem.android.matura.ui.test.worker
 
 import android.content.Context
+import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.ahmedmatem.android.matura.repository.TestRepository
