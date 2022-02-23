@@ -1,18 +1,19 @@
 package com.ahmedmatem.android.matura.network.services
 
 import com.ahmedmatem.android.matura.network.Retrofit
+import com.ahmedmatem.android.matura.network.models.CoinPrizeModel
 import com.ahmedmatem.android.matura.prizesystem.models.CoinPrize
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.PUT
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface CoinPrizeApiService {
     @GET("api/prizeSystem/prize")
-    suspend fun getPrize(@Query("username") username: String): CoinPrize
+    suspend fun getPrize(@Header("Authorization") authorization: String): CoinPrizeModel
 
     @PUT("api/prizeSystem/update")
-    suspend fun updatePrize(@Body prize: CoinPrize)
+    suspend fun updatePrize(
+        @Header("Authorization") authorization: String,
+        @Body prize: CoinPrizeModel
+    )
 }
 
 object PrizeApi {

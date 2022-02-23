@@ -2,7 +2,6 @@ package com.ahmedmatem.android.matura
 
 import android.app.Application
 import android.util.Log
-import androidx.work.OneTimeWorkRequest
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.ahmedmatem.android.matura.infrastructure.FlavorDistribution
@@ -11,7 +10,7 @@ import com.ahmedmatem.android.matura.local.MaturaDb
 import com.ahmedmatem.android.matura.local.preferences.UserPrefs
 import com.ahmedmatem.android.matura.network.Result
 import com.ahmedmatem.android.matura.network.services.AccountApi
-import com.ahmedmatem.android.matura.prizesystem.PrizeSetup
+import com.ahmedmatem.android.matura.prizesystem.PrizeManager
 import com.ahmedmatem.android.matura.ui.test.worker.TestListRefreshWorker
 import com.ahmedmatem.android.matura.utils.safeApiCall
 import com.facebook.FacebookSdk
@@ -22,7 +21,6 @@ import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
-
 
 class MyApp : Application() {
 
@@ -46,14 +44,11 @@ class MyApp : Application() {
 
         /**
          * PRIZE SETUP - onAppStart
-         *
-         * Only for free distribution and logged in user in all app versions
-         * enqueue work request to setup prize.
          */
-        if (BuildConfig.FLAVOR_distribution == FlavorDistribution.FREE &&
-            _userPrefs.getUser() != null
-        ) {
-            PrizeSetup.onAppStart(applicationContext)
+        if (BuildConfig.FLAVOR_distribution == FlavorDistribution.FREE) {
+            _userPrefs.getUser()?.let {
+                PrizeManager(applicationContext).setup()
+            }
         }
 
         // Facebook Logging App Activation

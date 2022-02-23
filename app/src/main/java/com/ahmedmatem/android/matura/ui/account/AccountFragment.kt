@@ -15,7 +15,7 @@ import com.ahmedmatem.android.matura.BuildConfig
 import com.ahmedmatem.android.matura.base.BaseFragment
 import com.ahmedmatem.android.matura.databinding.FragmentAccountBinding
 import com.ahmedmatem.android.matura.infrastructure.FlavorDistribution
-import com.ahmedmatem.android.matura.prizesystem.PrizeSetup
+import com.ahmedmatem.android.matura.prizesystem.PrizeManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -32,13 +32,10 @@ class AccountFragment : BaseFragment() {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == Activity.RESULT_OK) {
                 /**
-                 * PRIZE SETUP - onLogin
-                 *
-                 * Only for free distribution in all app versions after success login
-                 * enqueue work request to setup prize.
+                 * PRIZE SETUP - onLogin success
                  */
                 if (BuildConfig.FLAVOR_distribution == FlavorDistribution.FREE) {
-                    PrizeSetup.onLogin(requireContext())
+                    PrizeManager(requireContext()).setup()
                 }
             }
         }

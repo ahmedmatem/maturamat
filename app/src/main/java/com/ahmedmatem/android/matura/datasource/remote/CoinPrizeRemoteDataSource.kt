@@ -2,9 +2,9 @@ package com.ahmedmatem.android.matura.datasource.remote
 
 import com.ahmedmatem.android.matura.local.preferences.UserPrefs
 import com.ahmedmatem.android.matura.network.Result
+import com.ahmedmatem.android.matura.network.models.CoinPrizeModel
 import com.ahmedmatem.android.matura.network.services.CoinPrizeApiService
 import com.ahmedmatem.android.matura.network.services.PrizeApi
-import com.ahmedmatem.android.matura.prizesystem.models.CoinPrize
 import com.ahmedmatem.android.matura.utils.safeApiCall
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -17,21 +17,23 @@ class CoinPrizeRemoteDataSource(
     private val coinPrizeApiService: CoinPrizeApiService by lazy { PrizeApi.coinPrizeRetrofitService }
 
     private val _userPrefs: UserPrefs by KoinJavaComponent.inject(UserPrefs::class.java)
-    private val username by lazy { _userPrefs.getUser()?.username }
-    private val uuid by lazy { _userPrefs.getUuid() }
-    private val usernameOrUuid by lazy { username ?: uuid }
+    private val authorizationHeader: String by lazy {
+        _userPrefs.getUser()?.let {
+            "Bearer ${it.token}"
+        } ?: ""
+    }
 
-    suspend fun getPrize(): Result<CoinPrize> {
+    suspend fun getPrize(): Result<CoinPrizeModel> {
         return safeApiCall(dispatcher) {
-            coinPrizeApiService.getPrize(usernameOrUuid)
+            coinPrizeApiService.getPrize(authorizationHeader)
         }
     }
 
-    suspend fun sync(prize: CoinPrize): Boolean = update(prize) is Result.Success
+    suspend fun sync(prize: CoinPrizeModel): Boolean = update(prize) is Result.Success
 
-    private suspend fun update(prize: CoinPrize): Result<Unit> {
+    private suspend fun update(prize: CoinPrizeModel): Result<Unit> {
         return safeApiCall(dispatcher) {
-            coinPrizeApiService.updatePrize(prize)
+            coinPrizeApiService.updatePrize(authorizationHeader, prize)
         }
     }
 }

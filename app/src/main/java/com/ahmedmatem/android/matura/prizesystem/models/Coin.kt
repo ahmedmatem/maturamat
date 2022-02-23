@@ -3,7 +3,9 @@ package com.ahmedmatem.android.matura.prizesystem.models
 import androidx.annotation.Keep
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.ahmedmatem.android.matura.R
 import com.ahmedmatem.android.matura.prizesystem.PrizeConfig
+import com.ahmedmatem.android.matura.prizesystem.PrizeConfig.COIN_DRAWABLE_RES_ID
 import com.ahmedmatem.android.matura.prizesystem.exceptions.InsufficientCoinException
 
 @Keep
@@ -15,11 +17,10 @@ data class Coin(
     var gift: Int = PrizeConfig.COIN_DEFAULT_GIFT_PER_WEEK,
     // coins earned by the user offered in different app activities
     var earned: Int = 0,
-    var drawableResId: Int,
+    var drawableResId: Int = COIN_DRAWABLE_RES_ID,
     // indicator for synchronization status
     var synced: Boolean = false
 ) {
-
     @Transient
     val total: Int = gift + earned
 

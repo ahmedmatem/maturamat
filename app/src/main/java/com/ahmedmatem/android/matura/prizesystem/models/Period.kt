@@ -34,7 +34,6 @@ fun Period.expired() = Calendar.getInstance().time.after(end)
  * New period starts from now and end after period duration days.
  */
 fun Period.reset() {
-    start = Date() // starts now
-    // calculate end date
+    start = Date()
     end = start.add(duration)
 }

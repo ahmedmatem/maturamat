@@ -1,5 +1,6 @@
 package com.ahmedmatem.android.matura.infrastructure.di
 
+import androidx.work.WorkManager
 import com.ahmedmatem.android.matura.datasource.local.CoinPrizeLocalDataSource
 import com.ahmedmatem.android.matura.local.MaturaDb
 import com.ahmedmatem.android.matura.datasource.local.TestLocalDataSource
@@ -53,5 +54,5 @@ val applicationModule = module {
     single { NoticeDataCreator(get()) }
     single { MaturaDb.getInstance(get()) }
 
-    single { PrizeManager(androidContext()) }
+    single { PrizeManager(get()) }
 }
