@@ -45,6 +45,7 @@ class AccountFragment : BaseFragment() {
                  */
                 if (BuildConfig.FLAVOR_distribution == FlavorDistribution.FREE) {
                     PrizeManager(requireContext()).setup()
+                    viewModel.refreshTotalCoin()
                 }
             }
         }
@@ -91,6 +92,10 @@ class AccountFragment : BaseFragment() {
                 Firebase.auth.signOut()
             }
         })
+
+        viewModel.totalCoin.observe(viewLifecycleOwner){
+            Log.d("DEBUG", "onCreateView: coin - $it")
+        }
 
         return binding.root
     }

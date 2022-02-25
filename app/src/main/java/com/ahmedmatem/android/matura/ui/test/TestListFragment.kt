@@ -68,10 +68,6 @@ class TestListFragment : BaseFragment() {
         binding.viewModel = viewModel
         binding.testList.adapter = adapter
 
-        viewModel.coin.observe(viewLifecycleOwner) { coin ->
-            viewModel.setFabVisibility(coin)
-        }
-
         binding.testStartFab.setOnClickListener(View.OnClickListener {
             if (BuildConfig.FLAVOR_distribution == FlavorDistribution.FREE) {
                 viewModel.bet()
@@ -101,11 +97,6 @@ class TestListFragment : BaseFragment() {
 
         return binding.root
     }
-
-    /*override fun onResume() {
-        super.onResume()
-        viewModel.refreshLastTest()
-    }*/
 
     companion object {
         const val TAG = "TestListFragment"

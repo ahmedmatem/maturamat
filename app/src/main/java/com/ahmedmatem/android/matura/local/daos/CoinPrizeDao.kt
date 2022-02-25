@@ -14,11 +14,8 @@ interface CoinPrizeDao {
      * It's result of joining of two tables.
      */
     @Transaction
-    @Query("SELECT * FROM coin_table WHERE holder = :username")
-    suspend fun getPrize(username: String): CoinPrize?
-
-    @Query("SELECT * FROM coin_table WHERE holder = :username")
-    fun getCoin(username: String): LiveData<Coin>?
+    @Query("SELECT * FROM coin_table WHERE holder = :username LIMIT 1")
+    suspend fun getCoinPrize(username: String): CoinPrize?
 
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)

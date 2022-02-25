@@ -21,10 +21,6 @@ class CoinPrizeRepository(dispatcher: CoroutineDispatcher = Dispatchers.IO) {
         CoinPrizeRemoteDataSource::class.java
     )
 
-    fun getCoin(): LiveData<Coin>? {
-        return localDataSource.getCoin()
-    }
-
     suspend fun getPrize(): CoinPrize? {
         return localDataSource.getPrize()
     }

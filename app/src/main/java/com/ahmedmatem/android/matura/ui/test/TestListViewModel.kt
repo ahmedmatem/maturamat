@@ -1,6 +1,5 @@
 package com.ahmedmatem.android.matura.ui.test
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.network.models.Test
@@ -12,7 +11,7 @@ import org.koin.java.KoinJavaComponent.inject
 class TestListViewModel : BaseViewModel() {
 
     private val testRepo: TestRepository by inject(TestRepository::class.java)
-    private val coinPrizeRepository: CoinPrizeRepository by inject(CoinPrizeRepository::class.java)
+    private val coinPrizeRepo: CoinPrizeRepository by inject(CoinPrizeRepository::class.java)
 
     private val _onTestItemClick = MutableLiveData<Test?>().apply { value = null }
     val onTestItemClick: LiveData<Test?> = _onTestItemClick
@@ -23,8 +22,9 @@ class TestListViewModel : BaseViewModel() {
     private val _isFabVisible = MutableLiveData<Boolean>(false)
     val isFabVisible: LiveData<Boolean> = _isFabVisible
 
-    val coin: LiveData<Int> = Transformations.map(coinPrizeRepository.getCoin()!!) {
-        it?.total ?: 0
+    init {
+        // Fab visibility is actual on FREE distribution
+        setFabVisibility()
     }
 
     // Read data from local database
@@ -57,7 +57,7 @@ class TestListViewModel : BaseViewModel() {
 
     fun bet() {
         viewModelScope.launch {
-            coinPrizeRepository.apply {
+            coinPrizeRepo.apply {
                 val prize = getPrize()
                 prize?.let {
                     it.coin.bet() // bet 1 coin for new test
@@ -67,7 +67,12 @@ class TestListViewModel : BaseViewModel() {
         }
     }
 
-    fun setFabVisibility(totalCoin: Int) {
-        _isFabVisible.value = totalCoin > 0
+    private fun setFabVisibility() {
+        viewModelScope.launch {
+            val coiPrize = coinPrizeRepo.getPrize()
+            _isFabVisible.value = coiPrize?.let {
+                it.coin.total > 0
+            } ?: false
+        }
     }
 }

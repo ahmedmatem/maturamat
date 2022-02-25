@@ -21,17 +21,13 @@ class CoinPrizeLocalDataSource(
     }
 
     private val _userPrefs: UserPrefs by inject(UserPrefs::class.java)
-    private val username by lazy { _userPrefs.getUser()?.username }
-    private val uuid by lazy { _userPrefs.getUuid() }
-    private val usernameOrUuid by lazy { username ?: uuid }
-
-    fun getCoin(): LiveData<Coin>? {
-        return coinPrizeDao.getCoin(usernameOrUuid)
-    }
+    private val user by lazy { _userPrefs.getUser() }
 
     suspend fun getPrize(): CoinPrize? {
         return withContext(dispatcher) {
-            coinPrizeDao.getPrize(usernameOrUuid)
+            user?.let {
+                coinPrizeDao.getCoinPrize(it.username)
+            }
         }
     }
 

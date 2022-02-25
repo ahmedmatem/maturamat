@@ -28,12 +28,12 @@ class AccountViewModel : BaseViewModel() {
     private val _user = MutableLiveData<UserPrefs.User?>(_userPref.getUser())
     val user: LiveData<UserPrefs.User?> = _user
 
-    val totalCoin: LiveData<Int>? =
-        user.value?.username?.let {
-            Transformations.map(coinPrizeRepo.getCoin()!!) {
-                it?.total
-            }
-        }
+    private val _totalCoin = MutableLiveData<Int>(0)
+    val totalCoin: LiveData<Int> = _totalCoin
+
+    init {
+        refreshTotalCoin()
+    }
 
     /**
      * Refresh user test list in local database after login if only there is no saved record.
@@ -43,9 +43,16 @@ class AccountViewModel : BaseViewModel() {
             val isEmpty = testRepo.isEmpty()
             // Refresh test list if only it is empty
             if (isEmpty) {
-                val testListRefreshRequest = OneTimeWorkRequestBuilder<TestListRefreshWorker>().build()
+                val testListRefreshRequest =
+                    OneTimeWorkRequestBuilder<TestListRefreshWorker>().build()
                 workManager.enqueue(testListRefreshRequest)
             }
+        }
+    }
+
+    fun refreshTotalCoin() {
+        viewModelScope.launch {
+            _totalCoin.value = coinPrizeRepo.getPrize()?.coin?.total ?: 0
         }
     }
 
