@@ -1,13 +1,11 @@
 package com.ahmedmatem.android.matura.ui.account
 
-import android.util.Log
 import androidx.lifecycle.*
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.local.preferences.UserPrefs
-import com.ahmedmatem.android.matura.network.models.Test
-import com.ahmedmatem.android.matura.repository.CoinPrizeRepository
+import com.ahmedmatem.android.matura.repository.CoinRepository
 import com.ahmedmatem.android.matura.repository.TestRepository
 import com.ahmedmatem.android.matura.ui.test.worker.TestListRefreshWorker
 import kotlinx.coroutines.launch
@@ -15,7 +13,7 @@ import org.koin.java.KoinJavaComponent.inject
 
 class AccountViewModel : BaseViewModel() {
     private val _userPref: UserPrefs by inject(UserPrefs::class.java)
-    private val coinPrizeRepo: CoinPrizeRepository by inject(CoinPrizeRepository::class.java)
+    private val coinPrizeRepo: CoinRepository by inject(CoinRepository::class.java)
     private val testRepo: TestRepository by inject(TestRepository::class.java)
     private val workManager: WorkManager by inject(WorkManager::class.java)
 
@@ -28,7 +26,7 @@ class AccountViewModel : BaseViewModel() {
     private val _user = MutableLiveData<UserPrefs.User?>(_userPref.getUser())
     val user: LiveData<UserPrefs.User?> = _user
 
-    private val _totalCoin = MutableLiveData<Int>(0)
+    private val _totalCoin = MutableLiveData<Int>()
     val totalCoin: LiveData<Int> = _totalCoin
 
     init {
@@ -52,7 +50,10 @@ class AccountViewModel : BaseViewModel() {
 
     fun refreshTotalCoin() {
         viewModelScope.launch {
-            _totalCoin.value = coinPrizeRepo.getPrize()?.coin?.total ?: 0
+            val coinPrize = coinPrizeRepo.getCoin()
+            coinPrize?.let {
+                _totalCoin.value = it.total
+            }
         }
     }
 

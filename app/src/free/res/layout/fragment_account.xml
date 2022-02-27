@@ -124,7 +124,6 @@
                         style="@style/CardStyle.Body"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{viewModel.totalCoin.toString()}"
                         app:layout_constraintBottom_toBottomOf="@+id/imageView3"
                         app:layout_constraintEnd_toStartOf="@+id/imageView3" />
 

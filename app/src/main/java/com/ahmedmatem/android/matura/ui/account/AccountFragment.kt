@@ -10,15 +10,12 @@ import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
 import com.ahmedmatem.android.matura.AccountActivity
 import com.ahmedmatem.android.matura.BuildConfig
 import com.ahmedmatem.android.matura.base.BaseFragment
 import com.ahmedmatem.android.matura.databinding.FragmentAccountBinding
 import com.ahmedmatem.android.matura.infrastructure.FlavorDistribution
-import com.ahmedmatem.android.matura.prizesystem.PrizeManager
-import com.ahmedmatem.android.matura.ui.test.worker.TestListRefreshWorker
+import com.ahmedmatem.android.matura.prizesystem.PrizeWorkManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -34,17 +31,14 @@ class AccountFragment : BaseFragment() {
     private val loginResultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == Activity.RESULT_OK) {
-                /**
-                 * Refresh test list for user in local database if necessary.
-                 */
+                // Refresh test list for user in local database if necessary.
                 viewModel.refreshUserTestListIfNecessary()
 
-                /**
-                 * PRIZE SETUP - onLogin success
-                 * Apply only for FREE distribution.
-                 */
+                // Apply only for FREE distribution.
                 if (BuildConfig.FLAVOR_distribution == FlavorDistribution.FREE) {
-                    PrizeManager(requireContext()).setup()
+                    // Prize setup
+                    PrizeWorkManager(requireContext()).setup()
+
                     viewModel.refreshTotalCoin()
                 }
             }
@@ -64,11 +58,10 @@ class AccountFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewModel =
-            ViewModelProvider(this).get(AccountViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(AccountViewModel::class.java)
 
         val binding = FragmentAccountBinding.inflate(inflater, container, false)
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
 
         binding.viewModel = viewModel
 
@@ -93,8 +86,9 @@ class AccountFragment : BaseFragment() {
             }
         })
 
-        viewModel.totalCoin.observe(viewLifecycleOwner){
+        viewModel.totalCoin.observe(viewLifecycleOwner) {
             Log.d("DEBUG", "onCreateView: coin - $it")
+            binding.totalCoins.text = it.toString()
         }
 
         return binding.root
@@ -103,5 +97,6 @@ class AccountFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         viewModel.updateAccountActive()
+        viewModel.refreshTotalCoin()
     }
 }

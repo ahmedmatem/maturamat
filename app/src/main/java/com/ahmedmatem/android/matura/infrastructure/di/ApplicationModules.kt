@@ -1,22 +1,21 @@
 package com.ahmedmatem.android.matura.infrastructure.di
 
 import androidx.work.WorkManager
-import com.ahmedmatem.android.matura.datasource.local.CoinPrizeLocalDataSource
+import com.ahmedmatem.android.matura.datasource.local.CoinLocalDataSource
 import com.ahmedmatem.android.matura.local.MaturaDb
 import com.ahmedmatem.android.matura.datasource.local.TestLocalDataSource
-import com.ahmedmatem.android.matura.datasource.remote.CoinPrizeRemoteDataSource
+import com.ahmedmatem.android.matura.datasource.remote.CoinRemoteDataSource
 import com.ahmedmatem.android.matura.datasource.remote.TestRemoteDataSource
 import com.ahmedmatem.android.matura.local.preferences.UserPrefs
 import com.ahmedmatem.android.matura.network.services.AccountApi
-import com.ahmedmatem.android.matura.prizesystem.PrizeManager
+import com.ahmedmatem.android.matura.prizesystem.PrizeWorkManager
 import com.ahmedmatem.android.matura.repository.AccountRepository
-import com.ahmedmatem.android.matura.repository.CoinPrizeRepository
+import com.ahmedmatem.android.matura.repository.CoinRepository
 import com.ahmedmatem.android.matura.repository.TestRepository
 import com.ahmedmatem.android.matura.utils.TestURLUtil
 import com.ahmedmatem.android.matura.utils.helpers.NoticeDataCreator
 import com.ahmedmatem.android.matura.utils.providers.ResourcesProvider
 import com.ahmedmatem.android.matura.utils.providers.SharedPreferencesProvider
-import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
 val applicationModule = module {
@@ -35,17 +34,17 @@ val applicationModule = module {
      */
 
     // local
-    single { CoinPrizeLocalDataSource() }
+    single { CoinLocalDataSource() }
     single { TestLocalDataSource() }
 
     // remote
-    single { CoinPrizeRemoteDataSource() }
+    single { CoinRemoteDataSource() }
     single { TestRemoteDataSource() }
 
     /**
      * Repositories
      */
-    single { CoinPrizeRepository() }
+    single { CoinRepository() }
     single { TestRepository() }
 
     single { TestURLUtil(get()) }
@@ -54,6 +53,6 @@ val applicationModule = module {
     single { NoticeDataCreator(get()) }
     single { MaturaDb.getInstance(get()) }
 
-    single { PrizeManager(get()) }
+    single { PrizeWorkManager(get()) }
     single { WorkManager.getInstance(get()) }
 }

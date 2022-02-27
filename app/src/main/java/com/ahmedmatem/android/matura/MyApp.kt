@@ -2,7 +2,6 @@ package com.ahmedmatem.android.matura
 
 import android.app.Application
 import android.util.Log
-import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.ahmedmatem.android.matura.infrastructure.FlavorDistribution
 import com.ahmedmatem.android.matura.infrastructure.di.applicationModule
@@ -10,8 +9,7 @@ import com.ahmedmatem.android.matura.local.MaturaDb
 import com.ahmedmatem.android.matura.local.preferences.UserPrefs
 import com.ahmedmatem.android.matura.network.Result
 import com.ahmedmatem.android.matura.network.services.AccountApi
-import com.ahmedmatem.android.matura.prizesystem.PrizeManager
-import com.ahmedmatem.android.matura.ui.test.worker.TestListRefreshWorker
+import com.ahmedmatem.android.matura.prizesystem.PrizeWorkManager
 import com.ahmedmatem.android.matura.utils.safeApiCall
 import com.facebook.FacebookSdk
 import com.facebook.appevents.AppEventsLogger
@@ -43,7 +41,7 @@ class MyApp : Application() {
          */
         if (BuildConfig.FLAVOR_distribution == FlavorDistribution.FREE) {
             _userPrefs.getUser()?.let {
-                PrizeManager(applicationContext).setup()
+                PrizeWorkManager(applicationContext).setup()
             }
         }
 

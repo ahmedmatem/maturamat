@@ -98,6 +98,11 @@ class TestListFragment : BaseFragment() {
         return binding.root
     }
 
+    /*override fun onResume() {
+        super.onResume()
+        viewModel.refreshLastTest()
+    }*/
+
     companion object {
         const val TAG = "TestListFragment"
     }
