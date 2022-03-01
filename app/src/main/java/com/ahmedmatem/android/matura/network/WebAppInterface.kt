@@ -3,6 +3,7 @@ package com.ahmedmatem.android.matura.network
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.webkit.JavascriptInterface
@@ -43,6 +44,11 @@ class WebAppInterface(
                     try {
                         (viewModel as TestViewViewModel).test?.let {
                             putExtra(EXTRA_TEST_ID, it.id)
+                        } ?: run {
+                            val bundle = Bundle().apply {
+                                putString(EXTRA_TEST_ID, null)
+                            }
+                            putExtra(EXTRA_TEST_ID, bundle)
                         }
                     } catch (e: ClassCastException) {
                         Log.d("DEBUG", "postExecute: Class acst exception")
