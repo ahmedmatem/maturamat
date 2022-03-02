@@ -30,7 +30,7 @@ class TestListViewModel : BaseViewModel() {
     }
 
     // Read data from local database
-    var testList = testRepo.getTestList()
+    val testList = testRepo.getTestList()
 
     fun refreshTestById(testId: String) {
         viewModelScope.launch {
@@ -51,11 +51,7 @@ class TestListViewModel : BaseViewModel() {
         _onTestItemClick.value = test
     }
 
-    /*
-     *
-     * FREE distribution code
-     *
-     */
+    // FREE distribution code
 
     fun bet() {
         viewModelScope.launch {

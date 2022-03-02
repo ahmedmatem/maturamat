@@ -1,6 +1,7 @@
 package com.ahmedmatem.android.matura.prizesystem.models
 
 import androidx.annotation.Keep
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
@@ -15,15 +16,22 @@ import java.util.*
 @Entity(tableName = "coin_table")
 data class Coin(
     // username
-    @PrimaryKey @Json(name = "Holder") val holder: String = "",
+    @PrimaryKey @Json(name = "Holder")
+    @ColumnInfo(name = "holder") val holder: String = "",
     // coins given by default as a gift from app for specific period
-    @Json(name = "Gift") var gift: Int = PrizeConfig.COIN_DEFAULT_GIFT_PER_WEEK,
+    @Json(name = "Gift")
+    @ColumnInfo(name = "gift") var gift: Int = PrizeConfig.COIN_DEFAULT_GIFT_PER_WEEK,
     // coins earned by the user offered in different app activities
-    @Json(name = "Earned") var earned: Int = 0,
-    @Json(name = "Start") var start: Date = Date(),
-    @Json(name = "End") var end: Date = Date().add(PrizeConfig.COIN_DEFAULT_PERIOD_DURATION_IN_DAYS),
-    @Json(name = "Duration") var duration: Int = PrizeConfig.COIN_DEFAULT_PERIOD_DURATION_IN_DAYS,
-    @Json(name = "Measure") var measure: Int = DurationMeasure.DAYS.ordinal
+    @Json(name = "Earned")
+    @ColumnInfo(name = "earned") var earned: Int = 0,
+    @Json(name = "Start")
+    @ColumnInfo(name = "start") var start: Date = Date(),
+    @Json(name = "End")
+    @ColumnInfo(name = "end") var end: Date = Date().add(PrizeConfig.COIN_DEFAULT_PERIOD_DURATION_IN_DAYS),
+    @Json(name = "Duration")
+    @ColumnInfo(name = "duration") var duration: Int = PrizeConfig.COIN_DEFAULT_PERIOD_DURATION_IN_DAYS,
+    @Json(name = "Measure")
+    @ColumnInfo(name = "measure") var measure: Int = DurationMeasure.DAYS.ordinal
 ) {
     @Transient
     @Ignore
@@ -39,6 +47,7 @@ data class Coin(
      */
 
     @Throws(InsufficientCoinException::class)
+    @Ignore
     fun bet(amount: Int = 1) {
         if (total >= amount) {
             // first try to use coin from gift
@@ -55,9 +64,14 @@ data class Coin(
         }
     }
 
+    @Ignore
     fun add(amount: Int) {
         earned += amount
     }
+}
+
+fun Coin.total() {
+
 }
 
 enum class DurationMeasure {

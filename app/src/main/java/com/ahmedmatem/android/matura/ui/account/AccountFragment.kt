@@ -31,6 +31,7 @@ class AccountFragment : BaseFragment() {
     private val loginResultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == Activity.RESULT_OK) {
+                Log.d(TAG, ": Login activity result.")
                 // Refresh test list for user in local database if necessary.
                 viewModel.refreshUserTestListIfNecessary()
 
@@ -38,8 +39,6 @@ class AccountFragment : BaseFragment() {
                 if (BuildConfig.FLAVOR_distribution == FlavorDistribution.FREE) {
                     // Prize setup
                     PrizeWorkManager(requireContext()).setup()
-
-                    viewModel.refreshTotalCoin()
                 }
             }
         }
@@ -87,7 +86,6 @@ class AccountFragment : BaseFragment() {
         })
 
         viewModel.totalCoin.observe(viewLifecycleOwner) {
-            Log.d("DEBUG", "onCreateView: coin - $it")
             binding.totalCoins.text = it.toString()
         }
 
@@ -96,7 +94,12 @@ class AccountFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
+        Log.d(TAG, "onResume: starts")
         viewModel.updateAccountActive()
         viewModel.refreshTotalCoin()
+    }
+
+    companion object {
+        const val TAG = "AccountFragment"
     }
 }
