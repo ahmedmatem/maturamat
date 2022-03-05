@@ -1,7 +1,6 @@
 package com.ahmedmatem.android.matura.datasource.local
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.liveData
+import android.util.Log
 import com.ahmedmatem.android.matura.local.MaturaDb
 import com.ahmedmatem.android.matura.local.preferences.UserPrefs
 import com.ahmedmatem.android.matura.prizesystem.models.Coin
@@ -15,10 +14,11 @@ class CoinLocalDataSource {
     }
 
     private val _userPrefs: UserPrefs by inject(UserPrefs::class.java)
-    private val user by lazy { _userPrefs.getUser() }
 
     suspend fun getCoin(): Coin? {
+        val user = _userPrefs.getUser()
         return user?.let {
+            Log.d("DEBUG", "getCoin: username")
             coinDao.getCoin(it.username)
         }
     }

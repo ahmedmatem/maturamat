@@ -22,16 +22,19 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import java.lang.Thread.sleep
 
 class AccountFragment : BaseFragment() {
 
     override lateinit var viewModel: AccountViewModel
     private lateinit var _googleSignInClient: GoogleSignInClient
 
+    private lateinit var binding: FragmentAccountBinding
+
     private val loginResultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == Activity.RESULT_OK) {
-                Log.d(TAG, ": Login activity result.")
+                Log.d(TAG, ": In - Login activity result.")
                 // Refresh test list for user in local database if necessary.
                 viewModel.refreshUserTestListIfNecessary()
 
@@ -39,6 +42,7 @@ class AccountFragment : BaseFragment() {
                 if (BuildConfig.FLAVOR_distribution == FlavorDistribution.FREE) {
                     // Prize setup
                     PrizeWorkManager(requireContext()).setup()
+                    viewModel.refreshTotalCoin()
                 }
             }
         }
@@ -59,7 +63,7 @@ class AccountFragment : BaseFragment() {
     ): View {
         viewModel = ViewModelProvider(this).get(AccountViewModel::class.java)
 
-        val binding = FragmentAccountBinding.inflate(inflater, container, false)
+        binding = FragmentAccountBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
 
         binding.viewModel = viewModel

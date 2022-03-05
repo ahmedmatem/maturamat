@@ -16,6 +16,7 @@ class PrizeWorkManager(context: Context) {
     private val workManager by lazy { WorkManager.getInstance(context) }
 
     fun setup() {
+        Log.d("DEBUG", "setup: by PrizeWorkManager")
         val setupRequest = OneTimeWorkRequestBuilder<CoinSetupWorker>().build()
         workManager.enqueue(setupRequest)
     }

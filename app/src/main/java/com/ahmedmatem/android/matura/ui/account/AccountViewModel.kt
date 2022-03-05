@@ -1,6 +1,5 @@
 package com.ahmedmatem.android.matura.ui.account
 
-import android.util.Log
 import androidx.lifecycle.*
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager

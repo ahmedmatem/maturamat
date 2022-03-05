@@ -1,5 +1,6 @@
 package com.ahmedmatem.android.matura.ui.test
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.network.models.Test
@@ -25,6 +26,7 @@ class TestListViewModel : BaseViewModel() {
     val isFabVisible: LiveData<Boolean> = _isFabVisible
 
     init {
+        Log.d("DEBUG", "init testList viewModel: ")
         // Fab visibility is actual on FREE distribution
         setFabVisibility()
     }

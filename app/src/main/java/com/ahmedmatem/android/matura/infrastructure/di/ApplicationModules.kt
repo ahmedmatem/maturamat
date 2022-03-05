@@ -14,6 +14,7 @@ import com.ahmedmatem.android.matura.repository.CoinRepository
 import com.ahmedmatem.android.matura.repository.TestRepository
 import com.ahmedmatem.android.matura.utils.TestURLUtil
 import com.ahmedmatem.android.matura.utils.helpers.NoticeDataCreator
+import com.ahmedmatem.android.matura.utils.providers.ContextProvider
 import com.ahmedmatem.android.matura.utils.providers.ResourcesProvider
 import com.ahmedmatem.android.matura.utils.providers.SharedPreferencesProvider
 import org.koin.dsl.module
@@ -41,9 +42,7 @@ val applicationModule = module {
     single { CoinRemoteDataSource() }
     single { TestRemoteDataSource() }
 
-    /**
-     * Repositories
-     */
+    // Repositories
     single { CoinRepository() }
     single { TestRepository() }
 
@@ -55,4 +54,7 @@ val applicationModule = module {
 
     single { PrizeWorkManager(get()) }
     single { WorkManager.getInstance(get()) }
+
+    // Providers
+    single { ContextProvider(get()) }
 }
