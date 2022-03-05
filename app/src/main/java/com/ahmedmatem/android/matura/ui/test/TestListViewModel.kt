@@ -25,12 +25,6 @@ class TestListViewModel : BaseViewModel() {
     private val _isFabVisible = MutableLiveData<Boolean>(false)
     val isFabVisible: LiveData<Boolean> = _isFabVisible
 
-    init {
-        Log.d("DEBUG", "init testList viewModel: ")
-        // Fab visibility is actual on FREE distribution
-        setFabVisibility()
-    }
-
     // Read data from local database
     val testList = testRepo.getTestList()
 
@@ -68,7 +62,7 @@ class TestListViewModel : BaseViewModel() {
         }
     }
 
-    private fun setFabVisibility() {
+    fun setFabVisibility() {
         viewModelScope.launch {
             val coin = coinRepo.getCoin()
             _isFabVisible.value = coin?.let {

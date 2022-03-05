@@ -98,10 +98,13 @@ class TestListFragment : BaseFragment() {
         return binding.root
     }
 
-    /*override fun onResume() {
+    override fun onResume() {
         super.onResume()
-        viewModel.refreshLastTest()
-    }*/
+        
+        if (BuildConfig.FLAVOR_distribution == FlavorDistribution.FREE) {
+            viewModel.setFabVisibility()
+        }
+    }
 
     companion object {
         const val TAG = "TestListFragment"
