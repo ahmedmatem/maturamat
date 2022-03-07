@@ -34,6 +34,14 @@ class UserPrefs(val context: Context) {
         return null
     }
 
+    fun isGuest(): Boolean {
+        return !isUser()
+    }
+
+    fun isUser() : Boolean {
+        return getUser() != null
+    }
+
     fun logout() {
         setUsername(null)
     }

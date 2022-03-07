@@ -100,7 +100,8 @@ class TestListFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        
+
+        // todo: Flavor distribution code
         if (BuildConfig.FLAVOR_distribution == FlavorDistribution.FREE) {
             viewModel.setFabVisibility()
         }

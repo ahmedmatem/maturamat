@@ -3,6 +3,7 @@ package com.ahmedmatem.android.matura.ui.test
 import android.util.Log
 import androidx.lifecycle.*
 import com.ahmedmatem.android.matura.base.BaseViewModel
+import com.ahmedmatem.android.matura.local.preferences.UserPrefs
 import com.ahmedmatem.android.matura.network.models.Test
 import com.ahmedmatem.android.matura.prizesystem.PrizeWorkManager
 import com.ahmedmatem.android.matura.repository.CoinRepository
@@ -15,6 +16,7 @@ class TestListViewModel : BaseViewModel() {
     private val testRepo: TestRepository by inject(TestRepository::class.java)
     private val coinRepo: CoinRepository by inject(CoinRepository::class.java)
     private val prizeWorkManager: PrizeWorkManager by inject(PrizeWorkManager::class.java)
+    private val userPrefs by inject<UserPrefs>(UserPrefs::class.java)
 
     private val _onTestItemClick = MutableLiveData<Test?>().apply { value = null }
     val onTestItemClick: LiveData<Test?> = _onTestItemClick
@@ -63,11 +65,16 @@ class TestListViewModel : BaseViewModel() {
     }
 
     fun setFabVisibility() {
-        viewModelScope.launch {
-            val coin = coinRepo.getCoin()
-            _isFabVisible.value = coin?.let {
-                it.total > 0
-            } ?: false
+        // show Fab always for Guest
+        if (userPrefs.isGuest()) {
+            _isFabVisible.value = true
+        } else {
+            viewModelScope.launch {
+                val coin = coinRepo.getCoin()
+                _isFabVisible.value = coin?.let {
+                    it.total > 0
+                } ?: false
+            }
         }
     }
 }
