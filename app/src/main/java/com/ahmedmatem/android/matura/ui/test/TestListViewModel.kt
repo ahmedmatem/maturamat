@@ -65,10 +65,11 @@ class TestListViewModel : BaseViewModel() {
     }
 
     fun setFabVisibility() {
-        // show Fab always for Guest
         if (userPrefs.isGuest()) {
+            // Guest
             _isFabVisible.value = true
         } else {
+            // User
             viewModelScope.launch {
                 val coin = coinRepo.getCoin()
                 _isFabVisible.value = coin?.let {

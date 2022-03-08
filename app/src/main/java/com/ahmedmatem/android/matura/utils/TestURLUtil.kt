@@ -77,5 +77,5 @@ class TestURLUtil(ctx: Context) {
     fun testResultUrl(testId: String): String =
         _context.getString(R.string.test_result_url, testId)
 
-    fun testResultSummaryOnlyUrl(testId: String): String = testResultUrl(testId) + "/summaryOnly=true"
+    fun testResultSummaryOnlyUrl(testId: String): String = testResultUrl(testId) + "?summaryOnly=true"
 }
