@@ -10,6 +10,7 @@ import androidx.lifecycle.*
 import com.ahmedmatem.android.matura.R
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.base.NavigationCommand
+import com.ahmedmatem.android.matura.local.preferences.UserPrefs
 import com.ahmedmatem.android.matura.network.WebAppInterface.Companion.ACTION_FINISH_ACTIVITY
 import com.ahmedmatem.android.matura.network.WebAppInterface.Companion.NO_ACTION
 import com.ahmedmatem.android.matura.network.models.Test
@@ -39,6 +40,7 @@ class TestViewViewModel(var test: Test? = null) : BaseViewModel(),
     )
     private val noticeDataCreator: NoticeDataCreator by inject(NoticeDataCreator::class.java)
     private val _testRepo: TestRepository by inject(TestRepository::class.java)
+    private val userPrefs: UserPrefs by inject(UserPrefs::class.java)
 
     private val _resources: Resources by lazy { resourcesProvider.getResources() }
     private val _prefs: SharedPreferences by lazy {
@@ -168,7 +170,11 @@ class TestViewViewModel(var test: Test? = null) : BaseViewModel(),
      * This function triggers from background thread. Use postValue instead of setValue
      */
     fun showTestResult(testId: String) {
-        val testResultUrl = urlUtil.testResultUrl(testId)
+        val testResultUrl = if (userPrefs.isGuest()) {
+            urlUtil.testResultSummaryOnlyUrl(testId)
+        } else {
+            urlUtil.testResultUrl(testId)
+        }
         // call postValue to set navigationCommand value asynchronously
         navigationCommand.postValue(
             NavigationCommand.To(
