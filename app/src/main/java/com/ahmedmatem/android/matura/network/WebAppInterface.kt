@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import android.webkit.JavascriptInterface
 import android.widget.FrameLayout
+import android.widget.Toast
 import androidx.annotation.MainThread
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
@@ -23,6 +24,14 @@ class WebAppInterface(
     private val context: Context,
     val viewModel: BaseViewModel? = null
 ) {
+
+    /**
+     * @param id - problem id
+     */
+    @JavascriptInterface
+    fun showSolution(id: String) {
+
+    }
 
     @JavascriptInterface
     fun showTestResult(testId: String) {
