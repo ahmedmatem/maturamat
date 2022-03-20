@@ -76,6 +76,10 @@ class Mark private constructor(val value: Double, val text: String) {
         }
     }
 
+    override fun toString(): String {
+        return "$text $value"
+    }
+
     companion object {
         private var percent: Int = 0
 
