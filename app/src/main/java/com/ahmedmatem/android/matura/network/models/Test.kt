@@ -1,6 +1,7 @@
 package com.ahmedmatem.android.matura.network.models
 
 import android.os.Parcelable
+import android.util.Log
 import androidx.annotation.Keep
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,8 +13,10 @@ import androidx.room.PrimaryKey
 import com.ahmedmatem.android.matura.infrastructure.toDisplayFormat
 import com.ahmedmatem.android.matura.ui.test.adapter.TestListAdapter
 import com.ahmedmatem.android.matura.ui.test.contracts.TestState
+import com.ahmedmatem.android.matura.utils.Mark
 import com.squareup.moshi.Json
 import kotlinx.android.parcel.Parcelize
+import java.lang.ClassCastException
 import java.util.*
 
 @Parcelize
@@ -69,7 +72,10 @@ data class Test(
 
     @Ignore
     @Transient
-    val subtitle = "$correctAnswersNumber/$answersNumber, $resultInPercent%"
+//    var subtitle = "$correctAnswersNumber/$answersNumber, $resultInPercent%"
+    val subtitle = resultInPercent?.let {
+        Mark.fromPercent(it.toInt()).toString()
+    }
 
     companion object {
         const val DisplayFormat: String = "dd/MM/yyyy, HH:mm"

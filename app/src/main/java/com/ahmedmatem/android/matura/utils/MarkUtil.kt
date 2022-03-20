@@ -3,6 +3,7 @@ package com.ahmedmatem.android.matura.utils
 import java.lang.IllegalArgumentException
 import java.security.InvalidAlgorithmParameterException
 import java.security.InvalidParameterException
+import kotlin.math.roundToInt
 
 val defaultPercentScale = listOf(10, 20, 25, 40, 50, 65, 80, 90, 100)
 
@@ -77,7 +78,7 @@ class Mark private constructor(val value: Double, val text: String) {
     }
 
     override fun toString(): String {
-        return "$text $value"
+        return "$text ${"%.2f".format(value)}"
     }
 
     companion object {

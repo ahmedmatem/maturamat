@@ -12,8 +12,10 @@ import com.ahmedmatem.android.matura.databinding.ListItemTestIncompleteBinding
 import com.ahmedmatem.android.matura.network.models.Test
 import com.ahmedmatem.android.matura.network.models.getViewType
 import com.ahmedmatem.android.matura.ui.test.contracts.TestState
+import com.ahmedmatem.android.matura.utils.Mark
 import com.bumptech.glide.Glide
 import com.squareup.moshi.JsonClass
+import java.lang.ClassCastException
 
 @JsonClass(generateAdapter = true)
 class TestListAdapter(private val clickListener: TestClickListener) :
