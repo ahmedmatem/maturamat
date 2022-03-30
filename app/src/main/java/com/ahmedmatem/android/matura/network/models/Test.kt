@@ -55,6 +55,9 @@ data class Test(
     @ColumnInfo(name = "has_timer")
     @Json(name = "HasTimer") var hasTimer: Boolean,
 
+    @ColumnInfo(name = "level")
+    @Json(name = "Level") val level: Int,
+
     /**
      * Always initialize one of next two properties (username or uuid)
      * when receive test from remote server.
