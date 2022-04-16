@@ -3,13 +3,13 @@ package com.ahmedmatem.android.matura.ui.test
 import android.content.SharedPreferences
 import android.content.res.Resources
 import android.util.Log
-import androidx.annotation.MainThread
-import androidx.annotation.UiThread
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.*
+import com.ahmedmatem.android.matura.BuildConfig
 import com.ahmedmatem.android.matura.R
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.base.NavigationCommand
+import com.ahmedmatem.android.matura.infrastructure.FlavorVersion
 import com.ahmedmatem.android.matura.local.preferences.UserPrefs
 import com.ahmedmatem.android.matura.network.WebAppInterface.Companion.ACTION_FINISH_ACTIVITY
 import com.ahmedmatem.android.matura.network.WebAppInterface.Companion.NO_ACTION
@@ -22,7 +22,6 @@ import com.ahmedmatem.android.matura.utils.TestURLUtil
 import com.ahmedmatem.android.matura.utils.helpers.NoticeDataCreator
 import com.ahmedmatem.android.matura.utils.providers.ResourcesProvider
 import com.ahmedmatem.android.matura.utils.providers.SharedPreferencesProvider
-import kotlinx.coroutines.launch
 import org.koin.java.KoinJavaComponent.inject
 import java.lang.IllegalArgumentException
 
@@ -170,7 +169,8 @@ class TestViewViewModel(var test: Test? = null) : BaseViewModel(),
      * This function triggers from background thread. Use postValue instead of setValue
      */
     fun showTestResult(testId: String) {
-        val testResultUrl = if (userPrefs.isGuest()) {
+        val isNvo4Flavor: Boolean = BuildConfig.FLAVOR_version == FlavorVersion.NVO4
+        val testResultUrl = if (userPrefs.isGuest() && !isNvo4Flavor) {
             urlUtil.testResultSummaryOnlyUrl(testId)
         } else {
             urlUtil.testResultUrl(testId)

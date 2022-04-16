@@ -3,8 +3,10 @@ package com.ahmedmatem.android.matura.ui.test
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.ahmedmatem.android.matura.BuildConfig
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.base.NavigationCommand
+import com.ahmedmatem.android.matura.infrastructure.FlavorVersion
 import com.ahmedmatem.android.matura.local.preferences.UserPrefs
 import com.ahmedmatem.android.matura.network.models.Test
 import com.ahmedmatem.android.matura.ui.test.contracts.TestState
@@ -32,7 +34,8 @@ class PlaceholderViewModel(private val context: Context) : BaseViewModel() {
     }
 
     private fun navigateToTestResult(testId: String) {
-        val testResultUrl = if (userPrefs.isGuest()) {
+        val isNvo4Version: Boolean = BuildConfig.FLAVOR_version == FlavorVersion.NVO4
+        val testResultUrl = if (userPrefs.isGuest() && !isNvo4Version) {
             // Show only test result summary for Guest
             urlUtil.testResultSummaryOnlyUrl(testId)
         } else {
