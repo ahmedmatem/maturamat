@@ -124,8 +124,6 @@ dependencies {
     // Dependency for the Google Play services library
     implementation 'com.google.android.gms:play-services-auth:19.2.0'
 
-    implementation 'com.firebaseui:firebase-ui-auth:7.2.0'
-
     // ViewModel and LiveData
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_extensions_version"
 
@@ -158,6 +156,7 @@ dependencies {
     // Koin for Android
     implementation "io.insert-koin:koin-android:$koin_version"
 
-    // Facebook login
+    // Facebook login SDK
     implementation 'com.facebook.android:facebook-android-sdk:latest.release'
+    implementation 'com.firebaseui:firebase-ui-auth:7.2.0'
 }

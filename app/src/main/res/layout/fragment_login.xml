@@ -137,14 +137,15 @@
             style="@style/AppButtonStyle"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_marginEnd="8dp"
             android:contentDescription="@string/sign_in_with_google_description"
             android:onClick="@{() -> viewModel.loginWithGoogle()}"
-            app:layout_constraintBottom_toBottomOf="@+id/facebookLoginBtn"
-            app:layout_constraintEnd_toStartOf="@+id/guideline2"
+            app:layout_constraintBottom_toTopOf="@+id/guideline4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@drawable/fui_ic_googleg_color_24dp" />
 
-        <ImageButton
+        <!--<ImageButton
             android:id="@+id/facebookLoginBtn"
             style="@style/AppButtonStyle"
             android:layout_width="48dp"
@@ -154,7 +155,7 @@
             android:onClick="@{() -> viewModel.loginWithFacebook()}"
             app:layout_constraintBottom_toTopOf="@+id/guideline4"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
-            app:srcCompat="@drawable/ic_facebook_24" />
+            app:srcCompat="@drawable/ic_facebook_24" />-->
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

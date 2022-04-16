@@ -8,8 +8,9 @@
     <string name="test_result_url">&base_test_url;/test/reviewResult/%1$s</string>
 
     <!-- Facebook App ID -->
-    <string name="facebook_app_id">1063983791112481</string>
-    <string name="fb_login_protocol_scheme">fb1063983791112481</string>
+<!--    <string name="facebook_app_id">1063983791112481</string>-->
+<!--    <string name="fb_login_protocol_scheme">fb1063983791112481</string>-->
+<!--    <string name="facebook_client_token">359101d1ccf9a3e1b39240b14508d195</string>-->
 
 
     <string name="authorization">bearer %s</string>

@@ -3,8 +3,9 @@
     <!ENTITY base_test_url "https://maturamat.com/m">
     ]>
 <resources>
-    <string name="facebook_app_id">219868666972898</string>
-    <string name="fb_login_protocol_scheme">fb219868666972898</string>
+    <string name="facebook_app_id">303496988527469</string>
+    <string name="fb_login_protocol_scheme">fb303496988527469</string>
+    <string name="facebook_client_token">298886ce13fb8d0d8f8217818a06d9c9</string>
 
     <string name="app_name">НВО 4</string>
 

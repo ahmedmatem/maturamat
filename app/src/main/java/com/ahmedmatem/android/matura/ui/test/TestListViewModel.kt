@@ -2,7 +2,9 @@ package com.ahmedmatem.android.matura.ui.test
 
 import android.util.Log
 import androidx.lifecycle.*
+import com.ahmedmatem.android.matura.BuildConfig
 import com.ahmedmatem.android.matura.base.BaseViewModel
+import com.ahmedmatem.android.matura.infrastructure.FlavorVersion
 import com.ahmedmatem.android.matura.local.preferences.UserPrefs
 import com.ahmedmatem.android.matura.network.models.Test
 import com.ahmedmatem.android.matura.prizesystem.PrizeWorkManager
@@ -70,11 +72,17 @@ class TestListViewModel : BaseViewModel() {
             _isFabVisible.value = true
         } else {
             // User
-            viewModelScope.launch {
-                val coin = coinRepo.getCoin()
-                _isFabVisible.value = coin?.let {
-                    it.total > 0
-                } ?: false
+            if (BuildConfig.FLAVOR_version == FlavorVersion.NVO4) {
+                // Creating new test for NVO_4 clients is countless and free
+                _isFabVisible.value = true
+            } else {
+                // For NVO_7 and DZI check available coins to create new test
+                viewModelScope.launch {
+                    val coin = coinRepo.getCoin()
+                    _isFabVisible.value = coin?.let {
+                        it.total > 0
+                    } ?: false
+                }
             }
         }
     }
