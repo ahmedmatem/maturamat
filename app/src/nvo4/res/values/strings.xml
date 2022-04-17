@@ -17,4 +17,13 @@
     <string name="google_play_store_url">
         https://play.google.com/store/apps/details?id=com.ahmedmatem.android.matura.nvo4
     </string>
+
+    <!-- fragment_home -->
+    <string name="text_welcome">Добре дошъл в</string>
+    <string name="text_home">
+        Тук е мястото, където всеки бъдещ и настоящ четвъртокласник ще намери голям брой тестове
+        по математика, с които да се упражнява и подготви за Националното Външно Оценяване по математика
+        след завършване на 4 клас.\n\n
+        Успешна подготовка ...
+    </string>
 </resources>

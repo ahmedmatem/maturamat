@@ -8,7 +8,6 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.ahmedmatem.android.matura.R
 import com.ahmedmatem.android.matura.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
@@ -25,15 +24,14 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
+        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
+        val welcomeText: TextView = binding.textWelcome
+        homeViewModel.welcomeText.observe(viewLifecycleOwner, Observer {
+            welcomeText.text = it
         })
         return root
     }

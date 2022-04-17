@@ -5,6 +5,7 @@
       <map>
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/free/res/layout/fragment_account.xml" value="0.1" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/free/res/layout/fragment_test_list.xml" value="0.264" />
+        <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2185" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/button_base.xml" value="0.262037037037037" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/button_base_bg.xml" value="0.262037037037037" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/button_base_bg_night.xml" value="0.2755208333333333" />
@@ -47,6 +48,7 @@
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/ic_face_6_black_24.xml" value="0.24814814814814815" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/ic_facebook_logo_24.xml" value="0.2755208333333333" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/ic_google_logo_24.xml" value="0.2518518518518518" />
+        <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2185" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/ic_lock_outline_black_24.xml" value="0.2755208333333333" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/ic_login_24.xml" value="0.2755208333333333" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/drawable/ic_logout_24.xml" value="0.2755208333333333" />
@@ -90,7 +92,10 @@
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/layout/test_list_bottom_sheet.xml" value="0.259375" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/menu/bottom_nav_menu.xml" value="0.259375" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/menu/test_menu.xml" value="0.259375" />
+        <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2185" />
+        <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1325" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/main/res/xml/preferences.xml" value="0.259375" />
+        <entry key="..\:/Android Studio/Matura by Kotlin/app/src/nvo4/res/layout/fragment_home.xml" value="0.259375" />
         <entry key="..\:/Android Studio/Matura by Kotlin/app/src/nvo4Free/res/layout/fragment_account.xml" value="0.259375" />
         <entry key="..\:/Android Studio/Matura by Kotlin/mathkeyboard/src/main/res/drawable/digit_bg.xml" value="0.2215" />
         <entry key="..\:/Android Studio/Matura by Kotlin/mathkeyboard/src/main/res/drawable/func_bg.xml" value="0.2215" />
