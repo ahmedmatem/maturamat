@@ -180,4 +180,6 @@
     <!-- Menu items -->
     <string name="mi_check_result">Проверка на резултата</string>
 
+    <string name="text_welcome"></string>
+
 </resources>

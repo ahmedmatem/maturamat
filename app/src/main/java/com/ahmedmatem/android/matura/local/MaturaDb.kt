@@ -13,7 +13,7 @@ import com.ahmedmatem.android.matura.prizesystem.models.Coin
 
 @Database(
     entities = [Test::class, User::class, Coin::class],
-    version = 7
+    version = 1 // db version for NVO 4(v.1.0-free) - 1
 )
 @TypeConverters(Converters::class)
 abstract class MaturaDb : RoomDatabase() {

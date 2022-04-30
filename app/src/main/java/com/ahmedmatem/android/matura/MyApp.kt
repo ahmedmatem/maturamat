@@ -46,8 +46,8 @@ class MyApp : Application() {
         }
 
         // Facebook Logging App Activation
-        FacebookSdk.sdkInitialize(applicationContext)
-        AppEventsLogger.activateApp(this)
+//        FacebookSdk.sdkInitialize(applicationContext)
+//        AppEventsLogger.activateApp(this)
 
         // Todo: (5/9) Implement token refresh as background service
         /**
