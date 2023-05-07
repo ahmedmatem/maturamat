@@ -1,7 +1,6 @@
 package com.ahmedmatem.android.matura.ui.account.login
 
 import android.app.Activity
-import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -18,11 +17,6 @@ import com.ahmedmatem.android.matura.databinding.FragmentLoginBinding
 import com.ahmedmatem.android.matura.ui.account.login.external.ExternalLoginProvider
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
-import com.facebook.FacebookCallback
-import com.facebook.FacebookException
-import com.facebook.login.LoginManager
-import com.facebook.login.LoginResult
-import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -65,21 +59,21 @@ class LoginFragment : BaseFragment() {
         auth = Firebase.auth
         callbackManager = CallbackManager.Factory.create()
         // Register callback for facebook login result
-        LoginManager.getInstance()
-            .registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
-                override fun onCancel() {
-                    Log.d("DEBUG", "facebook:onCancel")
-                }
-
-                override fun onError(error: FacebookException) {
-                    Log.d("DEBUG", "facebook:onError:${error.message}")
-                }
-
-                override fun onSuccess(result: LoginResult) {
-                    Log.d("DEBUG", "Facebook:onSuccess:$result")
-                    handleFacebookAccessToken(result.accessToken)
-                }
-            })
+//        LoginManager.getInstance()
+//            .registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
+//                override fun onCancel() {
+//                    Log.d("DEBUG", "facebook:onCancel")
+//                }
+//
+//                override fun onError(error: FacebookException) {
+//                    Log.d("DEBUG", "facebook:onError:${error.message}")
+//                }
+//
+//                override fun onSuccess(result: LoginResult) {
+//                    Log.d("DEBUG", "Facebook:onSuccess:$result")
+//                    handleFacebookAccessToken(result.accessToken)
+//                }
+//            })
 
         // Google SignIn Options
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -159,10 +153,10 @@ class LoginFragment : BaseFragment() {
                     ExternalLoginProvider.Google -> {
                         externalLoginResultLauncher.launch(googleSignInClient.signInIntent)
                     }
-                    ExternalLoginProvider.Facebook -> {
-                        LoginManager.getInstance()
-                            .logInWithReadPermissions(this, listOf(PUBLIC_PROFILE))
-                    }
+//                    ExternalLoginProvider.Facebook -> {
+//                        LoginManager.getInstance()
+//                            .logInWithReadPermissions(this, listOf(PUBLIC_PROFILE))
+//                    }
                 }
                 viewModel.onExternalLoginComplete()
             }

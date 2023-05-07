@@ -13,7 +13,7 @@ def keysProperties = new Properties()
 keysProperties.load(new FileInputStream(rootProject.file("keys.properties")))
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
 
     buildFeatures {
         viewBinding true
@@ -23,7 +23,7 @@ android {
     defaultConfig {
         applicationId "com.ahmedmatem.android.matura"
         minSdkVersion 19
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode 4
         versionName "1.0.1"
 
