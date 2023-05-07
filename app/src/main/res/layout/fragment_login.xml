@@ -51,7 +51,7 @@
             tools:text="Вход" />
 
         <EditText
-            android:id="@+id/userName"
+            android:id="@+id/username"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/layout_margin"
@@ -62,7 +62,6 @@
             android:drawablePadding="@dimen/small_padding"
             android:hint="@string/hint_email"
             android:inputType="textEmailAddress"
-            android:text="@={viewModel.username}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView1" />
@@ -79,17 +78,16 @@
             android:drawablePadding="@dimen/small_padding"
             android:hint="@string/hint_password"
             android:inputType="textPassword"
-            android:text="@={viewModel.password}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/userName" />
+            app:layout_constraintTop_toBottomOf="@+id/username" />
 
         <Button
             android:id="@+id/loginBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:enabled="@{viewModel.loginButtonEnabled.booleanValue()}"
+            android:enabled="@{viewModel.uiState.enableLoginButton}"
             android:onClick="@{() -> viewModel.loginWithLocalAccount()}"
             android:text="@string/login_btn_text"
             app:layout_constraintEnd_toEndOf="parent"
@@ -144,18 +142,6 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@drawable/fui_ic_googleg_color_24dp" />
-
-        <!--<ImageButton
-            android:id="@+id/facebookLoginBtn"
-            style="@style/AppButtonStyle"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="8dp"
-            android:contentDescription="@string/sign_in_with_facebook_description"
-            android:onClick="@{() -> viewModel.loginWithFacebook()}"
-            app:layout_constraintBottom_toTopOf="@+id/guideline4"
-            app:layout_constraintStart_toStartOf="@+id/guideline2"
-            app:srcCompat="@drawable/ic_facebook_24" />-->
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

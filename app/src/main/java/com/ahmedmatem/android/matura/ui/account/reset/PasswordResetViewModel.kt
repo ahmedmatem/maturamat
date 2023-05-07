@@ -96,7 +96,7 @@ class PasswordResetViewModel(private val context: Context) : BaseViewModel() {
     }
 
     class Factory(val context: Context) : ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(PasswordResetViewModel::class.java)) {
                 return PasswordResetViewModel(context) as T
             }

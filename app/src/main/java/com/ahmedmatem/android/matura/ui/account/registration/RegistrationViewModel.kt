@@ -237,7 +237,7 @@ class RegistrationViewModel(
 
     class Factory(val context: Context, val args: RegistrationFragmentArgs) :
         ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(RegistrationViewModel::class.java)) {
                 return RegistrationViewModel(context, args) as T
             }

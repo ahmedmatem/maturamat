@@ -1,9 +1,12 @@
 package com.ahmedmatem.android.matura.ui.account.login
 
 import android.content.Context
+import android.text.TextUtils
+import android.util.Patterns
 import androidx.lifecycle.*
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.base.NavigationCommand
+import com.ahmedmatem.android.matura.infrastructure.PasswordOptions
 import com.ahmedmatem.android.matura.local.preferences.UserPrefs
 import com.ahmedmatem.android.matura.network.Result
 import com.ahmedmatem.android.matura.network.models.User
@@ -13,22 +16,22 @@ import com.ahmedmatem.android.matura.repository.AccountRepository
 import com.ahmedmatem.android.matura.ui.account.login.external.ExternalLoginProvider
 import com.ahmedmatem.android.matura.ui.account.login.external.ExternalLoginData
 import com.ahmedmatem.android.matura.ui.account.login.external.LoginAccompanyingAction
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.koin.java.KoinJavaComponent.inject
 import java.lang.IllegalArgumentException
 
-class LoginViewModel(val context: Context) : BaseViewModel() {
+class LoginViewModel() : BaseViewModel() {
 
     private val _userPrefs: UserPrefs by inject(UserPrefs::class.java)
     private val _accountRepository: AccountRepository by inject(AccountRepository::class.java)
 
-    val username = MutableLiveData<String>("")
-    val password = MutableLiveData<String>("")
-    private var externalLogin = false
+    private val _uiState: MutableStateFlow<LoginFormUiState> = MutableStateFlow(LoginFormUiState())
+    val uiState: StateFlow<LoginFormUiState> = _uiState.asStateFlow()
 
-    private val _loginButtonEnabled = MutableLiveData<Boolean>()
-    val loginButtonEnabled: LiveData<Boolean>
-        get() = _loginButtonEnabled
+    private var externalLogin = false
 
     private val _loginAttemptResult = MutableLiveData<Boolean>()
     val loginAttemptResult: LiveData<Boolean>
@@ -36,10 +39,6 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
 
     private val _externalLoginFlow = MutableLiveData<ExternalLoginProvider?>()
     val externalLoginFlow: LiveData<ExternalLoginProvider?> = _externalLoginFlow
-
-    fun validateLoginButtonEnableState() {
-        _loginButtonEnabled.value = username.value!!.isNotBlank() && password.value!!.isNotBlank()
-    }
 
     /**
      * This function request access token by user credentials in order to login.
@@ -49,18 +48,17 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
      * invalid user credentials(onGenericError - code 400, Bad Request).
      */
     fun loginWithLocalAccount() {
-        _loginButtonEnabled.value = false
         showLoading.value = true
         viewModelScope.launch {
             // Request access token and ensure email is already confirmed before login
             when (val tokenResponse =
-                _accountRepository.requestToken(username.value!!, password.value!!)) {
+                _accountRepository.requestToken(_uiState.value.username, _uiState.value.password)) {
                 is Result.Success -> {
                     if (externalLogin) {
                         /**
                          * In case of external login (email is always confirmed)
                          */
-                        login(tokenResponse.data.withPassword(password.value))
+                        login(tokenResponse.data.withPassword(_uiState.value.password))
                     } else {
                         /**
                          *  In case of login with local account
@@ -71,9 +69,9 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
                          *  email has not confirmed - i.e in case of user try to login from another
                          *  device.
                          */
-                        val hasEmailConfirmed = _accountRepository.isUserExist(username.value!!)
+                        val hasEmailConfirmed = _accountRepository.isUserExist(_uiState.value.username!!)
                         if (hasEmailConfirmed) {
-                            login(tokenResponse.data.withPassword(password.value!!))
+                            login(tokenResponse.data.withPassword(_uiState.value.password))
                         } else {
                             /**
                              * Try to check email confirmation in the server
@@ -83,7 +81,7 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
                                 is Result.Success -> {
                                     if (emailResponse.data) {
                                         // User exists and email has confirmed
-                                        login(tokenResponse.data.withPassword(password.value))
+                                        login(tokenResponse.data.withPassword(_uiState.value.password))
                                     } else {
                                         // User exists but email is not confirmed yet
                                         navigateToEmailConfirmation(tokenResponse.data.userName)
@@ -103,9 +101,9 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
     }
 
     private fun externalLogin(username: String, password: String) {
-        this.username.value = username
-        this.password.value = password
+        _uiState.value = LoginFormUiState(username, password)
         externalLogin = true
+        // TODO: Create function for external login
         loginWithLocalAccount()
     }
 
@@ -117,10 +115,6 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
 
     fun loginWithGoogle() {
         _externalLoginFlow.value = ExternalLoginProvider.Google
-    }
-
-    fun loginWithFacebook() {
-        _externalLoginFlow.value = ExternalLoginProvider.Facebook
     }
 
     fun onExternalLoginComplete() {
@@ -193,12 +187,36 @@ class LoginViewModel(val context: Context) : BaseViewModel() {
         )
     }
 
-    class Factory(private val context: Context) : ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
-                return LoginViewModel(context) as T
-            }
-            throw IllegalArgumentException("Unable to construct LoginViewModel")
+    /**
+     * NEW CODE
+     **/
+
+    fun afterUsernameChanged(username: String) {
+        val currentUiState = _uiState.value
+        _uiState.value = LoginFormUiState(
+            username = username,
+            password = currentUiState.password
+        )
+    }
+
+    fun afterPasswordChanged(pass: String) {
+        val currentUiState = _uiState.value
+        _uiState.value = LoginFormUiState(
+            username = currentUiState.username,
+            password = pass
+        )
+    }
+
+    private fun isValidEmail(email: String): Boolean {
+        return if(TextUtils.isEmpty(email)) {
+            false
+        } else {
+            Patterns.EMAIL_ADDRESS.matcher(email).matches()
         }
+    }
+
+    private fun isPasswordValid(pass: String): Boolean {
+        // Validate password required length
+        return pass.length >= PasswordOptions.REQUIRED_LENGTH
     }
 }

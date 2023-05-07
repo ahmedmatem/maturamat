@@ -79,7 +79,7 @@ class EmailConfirmationViewModel(
         private val context: Context,
         private val args: EmailConfirmationFragmentArgs
     ) : ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(EmailConfirmationViewModel::class.java)) {
                 return EmailConfirmationViewModel(context, args) as T
             }

@@ -76,7 +76,7 @@ class ConfirmAccountViewModel(
 
     class Factory(private val context: Context, private val args: ConfirmAccountFragmentArgs) :
         ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(ConfirmAccountViewModel::class.java)) {
                 return ConfirmAccountViewModel(context, args) as T
             }

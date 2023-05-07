@@ -316,7 +316,7 @@ class TestViewViewModel(var test: Test? = null) : BaseViewModel(),
     class Factory(
         private val test: Test? = null
     ) : ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(TestViewViewModel::class.java)) {
                 return TestViewViewModel(test) as T
             }

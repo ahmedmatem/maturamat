@@ -2,10 +2,14 @@ package com.ahmedmatem.android.matura.infrastructure
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
+import android.widget.EditText
+import androidx.core.widget.addTextChangedListener
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -110,4 +114,24 @@ fun Date.add(days: Int): Date {
     val cal = Calendar.getInstance()
     cal.add(Calendar.DAY_OF_YEAR, days)
     return cal.time
+}
+
+/**
+ * EditText Extensions
+ */
+
+fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
+    this.addTextChangedListener(object: TextWatcher {
+        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+//            TODO("Not yet implemented")
+        }
+
+        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+//            TODO("Not yet implemented")
+        }
+
+        override fun afterTextChanged(editable: Editable?) {
+            afterTextChanged.invoke(editable.toString())
+        }
+    })
 }

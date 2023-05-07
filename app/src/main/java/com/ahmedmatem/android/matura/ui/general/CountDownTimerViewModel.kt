@@ -119,7 +119,7 @@ class CountDownTimerViewModel(millis: Long?) : BaseViewModel(), TimerListener {
     }
 
     class Factory(private val millisInFuture: Long?) : ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(CountDownTimerViewModel::class.java)) {
                 return CountDownTimerViewModel(millisInFuture) as T
             }

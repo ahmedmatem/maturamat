@@ -47,7 +47,7 @@ class PlaceholderViewModel(private val context: Context) : BaseViewModel() {
     }
 
     class Factory(private val context: Context) : ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(PlaceholderViewModel::class.java)) {
                 return PlaceholderViewModel(context) as T
             }

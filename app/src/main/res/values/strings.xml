@@ -32,7 +32,7 @@
     <!-- image descriptions -->
     <string name="test_image_description">Emoticon description</string>
     <string name="test_meta_description">Elapsed time</string>
-    <string name="sign_in_with_google_description">Влезте с профила си в Гугъл</string>
+    <string name="sign_in_with_google_description">Влезте с профила си от Гугъл</string>
     <string name="sign_in_with_facebook_description">Влезте с профила си в Фейсбук</string>
     <string name="disabled_profile_img">Анонимна снимка на профила</string>
     <string name="wifi_off_description">Няма Интернет връзка</string>
