@@ -8,16 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.ahmedmatem.android.matura.BuildConfig
+import com.ahmedmatem.android.matura.R
 import com.ahmedmatem.android.matura.base.BaseFragment
 import com.ahmedmatem.android.matura.databinding.FragmentLoginBinding
+import com.ahmedmatem.android.matura.infrastructure.PasswordOptions
 import com.ahmedmatem.android.matura.infrastructure.afterTextChanged
 import com.ahmedmatem.android.matura.ui.account.login.external.ExternalLoginProvider
-import com.facebook.CallbackManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -36,17 +36,18 @@ class LoginFragment : BaseFragment() {
 
     private lateinit var googleSignInClient: GoogleSignInClient
 
-    // Google external login launcher
+    // Google external login launcher for result
     private val externalLoginResultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(it.data)
             try {
                 val account: GoogleSignInAccount = task.getResult(ApiException::class.java)
-                val idToken = account.idToken
+                val idToken = account.idToken!!
                 // Send idToken to the Server for validation
                 viewModel.validateIdToken(idToken, ExternalLoginProvider.Google.name)
             } catch (exc: ApiException) {
-                Log.w("WARN", "handleSignInResult:error", exc)
+                // TODO: ApiException not implemented yet
+//                Log.w("WARN", "handleSignInResult:error", exc)
             }
         }
 
@@ -58,8 +59,16 @@ class LoginFragment : BaseFragment() {
         viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
 
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.CREATED) {
-
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.loginSuccessState.collect {isSuccess ->
+                    Log.d("DEBUG2", "onCreate: Collect loginSuccessState")
+                    if(isSuccess) {
+                        with(requireActivity()) {
+                            setResult(Activity.RESULT_OK)
+                            finish()
+                        }
+                    }
+                }
             }
         }
 
@@ -101,14 +110,9 @@ class LoginFragment : BaseFragment() {
             viewModel.afterPasswordChanged(it)
         }
 
-        viewModel.loginAttemptResult.observe(viewLifecycleOwner, Observer { success ->
-            if (success) {
-                activity?.apply {
-                    setResult(Activity.RESULT_OK)
-                    finish()
-                }
-            }
-        })
+        binding.passwordValidationMessage.text =
+            getString(R.string.password_validation_message, PasswordOptions.REQUIRED_LENGTH)
+
 
         // External login
         viewModel.externalLoginFlow.observe(viewLifecycleOwner) { provider ->
@@ -124,11 +128,5 @@ class LoginFragment : BaseFragment() {
         }
 
         return binding.root
-    }
-
-    companion object {
-        const val EMAIL = "email"
-        const val PUBLIC_PROFILE = "public_profile"
-        const val AUTH_TYPE = "request"
     }
 }

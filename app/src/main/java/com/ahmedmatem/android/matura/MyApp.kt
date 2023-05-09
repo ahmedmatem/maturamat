@@ -60,7 +60,7 @@ class MyApp : Application() {
                 token?.let {
                     if (it.isTokenExpired()) {
                         val tokenResponse = safeApiCall(Dispatchers.IO) {
-                            AccountApi.retrofitService.getToken(it.userName, it.password!!)
+                            AccountApi.retrofitService.requestToken(it.username, it.password!!)
                         }
                         when (tokenResponse) {
                             is Result.Success -> {

@@ -181,5 +181,7 @@
     <string name="mi_check_result">Проверка на резултата</string>
 
     <string name="text_welcome"></string>
+    <string name="password_validation_message">Паролата трябва да е поне %1$d символа</string>
+    <string name="email_validation_message">Невалиден имейл</string>
 
 </resources>

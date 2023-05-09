@@ -4,20 +4,21 @@ import com.ahmedmatem.android.matura.infrastructure.GRANT_TYPE
 import com.ahmedmatem.android.matura.network.Retrofit
 import com.ahmedmatem.android.matura.network.models.User
 import com.ahmedmatem.android.matura.ui.account.login.external.ExternalLoginData
+import kotlinx.coroutines.flow.Flow
 import retrofit2.http.*
 
 interface AccountApiService {
 
     @FormUrlEncoded
     @POST("token")
-    suspend fun getToken(
+    suspend fun requestToken(
         @Field("username") username: String,
         @Field("password") password: String,
         @Field("grant_type") grantType: String = GRANT_TYPE
     ): User
 
     @GET("api/account/emailConfirmation")
-    suspend fun hasEmailConfirmed(@Query("email") email: String): Boolean
+    suspend fun isEmailConfirmed(@Query("email") email: String): Boolean
 
     @GET("api/account/sendActivationEmail")
     suspend fun sendEmailConfirmationLink(@Query("email") email: String)

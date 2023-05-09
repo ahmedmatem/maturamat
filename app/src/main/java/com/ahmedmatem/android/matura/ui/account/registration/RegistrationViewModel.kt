@@ -230,8 +230,8 @@ class RegistrationViewModel(
     }
 
     private suspend fun login(user: User) {
-        _accountRepository.saveUser(user)
-        _userPrefs.setUser(user.userName, user.password, user.token)
+        _accountRepository.saveUserLocal(user)
+        _userPrefs.setUser(user.username, user.password, user.token)
         _onLoginComplete.value = true
     }
 

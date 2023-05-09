@@ -60,8 +60,8 @@ class ConfirmAccountViewModel(
     }
 
     private suspend fun login(user: User) {
-        _accountRepository.saveUser(user)
-        _userPrefs.setUser(user.userName, password.value, user.token)
+        _accountRepository.saveUserLocal(user)
+        _userPrefs.setUser(user.username, password.value, user.token)
         _loginAttemptResult.value = true
     }
 

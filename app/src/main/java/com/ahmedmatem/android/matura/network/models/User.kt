@@ -14,7 +14,8 @@ import java.util.*
 @Keep
 @Entity(tableName = "user_table")
 data class User(
-    @PrimaryKey @ColumnInfo(name = "user_name") val userName: String,
+    @PrimaryKey
+    @ColumnInfo(name = "user_name") @Json(name = "userName") val username: String,
     @Json(name = "access_token") val token: String,
     @Json(name = "token_type") val type: String,
     @ColumnInfo(name = "expire_in") @Json(name = "expires_in") val expireIn: String,

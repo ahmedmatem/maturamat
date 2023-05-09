@@ -43,6 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/title_login"
+            android:textColor="@color/color_accent"
             android:textAppearance="@style/TitleText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -54,9 +55,9 @@
             android:id="@+id/username"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/layout_margin"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="32dp"
-            android:layout_marginEnd="@dimen/layout_margin"
+            android:layout_marginEnd="24dp"
             android:autofillHints="emailAddress"
             android:drawableStart="@drawable/ic_account_24"
             android:drawablePadding="@dimen/small_padding"
@@ -66,34 +67,61 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView1" />
 
+        <TextView
+            android:id="@+id/usernameValidationMessage"
+            style="@style/ValidationMessageStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textSize="@dimen/text_size_12"
+            android:text="@string/email_validation_message"
+            android:fadeVisible="@{viewModel.loginFormUiState.showUsernameValidationMessage}"
+            app:layout_constraintStart_toStartOf="@+id/username"
+            app:layout_constraintTop_toBottomOf="@+id/username" />
+
         <EditText
             android:id="@+id/password"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/layout_margin"
-            android:layout_marginTop="@dimen/layout_margin"
-            android:layout_marginEnd="@dimen/layout_margin"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
             android:autofillHints="password"
             android:drawableStart="@drawable/ic_lock_outline_24"
             android:drawablePadding="@dimen/small_padding"
             android:hint="@string/hint_password"
             android:inputType="textPassword"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/username" />
+            app:layout_constraintTop_toBottomOf="@+id/usernameValidationMessage" />
+
+        <TextView
+            android:id="@+id/passwordValidationMessage"
+            style="@style/ValidationMessageStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textSize="@dimen/text_size_12"
+            android:text="@string/password_validation_message"
+            android:fadeVisible="@{viewModel.loginFormUiState.showPasswordValidationMessage}"
+            app:layout_constraintStart_toStartOf="@+id/password"
+            app:layout_constraintTop_toBottomOf="@+id/password"
+            tools:visibility="visible" />
 
         <Button
             android:id="@+id/loginBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:enabled="@{viewModel.uiState.enableLoginButton}"
-            android:onClick="@{() -> viewModel.loginWithLocalAccount()}"
+            android:enabled="@{viewModel.loginFormUiState.enableLoginButton}"
+            android:onClick="@{() -> viewModel.login()}"
+            android:textColor="@color/color_accent"
             android:text="@string/login_btn_text"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/password" />
+            app:layout_constraintTop_toBottomOf="@+id/passwordValidationMessage" />
 
         <TextView
             android:id="@+id/passwordResetLink"
@@ -125,6 +153,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:text="@string/external_login_text"
+            android:textColor="@color/color_accent"
             app:layout_constraintBottom_toTopOf="@+id/googleLoginButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

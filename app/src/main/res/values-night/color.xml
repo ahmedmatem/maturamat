@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="color_accent">#BB09DA</color>
+    <color name="color_accent">@color/orange_300</color>
     <color name="color_alert">@color/color_error</color>
 
     <color name="purple_200">#FFBB86FC</color>
@@ -18,7 +18,7 @@
     <!-- general -->
     <color name="progress_bar_bg">#A000</color>
     <color name="color_hint">#546E7A</color>
-    <color name="color_error">#D81B60</color>
+    <color name="color_error">@color/light_green_a_400</color>
 
     <!-- red color palette -->
     <color name="red_50">#FFEBEE</color>

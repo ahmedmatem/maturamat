@@ -1,13 +1,16 @@
 package com.ahmedmatem.android.matura.infrastructure.di
 
 import androidx.work.WorkManager
+import com.ahmedmatem.android.matura.datasource.local.AccountLocalDataSource
 import com.ahmedmatem.android.matura.datasource.local.CoinLocalDataSource
 import com.ahmedmatem.android.matura.local.MaturaDb
 import com.ahmedmatem.android.matura.datasource.local.TestLocalDataSource
+import com.ahmedmatem.android.matura.datasource.remote.AccountRemoteDataSource
 import com.ahmedmatem.android.matura.datasource.remote.CoinRemoteDataSource
 import com.ahmedmatem.android.matura.datasource.remote.TestRemoteDataSource
 import com.ahmedmatem.android.matura.local.preferences.UserPrefs
 import com.ahmedmatem.android.matura.network.services.AccountApi
+import com.ahmedmatem.android.matura.network.services.TestApi
 import com.ahmedmatem.android.matura.prizesystem.PrizeWorkManager
 import com.ahmedmatem.android.matura.repository.AccountRepository
 import com.ahmedmatem.android.matura.repository.CoinRepository
@@ -23,6 +26,10 @@ val applicationModule = module {
 
     single { UserPrefs(get()) }
 
+    /**
+     * Repositories
+     */
+
     single {
         AccountRepository(
             MaturaDb.getInstance(get()).accountDao,
@@ -37,10 +44,12 @@ val applicationModule = module {
     // local
     single { CoinLocalDataSource() }
     single { TestLocalDataSource() }
+    single { AccountLocalDataSource() }
 
     // remote
     single { CoinRemoteDataSource() }
     single { TestRemoteDataSource() }
+    single { AccountRemoteDataSource() }
 
     // Repositories
     single { CoinRepository() }
@@ -57,4 +66,5 @@ val applicationModule = module {
 
     // Providers
     single { ContextProvider(get()) }
+
 }

@@ -1,7 +1,7 @@
 package com.ahmedmatem.android.matura.ui.account.login
 
-import android.content.Context
 import android.text.TextUtils
+import android.util.Log
 import android.util.Patterns
 import androidx.lifecycle.*
 import com.ahmedmatem.android.matura.base.BaseViewModel
@@ -10,7 +10,6 @@ import com.ahmedmatem.android.matura.infrastructure.PasswordOptions
 import com.ahmedmatem.android.matura.local.preferences.UserPrefs
 import com.ahmedmatem.android.matura.network.Result
 import com.ahmedmatem.android.matura.network.models.User
-import com.ahmedmatem.android.matura.network.bgDescription
 import com.ahmedmatem.android.matura.network.models.withPassword
 import com.ahmedmatem.android.matura.repository.AccountRepository
 import com.ahmedmatem.android.matura.ui.account.login.external.ExternalLoginProvider
@@ -19,26 +18,88 @@ import com.ahmedmatem.android.matura.ui.account.login.external.LoginAccompanying
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.java.KoinJavaComponent.inject
-import java.lang.IllegalArgumentException
 
 class LoginViewModel() : BaseViewModel() {
 
     private val _userPrefs: UserPrefs by inject(UserPrefs::class.java)
     private val _accountRepository: AccountRepository by inject(AccountRepository::class.java)
 
-    private val _uiState: MutableStateFlow<LoginFormUiState> = MutableStateFlow(LoginFormUiState())
-    val uiState: StateFlow<LoginFormUiState> = _uiState.asStateFlow()
+    private val _loginFormUiState: MutableStateFlow<LoginFormUiState> = MutableStateFlow(LoginFormUiState())
+    val loginFormUiState: StateFlow<LoginFormUiState> = _loginFormUiState.asStateFlow()
 
-    private var externalLogin = false
+    private val _loginSuccessState: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val loginSuccessState: StateFlow<Boolean> = _loginSuccessState
 
-    private val _loginAttemptResult = MutableLiveData<Boolean>()
-    val loginAttemptResult: LiveData<Boolean>
-        get() = _loginAttemptResult
+    private var _isExternalLogin: Boolean = false
+    private var _username: String = ""
+    private var _password: String = ""
 
     private val _externalLoginFlow = MutableLiveData<ExternalLoginProvider?>()
     val externalLoginFlow: LiveData<ExternalLoginProvider?> = _externalLoginFlow
+
+//    /**
+//     * This function request access token by user credentials in order to login.
+//     * If token is received as request response still we need to check if email address
+//     * is confirmed. If it is - login succeeded, otherwise not.
+//     * If token is not received, possible reasons are lack of Internet connection (onNetworkError) or
+//     * invalid user credentials(onGenericError - code 400, Bad Request).
+//     */
+//    fun login() {
+//        if(!isValidUser()) return
+//        showLoading.value = true
+//        viewModelScope.launch {
+//            // Request access token and ensure email is already confirmed before login
+//            when (val tokenResponse = _accountRepository.requestToken(_username, _password)) {
+//                is Result.Success -> {
+//                    if (_isExternalLogin) {
+////                        _isExternalLogin = false
+//                        /**
+//                         * In case of external login (email is always confirmed)
+//                         */
+//                        saveUserCredentialsLocal(tokenResponse.data.withPassword(_password))
+//                    } else {
+//                        /**
+//                         *  In case of login with local account
+//                         *
+//                         *  Check user if exists in local database.
+//                         *  It exists there only if his email has already confirmed.
+//                         *  But user no existing in local database does not guarantee that his
+//                         *  email has not confirmed - i.e in case of user try to login from another
+//                         *  device.
+//                         */
+//                        val hasEmailConfirmed = _accountRepository.userExistsLocal(_username)
+//                        if (hasEmailConfirmed) {
+//                            saveUserCredentialsLocal(tokenResponse.data.withPassword(_password))
+//                        } else {
+//                            /**
+//                             * Try to check email confirmation in the server
+//                             */
+//                            when (val emailConfirmationResponse =
+//                                _accountRepository.emailConfirmedRemote(tokenResponse.data.username)) {
+//                                is Result.Success -> {
+//                                    if (emailConfirmationResponse.data) {
+//                                        // User exists and email has confirmed
+//                                        saveUserCredentialsLocal(tokenResponse.data.withPassword(_password))
+//                                    } else {
+//                                        // User exists but email is not confirmed yet
+//                                        navigateToEmailConfirmation(tokenResponse.data.username)
+//                                    }
+//                                }
+//                                is Result.GenericError -> onGenericError(emailConfirmationResponse)
+//                                is Result.NetworkError -> onNetworkError()
+//                            }
+//                        }
+//                    }
+//                }
+//                is Result.NetworkError -> onNetworkError()
+//                is Result.GenericError -> onGenericError(tokenResponse)
+//            }
+//            showLoading.value = false
+//        }
+//    }
 
     /**
      * This function request access token by user credentials in order to login.
@@ -47,64 +108,20 @@ class LoginViewModel() : BaseViewModel() {
      * If token is not received, possible reasons are lack of Internet connection (onNetworkError) or
      * invalid user credentials(onGenericError - code 400, Bad Request).
      */
-    fun loginWithLocalAccount() {
+    fun login() {
+        if(!isValidUser()) return
         showLoading.value = true
         viewModelScope.launch {
-            // Request access token and ensure email is already confirmed before login
-            when (val tokenResponse =
-                _accountRepository.requestToken(_uiState.value.username, _uiState.value.password)) {
-                is Result.Success -> {
-                    if (externalLogin) {
-                        /**
-                         * In case of external login (email is always confirmed)
-                         */
-                        login(tokenResponse.data.withPassword(_uiState.value.password))
-                    } else {
-                        /**
-                         *  In case of login with local account
-                         *
-                         *  Check user if exists in local database.
-                         *  It exists there only if his email has already confirmed.
-                         *  But user no existing in local database does not guarantee that his
-                         *  email has not confirmed - i.e in case of user try to login from another
-                         *  device.
-                         */
-                        val hasEmailConfirmed = _accountRepository.isUserExist(_uiState.value.username!!)
-                        if (hasEmailConfirmed) {
-                            login(tokenResponse.data.withPassword(_uiState.value.password))
-                        } else {
-                            /**
-                             * Try to check email confirmation in the server
-                             */
-                            when (val emailResponse =
-                                _accountRepository.hasEmailConfirmed(tokenResponse.data.userName)) {
-                                is Result.Success -> {
-                                    if (emailResponse.data) {
-                                        // User exists and email has confirmed
-                                        login(tokenResponse.data.withPassword(_uiState.value.password))
-                                    } else {
-                                        // User exists but email is not confirmed yet
-                                        navigateToEmailConfirmation(tokenResponse.data.userName)
-                                    }
-                                }
-                                is Result.GenericError -> onGenericError(emailResponse)
-                                is Result.NetworkError -> onNetworkError()
-                            }
-                        }
+            _accountRepository.requestTokenFlow(_username, _password)
+                .collect { tokenResponse ->
+                    when(tokenResponse) {
+                        is Result.Success -> onLoginSuccess(tokenResponse.data)
+                        is Result.NetworkError -> onNetworkError()
+                        is Result.GenericError -> onGenericError(tokenResponse)
                     }
                 }
-                is Result.NetworkError -> onNetworkError()
-                is Result.GenericError -> onGenericError(tokenResponse)
-            }
             showLoading.value = false
         }
-    }
-
-    private fun externalLogin(username: String, password: String) {
-        _uiState.value = LoginFormUiState(username, password)
-        externalLogin = true
-        // TODO: Create function for external login
-        loginWithLocalAccount()
     }
 
     fun navigateToRegistration() {
@@ -134,7 +151,7 @@ class LoginViewModel() : BaseViewModel() {
      */
     fun validateIdToken(idToken: String, provider: String) {
         viewModelScope.launch {
-            when (val result = _accountRepository.validateIdToken(idToken, provider)) {
+            when (val result = _accountRepository.validateIdTokenRemote(idToken, provider)) {
                 is Result.Success -> onValidIdToken(result.data)
                 is Result.GenericError -> onGenericError(result)
                 is Result.NetworkError -> onNetworkError()
@@ -154,9 +171,14 @@ class LoginViewModel() : BaseViewModel() {
     }
 
     private suspend fun externalLogin(data: ExternalLoginData) {
-        val user = _accountRepository.getUser(data.email!!)
-        if (user?.password != null) {
-            externalLogin(user.userName, user.password!!)
+        val userLocal = _accountRepository.getUserLocal(data.email!!)
+        if (userLocal != null) {
+            // Save username and password in viewModel for further use in login process
+            _username = userLocal.username
+            _password = userLocal.password!!
+            // Set login by external provider
+            _isExternalLogin = true
+            login()
         } else {
             navigationCommand.value = NavigationCommand.To(
                 LoginFragmentDirections.actionLoginFragmentToConfirmAccountFragment(
@@ -166,10 +188,56 @@ class LoginViewModel() : BaseViewModel() {
         }
     }
 
-    private suspend fun login(user: User) {
-        _accountRepository.saveUser(user)
-        _userPrefs.setUser(user.userName, user.password, user.token)
-        _loginAttemptResult.value = true
+    private suspend fun saveUserCredentialsLocal(user: User) {
+        Log.d("DEBUG2", "saveUserCredentialsLocal: after success login")
+        _accountRepository.saveUserLocal(user)
+        _userPrefs.setUser(user.username, user.password, user.token)
+        _loginSuccessState.value = true
+    }
+
+    private suspend fun onLoginSuccess(user: User) {
+        Log.d("DEBUG2", "onLoginSuccess: ...")
+        if(_isExternalLogin) {
+            _isExternalLogin = false
+            /**
+             * In case of external login (email is always confirmed)
+             */
+            saveUserCredentialsLocal(user.withPassword(_password))
+        } else {
+            /**
+             *  In case of login with local account
+             *
+             *  Check user if exists in local database.
+             *  It exists there only if his email has already confirmed.
+             *  But user no existing in local database does not guarantee that his
+             *  email has not confirmed - i.e in case of user try to login from another
+             *  device.
+             */
+            val hasEmailConfirmed = _accountRepository.userExistsLocal(_username)
+            if (hasEmailConfirmed) {
+                saveUserCredentialsLocal(user.withPassword(_password))
+            } else {
+                /**
+                 * Try to check email confirmation in the server
+                 */
+                when (val emailConfirmationResponse =
+                    _accountRepository.emailConfirmedRemote(user.username)) {
+                    is Result.Success -> {
+                        if (emailConfirmationResponse.data) {
+                            // User exists and email has confirmed
+                            saveUserCredentialsLocal(
+                                user.withPassword(_password)
+                            )
+                        } else {
+                            // User exists but email is not confirmed yet
+                            navigateToEmailConfirmation(user.username)
+                        }
+                    }
+                    is Result.GenericError -> onGenericError(emailConfirmationResponse)
+                    is Result.NetworkError -> onNetworkError()
+                }
+            }
+        }
     }
 
     private fun onNetworkError() {
@@ -178,7 +246,7 @@ class LoginViewModel() : BaseViewModel() {
     }
 
     private fun onGenericError(response: Result.GenericError) {
-        showSnackBar.value = response.errorResponse?.bgDescription()
+        showSnackBar.value = response.code.toString()
     }
 
     private fun navigateToEmailConfirmation(email: String) {
@@ -192,22 +260,37 @@ class LoginViewModel() : BaseViewModel() {
      **/
 
     fun afterUsernameChanged(username: String) {
-        val currentUiState = _uiState.value
-        _uiState.value = LoginFormUiState(
-            username = username,
-            password = currentUiState.password
+        _username = username
+        _loginFormUiState.value = LoginFormUiState(
+            enableLoginButton = _username.isNotBlank() && _password.isNotBlank()
         )
     }
 
-    fun afterPasswordChanged(pass: String) {
-        val currentUiState = _uiState.value
-        _uiState.value = LoginFormUiState(
-            username = currentUiState.username,
-            password = pass
+    fun afterPasswordChanged(password: String) {
+        _password = password
+        _loginFormUiState.value = LoginFormUiState(
+            enableLoginButton = _username.isNotBlank() && _password.isNotBlank()
         )
     }
 
-    private fun isValidEmail(email: String): Boolean {
+    /**
+     * This function triggered if only login button is clicked
+     */
+    private fun isValidUser() : Boolean {
+        val isValid = isEmailValid(_username) && isPasswordValid(_password)
+        if(!isValid) {
+            // Show proper validation messages
+            val currentUiState = _loginFormUiState.value
+            _loginFormUiState.value = LoginFormUiState(
+                enableLoginButton = currentUiState.enableLoginButton,
+                showUsernameValidationMessage = !isEmailValid(_username),
+                showPasswordValidationMessage = !isPasswordValid(_password)
+            )
+        }
+        return isValid
+    }
+
+    private fun isEmailValid(email: String): Boolean {
         return if(TextUtils.isEmpty(email)) {
             false
         } else {
