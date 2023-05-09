@@ -1,6 +1,5 @@
 package com.ahmedmatem.android.matura.datasource.remote
 
-import android.util.Log
 import com.ahmedmatem.android.matura.network.Result
 import com.ahmedmatem.android.matura.network.models.User
 import com.ahmedmatem.android.matura.network.services.AccountApi
@@ -19,5 +18,12 @@ class AccountRemoteDataSource(private val dispatcher: CoroutineDispatcher = Disp
             accountApiService.requestToken(username, password)
         }
         emit(tokenResponse)
+    }
+
+    fun isEmailConfirmed(email: String): Flow<Result<Boolean>> = flow {
+        val emailConfirmedResponse = safeApiCall(dispatcher) {
+            accountApiService.isEmailConfirmed(email)
+        }
+        emit(emailConfirmedResponse)
     }
 }

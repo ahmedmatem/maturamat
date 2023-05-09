@@ -99,7 +99,7 @@
         <item name="android:padding">@dimen/small_padding</item>
     </style>
 
-    <style name="AppEditTextNightStyle" parent="AppEditTextStyle">
+    <style name="AppEditTextStyleNight" parent="AppEditTextStyle">
         <item name="android:background">@drawable/edit_text_background_night</item>
     </style>
 

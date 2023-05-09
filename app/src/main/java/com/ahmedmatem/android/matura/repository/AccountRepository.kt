@@ -63,11 +63,8 @@ class AccountRepository(
         }
     }
 
-    fun emailConfirmedRemoteFlow(email: String): Flow<Result<Boolean>> = flow {
-        safeApiCall(dispatcher) {
-            accountRemote.isEmailConfirmed(email)
-        }
-    }
+    fun isEmailConfirmed(email: String): Flow<Result<Boolean>> =
+        remoteDataSource.isEmailConfirmed(email)
 
     suspend fun requestEmailConfirmationLink(email: String): Result<Unit> {
         return safeApiCall(dispatcher) {

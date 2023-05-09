@@ -8,7 +8,7 @@ import com.ahmedmatem.android.matura.base.NavigationCommand
 import com.ahmedmatem.android.matura.local.MaturaDb
 import com.ahmedmatem.android.matura.local.preferences.UserPrefs
 import com.ahmedmatem.android.matura.network.Result
-import com.ahmedmatem.android.matura.network.bgDescription
+import com.ahmedmatem.android.matura.network.descriptionBg
 import com.ahmedmatem.android.matura.network.models.User
 import com.ahmedmatem.android.matura.network.models.withPassword
 import com.ahmedmatem.android.matura.network.services.AccountApi
@@ -71,7 +71,7 @@ class ConfirmAccountViewModel(
     }
 
     private fun onGenericError(response: Result.GenericError) {
-        showSnackBar.value = response.errorResponse?.bgDescription()
+        showSnackBar.value = response.errorResponse?.descriptionBg()
     }
 
     class Factory(private val context: Context, private val args: ConfirmAccountFragmentArgs) :

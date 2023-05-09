@@ -2,7 +2,6 @@ package com.ahmedmatem.android.matura.ui.account.login
 
 import android.app.Activity
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,15 +22,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class LoginFragment : BaseFragment() {
 
-    private lateinit var auth: FirebaseAuth
     override lateinit var viewModel: LoginViewModel
 
     private lateinit var googleSignInClient: GoogleSignInClient
@@ -47,21 +42,17 @@ class LoginFragment : BaseFragment() {
                 viewModel.validateIdToken(idToken, ExternalLoginProvider.Google.name)
             } catch (exc: ApiException) {
                 // TODO: ApiException not implemented yet
-//                Log.w("WARN", "handleSignInResult:error", exc)
             }
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        auth = Firebase.auth
-
         viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.loginSuccessState.collect {isSuccess ->
-                    Log.d("DEBUG2", "onCreate: Collect loginSuccessState")
                     if(isSuccess) {
                         with(requireActivity()) {
                             setResult(Activity.RESULT_OK)
@@ -79,16 +70,6 @@ class LoginFragment : BaseFragment() {
             .build()
 
         googleSignInClient = GoogleSignIn.getClient(requireContext(), gso)
-    }
-
-    override fun onStart() {
-        super.onStart()
-        val currentUser = auth.currentUser
-        if (currentUser != null) {
-            Log.d("DEBUG", "Usher is logged in.")
-        } else {
-            Log.d("DEBUG", "Usher isn't logged in.")
-        }
     }
 
     override fun onCreateView(

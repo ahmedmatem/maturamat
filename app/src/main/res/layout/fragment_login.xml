@@ -43,7 +43,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/title_login"
-            android:textColor="@color/color_accent"
             android:textAppearance="@style/TitleText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -64,6 +63,7 @@
             android:hint="@string/hint_email"
             android:inputType="textEmailAddress"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView1" />
 
@@ -73,9 +73,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:textSize="@dimen/text_size_12"
-            android:text="@string/email_validation_message"
             android:fadeVisible="@{viewModel.loginFormUiState.showUsernameValidationMessage}"
+            android:text="@string/email_validation_message"
+            android:textSize="@dimen/text_size_12"
             app:layout_constraintStart_toStartOf="@+id/username"
             app:layout_constraintTop_toBottomOf="@+id/username" />
 
@@ -102,9 +102,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:textSize="@dimen/text_size_12"
-            android:text="@string/password_validation_message"
             android:fadeVisible="@{viewModel.loginFormUiState.showPasswordValidationMessage}"
+            android:text="@string/password_validation_message"
+            android:textSize="@dimen/text_size_12"
             app:layout_constraintStart_toStartOf="@+id/password"
             app:layout_constraintTop_toBottomOf="@+id/password"
             tools:visibility="visible" />
@@ -116,8 +116,8 @@
             android:layout_marginTop="16dp"
             android:enabled="@{viewModel.loginFormUiState.enableLoginButton}"
             android:onClick="@{() -> viewModel.login()}"
-            android:textColor="@color/color_accent"
             android:text="@string/login_btn_text"
+            android:textColor="@color/color_accent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
@@ -153,7 +153,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:text="@string/external_login_text"
-            android:textColor="@color/color_accent"
+            android:textColor="?attr/colorSecondaryVariant"
             app:layout_constraintBottom_toTopOf="@+id/googleLoginButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

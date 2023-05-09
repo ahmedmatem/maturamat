@@ -9,7 +9,7 @@ data class ErrorResponse(
     @Json(name = "error_description") val description: String
 )
 
-fun ErrorResponse.bgDescription(): String? {
+fun ErrorResponse.descriptionBg(): String? {
     description?.let {
         return errorTranslationMap[it]
     }
