@@ -50,9 +50,9 @@ class LoginViewModel() : BaseViewModel() {
      * invalid user credentials(onGenericError - code 400, Bad Request).
      */
     fun login() {
+        showLoading.value = true
         if(!isValidUser()) return
         viewModelScope.launch {
-            showLoading.value = true
             _accountRepository.requestTokenFlow(_username, _password)
                 .collect { tokenResponse ->
                     when(tokenResponse) {

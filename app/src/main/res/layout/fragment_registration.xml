@@ -59,7 +59,7 @@
 
         <TextView
             android:id="@+id/usernameValidationMessage"
-            style="@style/InlineErrorMessageStyle"
+            style="@style/ValidationMessageStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/layout_margin"
@@ -89,7 +89,7 @@
 
         <TextView
             android:id="@+id/passwordValidationMessage"
-            style="@style/InlineErrorMessageStyle"
+            style="@style/ValidationMessageStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/layout_margin"
@@ -119,7 +119,7 @@
 
         <TextView
             android:id="@+id/passwordConfirmValidationMessage"
-            style="@style/InlineErrorMessageStyle"
+            style="@style/ValidationMessageStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/layout_margin"

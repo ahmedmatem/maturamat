@@ -123,6 +123,7 @@
     </style>
 
     <style name="ValidationMessageStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">@dimen/text_size_12</item>
         <item name="android:textColor">@color/color_alert</item>
         <item name="android:padding">@dimen/small_padding</item>
     </style>
