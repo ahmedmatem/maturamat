@@ -1,119 +1,86 @@
 package com.ahmedmatem.android.matura.ui.account.registration
 
-import android.content.Context
-import android.util.Log
 import androidx.lifecycle.*
-import com.ahmedmatem.android.matura.R
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.base.NavigationCommand
-import com.ahmedmatem.android.matura.infrastructure.PasswordOptions
 import com.ahmedmatem.android.matura.local.preferences.UserPrefs
 import com.ahmedmatem.android.matura.network.HttpStatus
 import com.ahmedmatem.android.matura.network.Result
 import com.ahmedmatem.android.matura.network.models.User
-import com.ahmedmatem.android.matura.network.models.withPassword
 import com.ahmedmatem.android.matura.repository.AccountRepository
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.messaging.FirebaseMessaging
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.java.KoinJavaComponent.inject
 import java.lang.IllegalArgumentException
 
-class RegistrationViewModel(
-    private val context: Context,
-    private val args: RegistrationFragmentArgs
-) : BaseViewModel() {
+class RegistrationViewModel(args: RegistrationFragmentArgs) : BaseViewModel() {
 
-    private val _inputValidator by lazy { RegistrationInputValidator() }
+    private val _inputValidator by lazy { RegistrationFormValidator() }
     private val _accountRepository: AccountRepository by inject(AccountRepository::class.java)
     private val _userPrefs: UserPrefs by inject(UserPrefs::class.java)
-    private val _isExternalLogin = args.email != null
 
-    // Username input
-    val username = MutableLiveData(args.email ?: "")
-    private val _usernameValidationMessage = MutableLiveData("")
-    val usernameValidationMessage: LiveData<String> = _usernameValidationMessage
-    private val _showUsernameValidationMessage = MutableLiveData(false)
-    val showUsernameValidationMessage: LiveData<Boolean> = _showUsernameValidationMessage
-    val usernameEnabled: Boolean = args.email == null
+    /**
+     * Giving email as argument to the view model means
+     * the registration will happen after external login attempt.
+     **/
+    private val _isRegistrationOnExternalLogin = args.email != null
 
-    // Password input
-    val password = MutableLiveData("")
-    private val _passwordValidationMessage = MutableLiveData("")
-    val passwordValidationMessage: LiveData<String> = _passwordValidationMessage
-    private val _showPasswordValidationMessage = MutableLiveData(false)
-    val showPasswordValidationMessage: LiveData<Boolean> = _showPasswordValidationMessage
+    private val _regButtonUiState: MutableStateFlow<RegistrationButtonUiState> =
+        MutableStateFlow(RegistrationButtonUiState())
+    val regButtonUiState: StateFlow<RegistrationButtonUiState> = _regButtonUiState.asStateFlow()
 
-    // PasswordConfirm input
-    val passwordConfirm = MutableLiveData("")
-    private val _passwordConfirmValidationMessage = MutableLiveData("")
-    val passwordConfirmValidationMessage: LiveData<String>
-        get() = _passwordConfirmValidationMessage
-    private val _showPasswordConfirmValidationMessage = MutableLiveData(false)
-    val showPasswordConfirmValidationMessage: LiveData<Boolean>
-        get() = _showPasswordConfirmValidationMessage
+    private val _regFormUiState: MutableStateFlow<RegistrationFormUiState> = MutableStateFlow(
+        RegistrationFormUiState()
+    )
+    val regFormUiState: StateFlow<RegistrationFormUiState> = _regFormUiState.asStateFlow()
 
-    // button Register
-    private val _showRegisterButton = MutableLiveData(true)
-    val showRegisterButton: LiveData<Boolean> = _showRegisterButton
+    /**
+     * Use this property to prevent hiding of validation messages each time
+     * after user registration form data changed.
+     * Changing editText in registration form trigger hiding of all validation messages (if has such)
+     * and set this property value value of true. This will prevent hiding next time after text changed.
+     * Reset its value to FALSE on each registration button click (in register function).
+     **/
+    private var _allValidationMessagesHidden: Boolean = false
 
-    private val _failMessage = MutableLiveData("")
-    val failMessage: LiveData<String> = _failMessage
-    private val _showFailMessage = MutableLiveData(false)
-    val showFailMessage: LiveData<Boolean> = _showFailMessage
-
-    private val _fcmRegistrationTokenReceived = MutableLiveData(false)
+    private var _username: String = args.email ?: ""
+    private var _password: String = ""
+    private var _confirmPassword: String = ""
 
     private val _onLoginComplete: MutableLiveData<Boolean> = MutableLiveData(false)
     val onLoginComplete: LiveData<Boolean> = _onLoginComplete
 
+    /**
+     * Trigger on Registration button click
+     */
     fun register() {
         if (isInputValid()) {
-            hideValidationMessages()
-            _showRegisterButton.value = false
+            // Disable registration button
+            _regButtonUiState.value = RegistrationButtonUiState(visible = false)
             showLoading.value = true
-            if (_isExternalLogin) {
-                viewModelScope.launch {
-                    when (val response = _accountRepository.register(
-                        username.value!!,
-                        password.value!!,
-                        passwordConfirm.value!!,
-                        null // null token means email is confirmed
-                    )) {
-                        is Result.Success -> onSuccess()
-                        is Result.GenericError -> onGenericError(response)
-                        is Result.NetworkError -> onNetworkError()
+            _allValidationMessagesHidden = false //
+
+            viewModelScope.launch {
+                var fcmToken: String? = null //
+                if(!_isRegistrationOnExternalLogin) {
+                    _accountRepository.requestFcmToken().collect {token ->
+                        fcmToken = token
                     }
-                    showLoading.value = false
-                    _showRegisterButton.value = true
                 }
-            } else {
-                FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-                    if (!task.isSuccessful) {
-                        Log.w(
-                            TAG,
-                            "register: Fetching FCM registration token failed",
-                            task.exception
-                        )
-                        return@OnCompleteListener
-                    }
-                    // Get new FCM registration token
-                    val token = task.result
-                    viewModelScope.launch {
-                        when (val response = _accountRepository.register(
-                            username.value!!,
-                            password.value!!,
-                            passwordConfirm.value!!,
-                            token
-                        )) {
-                            is Result.Success -> onSuccess()
+                _accountRepository.registerFlow(_username, _password, _confirmPassword, fcmToken)
+                    .collect { response ->
+                        // Enable registration button
+                        showLoading.value = false
+                        _regButtonUiState.value = RegistrationButtonUiState(visible = true)
+                        when(response) {
+                            is Result.Success -> onRegistrationSuccess()
                             is Result.GenericError -> onGenericError(response)
                             is Result.NetworkError -> onNetworkError()
                         }
-                        showLoading.value = false
-                        _showRegisterButton.value = true
                     }
-                })
             }
         } else {
             val errors = _inputValidator.errors
@@ -122,74 +89,76 @@ class RegistrationViewModel(
     }
 
     private fun invalidateUi(errors: Error) {
-        invalidateUsernameUi(errors)
-        invalidatePasswordUi(errors)
-        invalidatePasswordConfirmUi(errors)
+        val usernameValidationMessage = invalidateUsernameUi(errors)
+        val passwordValidationMessage = invalidatePasswordUi(errors)
+        val confirmPasswordValidationMessage = invalidateConfirmPasswordUi(errors)
+        _regFormUiState.value = RegistrationFormUiState(
+            showUsernameValidationMessage = usernameValidationMessage?.isNotBlank() ?: false,
+            usernameValidationMessage = usernameValidationMessage ?: "",
+            showPasswordValidationMessage = passwordValidationMessage?.isNotBlank() ?: false,
+            passwordValidationMessage = passwordValidationMessage ?: "",
+            showConfirmPasswordValidationMessage = confirmPasswordValidationMessage?.isNotBlank() ?: false,
+            confirmPasswordValidationMessage = confirmPasswordValidationMessage ?: ""
+        )
     }
 
-    private fun invalidateUsernameUi(errors: Error) {
-        var showMessage = false
+    /**
+     * Invalidate username. Return validation message. If it is null username is valid.
+     */
+    private fun invalidateUsernameUi(errors: Error): String? {
+        var validationMessage: String? = null
         if (errors.has(Error.EMAIL_REQUIRED)) {
-            _usernameValidationMessage.value = context.getString(R.string.email_required_message)
-            showMessage = true
+            validationMessage = Error.message[Error.EMAIL_REQUIRED]
         } else if (errors.has(Error.EMAIL_INVALID_FORMAT)) {
-            _usernameValidationMessage.value = context.getString(R.string.email_invalid)
-            showMessage = true
+            validationMessage = Error.message[Error.EMAIL_INVALID_FORMAT]
         }
-        _showUsernameValidationMessage.value = showMessage
+        return validationMessage
     }
 
-    private fun invalidatePasswordUi(errors: Error) {
-        if (errors.has(Error.PASSWORD_REQUIRED) ||
+    /**
+     * Invalidate password. Return validation message. If it is null password is valid.
+     */
+    private fun invalidatePasswordUi(errors: Error): String? {
+        return if (errors.has(Error.PASSWORD_REQUIRED) ||
             errors.has(Error.PASSWORD_LOWERCASE_REQUIRED) ||
             errors.has(Error.PASSWORD_NON_ALPHANUMERIC_REQUIRED) ||
             errors.has(Error.PASSWORD_REQUIRED_LENGTH) ||
             errors.has(Error.PASSWORD_UPPERCASE_REQUIRED)
         ) {
-            _passwordValidationMessage.value = context.getString(
-                R.string.password_requirements_message,
-                PasswordOptions.REQUIRED_LENGTH
-            )
-            _showPasswordValidationMessage.value = true
+            Error.message[Error.PASSWORD_GENERAL_VALIDATION_MESSAGE]
+        } else {
+            null
         }
     }
 
-    private fun invalidatePasswordConfirmUi(errors: Error) {
-        var showMessage = false
+    /**
+     * Invalidate confirmPassword. Return validation message. If it is null confirmPassword is valid.
+     */
+    private fun invalidateConfirmPasswordUi(errors: Error): String? {
+        var validationMessage: String? = null
         if (errors.has(Error.PASSWORD_CONFIRM_REQUIRED)) {
-            _passwordConfirmValidationMessage.value =
-                context.getString(R.string.password_confirm_required_message)
-            showMessage = true
+            validationMessage = Error.message[Error.PASSWORD_CONFIRM_REQUIRED]
         } else if (errors.has(Error.PASSWORDS_NO_MATCH)) {
-            _passwordConfirmValidationMessage.value =
-                context.getString(R.string.password_no_match_message)
-            showMessage = true
+            validationMessage = Error.message[Error.PASSWORDS_NO_MATCH]
         }
-        _showPasswordConfirmValidationMessage.value = showMessage
+        return validationMessage
     }
 
     private fun isInputValid(): Boolean {
-        return _inputValidator.isValid(
-            username.value!!,
-            password.value!!,
-            passwordConfirm.value!!
-        )
+        return _inputValidator.isValid(_username, _password, _confirmPassword )
     }
 
     private fun hideValidationMessages() {
-        _showUsernameValidationMessage.value = false
-        _showPasswordValidationMessage.value = false
-        _showPasswordConfirmValidationMessage.value = false
-        _showFailMessage.value = false
+        _regFormUiState.value = RegistrationFormUiState() // hidden by default
     }
 
-    private fun onSuccess() {
-        if (_isExternalLogin) {
+    private fun onRegistrationSuccess() {
+        if (_isRegistrationOnExternalLogin) {
             loginWithLocalAccount()
         } else {
             navigationCommand.value = NavigationCommand.To(
                 RegistrationFragmentDirections.actionRegistrationFragmentToEmailConfirmationFragment(
-                    username.value!!
+                    _username
                 )
             )
         }
@@ -197,8 +166,10 @@ class RegistrationViewModel(
 
     private fun onGenericError(error: Result.GenericError) {
         if (error.code == HttpStatus.BadRequest.code) {
-            _failMessage.value = context.getString(R.string.email_taken_alert, username.value)
-            _showFailMessage.value = true
+            _regFormUiState.value = RegistrationFormUiState(
+                showFailMessage = true,
+                failMessage = "Потребителското име е заето."
+            )
         }
     }
 
@@ -215,35 +186,59 @@ class RegistrationViewModel(
      * If token is not received, possible reasons are lack of Internet connection (onNetworkError) or
      * invalid user credentials(onGenericError - code 400, Bad Request).
      */
-    fun loginWithLocalAccount() {
-        showLoading.value = true
+    private fun loginWithLocalAccount() {
         viewModelScope.launch {
-            // Request access token and ensure email is already confirmed before login
-            when (val tokenResponse =
-                _accountRepository.requestToken(username.value!!, password.value!!)) {
-                is Result.Success -> login(tokenResponse.data.withPassword(password.value))
-                is Result.NetworkError -> onNetworkError()
-                is Result.GenericError -> onGenericError(tokenResponse)
-            }
+            _accountRepository.requestTokenFlow(_username, _password)
+                .collect { tokenResponse ->
+                    when(tokenResponse) {
+                        is Result.Success -> saveUserCredentialsLocal(tokenResponse.data)
+                        is Result.NetworkError -> onNetworkError()
+                        is Result.GenericError -> onGenericError(tokenResponse)
+                    }
+                }
             showLoading.value = false
         }
     }
 
-    private suspend fun login(user: User) {
+    private suspend fun saveUserCredentialsLocal(user: User) {
         _accountRepository.saveUserLocal(user)
         _userPrefs.setUser(user.username, user.password, user.token)
         _onLoginComplete.value = true
     }
 
-    class Factory(val context: Context, val args: RegistrationFragmentArgs) :
+    class Factory(private val args: RegistrationFragmentArgs) :
         ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(RegistrationViewModel::class.java)) {
-                return RegistrationViewModel(context, args) as T
+                return RegistrationViewModel(args) as T
             }
             throw IllegalArgumentException("Unable to construct RegistrationViewModel")
         }
 
+    }
+
+    fun afterUsernameChanged(username: String) {
+        _username = username
+        if(!_allValidationMessagesHidden) {
+            hideValidationMessages()
+            _allValidationMessagesHidden = true
+        }
+    }
+
+    fun afterPasswordChanged(password: String) {
+        _password = password
+        if(!_allValidationMessagesHidden) {
+            hideValidationMessages()
+            _allValidationMessagesHidden = true
+        }
+    }
+
+    fun afterConfirmPasswordChanged(confirmPassword: String) {
+        _confirmPassword = confirmPassword
+        if(!_allValidationMessagesHidden) {
+            hideValidationMessages()
+            _allValidationMessagesHidden = true
+        }
     }
 
     companion object {

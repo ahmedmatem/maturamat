@@ -3,7 +3,7 @@ package com.ahmedmatem.android.matura.ui.account.registration
 import com.ahmedmatem.android.matura.infrastructure.*
 import java.util.regex.Pattern
 
-class RegistrationInputValidator {
+class RegistrationFormValidator {
     private var username: String? = null
     private var password: String? = null
     private var passwordConfirm: String? = null
@@ -107,5 +107,21 @@ class Error {
         const val PASSWORD_REQUIRED_LENGTH: Int = 0b0000000010000000 // 128
         const val PASSWORD_CONFIRM_REQUIRED: Int = 0b0000000100000000 // 256
         const val PASSWORDS_NO_MATCH: Int = 0b0000001000000000 // 512
+
+        const val PASSWORD_GENERAL_VALIDATION_MESSAGE: Int = 0b0000000000000011 // 3
+
+        val message: Map<Int,String> = mapOf(
+            EMAIL_REQUIRED to "Изисква се имейл адрес",
+            EMAIL_INVALID_FORMAT to "Невалиден имейл адрес",
+            PASSWORD_REQUIRED to "Изисква се парола",
+            PASSWORD_DIGIT_REQUIRED to "Паролата трябва да съдържа цифра",
+            PASSWORD_LOWERCASE_REQUIRED to "Паролата трябва да съдържа малка буква",
+            PASSWORD_UPPERCASE_REQUIRED to "Паролата трябва да съдържа главна буква",
+            PASSWORD_NON_ALPHANUMERIC_REQUIRED to "Паролата трябва да съдържа специален символ",
+            PASSWORD_REQUIRED_LENGTH to "Паролата трябва да е поне ${PasswordOptions.REQUIRED_LENGTH} символа",
+            PASSWORD_CONFIRM_REQUIRED to "Изисква се потвърждение на паролата",
+            PASSWORDS_NO_MATCH to "Паролите не съвпадат",
+            PASSWORD_GENERAL_VALIDATION_MESSAGE to "Паролата трябва да съдържа поне ${PasswordOptions.REQUIRED_LENGTH} символа и малка буква"
+        )
     }
 }

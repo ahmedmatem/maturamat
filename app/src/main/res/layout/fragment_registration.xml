@@ -51,8 +51,6 @@
             android:drawableStart="@drawable/ic_account_24"
             android:hint="@string/hint_email"
             android:inputType="textEmailAddress"
-            android:enabled="@{viewModel.usernameEnabled}"
-            android:text="@={viewModel.username}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView1" />
@@ -64,8 +62,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/layout_margin"
             android:layout_marginEnd="@dimen/layout_margin"
-            android:fadeVisible="@{viewModel.showUsernameValidationMessage}"
-            android:text="@{viewModel.usernameValidationMessage.toString()}"
+            android:fadeVisible="@{viewModel.regFormUiState.showUsernameValidationMessage}"
+            android:text="@{viewModel.regFormUiState.usernameValidationMessage}"
             app:layout_constraintEnd_toEndOf="@+id/regUserName"
             app:layout_constraintStart_toStartOf="@+id/regUserName"
             app:layout_constraintTop_toBottomOf="@+id/regUserName"
@@ -82,7 +80,6 @@
             android:drawableStart="@drawable/ic_lock_outline_24"
             android:hint="@string/hint_password"
             android:inputType="textPassword"
-            android:text="@={viewModel.password}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/usernameValidationMessage" />
@@ -94,15 +91,15 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/layout_margin"
             android:layout_marginEnd="@dimen/layout_margin"
-            android:fadeVisible="@{viewModel.showPasswordValidationMessage}"
-            android:text="@{viewModel.passwordValidationMessage.toString()}"
+            android:fadeVisible="@{viewModel.regFormUiState.showPasswordValidationMessage}"
+            android:text="@{viewModel.regFormUiState.passwordValidationMessage}"
             app:layout_constraintEnd_toEndOf="@+id/regPassword"
             app:layout_constraintStart_toStartOf="@+id/regPassword"
             app:layout_constraintTop_toBottomOf="@+id/regPassword"
             tools:text="Password validation message" />
 
         <EditText
-            android:id="@+id/regPasswordConfirm"
+            android:id="@+id/regConfirmPassword"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/layout_margin"
@@ -112,7 +109,6 @@
             android:drawableStart="@drawable/ic_lock_outline_24"
             android:hint="@string/hint_confirm_password"
             android:inputType="textPassword"
-            android:text="@={viewModel.passwordConfirm}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/passwordValidationMessage" />
@@ -124,25 +120,25 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/layout_margin"
             android:layout_marginEnd="@dimen/layout_margin"
-            android:fadeVisible="@{viewModel.showPasswordConfirmValidationMessage}"
-            android:text="@{viewModel.passwordConfirmValidationMessage.toString()}"
-            app:layout_constraintEnd_toEndOf="@+id/regPasswordConfirm"
-            app:layout_constraintStart_toStartOf="@+id/regPasswordConfirm"
-            app:layout_constraintTop_toBottomOf="@+id/regPasswordConfirm"
+            android:fadeVisible="@{viewModel.regFormUiState.showConfirmPasswordValidationMessage}"
+            android:text="@{viewModel.regFormUiState.confirmPasswordValidationMessage"
+            app:layout_constraintEnd_toEndOf="@+id/regConfirmPassword"
+            app:layout_constraintStart_toStartOf="@+id/regConfirmPassword"
+            app:layout_constraintTop_toBottomOf="@+id/regConfirmPassword"
             tools:text="Password confirm validation message" />
 
         <Button
-            android:id="@+id/registrationBtn"
+            android:id="@+id/regButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/large_margin"
-            android:fadeVisible="@{viewModel.showRegisterButton.booleanValue()}"
+            android:fadeVisible="@{viewModel.regButtonUiState.visible}"
             android:onClick="@{() -> viewModel.register()}"
             android:text="@string/registration_btn_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/regPasswordConfirm" />
+            app:layout_constraintTop_toBottomOf="@+id/regConfirmPassword" />
 
         <TextView
             android:id="@+id/registrationFailText"
@@ -152,14 +148,14 @@
             android:layout_marginTop="@dimen/layout_margin"
             android:layout_marginEnd="@dimen/layout_margin"
             android:drawablePadding="@dimen/xsmall_padding"
-            android:fadeVisible="@{viewModel.showFailMessage.booleanValue()}"
-            android:text="@{viewModel.failMessage.toString()}"
+            android:fadeVisible="@{viewModel.regFormUiState.showFailMessage}"
+            android:text="@{viewModel.regFormUiState.failMessage}"
             android:textAlignment="center"
             android:textSize="@dimen/text_size_14"
             app:drawableTopCompat="@drawable/ic_alert_circle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/registrationBtn"
+            app:layout_constraintTop_toBottomOf="@+id/regButton"
             tools:text="Registration fail text goes here" />
 
         <androidx.constraintlayout.widget.ConstraintLayout

@@ -7,9 +7,16 @@ import com.ahmedmatem.android.matura.network.models.User
 import com.ahmedmatem.android.matura.utils.safeApiCall
 import com.ahmedmatem.android.matura.network.services.AccountApiService
 import com.ahmedmatem.android.matura.ui.account.login.external.ExternalLoginData
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.channels.onFailure
+import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 import org.koin.java.KoinJavaComponent.inject
@@ -54,8 +61,38 @@ class AccountRepository(
         }
     }
 
-    fun requestTokenFlow(username: String, password: String): Flow<Result<User>> =
-        remoteDataSource.requestToken(username, password)
+    fun requestTokenFlow(
+        username: String,
+        password: String
+    ): Flow<Result<User>> = remoteDataSource.requestToken(username, password)
+
+    /**
+     * Request Firebase Cloud Messaging token.
+     * Wrapping callback listener with callbackFlow.
+     */
+    fun requestFcmToken(): Flow<String> = callbackFlow {
+        val callback = OnCompleteListener<String> { task: Task<String> ->
+            if (!task.isSuccessful) {
+                // Log.w(TAG,"register: Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+            // Get new FCM registration token
+            val token = task.result
+            trySendBlocking(token)
+                .onFailure {
+                    // Downstream has been cancelled or failed, can log here
+                }
+        }
+
+        val token = FirebaseMessaging.getInstance().token
+        // Add OnCompleteListener-listener to Firebase token request
+        token.addOnCompleteListener(callback)
+        awaitClose {
+            // Suspending function awaitClose() which takes a lambda to be invoked
+            // when this channel is closed or canceled.
+            // Terminate operation in callback properly here.
+        }
+    }
 
     suspend fun emailConfirmedRemote(email: String): Result<Boolean> {
         return safeApiCall(dispatcher) {
@@ -77,6 +114,13 @@ class AccountRepository(
             accountRemote.validateIdToken(idToken, provider)
         }
     }
+
+    fun registerFlow(
+        username: String,
+        password: String,
+        confirmPassword:
+        String, fcmToken: String?
+    ): Flow<Result<Unit>> = remoteDataSource.registration(username, password, confirmPassword, fcmToken)
 
     suspend fun register(email: String, password: String, passwordConfirm: String, token: String?):
             Result<Unit> {

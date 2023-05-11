@@ -10,8 +10,20 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class AccountRemoteDataSource(private val dispatcher: CoroutineDispatcher = Dispatchers.IO) {
+class AccountRemoteDataSource {
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
     private val accountApiService: AccountApiService = AccountApi.retrofitService
+
+    fun registration(
+        username: String,
+        password: String,
+        confirmPassword: String,
+        fcmToken: String?): Flow<Result<Unit>> = flow {
+        val registrationResponse = safeApiCall(dispatcher) {
+            accountApiService.register(username, password, confirmPassword, fcmToken)
+        }
+        emit(registrationResponse)
+    }
 
     fun requestToken(username: String, password: String): Flow<Result<User>> = flow {
         val tokenResponse = safeApiCall(dispatcher) {

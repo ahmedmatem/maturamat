@@ -11,7 +11,7 @@ import com.ahmedmatem.android.matura.network.Result
 import com.ahmedmatem.android.matura.network.services.AccountApi
 import com.ahmedmatem.android.matura.repository.AccountRepository
 import com.ahmedmatem.android.matura.ui.account.registration.Error
-import com.ahmedmatem.android.matura.ui.account.registration.RegistrationInputValidator
+import com.ahmedmatem.android.matura.ui.account.registration.RegistrationFormValidator
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 
@@ -37,7 +37,7 @@ class PasswordResetViewModel(private val context: Context) : BaseViewModel() {
     val showSuccessMessage: LiveData<Boolean> = _showSuccessMessage
 
     fun sendPasswordResetEmail(email: String) {
-        val inputValidator = RegistrationInputValidator()
+        val inputValidator = RegistrationFormValidator()
         if (inputValidator.isEmailValid(email)) {
             _showInvalidEmailMessage.value = false
             _showSendButton.value = false
