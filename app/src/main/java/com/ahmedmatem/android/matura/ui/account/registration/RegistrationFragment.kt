@@ -28,9 +28,9 @@ class RegistrationFragment : BaseFragment() {
         binding.viewModel = viewModel
 
         with(binding) {
-            regUserName.afterTextChanged { viewModel.afterUsernameChanged(it)}
-            regPassword.afterTextChanged { viewModel.afterPasswordChanged(it)}
-            regConfirmPassword.afterTextChanged { viewModel.afterConfirmPasswordChanged(it)}
+            regUserName.afterTextChanged { viewModel?.afterUsernameChanged(it)}
+            regPassword.afterTextChanged { viewModel?.afterPasswordChanged(it)}
+            regConfirmPassword.afterTextChanged { viewModel?.afterConfirmPasswordChanged(it)}
         }
 
         viewModel.onLoginComplete.observe(viewLifecycleOwner){ complete ->

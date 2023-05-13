@@ -6,12 +6,12 @@ import java.util.regex.Pattern
 class RegistrationFormValidator {
     private var username: String? = null
     private var password: String? = null
-    private var passwordConfirm: String? = null
+    private var confirmPassword: String? = null
 
     var errors = Error()
 
-    fun isValid(un: String, p: String, pc: String): Boolean {
-        validateInput(un, p, pc)
+    fun isValid(username: String, password: String, confirmPassword: String): Boolean {
+        validateInput(username, password, confirmPassword)
         return errors.value == 0
     }
 
@@ -20,10 +20,10 @@ class RegistrationFormValidator {
         return errors.value == 0
     }
 
-    private fun validateInput(un: String?, p: String?, pc: String?) {
+    private fun validateInput(un: String?, p: String?, cp: String?) {
         username = un
         password = p
-        passwordConfirm = pc
+        confirmPassword = cp
         errors.value = 0 // initialize no error value
         validateEmail()
         validatePassword()
@@ -68,7 +68,7 @@ class RegistrationFormValidator {
     }
 
     private fun validateConfirmPassword() {
-        passwordConfirm?.let {
+        confirmPassword?.let {
             if (it.isBlank()) {
                 errors.add(Error.PASSWORD_CONFIRM_REQUIRED)
             } else {

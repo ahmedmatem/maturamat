@@ -37,7 +37,8 @@
             app:destination="@id/noConnectionFragment" />
         <action
             android:id="@+id/action_registrationFragment_to_emailConfirmationFragment"
-            app:destination="@id/emailConfirmationFragment" />
+            app:destination="@id/emailConfirmationFragment"
+            app:popUpTo="@id/loginFragment" />
         <argument
             android:name="email"
             app:argType="string"

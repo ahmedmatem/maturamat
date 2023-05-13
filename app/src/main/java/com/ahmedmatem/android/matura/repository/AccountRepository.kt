@@ -84,9 +84,7 @@ class AccountRepository(
                 }
         }
 
-        val token = FirebaseMessaging.getInstance().token
-        // Add OnCompleteListener-listener to Firebase token request
-        token.addOnCompleteListener(callback)
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(callback)
         awaitClose {
             // Suspending function awaitClose() which takes a lambda to be invoked
             // when this channel is closed or canceled.

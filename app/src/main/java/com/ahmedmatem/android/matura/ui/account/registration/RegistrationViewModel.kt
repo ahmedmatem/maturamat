@@ -1,5 +1,6 @@
 package com.ahmedmatem.android.matura.ui.account.registration
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.base.NavigationCommand
@@ -40,8 +41,10 @@ class RegistrationViewModel(args: RegistrationFragmentArgs) : BaseViewModel() {
     /**
      * Use this property to prevent hiding of validation messages each time
      * after user registration form data changed.
+     * Its initial value of false allow hiding of validation messages (if have such)
+     * on registration form data changed.
      * Changing editText in registration form trigger hiding of all validation messages (if has such)
-     * and set this property value value of true. This will prevent hiding next time after text changed.
+     * and set this property value of true. This will prevent hiding next time after text changed.
      * Reset its value to FALSE on each registration button click (in register function).
      **/
     private var _allValidationMessagesHidden: Boolean = false
@@ -57,35 +60,54 @@ class RegistrationViewModel(args: RegistrationFragmentArgs) : BaseViewModel() {
      * Trigger on Registration button click
      */
     fun register() {
+        /**
+         * On register button click initializing this property to false will allow on next data change
+         * to hide validation messages
+         **/
+        _allValidationMessagesHidden = false
+
         if (isInputValid()) {
             // Disable registration button
-            _regButtonUiState.value = RegistrationButtonUiState(visible = false)
+            _regButtonUiState.value = RegistrationButtonUiState(enable = false)
             showLoading.value = true
-            _allValidationMessagesHidden = false //
 
             viewModelScope.launch {
-                var fcmToken: String? = null //
                 if(!_isRegistrationOnExternalLogin) {
-                    _accountRepository.requestFcmToken().collect {token ->
-                        fcmToken = token
-                    }
-                }
-                _accountRepository.registerFlow(_username, _password, _confirmPassword, fcmToken)
-                    .collect { response ->
-                        // Enable registration button
-                        showLoading.value = false
-                        _regButtonUiState.value = RegistrationButtonUiState(visible = true)
-                        when(response) {
-                            is Result.Success -> onRegistrationSuccess()
-                            is Result.GenericError -> onGenericError(response)
-                            is Result.NetworkError -> onNetworkError()
+                    /**
+                     * Requesting FCM token is a callbackFlow function and it is blocking the entire
+                     * function from continuing, and it is awaiting for it to be closed.
+                     * To get it going, we have to unblock it by putting it behind a launch.
+                     */
+                    launch {
+                        _accountRepository.requestFcmToken().collect {token ->
+                            runRegistration(token)
                         }
                     }
+                } else {
+                    runRegistration()
+                }
             }
         } else {
             val errors = _inputValidator.errors
             invalidateUi(errors)
         }
+    }
+
+    /**
+     * Parameter token should be null in case of registration caused by external login attempt.
+     */
+    private suspend fun runRegistration(token: String? = null) {
+        _accountRepository.registerFlow(_username, _password, _confirmPassword, token)
+            .collect { response ->
+                // Enable registration button
+                showLoading.value = false
+                _regButtonUiState.value = RegistrationButtonUiState(enable = true)
+                when(response) {
+                    is Result.Success -> onRegistrationSuccess()
+                    is Result.GenericError -> onGenericError(response)
+                    is Result.NetworkError -> onNetworkError()
+                }
+            }
     }
 
     private fun invalidateUi(errors: Error) {
@@ -138,8 +160,10 @@ class RegistrationViewModel(args: RegistrationFragmentArgs) : BaseViewModel() {
         var validationMessage: String? = null
         if (errors.has(Error.PASSWORD_CONFIRM_REQUIRED)) {
             validationMessage = Error.message[Error.PASSWORD_CONFIRM_REQUIRED]
-        } else if (errors.has(Error.PASSWORDS_NO_MATCH)) {
-            validationMessage = Error.message[Error.PASSWORDS_NO_MATCH]
+        } else {
+            if (errors.has(Error.PASSWORDS_NO_MATCH)) {
+                validationMessage = Error.message[Error.PASSWORDS_NO_MATCH]
+            }
         }
         return validationMessage
     }
@@ -150,6 +174,7 @@ class RegistrationViewModel(args: RegistrationFragmentArgs) : BaseViewModel() {
 
     private fun hideValidationMessages() {
         _regFormUiState.value = RegistrationFormUiState() // hidden by default
+        _allValidationMessagesHidden = true
     }
 
     private fun onRegistrationSuccess() {
@@ -221,23 +246,30 @@ class RegistrationViewModel(args: RegistrationFragmentArgs) : BaseViewModel() {
         _username = username
         if(!_allValidationMessagesHidden) {
             hideValidationMessages()
-            _allValidationMessagesHidden = true
         }
+        tryEnableRegisterButton()
     }
 
     fun afterPasswordChanged(password: String) {
         _password = password
         if(!_allValidationMessagesHidden) {
             hideValidationMessages()
-            _allValidationMessagesHidden = true
         }
+        tryEnableRegisterButton()
     }
 
     fun afterConfirmPasswordChanged(confirmPassword: String) {
         _confirmPassword = confirmPassword
         if(!_allValidationMessagesHidden) {
             hideValidationMessages()
-            _allValidationMessagesHidden = true
+        }
+        tryEnableRegisterButton()
+    }
+
+    private fun tryEnableRegisterButton() {
+        if(_regButtonUiState.value.enable) return
+        if(_username.isNotBlank() && _password.isNotBlank() && _confirmPassword.isNotBlank()) {
+            _regButtonUiState.value = RegistrationButtonUiState(enable = true)
         }
     }
 
