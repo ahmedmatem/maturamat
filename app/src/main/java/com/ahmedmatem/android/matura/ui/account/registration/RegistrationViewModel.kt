@@ -1,6 +1,5 @@
 package com.ahmedmatem.android.matura.ui.account.registration
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.base.NavigationCommand
@@ -79,8 +78,8 @@ class RegistrationViewModel(args: RegistrationFragmentArgs) : BaseViewModel() {
                      * To get it going, we have to unblock it by putting it behind a launch.
                      */
                     launch {
-                        _accountRepository.requestFcmToken().collect {token ->
-                            runRegistration(token)
+                        _accountRepository.fcmToken().collect { fcmToken ->
+                            runRegistration(fcmToken)
                         }
                     }
                 } else {
@@ -97,7 +96,7 @@ class RegistrationViewModel(args: RegistrationFragmentArgs) : BaseViewModel() {
      * Parameter token should be null in case of registration caused by external login attempt.
      */
     private suspend fun runRegistration(token: String? = null) {
-        _accountRepository.registerFlow(_username, _password, _confirmPassword, token)
+        _accountRepository.register(_username, _password, _confirmPassword, token)
             .collect { response ->
                 // Enable registration button
                 showLoading.value = false
@@ -231,6 +230,7 @@ class RegistrationViewModel(args: RegistrationFragmentArgs) : BaseViewModel() {
         _onLoginComplete.value = true
     }
 
+    @Suppress("UNCHECKED_CAST")
     class Factory(private val args: RegistrationFragmentArgs) :
         ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {

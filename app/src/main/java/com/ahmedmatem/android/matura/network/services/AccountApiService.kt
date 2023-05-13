@@ -4,7 +4,6 @@ import com.ahmedmatem.android.matura.infrastructure.GRANT_TYPE
 import com.ahmedmatem.android.matura.network.Retrofit
 import com.ahmedmatem.android.matura.network.models.User
 import com.ahmedmatem.android.matura.ui.account.login.external.ExternalLoginData
-import kotlinx.coroutines.flow.Flow
 import retrofit2.http.*
 
 interface AccountApiService {
@@ -41,7 +40,7 @@ interface AccountApiService {
 
     @FormUrlEncoded
     @POST("api/account/updateFCMRegistrationToken")
-    suspend fun sendFcmRegistrationToServer(
+    suspend fun updateFcmRegistrationToken(
         @Field("email") email: String,
         @Field("token") token: String
     )

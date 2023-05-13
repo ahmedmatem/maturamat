@@ -1,28 +1,20 @@
 package com.ahmedmatem.android.matura.ui.account
 
-import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.*
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.base.NavigationCommand
-import com.ahmedmatem.android.matura.local.MaturaDb
 import com.ahmedmatem.android.matura.network.Result
-import com.ahmedmatem.android.matura.network.services.AccountApi
 import com.ahmedmatem.android.matura.repository.AccountRepository
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.messaging.FirebaseMessaging
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import org.koin.java.KoinJavaComponent.inject
 import java.lang.IllegalArgumentException
 
-class EmailConfirmationViewModel(
-    private val context: Context,
-    private val args: EmailConfirmationFragmentArgs
-) : BaseViewModel() {
+class EmailConfirmationViewModel(args: EmailConfirmationFragmentArgs) : BaseViewModel() {
     val email = args.email
 
-    private val _accountRepository: AccountRepository by lazy {
-        AccountRepository(MaturaDb.getInstance(context).accountDao, AccountApi.retrofitService)
-    }
+    private val _accountRepository: AccountRepository by inject(AccountRepository::class.java)
 
     private val _emailConfirmationLinkSent: MutableLiveData<Boolean> = MutableLiveData()
     val emailConfirmationLinkSent: LiveData<Boolean> = _emailConfirmationLinkSent
@@ -36,15 +28,20 @@ class EmailConfirmationViewModel(
         _navigateToEmailClient.value = intent
     }
 
-    fun requestEmailConfirmationLink() {
+    fun sendEmailConfirmationLink() {
         showLoading.value = true
         viewModelScope.launch {
-            when (val result = _accountRepository.requestEmailConfirmationLink(email)) {
-                is Result.Success -> onSuccess()
-                is Result.GenericError -> onGenericError(result)
-                is Result.NetworkError -> onNetworkError()
+            _accountRepository.sendEmailConfirmationLink(email).collect {result ->
+                showLoading.value = false
+                when(result) {
+                    is Result.Success -> {
+                        _emailConfirmationLinkSent.value = true
+                        launch { onSuccess() }
+                    }
+                    is Result.GenericError -> onGenericError(result)
+                    is Result.NetworkError -> onNetworkError()
+                }
             }
-            showLoading.value = false
         }
     }
 
@@ -52,17 +49,11 @@ class EmailConfirmationViewModel(
      * On success request FCM Registration token and update it on the Server.
      * Token is used for Email Confirm notification send from Firebase Messaging Cloud.
      */
-    private fun onSuccess() {
+    private suspend fun onSuccess() {
         _emailConfirmationLinkSent.value = true
-        FirebaseMessaging.getInstance().token
-            .addOnCompleteListener(OnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val token = task.result
-                    viewModelScope.launch {
-                        _accountRepository.sendFcmRegistrationToServer(email, token)
-                    }
-                }
-            })
+        _accountRepository.fcmToken().collect { fcmToken ->
+            _accountRepository.updateFcmToken(email, fcmToken)
+        }
     }
 
     private fun onNetworkError() {
@@ -76,12 +67,11 @@ class EmailConfirmationViewModel(
     }
 
     class Factory(
-        private val context: Context,
         private val args: EmailConfirmationFragmentArgs
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(EmailConfirmationViewModel::class.java)) {
-                return EmailConfirmationViewModel(context, args) as T
+                return EmailConfirmationViewModel(args) as T
             }
             throw IllegalArgumentException("Unable to construct a emailConfirmationViewModel")
         }

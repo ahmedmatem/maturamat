@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE resources [
-    <!ENTITY base_test_url "https://maturamat.com/m">
+    <!ENTITY base_test_url "https://matypa.azurewebsites.net/m">
 ]>
 
 <resources>
