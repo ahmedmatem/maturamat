@@ -92,6 +92,7 @@ class LoginViewModel : BaseViewModel() {
      */
     fun validateIdToken(idToken: String, provider: String) {
         viewModelScope.launch {
+            showLoading.value = true
             _accountRepository.validateIdToken(idToken, provider).collect { result ->
                 when (result) {
                     is Result.Success -> onValidIdToken(result.data)
@@ -99,6 +100,7 @@ class LoginViewModel : BaseViewModel() {
                     is Result.NetworkError -> onNetworkError()
                 }
             }
+            showLoading.value = false
         }
     }
 
