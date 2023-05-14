@@ -5,24 +5,18 @@ import androidx.lifecycle.*
 import com.ahmedmatem.android.matura.R
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.base.NavigationCommand
-import com.ahmedmatem.android.matura.local.MaturaDb
 import com.ahmedmatem.android.matura.network.HttpStatus
 import com.ahmedmatem.android.matura.network.Result
-import com.ahmedmatem.android.matura.network.services.AccountApi
 import com.ahmedmatem.android.matura.repository.AccountRepository
 import com.ahmedmatem.android.matura.ui.account.registration.Error
 import com.ahmedmatem.android.matura.ui.account.registration.RegistrationFormValidator
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import org.koin.java.KoinJavaComponent.inject
 import java.lang.IllegalArgumentException
 
-class PasswordResetViewModel(private val context: Context) : BaseViewModel() {
-    private val _accountRepository by lazy {
-        AccountRepository(
-            MaturaDb.getInstance(context).accountDao,
-            AccountApi.retrofitService
-        )
-    }
+class PasswordResetViewModel : BaseViewModel() {
+    private val _accountRepository: AccountRepository by inject(AccountRepository::class.java)
 
     private val _showSendButton = MutableLiveData(true)
     val showSendButton: LiveData<Boolean> = _showSendButton
@@ -31,6 +25,10 @@ class PasswordResetViewModel(private val context: Context) : BaseViewModel() {
     val showInvalidEmailMessage: LiveData<Boolean> = _showInvalidEmailMessage
     private val _failMessage: MutableLiveData<String> = MutableLiveData()
     val failMessage: LiveData<String> = _failMessage
+    private val _failCode: MutableLiveData<Int?> = MutableLiveData(null)
+    val failCode: LiveData<Int?> = _failCode
+    private val _emailError: MutableLiveData<Int?> = MutableLiveData(null)
+    val emailError: LiveData<Int?> = _emailError
 
     private val _successMessage = MutableLiveData("")
     val successMessage: LiveData<String> = _successMessage
@@ -46,8 +44,8 @@ class PasswordResetViewModel(private val context: Context) : BaseViewModel() {
             viewModelScope.launch {
                 _accountRepository.forgotPassword(email).collect { result ->
                     when(result) {
-                        is Result.Success -> onSuccess(email)
-                        is Result.GenericError -> onGenericError(result.code!!, email)
+                        is Result.Success -> onSuccess()
+                        is Result.GenericError -> onGenericError(result.code!!)
                         is Result.NetworkError -> onNetworkError()
                     }
                 }
@@ -59,24 +57,30 @@ class PasswordResetViewModel(private val context: Context) : BaseViewModel() {
         }
     }
 
-    private fun onSuccess(email: String) {
-        _successMessage.value = context.getString(R.string.forgot_password_success_message, email)
+    private fun onSuccess() {
         _showSuccessMessage.value = true
     }
 
-    private fun onGenericError(responseCode: Int, email: String) {
+    fun setSuccessMessage(message: String) {
+        _successMessage.value = message
+    }
+
+    private fun onGenericError(responseCode: Int) {
         _showSendButton.value = true
         when (responseCode) {
             HttpStatus.NotFound.code -> {
-                _failMessage.value = context.getString(R.string.email_not_found, email)
-                _showInvalidEmailMessage.value = true
+                _failCode.value = responseCode
             }
             HttpStatus.BadRequest.code -> {
-                _failMessage.value = context.getString(R.string.email_required_message)
-                _showInvalidEmailMessage.value = true
+                _failCode.value = responseCode
             }
             else -> {}
         }
+    }
+
+    fun setFailMessage(message: String) {
+        _failMessage.value = message
+        _showInvalidEmailMessage.value = true
     }
 
     private fun onNetworkError() {
@@ -87,21 +91,19 @@ class PasswordResetViewModel(private val context: Context) : BaseViewModel() {
     }
 
     private fun showEmailAlert(errors: Error) {
-        var showMessage = false
         if (errors.has(Error.EMAIL_REQUIRED)) {
-            _failMessage.value = context.getString(R.string.email_required_message)
-            showMessage = true
+            _emailError.value = Error.EMAIL_REQUIRED
         } else if (errors.has(Error.EMAIL_INVALID_FORMAT)) {
-            _failMessage.value = context.getString(R.string.email_invalid)
-            showMessage = true
+            _emailError.value = Error.EMAIL_INVALID_FORMAT
         }
-        _showInvalidEmailMessage.value = showMessage
     }
 
+
+    @Suppress("UNCHECKED_CAST")
     class Factory(val context: Context) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(PasswordResetViewModel::class.java)) {
-                return PasswordResetViewModel(context) as T
+                return PasswordResetViewModel() as T
             }
             throw IllegalArgumentException("Unable to create PasswordResetViewModel.")
         }

@@ -23,7 +23,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.java.KoinJavaComponent.inject
 
-class LoginViewModel() : BaseViewModel() {
+class LoginViewModel : BaseViewModel() {
 
     private val _userPrefs: UserPrefs by inject(UserPrefs::class.java)
     private val _accountRepository: AccountRepository by inject(AccountRepository::class.java)
@@ -53,7 +53,7 @@ class LoginViewModel() : BaseViewModel() {
         showLoading.value = true
         if(!isValidUser()) return
         viewModelScope.launch {
-            _accountRepository.requestTokenFlow(_username, _password)
+            _accountRepository.token(_username, _password)
                 .collect { tokenResponse ->
                     when(tokenResponse) {
                         is Result.Success -> onLoginSuccess(tokenResponse.data)

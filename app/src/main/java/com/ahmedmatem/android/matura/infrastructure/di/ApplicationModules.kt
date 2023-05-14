@@ -9,8 +9,6 @@ import com.ahmedmatem.android.matura.datasource.remote.AccountRemoteDataSource
 import com.ahmedmatem.android.matura.datasource.remote.CoinRemoteDataSource
 import com.ahmedmatem.android.matura.datasource.remote.TestRemoteDataSource
 import com.ahmedmatem.android.matura.local.preferences.UserPrefs
-import com.ahmedmatem.android.matura.network.services.AccountApi
-import com.ahmedmatem.android.matura.network.services.TestApi
 import com.ahmedmatem.android.matura.prizesystem.PrizeWorkManager
 import com.ahmedmatem.android.matura.repository.AccountRepository
 import com.ahmedmatem.android.matura.repository.CoinRepository
@@ -31,10 +29,7 @@ val applicationModule = module {
      */
 
     single {
-        AccountRepository(
-            MaturaDb.getInstance(get()).accountDao,
-            AccountApi.retrofitService
-        )
+        AccountRepository(MaturaDb.getInstance(get()).accountDao)
     }
 
     /**

@@ -1,65 +1,47 @@
 package com.ahmedmatem.android.matura.ui.account.login.external
 
-import android.content.Context
 import androidx.lifecycle.*
-import com.ahmedmatem.android.matura.R
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.base.NavigationCommand
-import com.ahmedmatem.android.matura.local.MaturaDb
 import com.ahmedmatem.android.matura.local.preferences.UserPrefs
 import com.ahmedmatem.android.matura.network.Result
 import com.ahmedmatem.android.matura.network.descriptionBg
 import com.ahmedmatem.android.matura.network.models.User
 import com.ahmedmatem.android.matura.network.models.withPassword
-import com.ahmedmatem.android.matura.network.services.AccountApi
 import com.ahmedmatem.android.matura.repository.AccountRepository
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.java.KoinJavaComponent.inject
 import java.lang.IllegalArgumentException
 
-class ConfirmAccountViewModel(
-    private val context: Context,
-    private val args: ConfirmAccountFragmentArgs
-) : BaseViewModel() {
+class ConfirmAccountViewModel(args: ConfirmAccountFragmentArgs) : BaseViewModel() {
     private val _userPrefs: UserPrefs by inject(UserPrefs::class.java)
-
-    private val _accountRepository by lazy {
-        AccountRepository(
-            MaturaDb.getInstance(context).accountDao,
-            AccountApi.retrofitService
-        )
-    }
+    private val _accountRepository: AccountRepository by inject(AccountRepository::class.java)
 
     private val _loginAttemptResult = MutableLiveData<Boolean>()
-    val loginAttemptResult: LiveData<Boolean>
-        get() = _loginAttemptResult
+    val loginAttemptResult: LiveData<Boolean> = _loginAttemptResult
 
-    val confirmAccountText: LiveData<String> = MutableLiveData<String>(
-        context.getString(
-            R.string.confirm_account_text,
-            args.loginProvider,
-            args.email
-        )
+    val confirmAccountText: LiveData<String> = MutableLiveData(
+        "За да свържем профила Ви от ${args.loginProvider} с ${args.email} от МатураМат е необходимо да потвърдите, че е ваш."
     )
-    val password = MutableLiveData<String>("")
-    val email: LiveData<String> = MutableLiveData<String>(args.email)
+    val password = MutableLiveData("")
+    val email: LiveData<String> = MutableLiveData(args.email)
 
     fun confirmAccount() {
         showLoading.value = true
         viewModelScope.launch {
-            when (val tokenResponse =
-                _accountRepository.requestToken(email.value!!, password.value!!)) {
-                is Result.Success -> {
-                    login(tokenResponse.data.withPassword(password.value))
+            _accountRepository.token(email.value!!, password.value!!).collect { result ->
+                when(result) {
+                    is Result.Success -> saveUserCredentialsLocal(result.data.withPassword(password.value))
+                    is Result.NetworkError -> onNetworkError()
+                    is Result.GenericError -> onGenericError(result)
                 }
-                is Result.NetworkError -> onNetworkError()
-                is Result.GenericError -> onGenericError(tokenResponse)
             }
             showLoading.value = false
         }
     }
 
-    private suspend fun login(user: User) {
+    private suspend fun saveUserCredentialsLocal(user: User) {
         _accountRepository.saveUserLocal(user)
         _userPrefs.setUser(user.username, password.value, user.token)
         _loginAttemptResult.value = true
@@ -74,11 +56,12 @@ class ConfirmAccountViewModel(
         showSnackBar.value = response.errorResponse?.descriptionBg()
     }
 
-    class Factory(private val context: Context, private val args: ConfirmAccountFragmentArgs) :
+    @Suppress("UNCHECKED_CAST")
+    class Factory(private val args: ConfirmAccountFragmentArgs) :
         ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(ConfirmAccountViewModel::class.java)) {
-                return ConfirmAccountViewModel(context, args) as T
+                return ConfirmAccountViewModel(args) as T
             }
             throw IllegalArgumentException("Unable to construct ConfirmAccountViewModel")
         }

@@ -1,26 +1,25 @@
 package com.ahmedmatem.android.matura.repository
 
+import com.ahmedmatem.android.matura.datasource.local.AccountLocalDataSource
 import com.ahmedmatem.android.matura.datasource.remote.AccountRemoteDataSource
 import com.ahmedmatem.android.matura.local.daos.AccountDao
 import com.ahmedmatem.android.matura.network.Result
 import com.ahmedmatem.android.matura.network.models.User
-import com.ahmedmatem.android.matura.utils.safeApiCall
 import com.ahmedmatem.android.matura.network.services.AccountApiService
 import com.ahmedmatem.android.matura.ui.account.login.external.ExternalLoginData
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.withContext
 import org.koin.java.KoinJavaComponent.inject
 
 class AccountRepository(
     // TODO: remove constructor parameters
     private val accountLocal: AccountDao,
-    private val accountRemote: AccountApiService,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
     private val remoteDataSource: AccountRemoteDataSource by inject(AccountRemoteDataSource::class.java)
+    private val localDataSource: AccountLocalDataSource by inject(AccountLocalDataSource::class.java)
 
     /**
      * Local Requests
@@ -48,13 +47,16 @@ class AccountRepository(
      * Remote requests
      */
 
-    suspend fun requestToken(username: String, password: String): Result<User> {
-        return safeApiCall(dispatcher) {
-            accountRemote.requestToken(username, password)
-        }
-    }
+//    suspend fun requestToken(username: String, password: String): Result<User> {
+//        return safeApiCall(dispatcher) {
+//            accountRemote.requestToken(username, password)
+//        }
+//    }
 
-    fun requestTokenFlow(
+    /**
+     * Request access token for user - grant type is password.
+     */
+    fun token(
         username: String,
         password: String
     ): Flow<Result<User>> = remoteDataSource.token(username, password)

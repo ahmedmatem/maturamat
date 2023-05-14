@@ -66,6 +66,7 @@ class EmailConfirmationViewModel(args: EmailConfirmationFragmentArgs) : BaseView
         showSnackBar.value = response.errorResponse?.description
     }
 
+    @Suppress("UNCHECKED_CAST")
     class Factory(
         private val args: EmailConfirmationFragmentArgs
     ) : ViewModelProvider.Factory {

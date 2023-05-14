@@ -212,7 +212,7 @@ class RegistrationViewModel(args: RegistrationFragmentArgs) : BaseViewModel() {
      */
     private fun loginWithLocalAccount() {
         viewModelScope.launch {
-            _accountRepository.requestTokenFlow(_username, _password)
+            _accountRepository.token(_username, _password)
                 .collect { tokenResponse ->
                     when(tokenResponse) {
                         is Result.Success -> saveUserCredentialsLocal(tokenResponse.data)
@@ -271,9 +271,5 @@ class RegistrationViewModel(args: RegistrationFragmentArgs) : BaseViewModel() {
         if(_username.isNotBlank() && _password.isNotBlank() && _confirmPassword.isNotBlank()) {
             _regButtonUiState.value = RegistrationButtonUiState(enable = true)
         }
-    }
-
-    companion object {
-        const val TAG: String = "RegistrationViewModel"
     }
 }
