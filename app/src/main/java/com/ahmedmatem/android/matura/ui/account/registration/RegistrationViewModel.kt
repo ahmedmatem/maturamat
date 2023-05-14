@@ -224,8 +224,8 @@ class RegistrationViewModel(args: RegistrationFragmentArgs) : BaseViewModel() {
         }
     }
 
-    private suspend fun saveUserCredentialsLocal(user: User) {
-        _accountRepository.saveUserLocal(user)
+    private fun saveUserCredentialsLocal(user: User) {
+        _accountRepository.save(user)
         _userPrefs.setUser(user.username, user.password, user.token)
         _onLoginComplete.value = true
     }

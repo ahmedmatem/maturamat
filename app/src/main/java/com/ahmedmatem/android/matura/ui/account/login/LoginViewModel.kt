@@ -1,7 +1,6 @@
 package com.ahmedmatem.android.matura.ui.account.login
 
 import android.text.TextUtils
-import android.util.Log
 import android.util.Patterns
 import androidx.lifecycle.*
 import com.ahmedmatem.android.matura.base.BaseViewModel
@@ -53,14 +52,13 @@ class LoginViewModel : BaseViewModel() {
         showLoading.value = true
         if(!isValidUser()) return
         viewModelScope.launch {
-            _accountRepository.token(_username, _password)
-                .collect { tokenResponse ->
-                    when(tokenResponse) {
-                        is Result.Success -> onLoginSuccess(tokenResponse.data)
-                        is Result.NetworkError -> onNetworkError()
-                        is Result.GenericError -> onGenericError(tokenResponse)
-                    }
+            _accountRepository.token(_username, _password).collect { tokenResponse ->
+                when(tokenResponse) {
+                    is Result.Success -> onLoginSuccess(tokenResponse.data)
+                    is Result.NetworkError -> onNetworkError()
+                    is Result.GenericError -> onGenericError(tokenResponse)
                 }
+            }
             showLoading.value = false
         }
     }
@@ -104,9 +102,9 @@ class LoginViewModel : BaseViewModel() {
         }
     }
 
-    private suspend fun onValidIdToken(data: ExternalLoginData) {
+    private fun onValidIdToken(data: ExternalLoginData) {
         when (data.accompanyingAction) {
-            LoginAccompanyingAction.Login -> externalLogin(data)
+            LoginAccompanyingAction.Login -> externalLoginFlow(data)
             LoginAccompanyingAction.CreateAccount -> {
                 navigationCommand.value = NavigationCommand.To(
                     LoginFragmentDirections.actionLoginFragmentToRegistrationFragment(data.email)
@@ -115,32 +113,55 @@ class LoginViewModel : BaseViewModel() {
         }
     }
 
-    private suspend fun externalLogin(data: ExternalLoginData) {
-        val userLocal = _accountRepository.getUserLocal(data.email!!)
-        if (userLocal != null) {
-            // Save username and password in viewModel for further use in login process
-            _username = userLocal.username
-            _password = userLocal.password!!
-            // Set login by external provider
-            _isExternalLogin = true
-            login()
-        } else {
-            navigationCommand.value = NavigationCommand.To(
-                LoginFragmentDirections.actionLoginFragmentToConfirmAccountFragment(
-                    data.email!!, data.loginProvider
-                )
-            )
+//    private suspend fun externalLogin(data: ExternalLoginData) {
+//        val userLocal = _accountRepository.getUserLocal(data.email!!)
+//        if (userLocal != null) {
+//            // Save username and password in viewModel for further use in login process
+//            _username = userLocal.username
+//            _password = userLocal.password!!
+//            // Set login by external provider
+//            _isExternalLogin = true
+//            login()
+//        } else {
+//            navigationCommand.value = NavigationCommand.To(
+//                LoginFragmentDirections.actionLoginFragmentToConfirmAccountFragment(
+//                    data.email!!, data.loginProvider
+//                )
+//            )
+//        }
+//    }
+
+    private fun externalLoginFlow(data: ExternalLoginData) {
+        viewModelScope.launch {
+            _accountRepository.getUserLocal(data.email!!).collect { user ->
+                if(user != null) {
+                    // Save username and password in viewModel for further use in login process
+                    _username = user.username
+                    _password = user.password!!
+                    // Set login by external provider
+                    _isExternalLogin = true
+                    login()
+                } else {
+                    navigationCommand.value = NavigationCommand.To(
+                        LoginFragmentDirections.actionLoginFragmentToConfirmAccountFragment(
+                            data.email!!, data.loginProvider
+                        )
+                    )
+                }
+            }
         }
     }
 
-    private suspend fun saveUserCredentialsLocal(user: User) {
-        Log.d("DEBUG2", "saveUserCredentialsLocal: after success login")
-        _accountRepository.saveUserLocal(user)
-        _userPrefs.setUser(user.username, user.password, user.token)
-        _loginSuccessState.value = true
+    private fun saveUserCredentialsLocal(user: User) {
+        viewModelScope.launch {
+            _accountRepository.save(user)
+            _userPrefs.setUser(user.username, user.password, user.token)
+            _loginSuccessState.value = true
+        }
+
     }
 
-    private suspend fun onLoginSuccess(user: User) {
+    private fun onLoginSuccess(user: User) {
         if(_isExternalLogin) {
             _isExternalLogin = false
             /**
@@ -157,29 +178,31 @@ class LoginViewModel : BaseViewModel() {
              *  email has not confirmed - i.e in case of user try to login from another
              *  device.
              */
-            val hasEmailConfirmed = _accountRepository.userExistsLocal(_username)
-            if (hasEmailConfirmed) {
-                saveUserCredentialsLocal(user.withPassword(_password))
-            } else {
-                /**
-                 * Try to check email confirmation in the server
-                 */
-                _accountRepository.isEmailConfirmed(user.username)
-                    .collect { emailConfirmedResult ->
-                        when(emailConfirmedResult) {
-                            is Result.Success -> {
-                                if (emailConfirmedResult.data) {
-                                    // User exists and email has confirmed
-                                    saveUserCredentialsLocal(user.withPassword(_password))
-                                } else {
-                                    // User exists but email is not confirmed yet
-                                    navigateToEmailConfirmation(user.username)
+            viewModelScope.launch {
+                _accountRepository.isUserExistsLocal(_username).collect { exists ->
+                    if(exists) {
+                        saveUserCredentialsLocal(user.withPassword(_password))
+                    } else {
+                        /**
+                         * Try to check email confirmation in the server
+                         */
+                        _accountRepository.isEmailConfirmed(user.username).collect { emailConfirmedResult ->
+                            when(emailConfirmedResult) {
+                                is Result.Success -> {
+                                    if (emailConfirmedResult.data) {
+                                        // User exists and email has confirmed
+                                        saveUserCredentialsLocal(user.withPassword(_password))
+                                    } else {
+                                        // User exists but email is not confirmed yet
+                                        navigateToEmailConfirmation(user.username)
+                                    }
                                 }
+                                is Result.GenericError -> onGenericError(emailConfirmedResult)
+                                is Result.NetworkError -> onNetworkError()
                             }
-                            is Result.GenericError -> onGenericError(emailConfirmedResult)
-                            is Result.NetworkError -> onNetworkError()
                         }
                     }
+                }
             }
         }
     }

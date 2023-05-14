@@ -28,9 +28,15 @@ val applicationModule = module {
      * Repositories
      */
 
-    single {
-        AccountRepository(MaturaDb.getInstance(get()).accountDao)
-    }
+    single { AccountRepository() }
+
+    /**
+     * Daos
+     */
+
+    single { MaturaDb.getInstance(get()).accountDao }
+    single { MaturaDb.getInstance(get()).coinDao }
+    single { MaturaDb.getInstance(get()).testDao }
 
     /**
      * Data sources

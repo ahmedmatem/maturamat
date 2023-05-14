@@ -7,10 +7,10 @@ import com.ahmedmatem.android.matura.network.services.AccountApiService
 import com.ahmedmatem.android.matura.ui.account.login.external.ExternalLoginData
 import com.ahmedmatem.android.matura.utils.safeApiCall
 import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.onFailure
 import kotlinx.coroutines.channels.trySendBlocking

@@ -20,11 +20,10 @@ import com.ahmedmatem.android.matura.databinding.FragmentTestPlaceholderBinding
  * depends on test state value put in intent extra.
  */
 class PlaceholderFragment : BaseFragment() {
-    override val viewModel: PlaceholderViewModel
-        get() = ViewModelProvider(
+    override val viewModel: PlaceholderViewModel = ViewModelProvider(
             this,
             PlaceholderViewModel.Factory(requireContext())
-        ).get(PlaceholderViewModel::class.java)
+        )[PlaceholderViewModel::class.java]
 
     private val testViewModel: TestViewViewModel by activityViewModels()
 
@@ -32,9 +31,8 @@ class PlaceholderFragment : BaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val binding = FragmentTestPlaceholderBinding
-            .inflate(inflater, container, false)
+    ): View {
+        val binding = FragmentTestPlaceholderBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
 
 

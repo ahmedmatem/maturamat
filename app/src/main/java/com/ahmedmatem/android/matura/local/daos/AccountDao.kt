@@ -10,7 +10,7 @@ import com.ahmedmatem.android.matura.network.models.User
 interface AccountDao {
 
     @Query("SELECT token FROM user_table WHERE user_name = :username LIMIT 1")
-    fun getToken(username: String): String
+    suspend fun getToken(username: String): String
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(user: User)

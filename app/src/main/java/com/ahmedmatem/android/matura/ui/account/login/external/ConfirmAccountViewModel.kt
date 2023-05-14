@@ -41,8 +41,8 @@ class ConfirmAccountViewModel(args: ConfirmAccountFragmentArgs) : BaseViewModel(
         }
     }
 
-    private suspend fun saveUserCredentialsLocal(user: User) {
-        _accountRepository.saveUserLocal(user)
+    private fun saveUserCredentialsLocal(user: User) {
+        _accountRepository.save(user)
         _userPrefs.setUser(user.username, password.value, user.token)
         _loginAttemptResult.value = true
     }
