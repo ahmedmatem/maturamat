@@ -7,12 +7,9 @@ import com.ahmedmatem.android.matura.network.models.User
 import com.ahmedmatem.android.matura.utils.safeApiCall
 import com.ahmedmatem.android.matura.network.services.AccountApiService
 import com.ahmedmatem.android.matura.ui.account.login.external.ExternalLoginData
-import com.google.android.gms.tasks.OnCompleteListener
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.withContext
 import org.koin.java.KoinJavaComponent.inject
 
@@ -109,12 +106,13 @@ class AccountRepository(
 //        }
 //    }
 
-    // TODO: Update function to return flow
-    suspend fun forgotPassword(email: String): Result<Unit> {
-        return safeApiCall(dispatcher) {
-            accountRemote.forgotPassword(email)
-        }
-    }
+//    suspend fun forgotPassword(email: String): Result<Unit> {
+//        return safeApiCall(dispatcher) {
+//            accountRemote.forgotPassword(email)
+//        }
+//    }
+
+    fun forgotPassword(email: String): Flow<Result<Unit>> = remoteDataSource.forgotPassword(email)
 
 //    suspend fun sendFcmRegistrationToServer(email: String, token: String): Result<Unit> {
 //        return safeApiCall(dispatcher) {

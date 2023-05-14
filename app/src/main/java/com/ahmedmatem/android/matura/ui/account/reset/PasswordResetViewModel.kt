@@ -12,6 +12,7 @@ import com.ahmedmatem.android.matura.network.services.AccountApi
 import com.ahmedmatem.android.matura.repository.AccountRepository
 import com.ahmedmatem.android.matura.ui.account.registration.Error
 import com.ahmedmatem.android.matura.ui.account.registration.RegistrationFormValidator
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 
@@ -43,10 +44,12 @@ class PasswordResetViewModel(private val context: Context) : BaseViewModel() {
             _showSendButton.value = false
             showLoading.value = true
             viewModelScope.launch {
-                when (val response = _accountRepository.forgotPassword(email)) {
-                    is Result.Success -> onSuccess(email)
-                    is Result.GenericError -> onGenericError(response.code!!, email)
-                    is Result.NetworkError -> onNetworkError()
+                _accountRepository.forgotPassword(email).collect { result ->
+                    when(result) {
+                        is Result.Success -> onSuccess(email)
+                        is Result.GenericError -> onGenericError(result.code!!, email)
+                        is Result.NetworkError -> onNetworkError()
+                    }
                 }
                 showLoading.value = false
             }

@@ -77,6 +77,13 @@ class AccountRemoteDataSource {
         emit(result)
     }
 
+    fun forgotPassword(email: String): Flow<Result<Unit>> = flow {
+        val result = safeApiCall(dispatcher) {
+            accountApiService.forgotPassword(email)
+        }
+        emit(result)
+    }
+
     fun isEmailConfirmed(email: String): Flow<Result<Boolean>> = flow {
         val result = safeApiCall(dispatcher) {
             accountApiService.isEmailConfirmed(email)
