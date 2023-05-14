@@ -92,10 +92,12 @@ class LoginViewModel() : BaseViewModel() {
      */
     fun validateIdToken(idToken: String, provider: String) {
         viewModelScope.launch {
-            when (val result = _accountRepository.validateIdTokenRemote(idToken, provider)) {
-                is Result.Success -> onValidIdToken(result.data)
-                is Result.GenericError -> onGenericError(result)
-                is Result.NetworkError -> onNetworkError()
+            _accountRepository.validateIdToken(idToken, provider).collect { result ->
+                when (result) {
+                    is Result.Success -> onValidIdToken(result.data)
+                    is Result.GenericError -> onGenericError(result)
+                    is Result.NetworkError -> onNetworkError()
+                }
             }
         }
     }

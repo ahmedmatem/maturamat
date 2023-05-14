@@ -4,6 +4,7 @@ import com.ahmedmatem.android.matura.network.Result
 import com.ahmedmatem.android.matura.network.models.User
 import com.ahmedmatem.android.matura.network.services.AccountApi
 import com.ahmedmatem.android.matura.network.services.AccountApiService
+import com.ahmedmatem.android.matura.ui.account.login.external.ExternalLoginData
 import com.ahmedmatem.android.matura.utils.safeApiCall
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.ktx.Firebase
@@ -73,6 +74,13 @@ class AccountRemoteDataSource {
     fun updateFcmToken(email: String, fcmToken: String): Flow<Result<Unit>> = flow {
         val result = safeApiCall(dispatcher) {
             accountApiService.updateFcmRegistrationToken(email, fcmToken)
+        }
+        emit(result)
+    }
+
+    fun validateIdToken(token: String, provider: String): Flow<Result<ExternalLoginData>> = flow {
+        val result = safeApiCall(dispatcher) {
+            accountApiService.validateIdToken(token, provider)
         }
         emit(result)
     }

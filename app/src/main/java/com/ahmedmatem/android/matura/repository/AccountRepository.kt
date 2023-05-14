@@ -10,6 +10,7 @@ import com.ahmedmatem.android.matura.ui.account.login.external.ExternalLoginData
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.withContext
 import org.koin.java.KoinJavaComponent.inject
 
@@ -86,11 +87,14 @@ class AccountRepository(
     fun sendEmailConfirmationLink(email: String): Flow<Result<Unit>> =
         remoteDataSource.sendEmailConfirmationLink(email)
 
-    suspend fun validateIdTokenRemote(idToken: String, provider: String): Result<ExternalLoginData> {
-        return safeApiCall(dispatcher) {
-            accountRemote.validateIdToken(idToken, provider)
-        }
-    }
+//    suspend fun validateIdTokenRemote(idToken: String, provider: String): Result<ExternalLoginData> {
+//        return safeApiCall(dispatcher) {
+//            accountRemote.validateIdToken(idToken, provider)
+//        }
+//    }
+
+    fun validateIdToken(token: String, provider: String): Flow<Result<ExternalLoginData>> =
+        remoteDataSource.validateIdToken(token, provider)
 
     fun register(
         username: String,
