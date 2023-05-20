@@ -13,6 +13,11 @@
         android:title="@string/title_tests" />
 
     <item
+        android:id="@+id/navigation_tests_2"
+        android:icon="@drawable/ic_baseline_subscript_24"
+        android:title="@string/title_tests_2" />
+
+    <item
         android:id="@+id/navigation_account"
         android:icon="@drawable/ic_account_24"
         android:title="@string/title_account" />
