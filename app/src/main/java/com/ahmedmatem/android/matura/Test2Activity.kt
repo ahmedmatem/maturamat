@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
-import com.ahmedmatem.android.matura.R
 
 class Test2Activity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

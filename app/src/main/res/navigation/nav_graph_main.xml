@@ -12,16 +12,16 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_tests_2"
-        android:name="com.ahmedmatem.android.matura.ui.home.HomeFragment"
-        android:label="@string/title_tests_2"
-        tools:layout="@layout/fragment_home" />
-
-    <fragment
         android:id="@+id/navigation_tests"
         android:name="com.ahmedmatem.android.matura.ui.test.TestListFragment"
         android:label="@string/title_tests"
         tools:layout="@layout/fragment_test_list" />
+
+    <fragment
+        android:id="@+id/navigation_tests_2"
+        android:name="com.ahmedmatem.android.matura.ui.test2.Test2ListFragment"
+        android:label="@string/title_tests_2"
+        tools:layout="@layout/fragment_test2_list" />
 
     <fragment
         android:id="@+id/navigation_account"
