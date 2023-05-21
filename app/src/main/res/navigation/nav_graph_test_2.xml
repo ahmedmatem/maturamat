@@ -3,21 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_test_2"
-    app:startDestination="@id/test2ListFragment">
+    app:startDestination="@id/test2_placeholder">
 
     <fragment
-        android:id="@+id/test2ListFragment"
-        android:name="com.ahmedmatem.android.matura.ui.test2.Test2ListFragment"
-        android:label="fragment_test2_list"
-        tools:layout="@layout/fragment_test2_list" >
+        android:id="@+id/test2_placeholder"
+        android:name="com.ahmedmatem.android.matura.ui.test2.Test2PlaceholderFragment"
+        tools:layout="@layout/fragment_test2_placeholder">
         <action
-            android:id="@+id/action_test2ListFragment_to_newTest2Fragment"
+            android:id="@+id/action_test2_placeholder_to_newTest2Fragment"
             app:destination="@id/newTest2Fragment" />
     </fragment>
+
     <fragment
         android:id="@+id/newTest2Fragment"
         android:name="com.ahmedmatem.android.matura.ui.test2.NewTest2Fragment"
-        android:label="fragment_new_test2"
+        android:label="@string/test2_fragment_title"
         tools:layout="@layout/fragment_new_test2" />
 
 </navigation>

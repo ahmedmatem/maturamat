@@ -8,17 +8,18 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.ahmedmatem.android.matura.R
 import com.ahmedmatem.android.matura.base.BaseFragment
 import com.ahmedmatem.android.matura.databinding.FragmentNewTest2Binding
 import com.ahmedmatem.android.matura.databinding.FragmentNewTest2TabObjectBinding
+import com.google.android.material.tabs.TabLayoutMediator
 
 class NewTest2Fragment : BaseFragment() {
 
     override val viewModel: NewTest2ViewModel by viewModels()
 
     private var _binding: FragmentNewTest2Binding? = null
-    private val binding = _binding!!
+    private val binding
+        get() = _binding!!
 
     private lateinit var problemCollectionAdapter: ProblemCollectionAdapter
 
@@ -33,8 +34,13 @@ class NewTest2Fragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         problemCollectionAdapter = ProblemCollectionAdapter(this)
-        val problemViewPager = binding.problemViewPager
-        problemViewPager.adapter = problemCollectionAdapter
+        binding.viewPager.apply {
+            adapter = problemCollectionAdapter
+        }
+        // Create TabLayoutMediator to link TabLayout to ViewPager
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, pos ->
+            tab.text = "Задача ${(pos+1)}"
+        }.attach()
     }
 
     override fun onDestroyView() {
@@ -67,8 +73,7 @@ class ProblemCollectionAdapter(baseFragment: BaseFragment) : FragmentStateAdapte
  */
 class ProblemFragmentTab: Fragment() {
     private var _binding: FragmentNewTest2TabObjectBinding? = null
-    private val binding: FragmentNewTest2TabObjectBinding
-        get() = _binding!!
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -76,7 +81,8 @@ class ProblemFragmentTab: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentNewTest2TabObjectBinding.inflate(inflater, container, false)
-        return inflater.inflate(R.layout.fragment_new_test2_tab_object, container, false)
+
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
