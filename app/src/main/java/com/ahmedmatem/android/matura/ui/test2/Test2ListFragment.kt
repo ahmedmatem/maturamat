@@ -20,6 +20,12 @@ class Test2ListFragment : BaseFragment() {
 
         val binding = FragmentTest2ListBinding.inflate(inflater, container, false)
 
+        with(binding) {
+            createNewTest2.setOnClickListener {
+                viewModel.createNewTest2();
+                viewModel.showToast.value = "New test2 was created."
+            }
+        }
 
         return binding.root
     }

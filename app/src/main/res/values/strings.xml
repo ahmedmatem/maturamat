@@ -157,7 +157,7 @@
     <string name="prev_card_description">Към предишна задача</string>
     <string name="next_card_description">Към следваща задача</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment">Test2 List goes here</string>
 
     /*
     * Test Scrim Notice dialog strings
@@ -184,5 +184,6 @@
     <string name="text_welcome"></string>
     <string name="password_validation_message">Паролата трябва да е поне %1$d символа</string>
     <string name="email_validation_message">Невалиден имейл</string>
+    <string name="create_new_test_desc">Create new test</string>
 
 </resources>
