@@ -14,6 +14,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".ui.test2.NewTest2Activity"
+            android:exported="false"
+            android:label="@string/title_activity_new_test2"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".Test2Activity"
             android:exported="false" />
         <activity

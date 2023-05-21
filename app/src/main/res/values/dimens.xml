@@ -51,4 +51,7 @@
     <dimen name="test_list_bottom_sheet_peek_height">56dp</dimen>
     <dimen name="banner_elevation">4dp</dimen>
     <dimen name="keyboard_and_timer_bottom_sheet_height">530dp</dimen>
+    <dimen name="appbar_padding">16dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="appbar_padding_top">8dp</dimen>
 </resources>

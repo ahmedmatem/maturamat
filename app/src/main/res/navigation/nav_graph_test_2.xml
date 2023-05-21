@@ -9,5 +9,15 @@
         android:id="@+id/test2ListFragment"
         android:name="com.ahmedmatem.android.matura.ui.test2.Test2ListFragment"
         android:label="fragment_test2_list"
-        tools:layout="@layout/fragment_test2_list" />
+        tools:layout="@layout/fragment_test2_list" >
+        <action
+            android:id="@+id/action_test2ListFragment_to_newTest2Fragment"
+            app:destination="@id/newTest2Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newTest2Fragment"
+        android:name="com.ahmedmatem.android.matura.ui.test2.NewTest2Fragment"
+        android:label="fragment_new_test2"
+        tools:layout="@layout/fragment_new_test2" />
+
 </navigation>
