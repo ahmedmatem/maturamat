@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="color_accent">#BB09DA</color>
+    <color name="color_accent">@color/orange_a_200</color>
     <color name="color_alert">@color/color_error</color>
 
     <color name="purple_200">#FFBB86FC</color>
