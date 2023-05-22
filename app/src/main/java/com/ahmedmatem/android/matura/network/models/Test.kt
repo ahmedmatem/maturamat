@@ -1,11 +1,7 @@
 package com.ahmedmatem.android.matura.network.models
 
 import android.os.Parcelable
-import android.util.Log
 import androidx.annotation.Keep
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.liveData
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
@@ -16,7 +12,6 @@ import com.ahmedmatem.android.matura.ui.test.contracts.TestState
 import com.ahmedmatem.android.matura.utils.Mark
 import com.squareup.moshi.Json
 import kotlinx.android.parcel.Parcelize
-import java.lang.ClassCastException
 import java.util.*
 
 @Parcelize

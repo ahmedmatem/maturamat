@@ -14,8 +14,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.koin.java.KoinJavaComponent.inject
 
-class TestRemoteDataSource(private val dispatcher: CoroutineDispatcher = Dispatchers.IO) {
-
+class TestRemoteDataSource {
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
     private val testApiService = TestApi.retrofitService
 
     suspend fun getAllForUser(token: String): List<Test>? {
