@@ -2,14 +2,10 @@ package com.ahmedmatem.android.matura.repository
 
 import com.ahmedmatem.android.matura.datasource.local.AccountLocalDataSource
 import com.ahmedmatem.android.matura.datasource.remote.AccountRemoteDataSource
-import com.ahmedmatem.android.matura.local.daos.AccountDao
 import com.ahmedmatem.android.matura.network.Result
 import com.ahmedmatem.android.matura.network.models.User
 import com.ahmedmatem.android.matura.ui.account.login.external.ExternalLoginData
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.withContext
 import org.koin.java.KoinJavaComponent.inject
 
 class AccountRepository {

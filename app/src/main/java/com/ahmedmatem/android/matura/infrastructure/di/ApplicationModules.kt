@@ -7,6 +7,7 @@ import com.ahmedmatem.android.matura.local.MaturaDb
 import com.ahmedmatem.android.matura.datasource.local.TestLocalDataSource
 import com.ahmedmatem.android.matura.datasource.remote.AccountRemoteDataSource
 import com.ahmedmatem.android.matura.datasource.remote.CoinRemoteDataSource
+import com.ahmedmatem.android.matura.datasource.remote.Test2RemoteDataSource
 import com.ahmedmatem.android.matura.datasource.remote.TestRemoteDataSource
 import com.ahmedmatem.android.matura.local.preferences.UserPrefs
 import com.ahmedmatem.android.matura.network.services.Test2Api
@@ -14,6 +15,7 @@ import com.ahmedmatem.android.matura.network.services.Test2ApiService
 import com.ahmedmatem.android.matura.prizesystem.PrizeWorkManager
 import com.ahmedmatem.android.matura.repository.AccountRepository
 import com.ahmedmatem.android.matura.repository.CoinRepository
+import com.ahmedmatem.android.matura.repository.Test2Repository
 import com.ahmedmatem.android.matura.repository.TestRepository
 import com.ahmedmatem.android.matura.utils.TestURLUtil
 import com.ahmedmatem.android.matura.utils.helpers.NoticeDataCreator
@@ -58,10 +60,12 @@ val applicationModule = module {
     single { CoinRemoteDataSource() }
     single { TestRemoteDataSource() }
     single { AccountRemoteDataSource() }
+    single { Test2RemoteDataSource() }
 
     // Repositories
     single { CoinRepository() }
     single { TestRepository() }
+    single { Test2Repository() }
 
     single { TestURLUtil(get()) }
     single { SharedPreferencesProvider(get()) }
