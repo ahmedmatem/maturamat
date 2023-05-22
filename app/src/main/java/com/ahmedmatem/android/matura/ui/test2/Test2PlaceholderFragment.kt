@@ -16,6 +16,7 @@ class Test2PlaceholderFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Todo: Create test2 in placeholder fragment before navigate to new test fragment
         viewModel.navigationCommand.value = NavigationCommand.To(
             Test2PlaceholderFragmentDirections.actionTest2PlaceholderToNewTest2Fragment()
         )

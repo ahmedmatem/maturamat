@@ -5,7 +5,7 @@ import com.ahmedmatem.android.matura.network.models.Test2
 import retrofit2.http.GET
 
 interface Test2ApiService {
-    @GET(value = "api/test2")
+    @GET("api/test2")
     suspend fun createTest2() : Test2
 }
 

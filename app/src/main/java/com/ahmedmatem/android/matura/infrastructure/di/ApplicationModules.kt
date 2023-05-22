@@ -10,8 +10,6 @@ import com.ahmedmatem.android.matura.datasource.remote.CoinRemoteDataSource
 import com.ahmedmatem.android.matura.datasource.remote.Test2RemoteDataSource
 import com.ahmedmatem.android.matura.datasource.remote.TestRemoteDataSource
 import com.ahmedmatem.android.matura.local.preferences.UserPrefs
-import com.ahmedmatem.android.matura.network.services.Test2Api
-import com.ahmedmatem.android.matura.network.services.Test2ApiService
 import com.ahmedmatem.android.matura.prizesystem.PrizeWorkManager
 import com.ahmedmatem.android.matura.repository.AccountRepository
 import com.ahmedmatem.android.matura.repository.CoinRepository
@@ -41,11 +39,6 @@ val applicationModule = module {
     single { MaturaDb.getInstance(get()).accountDao }
     single { MaturaDb.getInstance(get()).coinDao }
     single { MaturaDb.getInstance(get()).testDao }
-
-    /**
-     * API Services
-     */
-    single { Test2Api.retrofitService }
 
     /**
      * Data sources
