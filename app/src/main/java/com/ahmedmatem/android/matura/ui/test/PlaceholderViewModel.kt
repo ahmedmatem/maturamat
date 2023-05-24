@@ -14,9 +14,9 @@ import com.ahmedmatem.android.matura.utils.TestURLUtil
 import org.koin.java.KoinJavaComponent.inject
 import java.lang.IllegalArgumentException
 
-class PlaceholderViewModel(private val context: Context) : BaseViewModel() {
+class PlaceholderViewModel : BaseViewModel() {
 
-    private val urlUtil: TestURLUtil by lazy { TestURLUtil(context) }
+    private val testUrlUtil: TestURLUtil by inject(TestURLUtil::class.java)
     private val userPrefs by inject<UserPrefs>(UserPrefs::class.java)
 
     fun navigateByTest(test: Test?) {
@@ -37,22 +37,13 @@ class PlaceholderViewModel(private val context: Context) : BaseViewModel() {
         val isNvo4Version: Boolean = BuildConfig.FLAVOR_version == FlavorVersion.NVO4
         val testResultUrl = if (userPrefs.isGuest() && !isNvo4Version) {
             // Show only test result summary for Guest
-            urlUtil.testResultSummaryOnlyUrl(testId)
+            testUrlUtil.testResultSummaryOnlyUrl(testId)
         } else {
-            urlUtil.testResultUrl(testId)
+            testUrlUtil.testResultUrl(testId)
         }
         navigationCommand.value = NavigationCommand.To(
             PlaceholderFragmentDirections.actionPlaceholderToTestResultFragment(testResultUrl)
         )
     }
 
-    class Factory(private val context: Context) : ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(PlaceholderViewModel::class.java)) {
-                return PlaceholderViewModel(context) as T
-            }
-            throw IllegalArgumentException("Unable to construct a TestActivityPlaceholderViewModel")
-        }
-
-    }
 }

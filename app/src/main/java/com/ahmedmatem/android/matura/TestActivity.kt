@@ -2,12 +2,9 @@ package com.ahmedmatem.android.matura
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.fragment.app.add
-import androidx.fragment.app.commit
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
-import com.ahmedmatem.android.matura.ui.test.TestBottomSheetFragment
 
 class TestActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration

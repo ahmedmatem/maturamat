@@ -3,7 +3,6 @@ package com.ahmedmatem.android.matura.ui.test
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,17 +12,17 @@ import androidx.lifecycle.ViewModelProvider
 import com.ahmedmatem.android.matura.TestActivity.Companion.EXTRA_TEST
 import com.ahmedmatem.android.matura.TestActivity.Companion.EXTRA_TEST_ID
 import com.ahmedmatem.android.matura.base.BaseFragment
+import com.ahmedmatem.android.matura.base.NavigationCommand
 import com.ahmedmatem.android.matura.databinding.FragmentTestPlaceholderBinding
+import com.ahmedmatem.android.matura.ui.test2.Test2PlaceholderFragmentDirections
 
 /**
  * Use placeholder fragment to navigate to a specific test fragment
  * depends on test state value put in intent extra.
  */
 class PlaceholderFragment : BaseFragment() {
-    override val viewModel: PlaceholderViewModel = ViewModelProvider(
-            this,
-            PlaceholderViewModel.Factory(requireContext())
-        )[PlaceholderViewModel::class.java]
+    override val viewModel: PlaceholderViewModel =
+        ViewModelProvider(this)[PlaceholderViewModel::class.java]
 
     private val testViewModel: TestViewViewModel by activityViewModels()
 
@@ -34,7 +33,6 @@ class PlaceholderFragment : BaseFragment() {
     ): View {
         val binding = FragmentTestPlaceholderBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
-
 
         /**
          * Extra_test contains information about test itself.

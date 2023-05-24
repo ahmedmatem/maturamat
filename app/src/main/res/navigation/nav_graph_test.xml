@@ -8,7 +8,8 @@
     <fragment
         android:id="@+id/placeholder"
         android:label=""
-        android:name="com.ahmedmatem.android.matura.ui.test.PlaceholderFragment">
+        android:name="com.ahmedmatem.android.matura.ui.test.PlaceholderFragment"
+        tools:layout="@layout/fragment_test_placeholder">
         <action
             android:id="@+id/action_placeholder_to_testViewFragment"
             app:destination="@id/testViewFragment" />
