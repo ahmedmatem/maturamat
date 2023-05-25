@@ -12,17 +12,17 @@ import androidx.lifecycle.ViewModelProvider
 import com.ahmedmatem.android.matura.TestActivity.Companion.EXTRA_TEST
 import com.ahmedmatem.android.matura.TestActivity.Companion.EXTRA_TEST_ID
 import com.ahmedmatem.android.matura.base.BaseFragment
-import com.ahmedmatem.android.matura.base.NavigationCommand
 import com.ahmedmatem.android.matura.databinding.FragmentTestPlaceholderBinding
-import com.ahmedmatem.android.matura.ui.test2.Test2PlaceholderFragmentDirections
 
 /**
  * Use placeholder fragment to navigate to a specific test fragment
  * depends on test state value put in intent extra.
  */
-class PlaceholderFragment : BaseFragment() {
-    override val viewModel: PlaceholderViewModel =
-        ViewModelProvider(this)[PlaceholderViewModel::class.java]
+class TestPlaceholderFragment : BaseFragment() {
+    override val viewModel: TestPlaceholderViewModel
+        get() = ViewModelProvider(
+            this).get(TestPlaceholderViewModel::class.java)
+//    override val viewModel: TestPlaceholderViewModel by viewModels()
 
     private val testViewModel: TestViewViewModel by activityViewModels()
 
@@ -30,9 +30,11 @@ class PlaceholderFragment : BaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        val binding = FragmentTestPlaceholderBinding.inflate(inflater, container, false)
+    ): View? {
+        val binding = FragmentTestPlaceholderBinding
+            .inflate(inflater, container, false)
         binding.lifecycleOwner = this
+
 
         /**
          * Extra_test contains information about test itself.
@@ -44,7 +46,7 @@ class PlaceholderFragment : BaseFragment() {
         if (intent.hasExtra(EXTRA_TEST)) {
             val bundle = intent.extras
             bundle?.let { it ->
-                val test = PlaceholderFragmentArgs.fromBundle(it).test
+                val test = TestPlaceholderFragmentArgs.fromBundle(it).test
                 intent.replaceExtras(null) // remove extras
                 viewModel.navigateByTest(test)
             }

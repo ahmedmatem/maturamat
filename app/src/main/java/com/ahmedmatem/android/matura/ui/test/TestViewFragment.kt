@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.activity.addCallback
 import androidx.core.os.bundleOf
@@ -18,10 +17,8 @@ import com.ahmedmatem.android.matura.TestActivity.Companion.EXTRA_TEST_ID
 import com.ahmedmatem.android.matura.base.BaseFragment
 import com.ahmedmatem.android.matura.databinding.FragmentTestViewBinding
 import com.ahmedmatem.android.matura.network.WebAppInterface
-import com.ahmedmatem.android.matura.ui.test.contracts.TestState
 import com.ahmedmatem.lib.mathkeyboard.MathInputEditorFragment
 import com.ahmedmatem.lib.mathkeyboard.config.Constants
-import com.ahmedmatem.lib.mathkeyboard.contracts.KeyboardExternalListener
 
 class TestViewFragment : BaseFragment() {
 
