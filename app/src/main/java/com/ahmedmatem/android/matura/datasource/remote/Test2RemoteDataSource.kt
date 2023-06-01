@@ -20,4 +20,11 @@ class Test2RemoteDataSource {
         }
         emit(result)
     }
+
+    fun getMockTest() : Flow<Result<Test2>> = flow {
+        val result = safeApiCall(dispatcher) {
+            apiService.getMockTest()
+        }
+        emit(result)
+    }
 }

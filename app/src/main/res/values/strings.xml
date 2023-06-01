@@ -158,7 +158,7 @@
     <string name="next_card_description">Към следваща задача</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Test2 List goes here</string>
-    <string name="placeholder_fragment">I am placeholder fragment</string>
+    <string name="placeholder_fragment">I am a placeholder</string>
 
     /*
     * Test Scrim Notice dialog strings
@@ -191,5 +191,7 @@
     <string name="tab_text_2">Tab 2</string>
     <string name="test2_fragment_title">Тест</string>
     <string name="test2_tab_layout">Tabs for switching between test items</string>
+    <string name="btn_start">Начало</string>
+    <string name="problem_no">Задача %1$d</string>
 
 </resources>

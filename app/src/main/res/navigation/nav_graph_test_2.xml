@@ -18,6 +18,10 @@
         android:id="@+id/newTest2Fragment"
         android:name="com.ahmedmatem.android.matura.ui.test2.NewTest2Fragment"
         android:label="@string/test2_fragment_title"
-        tools:layout="@layout/fragment_new_test2" />
+        tools:layout="@layout/fragment_new_test2" >
+        <argument
+            android:name="test"
+            app:argType="com.ahmedmatem.android.matura.network.models.Test2" />
+    </fragment>
 
 </navigation>
