@@ -35,8 +35,9 @@
         style="?android:attr/progressBarStyleSmallInverse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        app:layout_constraintStart_toEndOf="@+id/startTestBtn"
-        app:layout_constraintTop_toTopOf="@+id/startTestBtn" />
+        android:layout_marginBottom="2dp"
+        app:layout_constraintBottom_toBottomOf="@+id/startTestBtn"
+        app:layout_constraintEnd_toEndOf="@+id/startTestBtn"
+        app:layout_constraintStart_toStartOf="@+id/startTestBtn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
