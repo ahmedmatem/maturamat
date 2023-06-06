@@ -1,5 +1,6 @@
 package com.ahmedmatem.android.matura.ui.test2
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.base.NavigationCommand
@@ -16,6 +17,8 @@ import org.koin.java.KoinJavaComponent.inject
 class Test2PlaceholderViewModel: BaseViewModel() {
 
     private val test2Repo: Test2Repository by inject(Test2Repository::class.java)
+
+    private var requestTimeoutCount: Byte = 0
 
     private val _startTestBtnEnabledState: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val startTestBtnEnabledState: StateFlow<Boolean> = _startTestBtnEnabledState.asStateFlow()
@@ -36,7 +39,7 @@ class Test2PlaceholderViewModel: BaseViewModel() {
                         mockTest = it.data
                     }
                     is Result.GenericError -> {}
-                    is Result.NetworkError -> {}
+                    is Result.NetworkError -> onNetworkError()
                 }
             }
         }
@@ -49,7 +52,24 @@ class Test2PlaceholderViewModel: BaseViewModel() {
         )
     }
 
+    /**
+     * Most probable reason to get Network Error is Request Time Exception.
+     * According this assumption try requesting server once more before
+     * informing of user with error message.
+     */
+    private fun onNetworkError() {
+        if(requestTimeoutCount < RELOAD_ATTEMPTS) {
+            requestTimeoutCount++
+            Log.d(TAG, "onNetworkError: Make new request.")
+            // make new request to the server
+            getMockTest()
+        } else {
+            // TODO: Implement Network Error
+        }
+    }
+
     companion object {
-//        const val TAG: String = "Test2PlaceholderVM"
+        const val TAG: String = "Test2PlaceholderVM"
+        const val RELOAD_ATTEMPTS = 1; // only once
     }
 }

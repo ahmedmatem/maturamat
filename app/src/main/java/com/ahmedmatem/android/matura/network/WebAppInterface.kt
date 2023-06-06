@@ -16,6 +16,7 @@ import com.ahmedmatem.android.matura.R
 import com.ahmedmatem.android.matura.TestActivity.Companion.EXTRA_TEST_ID
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.ui.test.TestViewViewModel
+import com.ahmedmatem.android.matura.ui.test2.NewTest2ViewModel
 import com.ahmedmatem.lib.mathkeyboard.MathInputEditorFragment
 import com.ahmedmatem.lib.mathkeyboard.config.Constants
 import java.lang.ClassCastException
@@ -101,6 +102,16 @@ class WebAppInterface(
                 }
             })
         }
+    }
+
+    /**
+     * Reload problem after concurrency exception occurred.
+     * PLace - test2 fragment pager view.
+     */
+    @JavascriptInterface
+    fun reloadProblem(id: String) {
+        viewModel as NewTest2ViewModel
+        viewModel.reloadProblemById(id)
     }
 
     companion object {
