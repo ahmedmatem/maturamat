@@ -193,5 +193,6 @@
     <string name="test2_tab_layout">Tabs for switching between test items</string>
     <string name="btn_start">Начало</string>
     <string name="problem_no">Задача %1$d</string>
+    <string name="cameraButtonText">Снимай решение [%1$d/2]</string>
 
 </resources>

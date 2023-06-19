@@ -97,9 +97,21 @@ class ProblemCollectionAdapter(baseFragment: BaseFragment) : FragmentStateAdapte
  * object in collection (of problems).
  */
 class ProblemFragmentTab: BaseFragment() {
-    override val viewModel: NewTest2ViewModel by viewModels({requireParentFragment()})
+//    override val viewModel: NewTest2ViewModel by viewModels({requireParentFragment()})
+    override val viewModel: ProblemFragmentTabViewModel by viewModels()
+    private lateinit var problemId: String
+
     private var _binding: FragmentNewTest2TabBinding? = null
     private val binding get() = _binding!!
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        requireArguments().takeIf {
+            it.containsKey(ARG_PROBLEM_ID).apply {
+                problemId = it.getString(ARG_PROBLEM_ID)!!
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -112,23 +124,26 @@ class ProblemFragmentTab: BaseFragment() {
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        arguments?.takeIf { bundle ->
-            bundle.containsKey(ARG_TAB_OBJECT).apply {
-                binding.problemNoText.text = getString(R.string.problem_no, bundle.getInt(ARG_TAB_OBJECT))
-                val problemId = bundle.getString(ARG_PROBLEM_ID)
-                binding.problemWebView.apply {
-                    settings.javaScriptEnabled = true
-                    addJavascriptInterface(WebAppInterface(requireContext(), viewModel), "Android")
-                }.loadUrl("$MOBILE_WEB_URL/test2/problem/$problemId")
-            }
-        }
+
+        binding.problemWebView.apply {
+            settings.javaScriptEnabled = true
+            addJavascriptInterface(WebAppInterface(requireContext(), viewModel), "Android")
+        }.loadUrl("$MOBILE_WEB_URL/test2/problem/$problemId")
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.unloadProblemId.collect { id ->
-                    id?.let {
-                        binding.problemWebView.loadUrl("$MOBILE_WEB_URL/test2/problem/$it")
+                viewModel.reloadProblem.collect { reload ->
+                    if(reload) {
+                        binding.problemWebView.loadUrl("$MOBILE_WEB_URL/test2/problem/$problemId")
+                        viewModel.onProblemReload()
                     }
+                }
+            }
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.solutionCount.collect {count ->
+                    binding.cameraButton.text = getString(R.string.cameraButtonText, count)
                 }
             }
         }

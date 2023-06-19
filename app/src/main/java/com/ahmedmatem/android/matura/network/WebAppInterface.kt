@@ -5,18 +5,13 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.webkit.JavascriptInterface
-import android.widget.FrameLayout
-import android.widget.Toast
-import androidx.annotation.MainThread
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
-import com.ahmedmatem.android.matura.R
 import com.ahmedmatem.android.matura.TestActivity.Companion.EXTRA_TEST_ID
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.ui.test.TestViewViewModel
 import com.ahmedmatem.android.matura.ui.test2.NewTest2ViewModel
+import com.ahmedmatem.android.matura.ui.test2.ProblemFragmentTabViewModel
 import com.ahmedmatem.lib.mathkeyboard.MathInputEditorFragment
 import com.ahmedmatem.lib.mathkeyboard.config.Constants
 import java.lang.ClassCastException
@@ -109,9 +104,9 @@ class WebAppInterface(
      * PLace - test2 fragment pager view.
      */
     @JavascriptInterface
-    fun reloadProblem(id: String) {
-        viewModel as NewTest2ViewModel
-        viewModel.reloadProblemById(id)
+    fun reloadProblem() {
+        viewModel as ProblemFragmentTabViewModel
+        viewModel.reloadProblem()
     }
 
     companion object {
