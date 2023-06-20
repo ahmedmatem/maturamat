@@ -24,4 +24,10 @@
             app:argType="com.ahmedmatem.android.matura.network.models.Test2" />
     </fragment>
 
+    <fragment
+        android:id="@+id/baseCameraFragment"
+        android:name="com.ahmedmatem.android.matura.ui.camera.BaseCameraFragment"
+        android:label="fragment_base_camera"
+        tools:layout="@layout/fragment_base_camera" />
+
 </navigation>
