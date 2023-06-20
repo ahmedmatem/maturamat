@@ -194,5 +194,6 @@
     <string name="btn_start">Начало</string>
     <string name="problem_no">Задача %1$d</string>
     <string name="cameraButtonText">Снимай решение [%1$d/2]</string>
+    <string name="take_a_photo_desc">Take a photo</string>
 
 </resources>
