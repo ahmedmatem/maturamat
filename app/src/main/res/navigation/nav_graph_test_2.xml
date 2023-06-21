@@ -22,6 +22,9 @@
         <argument
             android:name="test"
             app:argType="com.ahmedmatem.android.matura.network.models.Test2" />
+        <action
+            android:id="@+id/action_newTest2Fragment_to_baseCameraFragment"
+            app:destination="@id/baseCameraFragment" />
     </fragment>
 
     <fragment

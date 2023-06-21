@@ -119,6 +119,10 @@ class ProblemFragmentTab: BaseFragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentNewTest2TabBinding.inflate(inflater, container, false)
+        binding.cameraButton.setOnClickListener {
+            viewModel.navigateToBaseCameraFragment()
+        }
+
         return binding.root
     }
 

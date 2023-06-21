@@ -1,6 +1,7 @@
 package com.ahmedmatem.android.matura.ui.test2
 
 import com.ahmedmatem.android.matura.base.BaseViewModel
+import com.ahmedmatem.android.matura.base.NavigationCommand
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,7 +18,13 @@ class ProblemFragmentTabViewModel : BaseViewModel() {
         _reloadProblem.value = true
     }
 
-    fun onProblemReload(){
+    fun onProblemReload() {
         _reloadProblem.value = false;
+    }
+
+    fun navigateToBaseCameraFragment() {
+        navigationCommand.value = NavigationCommand.To(
+            NewTest2FragmentDirections.actionNewTest2FragmentToBaseCameraFragment()
+        )
     }
 }
