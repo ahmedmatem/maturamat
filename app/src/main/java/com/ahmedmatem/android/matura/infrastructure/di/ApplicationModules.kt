@@ -3,6 +3,7 @@ package com.ahmedmatem.android.matura.infrastructure.di
 import androidx.work.WorkManager
 import com.ahmedmatem.android.matura.datasource.local.AccountLocalDataSource
 import com.ahmedmatem.android.matura.datasource.local.CoinLocalDataSource
+import com.ahmedmatem.android.matura.datasource.local.Test2LocalDataSource
 import com.ahmedmatem.android.matura.local.MaturaDb
 import com.ahmedmatem.android.matura.datasource.local.TestLocalDataSource
 import com.ahmedmatem.android.matura.datasource.remote.AccountRemoteDataSource
@@ -39,6 +40,7 @@ val applicationModule = module {
     single { MaturaDb.getInstance(get()).accountDao }
     single { MaturaDb.getInstance(get()).coinDao }
     single { MaturaDb.getInstance(get()).testDao }
+    single { MaturaDb.getInstance(get()).test2Dao }
 
     /**
      * Data sources
@@ -47,6 +49,7 @@ val applicationModule = module {
     // local
     single { CoinLocalDataSource() }
     single { TestLocalDataSource() }
+    single { Test2LocalDataSource() }
     single { AccountLocalDataSource() }
 
     // remote

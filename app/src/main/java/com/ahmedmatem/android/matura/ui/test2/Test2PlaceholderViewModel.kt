@@ -6,6 +6,7 @@ import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.base.NavigationCommand
 import com.ahmedmatem.android.matura.network.Result
 import com.ahmedmatem.android.matura.network.models.Test2
+import com.ahmedmatem.android.matura.network.models.create
 import com.ahmedmatem.android.matura.repository.Test2Repository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -47,6 +48,12 @@ class Test2PlaceholderViewModel: BaseViewModel() {
     }
 
     fun startTest() {
+        // Create and save test in local database
+        viewModelScope.launch {
+            val test = mockTest.create()
+            test2Repo.insert(test)
+        }
+        // navigate to newly created test
         navigationCommand.value = NavigationCommand.To(
             Test2PlaceholderFragmentDirections.actionTest2PlaceholderToNewTest2Fragment(mockTest)
         )

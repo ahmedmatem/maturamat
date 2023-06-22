@@ -7,6 +7,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
 import kotlinx.android.parcel.Parcelize
+import java.util.Calendar
 import java.util.Date
 
 @Keep
@@ -15,7 +16,7 @@ import java.util.Date
 data class Test2(
     @PrimaryKey
     @Json(name = "Id")
-    val id: String?,
+    val id: String,
     @ColumnInfo(name = "first_problem_id")
     @Json(name = "FirstProblemId")
     val firstProblemId: String,
@@ -29,3 +30,11 @@ data class Test2(
     @Json(name = "CreatedOn")
     val createdOn: Date?
 ) : Parcelable
+
+fun Test2.create() : Test2 = Test2(
+    id = this.id,
+    firstProblemId = this.firstProblemId,
+    secondProblemId = this.secondProblemId,
+    thirdProblemId = this.thirdProblemId,
+    createdOn = Calendar.getInstance().time
+)

@@ -7,18 +7,21 @@ import com.ahmedmatem.android.matura.infrastructure.DB_NAME
 import com.ahmedmatem.android.matura.local.daos.TestDao
 import com.ahmedmatem.android.matura.local.daos.AccountDao
 import com.ahmedmatem.android.matura.local.daos.CoinDao
+import com.ahmedmatem.android.matura.local.daos.Test2Dao
 import com.ahmedmatem.android.matura.network.models.Test
+import com.ahmedmatem.android.matura.network.models.Test2
 import com.ahmedmatem.android.matura.network.models.User
 import com.ahmedmatem.android.matura.prizesystem.models.Coin
 
 @Database(
-    entities = [Test::class, User::class, Coin::class],
-    version = 1 // db version for NVO 4(v.1.0-free) - 1
+    entities = [Test::class, Test2::class, User::class, Coin::class],
+    version = 2 // db version for NVO 4(v.1.0-free) - 1
 )
 @TypeConverters(Converters::class)
 abstract class MaturaDb : RoomDatabase() {
 
     abstract val testDao: TestDao
+    abstract val test2Dao: Test2Dao
     abstract val accountDao: AccountDao
     abstract val coinDao: CoinDao
 
