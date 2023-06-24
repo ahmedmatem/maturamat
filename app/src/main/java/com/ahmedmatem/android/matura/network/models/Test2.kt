@@ -6,7 +6,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 import java.util.Calendar
 import java.util.Date
 
@@ -28,7 +28,21 @@ data class Test2(
     val thirdProblemId: String,
     @ColumnInfo(name = "created_on")
     @Json(name = "CreatedOn")
-    val createdOn: Date?
+    val createdOn: Date?,
+
+    /**
+     *  Next fields will be ignored in mapping.
+     *  Each column contains the nullable string of photo names separated by ','.
+     */
+    @Transient
+    @ColumnInfo(name = "solution_1")
+    val firstSolutions: String? = null,
+    @Transient
+    @ColumnInfo(name = "solution_2")
+    val secondSolutions: String? = null,
+    @Transient
+    @ColumnInfo(name = "solution_3")
+    val thirdSolutions: String? = null
 ) : Parcelable
 
 fun Test2.create() : Test2 = Test2(

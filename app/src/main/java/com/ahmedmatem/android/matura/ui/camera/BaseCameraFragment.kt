@@ -24,10 +24,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.navArgs
 import com.ahmedmatem.android.matura.R
 import com.ahmedmatem.android.matura.base.BaseFragment
 import com.ahmedmatem.android.matura.databinding.FragmentBaseCameraBinding
 import com.ahmedmatem.android.matura.utils.clearFullScreen
+import com.ahmedmatem.android.matura.utils.saveBitmapInGallery
 import com.ahmedmatem.android.matura.utils.setFullScreen
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -37,6 +39,8 @@ import java.util.concurrent.Executors
 class BaseCameraFragment : BaseFragment() {
 
     override val viewModel: BaseCameraViewModel by viewModels()
+
+    private val args: BaseCameraFragmentArgs by navArgs()
 
     private var _binding: FragmentBaseCameraBinding? = null
     private val binding: FragmentBaseCameraBinding get() = _binding!!
@@ -79,6 +83,21 @@ class BaseCameraFragment : BaseFragment() {
         binding.apply {
             captureButton.setOnClickListener {
                 takePhoto()
+            }
+            resumeCameraButton.setOnClickListener {
+                startCamera()
+                updateUI(previewPaused = false)
+                unlockScreen()
+            }
+            photoOkButton.setOnClickListener {
+                bitmap?.let {
+                    // Save bitmap in Gallery
+                    val uri = saveBitmapInGallery(it, FILENAME_FORMAT, RELATIVE_PATH)
+                    // Save bitmap properties in local database
+                    args.id?.let {id ->
+                        viewModel.savePhoto(id, uri.toString())
+                    }
+                }
             }
         }
 
@@ -214,7 +233,7 @@ class BaseCameraFragment : BaseFragment() {
 
     companion object {
         const val TAG = "BaseCameraFragment"
-        private const val RELATIVE_PATH = "Pictures/MaturaMat-Image"
+        private const val RELATIVE_PATH = "Pictures/MaturaMat-Images"
         private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
         private const val CAMERA_SHUTTER_EFFECT_DURATION : Long = 100L
         private val REQUIRED_PERMISSIONS =

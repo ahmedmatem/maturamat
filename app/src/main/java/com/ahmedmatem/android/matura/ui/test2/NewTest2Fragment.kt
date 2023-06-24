@@ -120,7 +120,7 @@ class ProblemFragmentTab: BaseFragment() {
     ): View {
         _binding = FragmentNewTest2TabBinding.inflate(inflater, container, false)
         binding.cameraButton.setOnClickListener {
-            viewModel.navigateToBaseCameraFragment()
+            viewModel.navigateToBaseCameraFragment(problemId)
         }
 
         return binding.root
