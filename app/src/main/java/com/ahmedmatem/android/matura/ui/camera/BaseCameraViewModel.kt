@@ -1,5 +1,6 @@
 package com.ahmedmatem.android.matura.ui.camera
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.repository.Test2Repository
@@ -15,12 +16,16 @@ class BaseCameraViewModel: BaseViewModel() {
     private val _isCameraShutterVisible: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val isCameraShutterVisible = _isCameraShutterVisible.asStateFlow()
 
-    fun savePhoto(id: String, photoUri: String){
-        viewModelScope.launch {
-            // todo: save photo details in local database
-            // ...
-        }
-    }
+    /**
+     * photoUri - content://media/external/images/media/1000004914
+     */
+//    fun savePhoto(problemId: String, problemNumber: Int, photoUri: String){
+//        viewModelScope.launch {
+//            // todo: save photo details in local database
+//            // ...
+//            Log.d(TAG, "savePhoto: $photoUri")
+//        }
+//    }
 
     fun runCaptureEffect(durationInMillis: Long) {
         viewModelScope.launch {
@@ -28,5 +33,9 @@ class BaseCameraViewModel: BaseViewModel() {
             delay(durationInMillis)
             _isCameraShutterVisible.value = false
         }
+    }
+
+    companion object {
+        const val TAG = "BaseCameraFragment"
     }
 }

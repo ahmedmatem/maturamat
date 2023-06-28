@@ -22,9 +22,9 @@ class ProblemFragmentTabViewModel : BaseViewModel() {
         _reloadProblem.value = false;
     }
 
-    fun navigateToBaseCameraFragment(problemId: String) {
+    fun navigateToBaseCameraFragment() {
         navigationCommand.value = NavigationCommand.To(
-            NewTest2FragmentDirections.actionNewTest2FragmentToBaseCameraFragment(problemId)
+            NewTest2FragmentDirections.actionNewTest2FragmentToBaseCameraFragment()
         )
     }
 }

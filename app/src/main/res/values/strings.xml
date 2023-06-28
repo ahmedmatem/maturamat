@@ -197,5 +197,6 @@
     <string name="take_a_photo_desc">Take a photo</string>
     <string name="confirm_photo_button_desc">Confirm photo button</string>
     <string name="resume_camera_button_desc">Resume camera button</string>
+    <string name="photo_description">Photo</string>
 
 </resources>

@@ -45,7 +45,9 @@ class Test2PlaceholderFragment : BaseFragment() {
             }
         }
 
-        binding.startTestBtn.setOnClickListener { viewModel.startTest() }
+        binding.startTestBtn.setOnClickListener {
+            viewModel.startTest()
+        }
 
         return binding.root
     }

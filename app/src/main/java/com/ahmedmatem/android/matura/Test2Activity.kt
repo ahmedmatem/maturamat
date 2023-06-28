@@ -2,16 +2,26 @@ package com.ahmedmatem.android.matura
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 class Test2Activity : AppCompatActivity() {
+
+    private lateinit var viewModel: Test2ActivityViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test2)
+
+        viewModel = ViewModelProvider(this)[Test2ActivityViewModel::class.java]
 
         /**
          * Use supportFragmentManager to find navController in case of using

@@ -52,11 +52,12 @@ class Test2PlaceholderViewModel: BaseViewModel() {
         viewModelScope.launch {
             val test = mockTest.create()
             test2Repo.insert(test)
+            // navigate to newly created test
+            navigationCommand.value = NavigationCommand.To(
+                Test2PlaceholderFragmentDirections.actionTest2PlaceholderToNewTest2Fragment(test)
+            )
         }
-        // navigate to newly created test
-        navigationCommand.value = NavigationCommand.To(
-            Test2PlaceholderFragmentDirections.actionTest2PlaceholderToNewTest2Fragment(mockTest)
-        )
+
     }
 
     /**

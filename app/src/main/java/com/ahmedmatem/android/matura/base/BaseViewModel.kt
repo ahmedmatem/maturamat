@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ahmedmatem.android.matura.infrastructure.SingleLiveEvent
 import com.ahmedmatem.android.matura.ui.general.NoticeData
+import kotlinx.coroutines.flow.MutableStateFlow
 
 /**
  * Base class for View Models to declare the common LiveData objects in one place

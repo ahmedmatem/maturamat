@@ -20,13 +20,16 @@ import androidx.camera.core.ImageProxy
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.navArgs
 import com.ahmedmatem.android.matura.R
+import com.ahmedmatem.android.matura.Test2ActivityViewModel
 import com.ahmedmatem.android.matura.base.BaseFragment
+import com.ahmedmatem.android.matura.base.BaseViewModel
+import com.ahmedmatem.android.matura.base.NavigationCommand
 import com.ahmedmatem.android.matura.databinding.FragmentBaseCameraBinding
 import com.ahmedmatem.android.matura.utils.clearFullScreen
 import com.ahmedmatem.android.matura.utils.saveBitmapInGallery
@@ -40,7 +43,7 @@ class BaseCameraFragment : BaseFragment() {
 
     override val viewModel: BaseCameraViewModel by viewModels()
 
-    private val args: BaseCameraFragmentArgs by navArgs()
+    private val sharedViewModel: Test2ActivityViewModel by activityViewModels()
 
     private var _binding: FragmentBaseCameraBinding? = null
     private val binding: FragmentBaseCameraBinding get() = _binding!!
@@ -90,13 +93,11 @@ class BaseCameraFragment : BaseFragment() {
                 unlockScreen()
             }
             photoOkButton.setOnClickListener {
-                bitmap?.let {
-                    // Save bitmap in Gallery
-                    val uri = saveBitmapInGallery(it, FILENAME_FORMAT, RELATIVE_PATH)
-                    // Save bitmap properties in local database
-                    args.id?.let {id ->
-                        viewModel.savePhoto(id, uri.toString())
+                bitmap?.let { bmp ->
+                    saveBitmapInGallery(bmp, FILENAME_FORMAT, RELATIVE_PATH)?.also{ uri ->
+                        sharedViewModel.savePhotoInDb(uri)
                     }
+                    viewModel.navigationCommand.value = NavigationCommand.Back
                 }
             }
         }
@@ -233,6 +234,7 @@ class BaseCameraFragment : BaseFragment() {
 
     companion object {
         const val TAG = "BaseCameraFragment"
+        const val PHOTO_URI = "photo_uri"
         private const val RELATIVE_PATH = "Pictures/MaturaMat-Images"
         private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
         private const val CAMERA_SHUTTER_EFFECT_DURATION : Long = 100L

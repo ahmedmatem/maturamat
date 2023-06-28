@@ -8,13 +8,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.ahmedmatem.android.matura.R
+import com.ahmedmatem.android.matura.Test2ActivityViewModel
 import com.ahmedmatem.android.matura.base.BaseFragment
 import com.ahmedmatem.android.matura.databinding.FragmentNewTest2Binding
 import com.ahmedmatem.android.matura.databinding.FragmentNewTest2TabBinding
@@ -25,10 +30,11 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class NewTest2Fragment : BaseFragment() {
-
+    private val args: NewTest2FragmentArgs by navArgs()
+    private val sharedViewModel: Test2ActivityViewModel by activityViewModels()
     override val viewModel: NewTest2ViewModel by viewModels()
-
-//    private val args: NewTest2FragmentArgs by navArgs()
+    
+    private lateinit var onPageChangeCallback: OnPageChangeCallback
 
     private var _binding: FragmentNewTest2Binding? = null
     private val binding
@@ -42,13 +48,25 @@ class NewTest2Fragment : BaseFragment() {
     ): View {
         _binding = FragmentNewTest2Binding.inflate(inflater, container, false)
 
+        // Register callback for listening to page changing.
+        // Unregister it in onDestroyView.
+        onPageChangeCallback = object: OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                sharedViewModel.setCurrentProblemNumber(position + 1)
+            }
+        }
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        sharedViewModel.setTestId(args.test.id)
+
         problemCollectionAdapter = ProblemCollectionAdapter(this)
         binding.viewPager.apply {
             adapter = problemCollectionAdapter
+            registerOnPageChangeCallback(onPageChangeCallback)
         }
         // Create TabLayoutMediator to link TabLayout to ViewPager
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, pos ->
@@ -58,12 +76,18 @@ class NewTest2Fragment : BaseFragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        binding.viewPager.unregisterOnPageChangeCallback(onPageChangeCallback)
         _binding = null
+    }
+
+    companion object {
+        const val TAG = "NewTest2Fragment"
     }
 }
 
-private const val ARG_TAB_OBJECT = "tab_object"
-private const val ARG_PROBLEM_ID = "problem_id"
+private const val ARG_PROBLEM_NUMBER = "arg_problem_number"
+private const val ARG_PROBLEM_ID = "arg_problem_id"
+private const val ARG_TEST2_ID = "arg_test2_id"
 
 class ProblemCollectionAdapter(baseFragment: BaseFragment) : FragmentStateAdapter(baseFragment) {
     override fun getItemCount(): Int = PAGE_COUNT
@@ -79,8 +103,9 @@ class ProblemCollectionAdapter(baseFragment: BaseFragment) : FragmentStateAdapte
                 Log.e(TAG, "createFragment: Pages($position) must be less than $PAGE_COUNT", )
         }
         fragment.arguments = bundleOf(
-            Pair(ARG_TAB_OBJECT, position + 1),
+            Pair(ARG_PROBLEM_NUMBER, position + 1),
             Pair(ARG_PROBLEM_ID, problemId),
+            Pair(ARG_TEST2_ID, args.test.id)
         )
 
         return fragment
@@ -97,19 +122,35 @@ class ProblemCollectionAdapter(baseFragment: BaseFragment) : FragmentStateAdapte
  * object in collection (of problems).
  */
 class ProblemFragmentTab: BaseFragment() {
-//    override val viewModel: NewTest2ViewModel by viewModels({requireParentFragment()})
+//    private val sharedViewModel: Test2ActivityViewModel by activityViewModels()
     override val viewModel: ProblemFragmentTabViewModel by viewModels()
+
     private lateinit var problemId: String
+    private lateinit var problemNumber: Number
+    private lateinit var test2Id: String
 
     private var _binding: FragmentNewTest2TabBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         requireArguments().takeIf {
             it.containsKey(ARG_PROBLEM_ID).apply {
                 problemId = it.getString(ARG_PROBLEM_ID)!!
             }
+        }
+        requireArguments().takeIf {
+            it.containsKey(ARG_PROBLEM_NUMBER)
+                .apply {
+                    problemNumber = it.getInt(ARG_PROBLEM_NUMBER)
+                }
+        }
+        requireArguments().takeIf {
+            it.containsKey(ARG_TEST2_ID)
+                .apply {
+                    test2Id = it.getString(ARG_TEST2_ID, null)
+                }
         }
     }
 
@@ -118,9 +159,22 @@ class ProblemFragmentTab: BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        val adapter = SolutionListAdapter(SolutionListAdapter.OnClickListener { uri: String ->
+            // todo: not implemented yet
+        })
+
         _binding = FragmentNewTest2TabBinding.inflate(inflater, container, false)
+
+        /** Solution Recycler UI */
+        binding.solutionsContainer.apply {
+            layoutManager = LinearLayoutManager(requireContext()).apply {
+                orientation = LinearLayoutManager.HORIZONTAL
+            }
+            this.adapter = adapter
+        }
+
         binding.cameraButton.setOnClickListener {
-            viewModel.navigateToBaseCameraFragment(problemId)
+            viewModel.navigateToBaseCameraFragment()
         }
 
         return binding.root
