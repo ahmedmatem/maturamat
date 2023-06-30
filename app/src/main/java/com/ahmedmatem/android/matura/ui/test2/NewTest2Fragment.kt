@@ -11,9 +11,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
+import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -32,8 +34,11 @@ import kotlinx.coroutines.launch
 class NewTest2Fragment : BaseFragment() {
     private val args: NewTest2FragmentArgs by navArgs()
     private val sharedViewModel: Test2ActivityViewModel by activityViewModels()
-    override val viewModel: NewTest2ViewModel by viewModels()
-    
+//    override val viewModel: NewTest2ViewModel by viewModels()
+    override val viewModel: NewTest2ViewModel by navGraphViewModels(R.id.nav_graph_test_2) {
+        NewTest2ViewModel.Factory(args.test)
+    }
+
     private lateinit var onPageChangeCallback: OnPageChangeCallback
 
     private var _binding: FragmentNewTest2Binding? = null
@@ -122,12 +127,13 @@ class ProblemCollectionAdapter(baseFragment: BaseFragment) : FragmentStateAdapte
  * object in collection (of problems).
  */
 class ProblemFragmentTab: BaseFragment() {
-//    private val sharedViewModel: Test2ActivityViewModel by activityViewModels()
-    override val viewModel: ProblemFragmentTabViewModel by viewModels()
-
     private lateinit var problemId: String
     private lateinit var problemNumber: Number
     private lateinit var test2Id: String
+
+    override val viewModel: ProblemFragmentTabViewModel by viewModels(
+        factoryProducer = {ProblemFragmentTabViewModel.Factory(test2Id, problemNumber as Int)}
+    )
 
     private var _binding: FragmentNewTest2TabBinding? = null
     private val binding get() = _binding!!
@@ -152,6 +158,14 @@ class ProblemFragmentTab: BaseFragment() {
                     test2Id = it.getString(ARG_TEST2_ID, null)
                 }
         }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.solutionListState.collect {
+
+                }
+            }
+        }
     }
 
     override fun onCreateView(
@@ -171,6 +185,14 @@ class ProblemFragmentTab: BaseFragment() {
                 orientation = LinearLayoutManager.HORIZONTAL
             }
             this.adapter = adapter
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.solutionListState.collect { solutions ->
+                    adapter.submitList(solutions)
+                }
+            }
         }
 
         binding.cameraButton.setOnClickListener {

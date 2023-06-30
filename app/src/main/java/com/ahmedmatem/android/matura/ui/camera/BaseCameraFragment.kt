@@ -25,12 +25,14 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.navGraphViewModels
 import com.ahmedmatem.android.matura.R
 import com.ahmedmatem.android.matura.Test2ActivityViewModel
 import com.ahmedmatem.android.matura.base.BaseFragment
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.base.NavigationCommand
 import com.ahmedmatem.android.matura.databinding.FragmentBaseCameraBinding
+import com.ahmedmatem.android.matura.ui.test2.NewTest2ViewModel
 import com.ahmedmatem.android.matura.utils.clearFullScreen
 import com.ahmedmatem.android.matura.utils.saveBitmapInGallery
 import com.ahmedmatem.android.matura.utils.setFullScreen
@@ -42,6 +44,7 @@ import java.util.concurrent.Executors
 class BaseCameraFragment : BaseFragment() {
 
     override val viewModel: BaseCameraViewModel by viewModels()
+    private val test2ViewModel: NewTest2ViewModel by navGraphViewModels(R.id.nav_graph_test_2)
 
     private val sharedViewModel: Test2ActivityViewModel by activityViewModels()
 
@@ -66,6 +69,8 @@ class BaseCameraFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        test2ViewModel.logTestId()
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)

@@ -1,12 +1,12 @@
 package com.ahmedmatem.android.matura.datasource.local
 
-import androidx.room.Query
 import com.ahmedmatem.android.matura.local.daos.Test2Dao
 import com.ahmedmatem.android.matura.network.models.Test2
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import org.koin.java.KoinJavaComponent.inject
 
 class Test2LocalDataSource {
@@ -17,7 +17,23 @@ class Test2LocalDataSource {
     fun getTestById(testId: String) : Flow<Test2?> = flow {
         val test = dataSource.getTestById(testId)
         emit(test)
-    }
+    }.flowOn(ioDispatcher)
+
+    fun getFirstSolutions(testId: String) : Flow<String?> = flow {
+        val solutions = dataSource.getTestById(testId)?.firstSolutions
+        emit(solutions)
+    }.flowOn(ioDispatcher)
+
+    fun getSecondSolutions(testId: String) : Flow<String?> = flow {
+        val solutions = dataSource.getTestById(testId)?.secondSolutions
+        emit(solutions)
+    }.flowOn(ioDispatcher)
+
+    fun getThirdSolutions(testId: String) : Flow<String?> = flow {
+        val solutions = dataSource.getTestById(testId)?.thirdSolutions
+        emit(solutions)
+    }.flowOn(ioDispatcher)
+
 
     suspend fun updateFirstSolution(testId: String, solutions: String) {
         dataSource.updateFirstSolution(testId, solutions)

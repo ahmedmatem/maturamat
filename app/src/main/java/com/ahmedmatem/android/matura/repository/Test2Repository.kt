@@ -17,6 +17,12 @@ class Test2Repository {
 
     fun getMockTest() : Flow<Result<Test2>> = remoteDataSource.getMockTest()
 
+    fun getFirstSolutions(testId: String) : Flow<String?> = localDataSource.getFirstSolutions(testId)
+
+    fun getSecondSolutions(testId: String) : Flow<String?> = localDataSource.getSecondSolutions(testId)
+
+    fun getThirdSolutions(testId: String) : Flow<String?> = localDataSource.getThirdSolutions(testId)
+
     suspend fun updateSolution(testId: String, problemNumber: Int, photoUri: String) {
         /** First get test with testId from database */
         localDataSource.getTestById(testId).collect {
