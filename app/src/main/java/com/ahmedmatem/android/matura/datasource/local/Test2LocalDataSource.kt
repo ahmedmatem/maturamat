@@ -14,26 +14,8 @@ class Test2LocalDataSource {
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
     private val dataSource: Test2Dao by inject(Test2Dao::class.java)
 
-    fun getTestById(testId: String) : Flow<Test2?> = flow {
-        val test = dataSource.getTestById(testId)
-        emit(test)
-    }.flowOn(ioDispatcher)
-
-    fun getFirstSolutions(testId: String) : Flow<String?> = flow {
-        val solutions = dataSource.getTestById(testId)?.firstSolutions
-        emit(solutions)
-    }.flowOn(ioDispatcher)
-
-    fun getSecondSolutions(testId: String) : Flow<String?> = flow {
-        val solutions = dataSource.getTestById(testId)?.secondSolutions
-        emit(solutions)
-    }.flowOn(ioDispatcher)
-
-    fun getThirdSolutions(testId: String) : Flow<String?> = flow {
-        val solutions = dataSource.getTestById(testId)?.thirdSolutions
-        emit(solutions)
-    }.flowOn(ioDispatcher)
-
+    fun getTest2ById(testId: String) : Flow<Test2> = dataSource.getTest2ById(testId)
+        .flowOn(ioDispatcher)
 
     suspend fun updateFirstSolution(testId: String, solutions: String) {
         dataSource.updateFirstSolution(testId, solutions)

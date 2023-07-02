@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 interface Test2Dao {
 
     @Query("SELECT * FROM test2 WHERE id = :id")
-    fun getTestById(id: String) : Test2?
+    fun getTest2ById(id: String) : Flow<Test2>
 
     @Query("UPDATE test2 SET solution_1 = :solutions WHERE id = :testId")
     suspend fun updateFirstSolution(testId: String, solutions: String)

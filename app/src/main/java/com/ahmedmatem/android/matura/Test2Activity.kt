@@ -15,13 +15,9 @@ import kotlinx.coroutines.launch
 
 class Test2Activity : AppCompatActivity() {
 
-    private lateinit var viewModel: Test2ActivityViewModel
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test2)
-
-        viewModel = ViewModelProvider(this)[Test2ActivityViewModel::class.java]
 
         /**
          * Use supportFragmentManager to find navController in case of using

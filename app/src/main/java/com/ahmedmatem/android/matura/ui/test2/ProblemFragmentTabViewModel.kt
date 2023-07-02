@@ -1,17 +1,15 @@
 package com.ahmedmatem.android.matura.ui.test2
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.base.NavigationCommand
 import com.ahmedmatem.android.matura.repository.Test2Repository
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.map
 import org.koin.java.KoinJavaComponent.inject
 import java.lang.IllegalArgumentException
 
@@ -31,16 +29,12 @@ class ProblemFragmentTabViewModel(
     private val _solutionListState: MutableStateFlow<List<String>> = MutableStateFlow(emptyList())
     val solutionListState: StateFlow<List<String>> = _solutionListState.asStateFlow()
 
-    init {
-        getSolutions(testId, problemNumber)
-    }
-
     fun reloadProblem() {
         _reloadProblem.value = true
     }
 
     fun onProblemReload() {
-        _reloadProblem.value = false;
+        _reloadProblem.value = false
     }
 
     fun navigateToBaseCameraFragment() {
@@ -49,23 +43,12 @@ class ProblemFragmentTabViewModel(
         )
     }
 
-    private fun getSolutions(testId: String, problemNumber: Int) {
-        viewModelScope.launch {
-            when(problemNumber) {
-                1 -> test2Repo.getFirstSolutions(testId).collect {
-                    _solutionListState.value = it?.split(',')?.toList() ?: emptyList()
-                }
-                2 -> test2Repo.getSecondSolutions(testId).collect {
-                    _solutionListState.value = it?.split(',')?.toList() ?: emptyList()
-                }
-                3 -> test2Repo.getThirdSolutions(testId).collect {
-                    _solutionListState.value = it?.split(',')?.toList() ?: emptyList()
-                }
-                else -> Log.e(Test2Repository.TAG, "Invalid problem number $problemNumber")
-            }
+    fun getSolutions() : Flow<List<String>> =
+        test2Repo.getProblemSolutions(testId, problemNumber).map {
+            it?.split(",")?.toList() ?: emptyList()
         }
-    }
 
+    @Suppress("UNCHECKED_CAST")
     class Factory(
         private val testId: String,
         private val problemNumber: Int

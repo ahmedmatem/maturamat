@@ -20,16 +20,13 @@ import androidx.camera.core.ImageProxy
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.navGraphViewModels
 import com.ahmedmatem.android.matura.R
-import com.ahmedmatem.android.matura.Test2ActivityViewModel
 import com.ahmedmatem.android.matura.base.BaseFragment
-import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.base.NavigationCommand
 import com.ahmedmatem.android.matura.databinding.FragmentBaseCameraBinding
 import com.ahmedmatem.android.matura.ui.test2.NewTest2ViewModel
@@ -45,8 +42,6 @@ class BaseCameraFragment : BaseFragment() {
 
     override val viewModel: BaseCameraViewModel by viewModels()
     private val test2ViewModel: NewTest2ViewModel by navGraphViewModels(R.id.nav_graph_test_2)
-
-    private val sharedViewModel: Test2ActivityViewModel by activityViewModels()
 
     private var _binding: FragmentBaseCameraBinding? = null
     private val binding: FragmentBaseCameraBinding get() = _binding!!
@@ -66,12 +61,6 @@ class BaseCameraFragment : BaseFragment() {
                 // TODO: Explain why permission is important to be granted
             }
         }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        test2ViewModel.logTestId()
-    }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreateView(
@@ -100,7 +89,7 @@ class BaseCameraFragment : BaseFragment() {
             photoOkButton.setOnClickListener {
                 bitmap?.let { bmp ->
                     saveBitmapInGallery(bmp, FILENAME_FORMAT, RELATIVE_PATH)?.also{ uri ->
-                        sharedViewModel.savePhotoInDb(uri)
+                        test2ViewModel.savePhotoInDb(uri)
                     }
                     viewModel.navigationCommand.value = NavigationCommand.Back
                 }

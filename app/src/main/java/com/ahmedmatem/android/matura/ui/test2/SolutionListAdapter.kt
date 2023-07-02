@@ -21,6 +21,7 @@ class SolutionListAdapter(private val clickListener: OnClickListener) :
         holder.itemView.setOnClickListener {
             clickListener.onClick(uri)
         }
+        holder.bind(uri)
     }
 
     class SolutionViewHolder(private val binding: PhotoSolutionListItemBinding)

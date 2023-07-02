@@ -24,7 +24,7 @@ class Test2PlaceholderViewModel: BaseViewModel() {
     private val _startTestBtnEnabledState: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val startTestBtnEnabledState: StateFlow<Boolean> = _startTestBtnEnabledState.asStateFlow()
 
-    private lateinit var mockTest: Test2
+    private lateinit var test2: Test2
 
     init {
         getMockTest()
@@ -37,7 +37,7 @@ class Test2PlaceholderViewModel: BaseViewModel() {
                     is Result.Success -> {
                         // Enable button launching test after mock test is retrieved.
                         _startTestBtnEnabledState.value = true
-                        mockTest = it.data
+                        test2 = it.data
                     }
                     is Result.GenericError -> {}
                     is Result.NetworkError -> onNetworkError()
@@ -47,14 +47,14 @@ class Test2PlaceholderViewModel: BaseViewModel() {
         showLoading.value = false
     }
 
-    fun startTest() {
+    fun navigateToTest() {
         // Create and save test in local database
         viewModelScope.launch {
-            val test = mockTest.create()
-            test2Repo.insert(test)
+            val test2 = test2.create()
+            test2Repo.insert(test2)
             // navigate to newly created test
             navigationCommand.value = NavigationCommand.To(
-                Test2PlaceholderFragmentDirections.actionTest2PlaceholderToNewTest2Fragment(test)
+                Test2PlaceholderFragmentDirections.actionTest2PlaceholderToNewTest2Fragment(test2.id)
             )
         }
 

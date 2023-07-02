@@ -6,7 +6,7 @@ import com.ahmedmatem.android.matura.datasource.remote.Test2RemoteDataSource
 import com.ahmedmatem.android.matura.network.Result
 import com.ahmedmatem.android.matura.network.models.Test2
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
 import org.koin.java.KoinJavaComponent.inject
 
 class Test2Repository {
@@ -17,33 +17,29 @@ class Test2Repository {
 
     fun getMockTest() : Flow<Result<Test2>> = remoteDataSource.getMockTest()
 
-    fun getFirstSolutions(testId: String) : Flow<String?> = localDataSource.getFirstSolutions(testId)
-
-    fun getSecondSolutions(testId: String) : Flow<String?> = localDataSource.getSecondSolutions(testId)
-
-    fun getThirdSolutions(testId: String) : Flow<String?> = localDataSource.getThirdSolutions(testId)
-
-    suspend fun updateSolution(testId: String, problemNumber: Int, photoUri: String) {
-        /** First get test with testId from database */
-        localDataSource.getTestById(testId).collect {
-            it?.let { test ->
-                // if test exists in database
-                when (problemNumber) {
-                    1 -> {
-                        val solutions = ((test.firstSolutions ?: "") + ",$photoUri").trim(',')
-                        localDataSource.updateFirstSolution(testId, solutions)
-                    }
-                    2 -> {
-                        val solutions = ((test.secondSolutions ?: "") + ",$photoUri").trim(',')
-                        localDataSource.updateSecondSolution(testId, solutions)
-                    }
-                    3 -> {
-                        val solutions = ((test.thirdSolutions ?: "") + ",$photoUri").trim(',')
-                        localDataSource.updateThirdSolution(testId, solutions)
-                    }
-                    else -> Log.e(TAG, "saveSolution: Error(Invalid problem number $problemNumber)")
-                }
+    fun getTest2ById(testId: String) : Flow<Test2> = localDataSource.getTest2ById(testId)
+    fun getProblemSolutions(testId: String, problemNumber: Int) : Flow<String?> =
+        localDataSource.getTest2ById(testId).map {
+            when(problemNumber) {
+                1 -> it.firstSolutions
+                2 -> it.secondSolutions
+                3 -> it.thirdSolutions
+                else -> null
             }
+        }
+
+    suspend fun updateSolutions(
+        testId: String,
+        problemNumber: Int,
+        photoUri: String,
+        currentSolutions: String?) {
+
+        val solutions = ((currentSolutions ?: "") + ",$photoUri").trim(',')
+        when (problemNumber) {
+            1 -> localDataSource.updateFirstSolution(testId, solutions)
+            2 -> localDataSource.updateSecondSolution(testId, solutions)
+            3 -> localDataSource.updateThirdSolution(testId, solutions)
+            else -> Log.e(TAG, "saveSolution: Error(Invalid problem number $problemNumber)")
         }
     }
 

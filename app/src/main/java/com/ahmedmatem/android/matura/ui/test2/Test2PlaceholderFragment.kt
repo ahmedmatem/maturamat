@@ -20,16 +20,6 @@ class Test2PlaceholderFragment : BaseFragment() {
     private var _binding: FragmentTest2PlaceholderBinding? = null
     private val binding: FragmentTest2PlaceholderBinding get() = _binding!!
 
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//
-//        // Todo: Create test2 in placeholder fragment before navigate to new test fragment
-//        viewModel.navigationCommand.value = NavigationCommand.To(
-//            Test2PlaceholderFragmentDirections.actionTest2PlaceholderToNewTest2Fragment()
-//        )
-//
-//    }
-
         override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
@@ -46,7 +36,7 @@ class Test2PlaceholderFragment : BaseFragment() {
         }
 
         binding.startTestBtn.setOnClickListener {
-            viewModel.startTest()
+            viewModel.navigateToTest()
         }
 
         return binding.root
