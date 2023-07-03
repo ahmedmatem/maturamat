@@ -1,6 +1,7 @@
 package com.ahmedmatem.android.matura.utils
 
 import android.content.ContentValues
+import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
@@ -40,6 +41,14 @@ fun Fragment.clearFullScreen() {
 
     windowInsetsController?.show(WindowInsetsCompat.Type.statusBars())
     (requireActivity() as AppCompatActivity).supportActionBar?.show()
+}
+
+fun Fragment.lockScreen() {
+    requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
+}
+
+fun Fragment.unlockScreen() {
+    requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
 }
 
 fun Fragment.deleteBitmapFromGallery(uri: Uri) {

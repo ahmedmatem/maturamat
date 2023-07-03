@@ -156,8 +156,6 @@
     <!-- fragment_bottom_sheet -->
     <string name="prev_card_description">Към предишна задача</string>
     <string name="next_card_description">Към следваща задача</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Test2 List goes here</string>
     <string name="placeholder_fragment">I am a placeholder</string>
 
     /*
@@ -198,5 +196,6 @@
     <string name="confirm_photo_button_desc">Confirm photo button</string>
     <string name="resume_camera_button_desc">Resume camera button</string>
     <string name="photo_description">Photo</string>
+    <string name="solution_image_desc">Картинка на решение на задача</string>
 
 </resources>

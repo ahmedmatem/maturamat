@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ahmedmatem.android.matura.databinding.PhotoSolutionListItemBinding
 import com.squareup.picasso.Picasso
 
-class SolutionListAdapter(private val clickListener: OnClickListener) :
-    ListAdapter<String,SolutionListAdapter.SolutionViewHolder>(SolutionDiffCallback()) {
+class ProblemSolutionListAdapter(private val clickListener: OnClickListener) :
+    ListAdapter<String,ProblemSolutionListAdapter.SolutionViewHolder>(SolutionDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SolutionViewHolder {
         return SolutionViewHolder.from(parent)

@@ -1,7 +1,6 @@
 package com.ahmedmatem.android.matura.ui.camera
 
 import android.Manifest
-import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.media.MediaPlayer
@@ -31,8 +30,10 @@ import com.ahmedmatem.android.matura.base.NavigationCommand
 import com.ahmedmatem.android.matura.databinding.FragmentBaseCameraBinding
 import com.ahmedmatem.android.matura.ui.test2.NewTest2ViewModel
 import com.ahmedmatem.android.matura.utils.clearFullScreen
+import com.ahmedmatem.android.matura.utils.lockScreen
 import com.ahmedmatem.android.matura.utils.saveBitmapInGallery
 import com.ahmedmatem.android.matura.utils.setFullScreen
+import com.ahmedmatem.android.matura.utils.unlockScreen
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.util.concurrent.ExecutorService
@@ -212,14 +213,6 @@ class BaseCameraFragment : BaseFragment() {
             binding.photoOkButton.visibility = View.GONE
             binding.resumeCameraButton.visibility = View.GONE
         }
-    }
-
-    private fun lockScreen() {
-        requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
-    }
-
-    private fun unlockScreen() {
-        requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
     }
 
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {

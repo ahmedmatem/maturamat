@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.count
 import kotlinx.coroutines.flow.map
 import org.koin.java.KoinJavaComponent.inject
 import java.lang.IllegalArgumentException
@@ -26,9 +27,6 @@ class ProblemFragmentTabViewModel(
     private var _reloadProblem: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val reloadProblem: StateFlow<Boolean> = _reloadProblem.asStateFlow()
 
-    private val _solutionListState: MutableStateFlow<List<String>> = MutableStateFlow(emptyList())
-    val solutionListState: StateFlow<List<String>> = _solutionListState.asStateFlow()
-
     fun reloadProblem() {
         _reloadProblem.value = true
     }
@@ -43,10 +41,20 @@ class ProblemFragmentTabViewModel(
         )
     }
 
+    fun navigateToSolutionsReviewFragment(uris: String) {
+        navigationCommand.value = NavigationCommand.To(
+            NewTest2FragmentDirections.actionNewTest2FragmentToSolutionsReviewFragment(uris)
+        )
+    }
+
     fun getSolutions() : Flow<List<String>> =
         test2Repo.getProblemSolutions(testId, problemNumber).map {
             it?.split(",")?.toList() ?: emptyList()
         }
+
+    fun setSolutionsCount(count: Int) {
+        _solutionCount.value = count
+    }
 
     @Suppress("UNCHECKED_CAST")
     class Factory(

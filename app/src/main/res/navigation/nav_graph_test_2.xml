@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_newTest2Fragment_to_baseCameraFragment"
             app:destination="@id/baseCameraFragment" />
+        <action
+            android:id="@+id/action_newTest2Fragment_to_solutionsReviewFragment"
+            app:destination="@id/solutionsReviewFragment" />
     </fragment>
 
     <fragment
@@ -32,5 +35,15 @@
         android:name="com.ahmedmatem.android.matura.ui.camera.BaseCameraFragment"
         android:label="fragment_base_camera"
         tools:layout="@layout/fragment_base_camera" />
+
+    <fragment
+        android:id="@+id/solutionsReviewFragment"
+        android:name="com.ahmedmatem.android.matura.ui.test2.SolutionsReviewFragment"
+        android:label=""
+        tools:layout="@layout/fragment_solutions_review" >
+        <argument
+            android:name="uris"
+            app:argType="string" />
+    </fragment>
 
 </navigation>
