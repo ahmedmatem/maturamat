@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import com.ahmedmatem.android.matura.base.BaseFragment
 import com.ahmedmatem.android.matura.base.NavigationCommand
 import com.ahmedmatem.android.matura.databinding.FragmentSolutionViewBinding
+import com.ahmedmatem.android.matura.ui.widgets.ZoomListener
 import com.squareup.picasso.Picasso
 
 // TODO: Rename parameter arguments, choose names that match
@@ -25,6 +26,7 @@ class SolutionViewFragment : BaseFragment() {
     // Todo: Implement Zoom-In and Zoom-Out over image
 
     override val viewModel: SolutionViewViewModel by viewModels()
+    private val parentViewModel: SolutionsReviewViewModel by viewModels({requireParentFragment()})
 
     private var _binding: FragmentSolutionViewBinding? = null
     private val binding: FragmentSolutionViewBinding get() = _binding!!
@@ -45,7 +47,13 @@ class SolutionViewFragment : BaseFragment() {
     ): View {
         _binding = FragmentSolutionViewBinding.inflate(inflater, container, false)
 
-        binding.solutionImageView.let {
+        binding.solutionImageView.apply {
+            setZoomListener(object: ZoomListener {
+                override fun onZoomScaleChanged(scale: Float) {
+                    parentViewModel.onZoomScaleChanged(scale)
+                }
+            })
+        }.let {
             Picasso.get().load(uri).into(it)
         }
 
@@ -57,6 +65,8 @@ class SolutionViewFragment : BaseFragment() {
     }
 
     companion object {
+        const val TAG = "SolutionViewFragment"
+
         /**
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.

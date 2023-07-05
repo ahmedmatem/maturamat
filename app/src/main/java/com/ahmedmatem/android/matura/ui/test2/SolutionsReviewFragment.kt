@@ -4,14 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.ahmedmatem.android.matura.base.BaseFragment
 import com.ahmedmatem.android.matura.databinding.FragmentSolutionsReviewBinding
 import com.ahmedmatem.android.matura.utils.clearFullScreen
 import com.ahmedmatem.android.matura.utils.setFullScreen
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 class SolutionsReviewFragment : BaseFragment() {
 
@@ -27,6 +31,14 @@ class SolutionsReviewFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSolutionsReviewBinding.inflate(inflater, container, false)
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.zoomScaleState.collect { scale ->
+                    binding.pager.isUserInputEnabled = scale == 1f
+                }
+            }
+        }
 
         return binding.root
     }
@@ -50,7 +62,7 @@ class SolutionsReviewFragment : BaseFragment() {
     }
 }
 
-class SolutionsCollectionAdapter(private val baseFragment: BaseFragment)
+class SolutionsCollectionAdapter(baseFragment: BaseFragment)
     : FragmentStateAdapter(baseFragment) {
 
     private val args: SolutionsReviewFragmentArgs by baseFragment.navArgs()

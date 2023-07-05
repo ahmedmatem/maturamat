@@ -9,7 +9,7 @@
     tools:context=".ui.test2.SolutionViewFragment">
 
 
-    <ImageView
+    <com.ahmedmatem.android.matura.ui.widgets.ZoomImageView
         android:id="@+id/solutionImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
