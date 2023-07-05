@@ -19,7 +19,7 @@ class ProblemSolutionListAdapter(private val clickListener: OnClickListener) :
     override fun onBindViewHolder(holder: SolutionViewHolder, position: Int) {
         val uri = getItem(position)
         holder.itemView.setOnClickListener {
-            clickListener.onClick(uri)
+            clickListener.onClick(uri, currentList)
         }
         holder.bind(uri)
     }
@@ -42,8 +42,8 @@ class ProblemSolutionListAdapter(private val clickListener: OnClickListener) :
         }
     }
 
-    class OnClickListener(val clickListener: (uri: String) -> Unit) {
-        fun onClick(uri: String) = clickListener(uri)
+    class OnClickListener(val clickListener: (clickedUri: String, currentUriList: List<String>) -> Unit) {
+        fun onClick(clickedUri: String, currentUriList: List<String>) = clickListener(clickedUri, currentUriList)
     }
 }
 

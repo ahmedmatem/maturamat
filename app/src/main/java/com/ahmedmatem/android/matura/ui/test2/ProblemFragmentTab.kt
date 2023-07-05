@@ -65,8 +65,8 @@ class ProblemFragmentTab: BaseFragment() {
         savedInstanceState: Bundle?
     ): View {
         val adapter = ProblemSolutionListAdapter(
-            ProblemSolutionListAdapter.OnClickListener { uri: String ->
-                viewModel.navigateToSolutionsReviewFragment(uri)
+            ProblemSolutionListAdapter.OnClickListener { clickedUri, currentUriList ->
+                viewModel.navigateToSolutionsReviewFragment(clickedUri, currentUriList)
             })
 
         _binding = FragmentNewTest2TabBinding.inflate(inflater, container, false)

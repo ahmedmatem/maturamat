@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -15,6 +16,8 @@ import com.ahmedmatem.android.matura.utils.setFullScreen
 class SolutionsReviewFragment : BaseFragment() {
 
     override val viewModel: SolutionsReviewViewModel by viewModels()
+
+    private val args: SolutionsReviewFragmentArgs by navArgs()
 
     private var _binding: FragmentSolutionsReviewBinding? = null
     private val binding: FragmentSolutionsReviewBinding get() = _binding!!
@@ -34,6 +37,9 @@ class SolutionsReviewFragment : BaseFragment() {
         val solutionCollectionAdapter = SolutionsCollectionAdapter(this)
         binding.pager.apply {
             adapter = solutionCollectionAdapter
+            post {
+                currentItem = args.solutionReviewArgs.clickedUriIndex
+            }
         }
     }
 
@@ -49,8 +55,8 @@ class SolutionsCollectionAdapter(private val baseFragment: BaseFragment)
 
     private val args: SolutionsReviewFragmentArgs by baseFragment.navArgs()
 
-    override fun getItemCount(): Int = 10
+    override fun getItemCount(): Int = args.solutionReviewArgs.uris.size
 
-    override fun createFragment(position: Int) = SolutionViewFragment.newInstance(args.uris)
-
+    override fun createFragment(position: Int) =
+        SolutionViewFragment.newInstance(args.solutionReviewArgs.uris[position])
 }

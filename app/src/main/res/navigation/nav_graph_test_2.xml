@@ -42,8 +42,8 @@
         android:label=""
         tools:layout="@layout/fragment_solutions_review" >
         <argument
-            android:name="uris"
-            app:argType="string" />
+            android:name="solutionReviewArgs"
+            app:argType="com.ahmedmatem.android.matura.ui.test2.SolutionReviewArgs" />
     </fragment>
 
 </navigation>

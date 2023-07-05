@@ -1,5 +1,6 @@
 package com.ahmedmatem.android.matura.ui.test2
 
+import android.os.Parcelable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.ahmedmatem.android.matura.base.BaseViewModel
@@ -11,6 +12,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.count
 import kotlinx.coroutines.flow.map
+import kotlinx.parcelize.Parcelize
 import org.koin.java.KoinJavaComponent.inject
 import java.lang.IllegalArgumentException
 
@@ -20,6 +22,8 @@ class ProblemFragmentTabViewModel(
 ) : BaseViewModel() {
 
     private val test2Repo: Test2Repository by inject(Test2Repository::class.java)
+
+    private var solutionUris: List<String> = emptyList()
 
     private var _solutionCount: MutableStateFlow<Int> = MutableStateFlow(0)
     val solutionCount: StateFlow<Int> = _solutionCount.asStateFlow()
@@ -41,9 +45,11 @@ class ProblemFragmentTabViewModel(
         )
     }
 
-    fun navigateToSolutionsReviewFragment(uris: String) {
+    fun navigateToSolutionsReviewFragment(clickedUri: String, currentUriList: List<String>) {
+        val clickedSolutionIndex = currentUriList.indexOf(clickedUri)
+        val solutionReviewArgs = SolutionReviewArgs(clickedSolutionIndex, currentUriList)
         navigationCommand.value = NavigationCommand.To(
-            NewTest2FragmentDirections.actionNewTest2FragmentToSolutionsReviewFragment(uris)
+            NewTest2FragmentDirections.actionNewTest2FragmentToSolutionsReviewFragment(solutionReviewArgs)
         )
     }
 
@@ -69,3 +75,9 @@ class ProblemFragmentTabViewModel(
         }
     }
 }
+
+@Parcelize
+data class SolutionReviewArgs(
+    val clickedUriIndex: Int,
+    val uris: List<String>
+) : Parcelable
