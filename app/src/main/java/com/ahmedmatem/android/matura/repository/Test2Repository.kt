@@ -17,7 +17,10 @@ class Test2Repository {
 
     fun getMockTest() : Flow<Result<Test2>> = remoteDataSource.getMockTest()
 
+    fun getAll() = localDataSource.getAll()
+
     fun getTest2ById(testId: String) : Flow<Test2> = localDataSource.getTest2ById(testId)
+
     fun getProblemSolutions(testId: String, problemNumber: Int) : Flow<String?> =
         localDataSource.getTest2ById(testId).map {
             when(problemNumber) {

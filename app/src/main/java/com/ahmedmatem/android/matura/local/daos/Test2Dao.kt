@@ -11,6 +11,9 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface Test2Dao {
 
+    @Query("SELECT * FROM test2")
+    fun getAll() : Flow<List<Test2>>
+
     @Query("SELECT * FROM test2 WHERE id = :id")
     fun getTest2ById(id: String) : Flow<Test2>
 

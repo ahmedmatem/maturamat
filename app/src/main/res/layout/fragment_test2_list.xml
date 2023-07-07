@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".ui.test2.Test2ListFragment">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/testListContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="56dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/test2_list_item"/>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/createNewTest2"
         android:layout_width="wrap_content"

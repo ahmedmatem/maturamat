@@ -14,6 +14,8 @@ class Test2LocalDataSource {
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
     private val dataSource: Test2Dao by inject(Test2Dao::class.java)
 
+    fun getAll() : Flow<List<Test2>> = dataSource.getAll().flowOn(ioDispatcher)
+
     fun getTest2ById(testId: String) : Flow<Test2> = dataSource.getTest2ById(testId)
         .flowOn(ioDispatcher)
 
