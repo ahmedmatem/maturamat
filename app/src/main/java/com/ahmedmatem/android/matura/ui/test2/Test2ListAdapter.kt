@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ahmedmatem.android.matura.databinding.Test2ListItemBinding
+import com.ahmedmatem.android.matura.infrastructure.toDisplayFormat
 import com.ahmedmatem.android.matura.network.models.Test2
 
 class Test2ListAdapter(private val clickListener: OnClickListener)
@@ -31,7 +32,8 @@ class Test2ListAdapter(private val clickListener: OnClickListener)
         : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(test: Test2) {
-            binding.testId.text = test.id
+            binding.title.text = test.createdOn?.toDisplayFormat("dd/MMM/yyyy HH:mm") ?: ""
+            binding.subtitle.text = test.id
         }
 
         companion object {

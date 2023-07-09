@@ -53,6 +53,7 @@ class Test2ListFragment : BaseFragment() {
 
         val adapter = Test2ListAdapter(Test2ListAdapter.OnClickListener {
             // todo: Implement click listener
+            viewModel.showToast.value = "Test wit id: ${it.id} was clicked."
         })
 
         _binding = FragmentTest2ListBinding.inflate(inflater, container, false)

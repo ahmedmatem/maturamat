@@ -3,6 +3,9 @@ package com.ahmedmatem.android.matura.ui.test2
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
@@ -26,6 +29,10 @@ import kotlinx.coroutines.launch
 
 class NewTest2Fragment : BaseFragment() {
     private val args: NewTest2FragmentArgs by navArgs()
+
+    init {
+        setHasOptionsMenu(true)
+    }
 
     override val viewModel: NewTest2ViewModel by navGraphViewModels(R.id.nav_graph_test_2) {
         NewTest2ViewModel.Factory(args.test2Id)
@@ -78,6 +85,20 @@ class NewTest2Fragment : BaseFragment() {
                 }
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.test2_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.submit_test -> {
+                // todo: implement test2 submit button click event
+                viewModel.showToast.value = "Submit button clicked"
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onDestroyView() {
