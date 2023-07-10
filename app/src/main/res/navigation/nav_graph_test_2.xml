@@ -12,6 +12,14 @@
         <action
             android:id="@+id/action_test2_placeholder_to_newTest2Fragment"
             app:destination="@id/newTest2Fragment" />
+        <argument
+            android:name="test2Id"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="null" />
+        <action
+            android:id="@+id/action_test2_placeholder_to_test2ResultFragment"
+            app:destination="@id/test2ResultFragment" />
     </fragment>
 
     <fragment
@@ -44,6 +52,15 @@
         <argument
             android:name="solutionReviewArgs"
             app:argType="com.ahmedmatem.android.matura.ui.test2.SolutionReviewArgs" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/test2ResultFragment"
+        android:name="com.ahmedmatem.android.matura.ui.test2.Test2ResultFragment"
+        android:label="Резултат" >
+        <argument
+            android:name="test2Id"
+            app:argType="string" />
     </fragment>
 
 </navigation>

@@ -188,6 +188,7 @@
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
     <string name="test2_fragment_title">Тест</string>
+    <string name="test2_result_title">Резултат</string>
     <string name="test2_tab_layout">Tabs for switching between test items</string>
     <string name="btn_start">Начало</string>
     <string name="problem_no">Задача %1$d</string>

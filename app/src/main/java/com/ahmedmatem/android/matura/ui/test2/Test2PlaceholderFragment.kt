@@ -1,5 +1,6 @@
 package com.ahmedmatem.android.matura.ui.test2
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.ahmedmatem.android.matura.Test2Activity.Companion.EXTRA_TEST2_ID
 import com.ahmedmatem.android.matura.base.BaseFragment
 import com.ahmedmatem.android.matura.databinding.FragmentTest2PlaceholderBinding
 import kotlinx.coroutines.flow.collect
@@ -20,7 +22,21 @@ class Test2PlaceholderFragment : BaseFragment() {
     private var _binding: FragmentTest2PlaceholderBinding? = null
     private val binding: FragmentTest2PlaceholderBinding get() = _binding!!
 
-        override fun onCreateView(
+    private var test2Id: String? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        /** Read EXTRA_TEST2_ID */
+        test2Id = requireActivity().intent.extras?.get(EXTRA_TEST2_ID) as String?
+        /**
+         * If id is not null skip Placeholder fragment and navigate to Test2Result fragment
+         * */
+        test2Id?.let {id ->
+            viewModel.navigateToTest2Result(id)
+        }
+    }
+
+    override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
@@ -36,7 +52,7 @@ class Test2PlaceholderFragment : BaseFragment() {
         }
 
         binding.startTestBtn.setOnClickListener {
-            viewModel.navigateToTest()
+            viewModel.navigateToNewTest2()
         }
 
         return binding.root
@@ -45,5 +61,9 @@ class Test2PlaceholderFragment : BaseFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        const val TAG = "test2PlaceholderFrag"
     }
 }

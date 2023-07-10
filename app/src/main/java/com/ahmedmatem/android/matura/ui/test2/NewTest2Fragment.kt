@@ -46,12 +46,8 @@ class NewTest2Fragment : BaseFragment() {
 
     private lateinit var problemCollectionAdapter: ProblemCollectionAdapter
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentNewTest2Binding.inflate(inflater, container, false)
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         /**
          * Register callback for listening to page changing.
          * Unregister it in onDestroyView.
@@ -61,6 +57,13 @@ class NewTest2Fragment : BaseFragment() {
                 viewModel.onProblemChanged(position + 1)
             }
         }
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentNewTest2Binding.inflate(inflater, container, false)
 
         return binding.root
     }

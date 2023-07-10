@@ -26,9 +26,7 @@ class Test2PlaceholderViewModel: BaseViewModel() {
 
     private lateinit var test2: Test2
 
-    init {
-        getMockTest()
-    }
+    init { getMockTest() }
 
     private fun getMockTest() {
         viewModelScope.launch {
@@ -47,7 +45,7 @@ class Test2PlaceholderViewModel: BaseViewModel() {
         showLoading.value = false
     }
 
-    fun navigateToTest() {
+    fun navigateToNewTest2() {
         // Create and save test in local database
         viewModelScope.launch {
             val test2 = test2.create()
@@ -58,6 +56,12 @@ class Test2PlaceholderViewModel: BaseViewModel() {
             )
         }
 
+    }
+
+    fun navigateToTest2Result(test2Id: String) {
+        navigationCommand.value = NavigationCommand.To(
+            Test2PlaceholderFragmentDirections.actionTest2PlaceholderToTest2ResultFragment(test2Id)
+        )
     }
 
     /**
@@ -78,6 +82,6 @@ class Test2PlaceholderViewModel: BaseViewModel() {
 
     companion object {
         const val TAG: String = "Test2PlaceholderVM"
-        const val RELOAD_ATTEMPTS = 1; // only once
+        const val RELOAD_ATTEMPTS = 1 // only once
     }
 }

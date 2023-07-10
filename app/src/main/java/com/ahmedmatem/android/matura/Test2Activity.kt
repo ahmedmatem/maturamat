@@ -39,4 +39,8 @@ class Test2Activity : AppCompatActivity() {
         return findNavController(R.id.nav_host_fragment_activity_test_2).navigateUp()
                 || super.onSupportNavigateUp()
     }
+
+    companion object {
+        const val EXTRA_TEST2_ID = "extra-test2-id"
+    }
 }

@@ -3,22 +3,18 @@ package com.ahmedmatem.android.matura.ui.test2
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.os.bundleOf
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ahmedmatem.android.matura.Test2Activity
+import com.ahmedmatem.android.matura.Test2Activity.Companion.EXTRA_TEST2_ID
 import com.ahmedmatem.android.matura.base.BaseFragment
 import com.ahmedmatem.android.matura.databinding.FragmentTest2ListBinding
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -52,8 +48,14 @@ class Test2ListFragment : BaseFragment() {
         viewModel = ViewModelProvider(this)[Test2ListViewModel::class.java]
 
         val adapter = Test2ListAdapter(Test2ListAdapter.OnClickListener {
-            // todo: Implement click listener
-            viewModel.showToast.value = "Test wit id: ${it.id} was clicked."
+            /** Test2 list item click event handler */
+            val intent = Intent(requireContext(), Test2Activity::class.java)
+            intent.apply {
+                putExtras(bundleOf(
+                    EXTRA_TEST2_ID to it.id
+                ))
+            }
+            test2ActivityLauncher.launch(intent)
         })
 
         _binding = FragmentTest2ListBinding.inflate(inflater, container, false)
@@ -70,11 +72,7 @@ class Test2ListFragment : BaseFragment() {
         }
 
         binding.createNewTest2.setOnClickListener {
-            val intent = Intent(requireContext(), Test2Activity::class.java).apply {
-                putExtras(bundleOf(
-                    // Pair()
-                ))
-            }
+            val intent = Intent(requireContext(), Test2Activity::class.java)
             test2ActivityLauncher.launch(intent)
         }
 
