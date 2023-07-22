@@ -9,6 +9,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -27,7 +28,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class NewTest2Fragment : BaseFragment() {
+class NewTest2Fragment : BaseFragment(), Test2SubmitConfirmDialog.SubmitDialogInterface {
     private val args: NewTest2FragmentArgs by navArgs()
 
     init {
@@ -88,6 +89,12 @@ class NewTest2Fragment : BaseFragment() {
                 }
             }
         }
+
+        lifecycleScope.launch {
+            viewModel.uploadProgressState.collect { uploadsInPercents ->
+
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -97,8 +104,8 @@ class NewTest2Fragment : BaseFragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
             R.id.submit_test -> {
-                // todo: implement test2 submit button click event
-                viewModel.showToast.value = "Submit button clicked"
+                Test2SubmitConfirmDialog(this@NewTest2Fragment)
+                    .show(childFragmentManager, Test2SubmitConfirmDialog.TAG)
             }
         }
         return super.onOptionsItemSelected(item)
@@ -113,6 +120,12 @@ class NewTest2Fragment : BaseFragment() {
 
     companion object {
         const val TAG = "NewTest2Fragment"
+    }
+
+    override fun onDialogPositiveClick(dialog: DialogFragment) {
+        viewModel.showToast.value = "test tost"
+        Log.d(TAG, "onDialogPositiveClick: ")
+        viewModel.submit()
     }
 }
 

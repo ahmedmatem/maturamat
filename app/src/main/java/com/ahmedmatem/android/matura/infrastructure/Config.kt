@@ -12,6 +12,7 @@ const val MOBILE_WEB_URL = "$BASE_WEB_URL/m/"
  * API configurations
  */
 const val BASE_API_URL = BuildConfig.BASE_API_URL
+//const val BASE_API_URL = "http://10.0.2.2:56524/"
 
 /**
  * Database configurations

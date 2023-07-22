@@ -18,6 +18,7 @@ import com.ahmedmatem.android.matura.repository.Test2Repository
 import com.ahmedmatem.android.matura.repository.TestRepository
 import com.ahmedmatem.android.matura.utils.TestURLUtil
 import com.ahmedmatem.android.matura.utils.helpers.NoticeDataCreator
+import com.ahmedmatem.android.matura.utils.providers.ContentResolverProvider
 import com.ahmedmatem.android.matura.utils.providers.ContextProvider
 import com.ahmedmatem.android.matura.utils.providers.ResourcesProvider
 import com.ahmedmatem.android.matura.utils.providers.SharedPreferencesProvider
@@ -72,7 +73,14 @@ val applicationModule = module {
     single { PrizeWorkManager(get()) }
     single { WorkManager.getInstance(get()) }
 
-    // Providers
+    /**
+     * Providers
+     **/
+
+    // Context Provider
     single { ContextProvider(get()) }
+
+    // ContentResolver Provider
+    single { ContentResolverProvider(get())}
 
 }

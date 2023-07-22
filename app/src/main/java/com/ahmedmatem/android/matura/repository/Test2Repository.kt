@@ -1,5 +1,6 @@
 package com.ahmedmatem.android.matura.repository
 
+import android.net.Uri
 import android.util.Log
 import com.ahmedmatem.android.matura.datasource.local.Test2LocalDataSource
 import com.ahmedmatem.android.matura.datasource.remote.Test2RemoteDataSource
@@ -7,7 +8,9 @@ import com.ahmedmatem.android.matura.network.Result
 import com.ahmedmatem.android.matura.network.models.Test2
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import okhttp3.RequestBody
 import org.koin.java.KoinJavaComponent.inject
+import java.io.File
 
 class Test2Repository {
     private val localDataSource: Test2LocalDataSource by inject(Test2LocalDataSource::class.java)
@@ -16,6 +19,8 @@ class Test2Repository {
     fun createTest() : Flow<Result<Test2>> = remoteDataSource.createTest2()
 
     fun getMockTest() : Flow<Result<Test2>> = remoteDataSource.getMockTest()
+
+    fun uploadSolution(path: String) = remoteDataSource.uploadSolution(path)
 
     fun getAll() = localDataSource.getAll()
 

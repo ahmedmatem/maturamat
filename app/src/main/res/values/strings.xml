@@ -199,5 +199,13 @@
     <string name="photo_description">Photo</string>
     <string name="solution_image_desc">Картинка на решение на задача</string>
     <string name="close_solution_view">Close Solution View</string>
+    <string name="attached_solutions_text">Прикачени решения - %1$d</string>
+    <string name="task_1">Задача 1</string>
+    <string name="task_2">Задача 2</string>
+    <string name="upload_state_icon_dsc">Upload state icon</string>
+    <string name="task_3">Задача 3</string>
+    <string name="solutions">Решения</string>
+    <string name="send_button">Изпрати</string>
+    <string name="cancel_button">Отказ</string>
 
 </resources>
