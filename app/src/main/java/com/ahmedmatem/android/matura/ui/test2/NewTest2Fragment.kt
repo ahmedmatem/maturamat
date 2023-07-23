@@ -39,6 +39,8 @@ class NewTest2Fragment : BaseFragment(), Test2SubmitConfirmDialog.SubmitDialogIn
         NewTest2ViewModel.Factory(args.test2Id)
     }
 
+    private lateinit var submitConfirmDialog: Test2SubmitConfirmDialog
+
     private lateinit var onPageChangeCallback: OnPageChangeCallback
 
     private var _binding: FragmentNewTest2Binding? = null
@@ -89,12 +91,6 @@ class NewTest2Fragment : BaseFragment(), Test2SubmitConfirmDialog.SubmitDialogIn
                 }
             }
         }
-
-        lifecycleScope.launch {
-            viewModel.uploadProgressState.collect { uploadsInPercents ->
-
-            }
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -123,8 +119,6 @@ class NewTest2Fragment : BaseFragment(), Test2SubmitConfirmDialog.SubmitDialogIn
     }
 
     override fun onDialogPositiveClick(dialog: DialogFragment) {
-        viewModel.showToast.value = "test tost"
-        Log.d(TAG, "onDialogPositiveClick: ")
         viewModel.submit()
     }
 }

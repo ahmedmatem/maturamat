@@ -1,7 +1,6 @@
 package com.ahmedmatem.android.matura.ui.test2
 
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -14,6 +13,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.java.KoinJavaComponent.inject
+import java.security.InvalidParameterException
 
 class NewTest2ViewModel(private val test2Id: String): BaseViewModel() {
 
@@ -25,8 +25,14 @@ class NewTest2ViewModel(private val test2Id: String): BaseViewModel() {
     private val _test2State: MutableStateFlow<Test2?> = MutableStateFlow(null)
     val test2State: StateFlow<Test2?> = _test2State.asStateFlow()
 
-    private val _uploadProgressState: MutableStateFlow<MutableList<Int>> = MutableStateFlow(mutableListOf(0, 0, 0))
-    val uploadProgressState: StateFlow<MutableList<Int>> = _uploadProgressState.asStateFlow()
+    private val _progressState1: MutableStateFlow<Int> = MutableStateFlow(0)
+    val progressState1: StateFlow<Int> = _progressState1.asStateFlow()
+
+    private val _progressState2: MutableStateFlow<Int> = MutableStateFlow(0)
+    val progressState2: StateFlow<Int> = _progressState2.asStateFlow()
+
+    private val _progressState3: MutableStateFlow<Int> = MutableStateFlow(0)
+    val progressState3: StateFlow<Int> = _progressState3.asStateFlow()
 
     private var _currentProblemNumber = 1
 
@@ -95,9 +101,18 @@ class NewTest2ViewModel(private val test2Id: String): BaseViewModel() {
                     showToast.value = "Failed: ${e.message}"
                 }
                 .addOnProgressListener { taskSnapshot ->
-                    val uploaded =  (100 * taskSnapshot.bytesTransferred / taskSnapshot.totalByteCount)
-                            as Number
-                    _uploadProgressState.value[problemNumber] = uploaded.toInt()
+                    val uploaded =
+                        ((100 * taskSnapshot.bytesTransferred / taskSnapshot.totalByteCount))
+                            .toInt()
+                    when(problemNumber){
+                        0 -> _progressState1.value = uploaded
+                        1 -> _progressState2.value = uploaded
+                        2 -> _progressState3.value = uploaded
+                        else -> {
+                            throw InvalidParameterException(
+                                "UploadSolution: Problem number must be between 0, 1 or 2")
+                        }
+                    }
                 }
         }
     }
