@@ -9,7 +9,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -28,7 +27,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class NewTest2Fragment : BaseFragment(), Test2SubmitConfirmDialog.SubmitDialogInterface {
+class NewTest2Fragment : BaseFragment() {
     private val args: NewTest2FragmentArgs by navArgs()
 
     init {
@@ -38,8 +37,6 @@ class NewTest2Fragment : BaseFragment(), Test2SubmitConfirmDialog.SubmitDialogIn
     override val viewModel: NewTest2ViewModel by navGraphViewModels(R.id.nav_graph_test_2) {
         NewTest2ViewModel.Factory(args.test2Id)
     }
-
-    private lateinit var submitConfirmDialog: Test2SubmitConfirmDialog
 
     private lateinit var onPageChangeCallback: OnPageChangeCallback
 
@@ -91,6 +88,15 @@ class NewTest2Fragment : BaseFragment(), Test2SubmitConfirmDialog.SubmitDialogIn
                 }
             }
         }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.onDialogPositiveButtonClick.collect { clicked ->
+                    if(!clicked) return@collect
+                    viewModel.submit()
+                }
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -100,7 +106,8 @@ class NewTest2Fragment : BaseFragment(), Test2SubmitConfirmDialog.SubmitDialogIn
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
             R.id.submit_test -> {
-                Test2SubmitConfirmDialog(this@NewTest2Fragment)
+                /** Show Submit conformation alert dialog */
+                Test2SubmitConfirmDialog(/*this@NewTest2Fragment*/)
                     .show(childFragmentManager, Test2SubmitConfirmDialog.TAG)
             }
         }
@@ -116,10 +123,6 @@ class NewTest2Fragment : BaseFragment(), Test2SubmitConfirmDialog.SubmitDialogIn
 
     companion object {
         const val TAG = "NewTest2Fragment"
-    }
-
-    override fun onDialogPositiveClick(dialog: DialogFragment) {
-        viewModel.submit()
     }
 }
 

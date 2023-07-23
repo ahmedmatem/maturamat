@@ -7,20 +7,18 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.view.animation.LinearInterpolator
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.navGraphViewModels
 import com.ahmedmatem.android.matura.R
 import com.ahmedmatem.android.matura.databinding.Test2SubmitConfirmDialogBinding
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class Test2SubmitConfirmDialog(private val listener: SubmitDialogInterface) : DialogFragment() {
+class Test2SubmitConfirmDialog : DialogFragment() {
 
     val viewModel: NewTest2ViewModel by navGraphViewModels(R.id.nav_graph_test_2)
-
-    interface SubmitDialogInterface {
-        fun onDialogPositiveClick(dialog: DialogFragment)
-    }
 
     private var _binding: Test2SubmitConfirmDialogBinding? = null
     private val binding get() = _binding!!
@@ -40,10 +38,7 @@ class Test2SubmitConfirmDialog(private val listener: SubmitDialogInterface) : Di
                     // todo: Not yet implemented.
                 }
             }
-            builder.create().apply {
-                // todo: replace deprecated function
-                retainInstance = true
-            }
+            builder.create()
         } ?: throw IllegalStateException("Activity cannot be null")
     }
 
@@ -52,9 +47,17 @@ class Test2SubmitConfirmDialog(private val listener: SubmitDialogInterface) : Di
 
         dialog?.also {
             (dialog as AlertDialog).getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
-                listener?.let {
-                    listener.onDialogPositiveClick(this@Test2SubmitConfirmDialog)
-                }
+                viewModel.onDialogPositiveButtonClick()
+                viewModel.onDialogPositiveButtonClickComplete()
+                /** Disable button after click */
+                viewModel.setDialogPositiveButtonEnabled(false)
+            }
+        }
+
+        lifecycleScope.launch {
+            viewModel.isDialogPositiveButtonEnabled.collect { isEnabled ->
+                (dialog as AlertDialog)
+                    .getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = isEnabled
             }
         }
 

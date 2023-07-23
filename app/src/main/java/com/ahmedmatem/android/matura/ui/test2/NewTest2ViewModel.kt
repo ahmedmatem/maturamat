@@ -25,6 +25,9 @@ class NewTest2ViewModel(private val test2Id: String): BaseViewModel() {
     private val _test2State: MutableStateFlow<Test2?> = MutableStateFlow(null)
     val test2State: StateFlow<Test2?> = _test2State.asStateFlow()
 
+    private val _onDialogPositiveButtonClick: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val onDialogPositiveButtonClick: StateFlow<Boolean> = _onDialogPositiveButtonClick.asStateFlow()
+
     private val _progressState1: MutableStateFlow<Int> = MutableStateFlow(0)
     val progressState1: StateFlow<Int> = _progressState1.asStateFlow()
 
@@ -33,6 +36,9 @@ class NewTest2ViewModel(private val test2Id: String): BaseViewModel() {
 
     private val _progressState3: MutableStateFlow<Int> = MutableStateFlow(0)
     val progressState3: StateFlow<Int> = _progressState3.asStateFlow()
+
+    private val _isDialogPositiveButtonEnabled: MutableStateFlow<Boolean> = MutableStateFlow(true)
+    val isDialogPositiveButtonEnabled: StateFlow<Boolean> = _isDialogPositiveButtonEnabled.asStateFlow()
 
     private var _currentProblemNumber = 1
 
@@ -70,6 +76,18 @@ class NewTest2ViewModel(private val test2Id: String): BaseViewModel() {
         // todo: implement file upload procedure
         uploadSolutions()
 
+    }
+
+    fun onDialogPositiveButtonClick() {
+        _onDialogPositiveButtonClick.value = true
+    }
+
+    fun onDialogPositiveButtonClickComplete() {
+        _onDialogPositiveButtonClick.value = false
+    }
+
+    fun setDialogPositiveButtonEnabled(enabled: Boolean) {
+        _isDialogPositiveButtonEnabled.value = enabled
     }
 
     fun onProblemChanged(problemNumber: Int) {
