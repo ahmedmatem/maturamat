@@ -6,13 +6,13 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.animation.LinearInterpolator
+import android.widget.ProgressBar
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.navGraphViewModels
 import com.ahmedmatem.android.matura.R
 import com.ahmedmatem.android.matura.databinding.Test2SubmitConfirmDialogBinding
+import com.ahmedmatem.android.matura.utils.animate
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -26,6 +26,10 @@ class Test2SubmitConfirmDialog : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
             _binding = Test2SubmitConfirmDialogBinding.inflate(requireActivity().layoutInflater)
+
+            /** Initialize dialog UI */
+            initUI()
+
             val builder = AlertDialog.Builder(requireContext()).apply {
                 setTitle(getString(R.string.solutions))
                 setView(binding.root)
@@ -49,13 +53,11 @@ class Test2SubmitConfirmDialog : DialogFragment() {
             (dialog as AlertDialog).getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
                 viewModel.onDialogPositiveButtonClick()
                 viewModel.onDialogPositiveButtonClickComplete()
-                /** Disable button after click */
-                viewModel.setDialogPositiveButtonEnabled(false)
             }
         }
 
         lifecycleScope.launch {
-            viewModel.isDialogPositiveButtonEnabled.collect { isEnabled ->
+            viewModel.dialogPositiveButtonEnabled.collect { isEnabled ->
                 (dialog as AlertDialog)
                     .getButton(DialogInterface.BUTTON_POSITIVE).isEnabled = isEnabled
             }
@@ -65,13 +67,8 @@ class Test2SubmitConfirmDialog : DialogFragment() {
          * Collect progress 1 information and update dialog UI
          */
         lifecycleScope.launch {
-            viewModel.progressState1.collect { progressTo ->
-                val currentProgress = binding.progressBar1.progress
-                val animation: ObjectAnimator = ObjectAnimator.ofInt(
-                    binding.progressBar1, "progress", currentProgress, progressTo)
-                animation.duration = ANIMATION_DURATION
-                animation.interpolator = LinearInterpolator()
-                animation.start()
+            viewModel.progressState1.collect { progress ->
+                binding.progressBar1.animate(progress)
             }
         }
 
@@ -79,13 +76,8 @@ class Test2SubmitConfirmDialog : DialogFragment() {
          * Collect progress 2 information and update dialog UI
          */
         lifecycleScope.launch {
-            viewModel.progressState2.collect { progressTo ->
-                val currentProgress = binding.progressBar2.progress
-                val animation: ObjectAnimator = ObjectAnimator.ofInt(
-                    binding.progressBar2, "progress", currentProgress, progressTo)
-                animation.duration = ANIMATION_DURATION
-                animation.interpolator = LinearInterpolator()
-                animation.start()
+            viewModel.progressState2.collect { progress ->
+                binding.progressBar2.animate(progress)
             }
         }
 
@@ -93,13 +85,8 @@ class Test2SubmitConfirmDialog : DialogFragment() {
          * Collect progress 3 information and update dialog UI
          */
         lifecycleScope.launch {
-            viewModel.progressState3.collect { progressTo ->
-                val currentProgress = binding.progressBar3.progress
-                val animation: ObjectAnimator = ObjectAnimator.ofInt(
-                    binding.progressBar3, "progress", currentProgress, progressTo)
-                animation.duration = ANIMATION_DURATION
-                animation.interpolator = LinearInterpolator()
-                animation.start()
+            viewModel.progressState3.collect { progress ->
+                binding.progressBar3.animate(progress)
             }
         }
     }
@@ -107,6 +94,21 @@ class Test2SubmitConfirmDialog : DialogFragment() {
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
         _binding = null
+    }
+
+    private fun initUI() {
+        binding.attachText1.text = getString(
+            R.string.attached_solutions_text,
+            viewModel.getProblemSolutionsCount(0)
+        )
+        binding.attachText2.text = getString(
+            R.string.attached_solutions_text,
+            viewModel.getProblemSolutionsCount(1)
+        )
+        binding.attachText3.text = getString(
+            R.string.attached_solutions_text,
+            viewModel.getProblemSolutionsCount(2)
+        )
     }
 
     companion object {

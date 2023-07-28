@@ -1,16 +1,20 @@
 package com.ahmedmatem.android.matura.utils
 
+import android.animation.ObjectAnimator
 import android.content.ContentValues
 import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
+import android.view.animation.LinearInterpolator
+import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
+import com.ahmedmatem.android.matura.ui.test2.Test2SubmitConfirmDialog
 import kotlinx.io.OutputStream
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -97,4 +101,14 @@ fun Fragment.saveBitmapInGallery(
     }
 
     return uri
+}
+
+fun ProgressBar.animate(progress: Int) {
+    val from = this.progress
+    val to = from + progress
+    val animation: ObjectAnimator = ObjectAnimator.ofInt(
+        this, "progress", from, to)
+    animation.duration = Test2SubmitConfirmDialog.ANIMATION_DURATION
+    animation.interpolator = LinearInterpolator()
+    animation.start()
 }

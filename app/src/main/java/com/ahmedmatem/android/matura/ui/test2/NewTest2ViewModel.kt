@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.ahmedmatem.android.matura.base.BaseViewModel
 import com.ahmedmatem.android.matura.network.models.Test2
 import com.ahmedmatem.android.matura.repository.Test2Repository
+import com.ahmedmatem.android.matura.utils.ManyToOneProgressTracker
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -25,8 +26,8 @@ class NewTest2ViewModel(private val test2Id: String): BaseViewModel() {
     private val _test2State: MutableStateFlow<Test2?> = MutableStateFlow(null)
     val test2State: StateFlow<Test2?> = _test2State.asStateFlow()
 
-    private val _onDialogPositiveButtonClick: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val onDialogPositiveButtonClick: StateFlow<Boolean> = _onDialogPositiveButtonClick.asStateFlow()
+    private val _submit: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val submit: StateFlow<Boolean> = _submit.asStateFlow()
 
     private val _progressState1: MutableStateFlow<Int> = MutableStateFlow(0)
     val progressState1: StateFlow<Int> = _progressState1.asStateFlow()
@@ -37,8 +38,23 @@ class NewTest2ViewModel(private val test2Id: String): BaseViewModel() {
     private val _progressState3: MutableStateFlow<Int> = MutableStateFlow(0)
     val progressState3: StateFlow<Int> = _progressState3.asStateFlow()
 
-    private val _isDialogPositiveButtonEnabled: MutableStateFlow<Boolean> = MutableStateFlow(true)
-    val isDialogPositiveButtonEnabled: StateFlow<Boolean> = _isDialogPositiveButtonEnabled.asStateFlow()
+    private val _dialogPositiveButtonEnabled: MutableStateFlow<Boolean> = MutableStateFlow(true)
+    val dialogPositiveButtonEnabled: StateFlow<Boolean> = _dialogPositiveButtonEnabled.asStateFlow()
+
+    /**
+     * tracksCount will be used in following progressTracker(#) for initialization of trucks number.
+     * Must be positive number - that's why set it before invoke progressTracker(#) lazy creation.
+     */
+    private var tracksCount = 0
+    private val progressTracker1: ManyToOneProgressTracker by lazy {
+        ManyToOneProgressTracker.from(tracksCount)
+    }
+    private val progressTracker2: ManyToOneProgressTracker by lazy {
+        ManyToOneProgressTracker.from(tracksCount)
+    }
+    private val progressTracker3: ManyToOneProgressTracker by lazy {
+        ManyToOneProgressTracker.from(tracksCount)
+    }
 
     private var _currentProblemNumber = 1
 
@@ -78,16 +94,23 @@ class NewTest2ViewModel(private val test2Id: String): BaseViewModel() {
 
     }
 
+    fun getProblemSolutionsCount(problemNumber: Int) : Int {
+        return when(problemNumber){
+            0 -> _test2State.value?.firstSolutions?.split(",")?.size ?: 0
+            1 -> _test2State.value?.secondSolutions?.split(",")?.size ?: 0
+            2 -> _test2State.value?.thirdSolutions?.split(",")?.size ?: 0
+            else -> 0
+        }
+    }
+
     fun onDialogPositiveButtonClick() {
-        _onDialogPositiveButtonClick.value = true
+        _submit.value = true
+        // Disable positive button
+        _dialogPositiveButtonEnabled.value = false
     }
 
     fun onDialogPositiveButtonClickComplete() {
-        _onDialogPositiveButtonClick.value = false
-    }
-
-    fun setDialogPositiveButtonEnabled(enabled: Boolean) {
-        _isDialogPositiveButtonEnabled.value = enabled
+        _submit.value = false
     }
 
     fun onProblemChanged(problemNumber: Int) {
@@ -110,28 +133,48 @@ class NewTest2ViewModel(private val test2Id: String): BaseViewModel() {
      * problemNumber argument is a 0 based index of the problem.
      */
     private fun uploadSolution(solutionsPaths: String, problemNumber: Int) {
-        solutionsPaths.split(",").forEach { sp ->
-            test2Repository.uploadSolution(sp)
+        solutionsPaths.split(",").also {
+            // Initialize tracksCount needed for progressTracker lazy creation
+            tracksCount = it.size
+            // Create progressTracker for solution relevant to problem with given problemNumber
+            when(problemNumber) {
+                0 -> progressTracker1
+                1 -> progressTracker2
+                2 -> progressTracker3
+            }
+        }
+        .forEachIndexed { track, path ->
+            test2Repository.uploadSolution(path)
                 .addOnSuccessListener {
-                    showToast.value = "Solution <$problemNumber> uploaded!"
+//                    showToast.value = "Solution <$problemNumber> uploaded!"
                 }
                 .addOnFailureListener { e ->
+                    // todo: update UI according to solution upload failure
                     showToast.value = "Failed: ${e.message}"
                 }
                 .addOnProgressListener { taskSnapshot ->
                     val uploaded =
                         ((100 * taskSnapshot.bytesTransferred / taskSnapshot.totalByteCount))
                             .toInt()
-                    when(problemNumber){
-                        0 -> _progressState1.value = uploaded
-                        1 -> _progressState2.value = uploaded
-                        2 -> _progressState3.value = uploaded
-                        else -> {
-                            throw InvalidParameterException(
-                                "UploadSolution: Problem number must be between 0, 1 or 2")
-                        }
-                    }
+                    updateProgressBarUI(problemNumber, uploaded, track)
                 }
+            }
+    }
+
+    private fun updateProgressBarUI(problemNumber: Int, uploaded: Int, track: Int) {
+        when(problemNumber) {
+            0 -> {
+                progressTracker1.updateProgress(uploaded, track)
+                _progressState1.value = progressTracker1.progress
+            }
+            1 -> {
+                progressTracker2.updateProgress(uploaded, track)
+                _progressState2.value = progressTracker1.progress
+            }
+            2 -> {
+                progressTracker3.updateProgress(uploaded, track)
+                _progressState3.value = progressTracker1.progress
+            }
         }
     }
 

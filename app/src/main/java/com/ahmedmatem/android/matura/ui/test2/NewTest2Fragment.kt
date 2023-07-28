@@ -91,8 +91,8 @@ class NewTest2Fragment : BaseFragment() {
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.onDialogPositiveButtonClick.collect { clicked ->
-                    if(!clicked) return@collect
+                viewModel.submit.collect { submitting ->
+                    if(!submitting) return@collect
                     viewModel.submit()
                 }
             }
